@@ -1,29 +1,5 @@
-<div [ngClass]="[emailBannerVisible ? 'dynamic-layout-height' : 'h-screen']">
-  <p-toast position="top-right" />
-
-  <!-- Privacy Policy Acceptance Modal -->
-  <app-privacy-policy-acceptance
-    (policyAccepted)="handlePolicyAccepted()"
-    [(visible)]="showPrivacyPolicyModal"
-  />
-
-  <!-- Account Suspension Dialog -->
-  <app-account-suspension
-    [reason]="suspensionState.reason"
-    [visible]="suspensionState.dialogVisible"
-  />
-
-  <!-- Email confirmation banner -->
-  <app-email-confirmation-banner />
-
-  <!-- Settings Drawer -->
-  <app-settings-drawer />
-
-  <!--  <app-dynamic-settings-drawer />-->
-
-  <!-- Main router outlet -->
+<main>
+  <h1>Welcome to {{ title() }}</h1>
   <router-outlet />
+</main>
 
-  <!-- GDPR Consent Banner -->
-  <app-gdpr-consent />
-</div>
