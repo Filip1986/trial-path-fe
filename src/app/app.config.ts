@@ -1,8 +1,9 @@
 import {
-  APP_INITIALIZER,
   ApplicationConfig,
   importProvidersFrom,
+  inject,
   isDevMode,
+  provideAppInitializer,
   provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
@@ -38,7 +39,7 @@ import {
 } from './core/services/appearance-settings.service';
 import { StudiesState } from './core/store/studies/studies.state';
 import { ParticipantsState } from './core/store/participants/participants.state';
-import { TranslateModule, TranslateCompiler } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * Initializes the CSRF token during the application bootstrap process.
@@ -109,12 +110,10 @@ export const appConfig: ApplicationConfig = {
       TranslateModule.forRoot(),
     ),
     AppearanceSettingsService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeAppearanceSettings,
-      deps: [AppearanceSettingsService],
-      multi: true,
-    },
+    provideAppInitializer(() => {
+      const appearanceService = inject(AppearanceSettingsService);
+      return initializeAppearanceSettings(appearanceService)();
+    }),
     // Register the HTTP interceptor for authentication
     {
       provide: HTTP_INTERCEPTORS,
@@ -126,11 +125,9 @@ export const appConfig: ApplicationConfig = {
     PrivacyPolicyUserService,
     WebSocketService,
     GdprConsentService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeCsrfToken,
-      deps: [CsrfTokenService],
-      multi: true,
-    },
+    provideAppInitializer(() => {
+      const csrfTokenService = inject(CsrfTokenService);
+      return initializeCsrfToken(csrfTokenService)();
+    }),
   ],
 };
