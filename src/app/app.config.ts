@@ -8,10 +8,6 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
-// Note: provideAnimationsAsync is deprecated in Angular 21 (marked for removal in v23)
-// but is still required for PrimeNG animations. The new animate.enter/leave API
-// is not yet compatible with third-party component libraries.
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Lara from '@primeng/themes/lara';
 import {
@@ -85,7 +81,6 @@ export function initializeAppearanceSettings(
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAnimationsAsync(),
     providePrimeNG({
       theme: {
         preset: Lara,
