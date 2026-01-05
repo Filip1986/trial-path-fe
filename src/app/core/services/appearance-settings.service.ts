@@ -3,8 +3,8 @@ import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
 import { CsrfTokenService } from './csrf-token.service';
 import { ToastManagerService } from './toast-manager.service';
 import { switchMap } from 'rxjs/operators';
-import {AppearanceService} from '../../back-end/services/AppearanceService';
-import {AppearanceSettingsDto} from '../../back-end/models/AppearanceSettingsDto';
+import {AppearanceService} from '../../../back-end/services/AppearanceService';
+import {AppearanceSettingsDto} from '../../../back-end/models/AppearanceSettingsDto';
 
 // Type definitions
 export interface ThemeColor {

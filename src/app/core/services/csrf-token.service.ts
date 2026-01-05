@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpRequest } from '@angular/common/http';
 import { Observable, of, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, map, tap, filter, take } from 'rxjs/operators';
-import {TokenService} from '../../back-end/services/TokenService';
-import {TokenResponseDto} from '../../back-end/models/TokenResponseDto';
+import {TokenService} from '../../../back-end/services/TokenService';
+import {TokenResponseDto} from '../../../back-end/models/TokenResponseDto';
 
 /**
  * Service for managing CSRF tokens and applying them to HTTP requests
