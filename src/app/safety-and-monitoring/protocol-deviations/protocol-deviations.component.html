@@ -1,0 +1,584 @@
+<div class="protocol-deviations-container p-6">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+      <i class="pi pi-exclamation-triangle text-orange-500"></i>
+      Protocol Deviation Report
+    </h1>
+    <p class="text-gray-600">Document and track protocol deviations for clinical studies</p>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="protocolDeviationForm" class="space-y-6">
+    <!-- Basic Information Section -->
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <i class="pi pi-info-circle text-blue-500"></i>
+          Basic Information
+        </h2>
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-select
+          [config]="{
+            id: 'deviationType',
+            label: 'Deviation Type',
+            placeholder: 'Select deviation type',
+            required: true,
+            options: deviationTypes,
+            optionLabel: 'label',
+            optionValue: 'value',
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Classification of the protocol deviation',
+            scrollHeight: '200px',
+            size: FormComponentSizeEnum.NORMAL,
+            disabled: false,
+            labelStyle: FormLabelStyleEnum.DEFAULT
+          }"
+          />
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-input-text
+          [config]="{
+            id: 'subjectId',
+            label: 'Subject ID',
+            placeholder: 'Enter subject identifier',
+            required: true,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Unique identifier for the study participant',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            autofocus: false
+          }"
+          />
+      </div>
+
+      <div class="col-span-12">
+        <lib-textarea
+          [config]="{
+            id: 'description',
+            label: 'Deviation Description',
+            placeholder: 'Provide detailed description of the protocol deviation',
+            required: true,
+            rows: 4,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Comprehensive description of what occurred',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            autofocus: false
+          }"
+          />
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-select
+          [config]="{
+            id: 'protocolSection',
+            label: 'Protocol Section Affected',
+            placeholder: 'Select protocol section',
+            required: true,
+            options: protocolSections,
+            optionLabel: 'label',
+            optionValue: 'value',
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Section of protocol that was deviated from',
+            scrollHeight: '200px',
+            size: FormComponentSizeEnum.NORMAL,
+            disabled: false,
+            labelStyle: FormLabelStyleEnum.DEFAULT
+          }"
+          />
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-input-text
+          [config]="{
+            id: 'discoveredBy',
+            label: 'Discovered By',
+            placeholder: 'Name of person who discovered deviation',
+            required: true,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Person who identified the deviation',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            autofocus: false
+          }"
+          />
+      </div>
+    </div>
+
+    <p-divider />
+
+    <!-- Timeline Section -->
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <i class="pi pi-calendar text-green-500"></i>
+          Timeline Information
+        </h2>
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-date-picker
+          [config]="{
+            id: 'dateOccurred',
+            label: 'Date Occurred',
+            placeholder: 'Select date deviation occurred',
+            required: true,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'When the deviation actually occurred',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            showIcon: true,
+            dateFormat: 'dd/mm/yy',
+            iconDisplay: IconDisplayModeEnum.BUTTON,
+            view: DatePickerViewEnum.DATE,
+            numberOfMonths: 1,
+            showTime: true,
+            hourFormat: DatePickerHourFormatEnum.TWENTY_FOUR
+          }"
+          />
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-date-picker
+          [config]="{
+            id: 'dateDiscovered',
+            label: 'Date Discovered',
+            placeholder: 'Select date deviation was discovered',
+            required: true,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'When the deviation was identified',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            showIcon: true,
+            dateFormat: 'dd/mm/yy',
+            iconDisplay: IconDisplayModeEnum.BUTTON,
+            view: DatePickerViewEnum.DATE,
+            numberOfMonths: 1,
+            showTime: true,
+            hourFormat: DatePickerHourFormatEnum.TWENTY_FOUR
+          }"
+          />
+      </div>
+    </div>
+
+    <p-divider />
+
+    <!-- Severity and Impact Section -->
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <i class="pi pi-exclamation-circle text-red-500"></i>
+          Severity Assessment
+        </h2>
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-radio-button
+          [config]="{
+            id: 'severity',
+            label: 'Severity Level',
+            required: true,
+            mode: RadioButtonModeEnum.STANDARD,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Assess the severity of the deviation',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT
+          }"
+          />
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-select
+          [config]="{
+            id: 'impact',
+            label: 'Impact on Study',
+            placeholder: 'Select impact level',
+            required: true,
+            options: impactLevels,
+            optionLabel: 'label',
+            optionValue: 'value',
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Impact on study integrity and participant safety',
+            scrollHeight: '200px',
+            size: FormComponentSizeEnum.NORMAL,
+            disabled: false,
+            labelStyle: FormLabelStyleEnum.DEFAULT
+          }"
+          />
+      </div>
+    </div>
+
+    <p-divider />
+
+    <!-- Root Cause and Actions Section -->
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <i class="pi pi-cog text-purple-500"></i>
+          Root Cause Analysis & Actions
+        </h2>
+      </div>
+
+      <div class="col-span-12">
+        <lib-textarea
+          [config]="{
+            id: 'rootCause',
+            label: 'Root Cause Analysis',
+            placeholder: 'Describe the underlying cause of the deviation',
+            required: true,
+            rows: 3,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Analysis of why the deviation occurred',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            autofocus: false
+          }"
+          />
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-textarea
+          [config]="{
+            id: 'correctiveActions',
+            label: 'Corrective Actions Taken',
+            placeholder: 'Actions taken to address the deviation',
+            required: true,
+            rows: 3,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Immediate actions taken to correct the deviation',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            autofocus: false
+          }"
+          />
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-textarea
+          [config]="{
+            id: 'preventiveActions',
+            label: 'Preventive Actions',
+            placeholder: 'Actions to prevent recurrence',
+            required: false,
+            rows: 3,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Measures to prevent similar deviations',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            autofocus: false
+          }"
+          />
+      </div>
+    </div>
+
+    <p-divider />
+
+    <!-- Reporting Section -->
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <i class="pi pi-send text-cyan-500"></i>
+          Reporting Requirements
+        </h2>
+      </div>
+
+      <div class="col-span-12 md:col-span-4">
+        <lib-checkbox
+          [config]="{
+            id: 'reportedToSponsor',
+            label: 'Reported to Sponsor',
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Check if reported to study sponsor',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            required: false
+          }"
+          />
+      </div>
+
+      <div class="col-span-12 md:col-span-4">
+        <lib-checkbox
+          [config]="{
+            id: 'reportedToIrb',
+            label: 'Reported to IRB/EC',
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Check if reported to IRB/Ethics Committee',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            required: false
+          }"
+          />
+      </div>
+
+      <div class="col-span-12 md:col-span-4">
+        <lib-checkbox
+          [config]="{
+            id: 'reportedToRegulatory',
+            label: 'Reported to Regulatory',
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Check if reported to regulatory authorities',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            required: false
+          }"
+          />
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-date-picker
+          [config]="{
+            id: 'reportingDate',
+            label: 'Reporting Date',
+            placeholder: 'Select reporting date',
+            required: false,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Date when deviation was officially reported',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            showIcon: true,
+            dateFormat: 'dd/mm/yy',
+            iconDisplay: IconDisplayModeEnum.BUTTON,
+            view: DatePickerViewEnum.DATE,
+            numberOfMonths: 1,
+            showTime: true,
+            hourFormat: DatePickerHourFormatEnum.TWENTY_FOUR
+          }"
+          />
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-select
+          [config]="{
+            id: 'status',
+            label: 'Status',
+            placeholder: 'Select current status',
+            required: true,
+            options: statusOptions,
+            optionLabel: 'label',
+            optionValue: 'value',
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Current status of the deviation',
+            scrollHeight: '200px',
+            size: FormComponentSizeEnum.NORMAL,
+            disabled: false,
+            labelStyle: FormLabelStyleEnum.DEFAULT
+          }"
+          />
+      </div>
+
+      <div class="col-span-12">
+        <lib-textarea
+          [config]="{
+            id: 'reportingComments',
+            label: 'Reporting Comments',
+            placeholder: 'Additional comments regarding reporting',
+            required: false,
+            rows: 2,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Any additional information about reporting',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            autofocus: false
+          }"
+          />
+      </div>
+    </div>
+
+    <p-divider />
+
+    <!-- Review and Follow-up Section -->
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <i class="pi pi-check-circle text-emerald-500"></i>
+          Review and Follow-up
+        </h2>
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-input-text
+          [config]="{
+            id: 'reviewedBy',
+            label: 'Reviewed By',
+            placeholder: 'Name of reviewer',
+            required: false,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Person who reviewed the deviation',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            autofocus: false
+          }"
+          />
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-date-picker
+          [config]="{
+            id: 'reviewDate',
+            label: 'Review Date',
+            placeholder: 'Select review date',
+            required: false,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Date when deviation was reviewed',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            showIcon: true,
+            dateFormat: 'dd/mm/yy',
+            iconDisplay: IconDisplayModeEnum.BUTTON,
+            view: DatePickerViewEnum.DATE,
+            numberOfMonths: 1,
+            showTime: true,
+            hourFormat: DatePickerHourFormatEnum.TWENTY_FOUR
+          }"
+          />
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-checkbox
+          [config]="{
+            id: 'approvalRequired',
+            label: 'Approval Required',
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Check if formal approval is required',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            required: false
+          }"
+          />
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <lib-checkbox
+          [config]="{
+            id: 'followUpRequired',
+            label: 'Follow-up Required',
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Check if follow-up actions are needed',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            required: false
+          }"
+          />
+      </div>
+
+      @if (protocolDeviationForm.get('followUpRequired')?.value) {
+        <div
+          class="col-span-12 md:col-span-6"
+          >
+          <lib-date-picker
+          [config]="{
+            id: 'followUpDate',
+            label: 'Follow-up Date',
+            placeholder: 'Select follow-up date',
+            required: false,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Date for follow-up action',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            showIcon: true,
+            dateFormat: 'dd/mm/yy',
+            iconDisplay: IconDisplayModeEnum.BUTTON,
+            view: DatePickerViewEnum.DATE,
+            numberOfMonths: 1,
+            showTime: true,
+            hourFormat: DatePickerHourFormatEnum.TWENTY_FOUR
+          }"
+            />
+        </div>
+      }
+
+      <div class="col-span-12">
+        <lib-textarea
+          [config]="{
+            id: 'resolutionNotes',
+            label: 'Resolution Notes',
+            placeholder: 'Final notes on deviation resolution',
+            required: false,
+            rows: 3,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            helperText: 'Summary of resolution and closure',
+            disabled: false,
+            size: FormComponentSizeEnum.NORMAL,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            autofocus: false
+          }"
+          />
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex gap-4 mt-8 pt-6 border-t border-gray-200">
+      <p-button
+        [disabled]="!protocolDeviationForm.valid || isSubmitting()"
+        [loading]="isSubmitting()"
+        icon="pi pi-save"
+        label="Save Deviation Report"
+        severity="primary"
+        type="submit"
+        />
+
+      <p-button
+        (onClick)="saveDraft()"
+        icon="pi pi-file"
+        label="Save as Draft"
+        severity="secondary"
+        type="button"
+        />
+
+      <p-button
+        (onClick)="resetForm()"
+        icon="pi pi-refresh"
+        label="Reset Form"
+        severity="help"
+        type="button"
+        />
+    </div>
+  </form>
+</div>
+
+<p-toast position="top-right" />

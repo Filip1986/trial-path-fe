@@ -1,0 +1,66 @@
+<div
+  (cdkDropListDropped)="onDragDrop($event)"
+  (cdkDropListEntered)="onDragEnter($event)"
+  (cdkDropListExited)="onDragExit($event)"
+  [cdkDropListConnectedTo]="connectedLists"
+  [cdkDropListData]="container"
+  [class.root-container]="isRoot"
+  [id]="container.id"
+  cdkDropList
+  class="layout-container"
+  >
+  <!-- Container header (only for non-root containers) -->
+  @if (!isRoot) {
+    <div class="container-header">
+      <span>{{ container.label }}</span>
+      <button (click)="onRemoveItem(container.id)" class="remove-btn">
+        <i class="pi pi-trash"></i>
+      </button>
+    </div>
+  }
+
+  <!-- Container content -->
+  <div class="container-content">
+    <!-- Empty state message -->
+    @if (!container.children?.length) {
+      <div class="empty-container">
+        <i class="pi pi-inbox"></i>
+        <p>Drop items here</p>
+      </div>
+    }
+
+    <!-- Render child items -->
+    @for (item of container.children; track item) {
+      <div
+        [cdkDragData]="item"
+        cdkDrag
+        class="draggable-item"
+        >
+        <!-- Element item -->
+        @if (item.type === LayoutItemType.ELEMENT) {
+          <div class="element-item">
+            <div class="element-content">
+              <div cdkDragHandle class="drag-handle">
+                <i class="pi pi-bars"></i>
+              </div>
+              <span>{{ item.label }}</span>
+              <button (click)="onRemoveItem(item.id)" class="remove-btn">
+                <i class="pi pi-trash"></i>
+              </button>
+            </div>
+          </div>
+        }
+        <!-- Container item (recursive) -->
+        @if (item.type === LayoutItemType.CONTAINER) {
+          <app-layout-container
+            (itemDrop)="itemDrop.emit($event)"
+            (removeItem)="removeItem.emit($event)"
+            [connectedDropListIds]="connectedDropListIds"
+            [container]="item"
+            [parentId]="container.id"
+          ></app-layout-container>
+        }
+      </div>
+    }
+  </div>
+</div>

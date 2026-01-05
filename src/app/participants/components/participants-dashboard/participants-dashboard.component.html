@@ -1,0 +1,293 @@
+<div class="participants-dashboard">
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="grid grid-cols-4 gap-8 mb-8">
+      @for (i of [1,2,3,4,5,6,7,8,9]; track i) {
+        <div class="col-span-1">
+          <p-card>
+            <p-skeleton height="80px"></p-skeleton>
+          </p-card>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Stats Cards -->
+  @if (!loading()) {
+    <div class="grid grid-cols-4 gap-8 mb-8">
+      <!-- Total Participants Card -->
+      <div class="col-span-1">
+        <p-card class="bg-light-error">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">Total Participants</h3>
+              <p>All enrolled participants</p>
+            </div>
+            <div class="text-3xl font-bold">11</div>
+          </div>
+        </p-card>
+      </div>
+      <!-- Active Participants Card -->
+      <div class="col-span-1">
+        <p-card class="bg-light-success">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">Active</h3>
+              <p>Currently participating</p>
+            </div>
+            <div class="text-3xl font-bold">3</div>
+          </div>
+        </p-card>
+      </div>
+      <!-- Screening Participants Card -->
+      <div class="col-span-1">
+        <p-card class="bg-gray">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">Screening</h3>
+              <p>Under evaluation</p>
+            </div>
+            <div class="text-3xl font-bold">1</div>
+          </div>
+        </p-card>
+      </div>
+      <!-- Completed Participants Card -->
+      <div class="col-span-1">
+        <p-card class="bg-primary">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">Completed</h3>
+              <p>Finished participation</p>
+            </div>
+            <div class="text-3xl font-bold">2</div>
+          </div>
+        </p-card>
+      </div>
+      <!-- Total Screening Card -->
+      <div class="flex-1">
+        <p-card class="bg-light-error">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">Total Screening</h3>
+              <p>All screening participants</p>
+            </div>
+            <div class="text-3xl font-bold">2211</div>
+          </div>
+        </p-card>
+      </div>
+      <!-- Pending Review Card -->
+      <div class="flex-1">
+        <p-card class="bg-light-success">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">Pending Review</h3>
+              <p>Awaiting evaluation</p>
+            </div>
+            <div class="text-3xl font-bold">123</div>
+          </div>
+        </p-card>
+      </div>
+      <!-- In Review Card -->
+      <div class="flex-1">
+        <p-card class="bg-gray">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">In Review</h3>
+              <p>Currently evaluating</p>
+            </div>
+            <div class="text-3xl font-bold">22</div>
+          </div>
+        </p-card>
+      </div>
+      <!-- Eligible Card -->
+      <div class="flex-1">
+        <p-card class="bg-primary">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">Eligible</h3>
+              <p>Ready for enrollment</p>
+            </div>
+            <div class="text-3xl font-bold">asd</div>
+          </div>
+        </p-card>
+      </div>
+      <!-- Ineligible Card -->
+      <div class="flex-1">
+        <p-card class="bg-light-warning">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">Ineligible</h3>
+              <p>Does not meet criteria</p>
+            </div>
+            <div class="text-3xl font-bold">222</div>
+          </div>
+        </p-card>
+      </div>
+    </div>
+  }
+
+  <!-- Main Content -->
+  <div class="grid grid-cols-12 gap-8">
+    <!-- Left Side: Graphs -->
+    <div class="col-span-6 flex flex-col gap-8 h-full">
+      <!-- Enrollment Trends Chart -->
+      <p-card header="Enrollment Trends" class="flex-grow">
+        <p-chart
+          type="line"
+          [data]="enrollmentChartData()"
+          [options]="chartOptions()"
+          height="300px"
+        ></p-chart>
+      </p-card>
+
+      <!-- Participant Status Distribution Chart -->
+      <p-card header="Participant Status Distribution" class="flex-grow">
+        <p-chart
+          type="doughnut"
+          [data]="statusChartData()"
+          [options]="doughnutChartOptions()"
+          height="300px"
+        ></p-chart>
+      </p-card>
+    </div>
+
+    <!-- Right Side: Tables -->
+    <div class="col-span-6 flex flex-col gap-8 h-full">
+      <!-- Recent Participants Table -->
+      <p-card header="Recent Participants" class="flex-grow">
+        <p-table [value]="recentParticipants()" [paginator]="false" [rows]="5">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Participant</th>
+              <th>Study</th>
+              <th>Status</th>
+              <th>Enrolled</th>
+              <th>Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template let-participant pTemplate="body">
+            <tr>
+              <td>
+                <div>
+                  <div class="font-medium">{{ participant.participantId }}</div>
+                  <div class="text-sm text-color-secondary">
+                    {{ participant.firstName }} {{ participant.lastName }}
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="text-sm">{{ participant.studyTitle }}</div>
+              </td>
+              <td>
+                <p-tag
+                  [severity]="getStatusSeverity(participant.status)"
+                  [value]="participant.status | titlecase"
+                  />
+              </td>
+              <td>
+                <div class="text-sm">{{ participant.enrollmentDate | date:'shortDate' }}</div>
+              </td>
+              <td>
+                <div class="flex gap-1">
+                  <p-button
+                    (onClick)="viewParticipant(participant)"
+                    icon="pi pi-eye"
+                    severity="info"
+                    size="small"
+                    styleClass="p-button-text"
+                    pTooltip="View Details"
+                    />
+                  <p-button
+                    (onClick)="editParticipant(participant)"
+                    icon="pi pi-pencil"
+                    severity="secondary"
+                    size="small"
+                    styleClass="p-button-text"
+                    pTooltip="Edit Participant"
+                    />
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5" class="text-center py-4">
+                <div class="text-color-secondary">
+                  <i class="pi pi-users text-4xl mb-2 block"></i>
+                  <p>No participants enrolled yet</p>
+                  <p-button
+                    (onClick)="enrollParticipant()"
+                    label="Enroll First Participant"
+                    size="small"
+                    styleClass="p-button-outlined"
+                    />
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-card>
+
+      <!-- Recent Activity Table -->
+      <p-card header="Recent Activity" class="flex-grow">
+        <p-table [value]="recentActivity()" [paginator]="false" [rows]="5">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Activity</th>
+              <th>Participant</th>
+              <th>Time</th>
+              <th>Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template let-activity pTemplate="body">
+            <tr>
+              <td>
+                <div class="flex items-center gap-2">
+                  <i
+                    [class]="getActivityIcon(activity.type)"
+                    [ngClass]="'text-' + getActivitySeverity(activity.type) + '-500'"
+                    >
+                  </i>
+                  <div>
+                    <div class="text-sm font-medium">{{ activity.description }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="text-sm">
+                  <div class="font-medium">{{ activity.participantId }}</div>
+                  <div class="text-color-secondary">{{ activity.participantName }}</div>
+                </div>
+              </td>
+              <td>
+                <div class="text-sm">{{ activity.timestamp | date:'short' }}</div>
+              </td>
+              <td>
+                <div class="flex gap-1">
+                  <p-button
+                    (onClick)="viewParticipantFromActivity(activity)"
+                    icon="pi pi-eye"
+                    severity="info"
+                    size="small"
+                    styleClass="p-button-text"
+                    pTooltip="View Participant"
+                    />
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="4" class="text-center py-4">
+                <div class="text-color-secondary">
+                  <i class="pi pi-clock text-4xl mb-2 block"></i>
+                  <p>No recent activity</p>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-card>
+    </div>
+  </div>
+</div>

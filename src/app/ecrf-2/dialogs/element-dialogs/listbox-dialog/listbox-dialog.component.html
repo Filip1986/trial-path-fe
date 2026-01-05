@@ -1,0 +1,180 @@
+<app-form-dialog-wrapper
+  (cancelEvent)="onCancel()"
+  (loadPresetEvent)="showLoadPresetDialog()"
+  (saveEvent)="onSave()"
+  (savePresetEvent)="showSavePresetDialog()"
+  (showEvent)="onDialogShow()"
+  [header]="dialogConfiguration.title"
+  [height]="dialogConfiguration.height"
+  [loading]="isSaving"
+  [saveDisabled]="!isReadyForSave()"
+  [visible]="visible"
+  >
+  <!-- Preview content -->
+  <div previewContent>
+    <lib-listbox
+      [config]="{
+        label: form.get('label')?.value,
+        required: form.get('required')?.value,
+        disabled: form.get('disabled')?.value,
+        multiple: form.get('multiple')?.value,
+        checkbox: form.get('checkbox')?.value,
+        filter: form.get('filter')?.value,
+        options: form.get('options')?.value || presetManager.createDefaultOptions(2),
+        optionLabel: form.get('optionLabel')?.value || 'label',
+        optionValue: form.get('optionValue')?.value || 'value',
+        labelStyle: form.get('labelStyle')?.value,
+        labelPosition: form.get('labelPosition')?.value,
+        helperText: form.get('helperText')?.value,
+        variant: form.get('variant')?.value,
+        size: form.get('size')?.value,
+      }"
+      [disabled]="form.get('disabled')?.value || false"
+      />
+  </div>
+
+  <!-- Form content with tabs -->
+  <form [formGroup]="form" class="p-fluid" formContent>
+    <p-tabs value="0">
+      <p-tablist>
+        <p-tab value="0">
+          Basic Settings
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getBasicTabFields())"
+            [hasErrors]="hasTabErrors(getBasicTabFields())"
+            [warningCount]="getTabWarningCount(getBasicTabFields())"
+            />
+        </p-tab>
+        <p-tab value="1">
+          Options
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getOptionsTabFields())"
+            [hasErrors]="hasTabErrors(getOptionsTabFields())"
+            [warningCount]="getTabWarningCount(getOptionsTabFields())"
+            />
+        </p-tab>
+        <p-tab value="2">
+          Behavior
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getBehaviorTabFields())"
+            [hasErrors]="hasTabErrors(getBehaviorTabFields())"
+            [warningCount]="getTabWarningCount(getBehaviorTabFields())"
+            />
+        </p-tab>
+        <p-tab value="3">
+          Appearance
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getAppearanceTabFields())"
+            [hasErrors]="hasTabErrors(getAppearanceTabFields())"
+            [warningCount]="getTabWarningCount(getAppearanceTabFields())"
+            />
+        </p-tab>
+      </p-tablist>
+
+      <p-tabpanels>
+        <!-- Basic Settings Tab -->
+        <p-tabpanel value="0">
+          <app-basic-settings [fields]="basicFields" [form]="form">
+            <div class="grid">
+              <div class="col-12 md:col-6">
+                <lib-input-text
+                  [config]="optionLabelConfig"
+                  [formControl]="getControl('optionLabel')"
+                  />
+              </div>
+
+              <div class="col-12 md:col-6">
+                <lib-input-text
+                  [config]="optionValueConfig"
+                  [formControl]="getControl('optionValue')"
+                  />
+              </div>
+
+              @if (form.get('group')?.value) {
+                <div class="col-12">
+                  <div class="grid">
+                    <div class="col-12 md:col-6">
+                      <lib-input-text
+                        [config]="optionGroupLabelConfig"
+                        [formControl]="getControl('optionGroupLabel')"
+                        />
+                    </div>
+                    <div class="col-12 md:col-6">
+                      <lib-input-text
+                        [config]="optionGroupChildrenConfig"
+                        [formControl]="getControl('optionGroupChildren')"
+                        />
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </app-basic-settings>
+        </p-tabpanel>
+
+        <!-- Options Tab -->
+        <p-tabpanel value="1">
+          <app-config-section>
+            <div class="col-12">
+              <app-options-manager
+                (optionsChanged)="onOptionsChanged($event)"
+                [minOptions]="1"
+                [parentForm]="form"
+                [showDisabledField]="true"
+                [showGroupField]="form.get('group')?.value"
+                />
+            </div>
+          </app-config-section>
+        </p-tabpanel>
+
+        <!-- Behavior Tab -->
+        <p-tabpanel value="2">
+          <app-behavior-settings [form]="form" [options]="behaviorOptions" />
+        </p-tabpanel>
+
+        <!-- Appearance Tab -->
+        <p-tabpanel value="3">
+          <app-appearance-settings
+            [form]="form"
+            [labelPositionOptions]="labelPositions"
+            [labelStyleOptions]="labelStyles"
+            [showVariant]="false"
+            [sizeOptions]="sizes"
+            [variantOptions]="variants"
+            />
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+
+    <!-- Global Form Validation Summary -->
+    <app-validation-summary
+      [compact]="false"
+      [showQualityScore]="true"
+      [showWarnings]="true"
+      [validationResult]="validationResult"
+      />
+  </form>
+</app-form-dialog-wrapper>
+
+<!-- Save Preset Dialog -->
+<app-save-preset-dialog
+  (savePreset)="onSavePreset($event)"
+  [(visible)]="savePresetDialogVisible"
+  [currentConfiguration]="getConfigurationForPreset()"
+  [elementType]="dialogConfiguration.elementType"
+  />
+
+<!-- Load Preset Dialog -->
+<app-load-preset-dialog
+  (loadPreset)="onLoadPreset($event)"
+  (presetDeleted)="onPresetDeleted($event)"
+  [(visible)]="loadPresetDialogVisible"
+  [elementType]="dialogConfiguration.elementType"
+  />
+
+<p-confirmDialog
+  [baseZIndex]="10000"
+  [style]="{width: '450px'}"
+  acceptButtonStyleClass="p-button-danger"
+  rejectButtonStyleClass="p-button-secondary"
+  />

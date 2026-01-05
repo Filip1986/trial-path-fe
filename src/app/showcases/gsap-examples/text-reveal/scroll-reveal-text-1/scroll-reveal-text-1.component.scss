@@ -1,0 +1,63 @@
+.scroll-reveal-container {
+  min-height: 200vh; // Increased height to allow for scroll-based reveal
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 80px 32px;
+  padding-top: 20vh; // Start text lower on page
+  background-color: #000;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+// Container for the reveal text
+#revealText {
+  transform: translateZ(0);
+}
+
+// Apply to word elements
+.word {
+  will-change: opacity, filter;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: inline-block; // Important for transform optimization
+}
+
+.text-wrapper {
+  max-width: 1200px;
+  width: 100%;
+}
+
+.reveal-text {
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #dfdcff;
+  margin: 0;
+}
+
+// Style for individual words
+:host ::ng-deep .word {
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: 0.25em;
+  will-change: transform, opacity;
+}
+
+@media (max-width: 1024px) {
+  .reveal-text {
+    font-size: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .reveal-text {
+    font-size: 48px;
+  }
+
+  .scroll-reveal-container {
+    padding: 60px 24px;
+  }
+}

@@ -1,0 +1,7 @@
+<app-preview-wrapper
+  [helperText]="control.options?.helperText"
+  [title]="control.options?.title || control.title || 'Time'"
+  wrapperClass="preview-time-picker p-3 border rounded-md"
+>
+  <lib-time-picker [config]="getConfig()" [value]="getPreviewValue()" />
+</app-preview-wrapper>

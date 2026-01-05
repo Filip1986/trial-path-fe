@@ -1,0 +1,59 @@
+.scroll-reveal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; // Full viewport height
+  padding: 2rem;
+  background-blend-mode: color-dodge;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+::ng-deep {
+  .split {
+    -webkit-transform: translate3d(0, 0, 0);
+    font-size: 24px;
+    line-height: 36px;
+    color: #dedede;
+    margin: 50px auto;
+    max-width: 800px;
+    width: 100%;
+    visibility: hidden;
+
+    div {
+      border-radius: 4px;
+      background: var(--color-surface-white, #ffffff);
+      padding: 0 8px;
+      margin: 4px 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-font-smoothing: antialiased;
+      color: var(--color-just-black, #000000);
+      font-weight: 600;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+      display: inline-block;
+    }
+  }
+}
+
+
+
+// Apply to word elements created by SplitText
+:host ::ng-deep .split div {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+@media (max-width: 768px) {
+  .split {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .scroll-reveal-container {
+    padding: 1rem;
+  }
+}

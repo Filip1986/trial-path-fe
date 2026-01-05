@@ -1,0 +1,224 @@
+<div class="menubar-container">
+  <p-menubar [model]="items">
+    <!-- Logo and brand name -->
+    <ng-template pTemplate="start">
+      <div class="flex items-center">
+        <svg
+          class="mr-2"
+          fill="none"
+          height="35"
+          viewBox="0 0 33 35"
+          width="33"
+          xmlns="http://www.w3.org/2000/svg"
+          >
+          <path
+            d="M24.4225 12.7831L20.5595 14.8755L16.6941 12.8021V8.64203L20.5516 6.54968L24.4225 8.64203V12.7831Z"
+            fill="var(--primary-color)"
+            />
+          <path
+            d="M16.6956 21.1621V17.0222L20.5611 14.8755L24.4225 17.0222V21.1621L20.5611 23.261L16.6956 21.1621Z"
+            fill="var(--primary-color)"
+            />
+          <path
+            d="M16.6956 8.64203L12.8302 6.54968L8.96436 8.64203V12.7831L12.8302 14.8755L16.6956 12.8021V8.64203Z"
+            fill="var(--primary-color)"
+            />
+          <path
+            d="M8.96436 17.0222L12.8302 14.8755L16.6956 17.0222V21.1621L12.8302 23.261L8.96436 21.1621V17.0222Z"
+            fill="var(--primary-color)"
+            />
+          <path
+            d="M1.14922 12.7831V8.64203L4.99496 6.54968L8.8604 8.64203V12.7831L4.99496 14.8755L1.14922 12.7831Z"
+            fill="var(--primary-color)"
+            />
+          <path
+            d="M8.96582 4.3252V0.185265L12.8313 -1.90723L16.6967 0.185265V4.3252L12.8313 6.42395L8.96582 4.3252Z"
+            fill="var(--primary-color)"
+            />
+          <path
+            d="M24.4221 21.1621V17.0222L28.2874 14.8755L32.1528 17.0222V21.1621L28.2874 23.261L24.4221 21.1621Z"
+            fill="var(--primary-color)"
+            />
+          <path
+            d="M16.6956 29.5277V25.3878L20.5611 23.2422L24.4225 25.3878V29.5277L20.5611 31.6266L16.6956 29.5277Z"
+            fill="var(--primary-color)"
+            />
+          <path
+            d="M8.96436 25.3878L12.8302 23.2422L16.6956 25.3878V29.5277L12.8302 31.6266L8.96436 29.5277V25.3878Z"
+            fill="var(--primary-color)"
+            />
+          <path
+            d="M16.6956 34.8171V33.6781L17.7442 33.0902L18.7966 33.6781V34.8171L17.7442 35.4055L16.6956 34.8171Z"
+            fill="var(--primary-color)"
+            />
+        </svg>
+        <span class="text-xl font-bold">TYME</span>
+      </div>
+    </ng-template>
+
+    <!-- Custom item template for badges and shortcuts -->
+    <ng-template let-item let-root="root" pTemplate="item">
+      <a
+        [routerLink]="item.routerLink ? item.routerLink : null"
+        class="flex items-center p-menubar-item-link"
+        pRipple
+        >
+        @if (item.icon) {
+          <i [ngClass]="item.icon" class="mr-2"></i>
+        }
+        <span>{{ item.label }}</span>
+        @if (item.badge) {
+          <p-badge
+            [ngClass]="{ 'ml-auto': !root, 'ml-2': root }"
+            [value]="item.badge"
+            />
+        }
+        @if (item.shortcut) {
+          <span
+            class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1"
+            >{{ item.shortcut }}</span
+            >
+          }
+          @if (item.items) {
+            <i
+              [ngClass]="['ml-auto pi', root ? 'pi-angle-down' : 'pi-angle-right']"
+            ></i>
+          }
+        </a>
+      </ng-template>
+
+      <!-- End of menubar - auth buttons or user avatar -->
+      <ng-template pTemplate="end">
+        <div class="flex items-center gap-2">
+          <!-- Theme Toggle -->
+          <div class="theme-toggle flex items-center gap-2 mr-2">
+            <i [class.text-yellow-500]="!isDarkMode" class="pi pi-sun"></i>
+            <p-toggleswitch
+              (onChange)="toggleTheme()"
+              [(ngModel)]="isDarkMode"
+              [styleClass]="'theme-switch'"
+            ></p-toggleswitch>
+            <i [class.text-blue-400]="isDarkMode" class="pi pi-moon"></i>
+          </div>
+
+          <!-- Search for logged in users -->
+          @if (isLoggedIn) {
+            <input class="w-36" pInputText placeholder="Search" type="text" />
+          }
+
+          <!-- Guest buttons -->
+          @if (!isLoggedIn) {
+            <div class="flex gap-2">
+              <button
+                (click)="login()"
+                class="p-button-outlined"
+                label="Login"
+                pButton
+                type="button"
+              ></button>
+              <button
+                (click)="register()"
+                class="p-button-primary"
+                label="Register"
+                pButton
+                type="button"
+              ></button>
+            </div>
+          }
+
+          <!-- User avatar for logged in users -->
+          @if (isLoggedIn) {
+            <div class="relative min-w-[160px]">
+              <div
+                (click)="toggle($event)"
+                class="flex items-center cursor-pointer py-1 px-1 rounded-md hover:bg-emphasis"
+                pRipple
+                >
+                <p-avatar
+                  image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                  shape="circle"
+                  />
+                <div class="ml-2 flex-1 truncate">
+                  <span class="font-medium">{{username}}</span>
+                  <i class="pi pi-angle-down ml-1"></i>
+                </div>
+              </div>
+              <p-popover
+                #userMenuPopover
+                [dismissable]="true"
+                [hideTransitionOptions]="'100ms'"
+                [showCloseIcon]="false"
+                [showTransitionOptions]="'200ms'"
+                styleClass="user-menu-panel"
+                >
+                <div class="flex flex-col gap-3 p-3 min-w-150px]">
+                  <div>
+                    <div class="flex items-center gap-2 mb-3">
+                      <p-avatar
+                        image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                        shape="circle"
+                        size="large"
+                        />
+                      <div class="flex-1 truncate">
+                        <span class="font-medium block">{{username}}</span>
+                        @if (userRole) {
+                          <span
+                            class="text-xs bg-primary-100 text-primary-800 px-2 py-0.5 rounded"
+                            >{{userRole}}</span
+                            >
+                          }
+                          <div class="text-sm text-surface-500 truncate">{{userEmail}}</div>
+                        </div>
+                      </div>
+                      <ul class="list-none p-0 m-0 flex flex-col">
+                        <li
+                          (click)="navigateToProfile()"
+                          class="flex items-center gap-2 px-3 py-2 hover:bg-emphasis cursor-pointer rounded-md"
+                          >
+                          <i class="pi pi-user"></i>
+                          <span>Profile</span>
+                        </li>
+                        <li
+                          (click)="navigateToInbox()"
+                          class="flex items-center gap-2 px-3 py-2 hover:bg-emphasis cursor-pointer rounded-md"
+                          >
+                          <i class="pi pi-inbox"></i>
+                          <span>Inbox</span>
+                          <span class="px-2 py-0.5 text-xs bg-red-500 text-white rounded-full ml-auto"
+                            >3</span
+                            >
+                          </li>
+                          <li
+                            (click)="navigateToSettings()"
+                            class="flex items-center gap-2 px-3 py-2 hover:bg-emphasis cursor-pointer rounded-md"
+                            >
+                            <i class="pi pi-cog"></i>
+                            <span>Settings</span>
+                          </li>
+                          @if (userRole === 'admin') {
+                            <li
+                              (click)="navigateToAdminView()"
+                              class="flex items-center gap-2 px-3 py-2 hover:bg-purple-50 cursor-pointer rounded-md text-purple-600"
+                              >
+                              <i class="pi pi-shield"></i>
+                              <span>Admin Panel</span>
+                            </li>
+                          }
+                          <div class="border-t border-surface-200 my-2"></div>
+                          <li
+                            (click)="logout()"
+                            class="flex items-center gap-2 px-3 py-2 hover:bg-red-50 cursor-pointer rounded-md text-red-600"
+                            >
+                            <i class="pi pi-sign-out"></i>
+                            <span>Sign Out</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </p-popover>
+                </div>
+              }
+            </div>
+          </ng-template>
+        </p-menubar>
+      </div>

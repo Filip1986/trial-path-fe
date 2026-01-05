@@ -1,0 +1,20 @@
+<div class="p-4 flex flex-col items-center">
+  <p-selectButton
+    [(ngModel)]="selectedLoginStyle"
+    [options]="styleOptions"
+    class="mb-4"
+    optionLabel="name"
+    optionValue="value"
+  />
+
+  <lib-login
+    (forgotPasswordClick)="handleForgotPassword()"
+    (registerClick)="navigateToRegister()"
+    (rememberMeChange)="handleRememberMeChange($event)"
+    (submitLogin)="handleLoginSubmit($event)"
+    [features]="loginFeatures"
+    [loading]="loading()"
+    [title]="'auth.login.signInTitle' | translate"
+    [variant]="selectedLoginStyle"
+  />
+</div>

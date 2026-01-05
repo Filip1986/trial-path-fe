@@ -1,0 +1,83 @@
+<div class="filters-container">
+  <p-card styleClass="filters-card">
+    <ng-template pTemplate="header">
+      <div class="filters-header" (click)="toggleExpanded()" [class.expandable]="expandable()">
+        <div class="filters-title">
+          <i class="pi pi-filter"></i>
+          <span class="title-text">{{ title() }}</span>
+          @if (hasActiveFilters()) {
+            <div class="active-count">{{ getActiveFilters().length }}</div>
+          }
+        </div>
+        <!-- Expand/Collapse chevron -->
+        @if (expandable()) {
+          <div class="expand-icon">
+            <i
+              class="pi"
+              [class.pi-chevron-down]="!isExpanded()"
+              [class.pi-chevron-up]="isExpanded()"
+            ></i>
+          </div>
+        }
+      </div>
+    </ng-template>
+
+    <div [@expandCollapse]="isExpanded() ? 'expanded' : 'collapsed'" class="filters-content">
+      <div class="filters-grid">
+        @for (field of filterFields(); track field) {
+          <div class="filter-field">
+            <!-- Text Input - Using UI Library -->
+            @if (field.type === 'text') {
+              <lib-input-text
+                [config]="getInputTextConfig(field)"
+                [value]="localValues()[field.key] || ''"
+                (valueChange)="onFilterChange(field.key, $event)"
+                />
+            }
+            <!-- Dropdown - Using UI Library -->
+            @if (field.type === 'dropdown') {
+              <lib-select
+                [config]="getSelectConfig(field)"
+                [value]="localValues()[field.key] || null"
+                (valueChange)="onFilterChange(field.key, $event)"
+                />
+            }
+            <!-- MultiSelect - Using UI Library -->
+            @if (field.type === 'multiselect') {
+              <lib-multiselect
+                [config]="getMultiSelectConfig(field)"
+                [value]="localValues()[field.key] || []"
+                (valueChange)="onFilterChange(field.key, $event)"
+                />
+            }
+          </div>
+        }
+      </div>
+
+      <div class="filters-actions">
+        <div class="active-filters">
+          @if (hasActiveFilters()) {
+            <span class="active-filters-label"> Active Filters: </span>
+          }
+          @for (filter of getActiveFilters(); track filter) {
+            <div class="filter-tag">
+              <span>{{ filter.label }}: {{ filter.displayValue }}</span>
+              <i class="pi pi-times" (click)="clearSingleFilter(filter.key)"></i>
+            </div>
+          }
+        </div>
+
+        <div class="clear-filters-btn">
+          <p-button
+            label="Clear All Filters"
+            icon="pi pi-times-circle"
+            [disabled]="!hasActiveFilters()"
+            severity="secondary"
+            size="small"
+            (click)="clearAllFilters()"
+            />
+        </div>
+      </div>
+    </div>
+  </p-card>
+</div>

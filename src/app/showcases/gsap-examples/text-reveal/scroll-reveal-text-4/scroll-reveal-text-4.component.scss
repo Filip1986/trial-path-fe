@@ -1,0 +1,71 @@
+.scroll-reveal-container {
+  min-height: 200vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 80px 32px;
+  padding-top: 20vh;
+  background-color: #0e100f;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.text-wrapper {
+  max-width: 1200px;
+  width: 100%;
+  transform: translateZ(0);
+}
+
+.char,
+.word,
+.line {
+  will-change: transform, opacity;
+}
+
+.text {
+  font-size: clamp(2rem, 5vw, 5rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: #dfdcff;
+  margin: 0;
+  text-align: center;
+  perspective: 500px; // CRITICAL: Adds depth for 3D rotation effect
+  opacity: 0; // Start hidden, will be set visible by GSAP
+}
+
+// Line masking styles - CRITICAL for the breaking effect
+:host ::ng-deep .line {
+  overflow: hidden; // Masks characters that animate outside the line
+  display: block;
+}
+
+// Character styles
+:host ::ng-deep .char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+// Word styles
+:host ::ng-deep .word {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+@media (max-width: 1024px) {
+  .text {
+    font-size: clamp(1.5rem, 4vw, 4rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .text {
+    font-size: clamp(1.2rem, 3vw, 3rem);
+  }
+
+  .scroll-reveal-container {
+    padding: 60px 24px;
+  }
+}

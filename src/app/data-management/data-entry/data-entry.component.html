@@ -1,0 +1,346 @@
+<div class="max-w-6xl mx-auto p-6 bg-gray-50 min-h-screen">
+  <div class="bg-white rounded-lg shadow-lg">
+    <!-- Header -->
+    <div class="bg-blue-600 text-white p-6 rounded-t-lg">
+      <h1 class="text-2xl font-bold flex items-center gap-2">
+        <i class="pi pi-file-edit"></i>
+        Clinical Trial Data Entry
+      </h1>
+      <p class="text-blue-100 mt-2">Electronic Case Report Form (eCRF)</p>
+    </div>
+
+    <form (ngSubmit)="onSave()" [formGroup]="dataEntryForm" class="p-6">
+      <!-- Participant Selection -->
+      <div class="mb-8 p-4 bg-gray-50 rounded-lg">
+        <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+          <i class="pi pi-user"></i>
+          Participant Information
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Select Participant *
+            </label>
+            <select
+              (change)="onParticipantSelect($event)"
+              [class.border-red-500]="isFieldInvalid('participantId')"
+              class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="participantId"
+              >
+              <option value="">Choose a participant...</option>
+              @for (participant of participants; track participant) {
+                <option [value]="participant.id">
+                  {{participant.id}} - {{participant.name}}
+                </option>
+              }
+            </select>
+            @if (isFieldInvalid('participantId')) {
+              <div class="text-red-500 text-sm mt-1">
+                Participant selection is required
+              </div>
+            }
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2"> Visit Date * </label>
+            <input
+              [class.border-red-500]="isFieldInvalid('visitDate')"
+              class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="visitDate"
+              type="date"
+              />
+            @if (isFieldInvalid('visitDate')) {
+              <div class="text-red-500 text-sm mt-1">
+                Visit date is required
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Selected Participant Details -->
+        @if (selectedParticipant) {
+          <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+            <h3 class="font-medium text-blue-900">Selected Participant Details</h3>
+            <div class="grid md:grid-cols-3 gap-4 mt-2 text-sm">
+              <div><strong>Study ID:</strong> {{selectedParticipant.studyId}}</div>
+              <div><strong>Enrollment:</strong> {{selectedParticipant.enrollmentDate}}</div>
+              <div><strong>Group:</strong> {{selectedParticipant.group}}</div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Vital Signs -->
+      <div class="mb-8" formGroupName="vitalSigns">
+        <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+          <i class="pi pi-heart-fill"></i>
+          Vital Signs
+        </h2>
+
+        <div class="grid md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2"> Systolic BP (mmHg) </label>
+            <input
+              [class.border-red-500]="isNestedFieldInvalid('vitalSigns', 'systolicBP')"
+              class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="systolicBP"
+              placeholder="120"
+              type="number"
+              />
+            @if (isNestedFieldInvalid('vitalSigns', 'systolicBP')) {
+              <div
+                class="text-red-500 text-sm mt-1"
+                >
+                Systolic BP should be between 70-250 mmHg
+              </div>
+            }
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Diastolic BP (mmHg)
+            </label>
+            <input
+              [class.border-red-500]="isNestedFieldInvalid('vitalSigns', 'diastolicBP')"
+              class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="diastolicBP"
+              placeholder="80"
+              type="number"
+              />
+            @if (isNestedFieldInvalid('vitalSigns', 'diastolicBP')) {
+              <div
+                class="text-red-500 text-sm mt-1"
+                >
+                Diastolic BP should be between 40-150 mmHg
+              </div>
+            }
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2"> Heart Rate (bpm) </label>
+            <input
+              [class.border-red-500]="isNestedFieldInvalid('vitalSigns', 'heartRate')"
+              class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="heartRate"
+              placeholder="72"
+              type="number"
+              />
+            @if (isNestedFieldInvalid('vitalSigns', 'heartRate')) {
+              <div
+                class="text-red-500 text-sm mt-1"
+                >
+                Heart rate should be between 30-200 bpm
+              </div>
+            }
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2"> Temperature (°C) </label>
+            <input
+              [class.border-red-500]="isNestedFieldInvalid('vitalSigns', 'temperature')"
+              class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="temperature"
+              placeholder="36.5"
+              step="0.1"
+              type="number"
+              />
+            @if (isNestedFieldInvalid('vitalSigns', 'temperature')) {
+              <div
+                class="text-red-500 text-sm mt-1"
+                >
+                Temperature should be between 35-42°C
+              </div>
+            }
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2"> Weight (kg) </label>
+            <input
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="weight"
+              placeholder="70.0"
+              step="0.1"
+              type="number"
+              />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2"> Height (cm) </label>
+            <input
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="height"
+              placeholder="170"
+              type="number"
+              />
+          </div>
+        </div>
+      </div>
+
+      <!-- Clinical Assessment -->
+      <div class="mb-8" formGroupName="clinicalAssessment">
+        <h2 class="text-lg font-semibold mb-4">Clinical Assessment</h2>
+
+        <div class="space-y-4">
+          <!-- Symptoms -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Current Symptoms (select all that apply)
+            </label>
+            <div class="grid md:grid-cols-3 gap-2" formArrayName="symptoms">
+              @for (symptom of symptomOptions; track symptom; let i = $index) {
+                <label
+                  class="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded"
+                  >
+                  <input
+                    [formControlName]="i"
+                    class="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    type="checkbox"
+                    />
+                  <span class="text-sm">{{symptom}}</span>
+                </label>
+              }
+            </div>
+          </div>
+
+          <!-- Compliance -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Compliance Assessment
+            </label>
+            <select
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="compliance"
+              >
+              <option value="">Select compliance level...</option>
+              @for (option of complianceOptions; track option) {
+                <option [value]="option.value">
+                  {{option.label}}
+                </option>
+              }
+            </select>
+          </div>
+
+          <!-- Adverse Events -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2"> Adverse Events </label>
+            <textarea
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="adverseEvents"
+              placeholder="Describe any adverse events or reactions..."
+              rows="3"
+            ></textarea>
+          </div>
+
+          <!-- Concomitant Medications -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Concomitant Medications
+            </label>
+            <textarea
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="concomitantMeds"
+              placeholder="List any medications taken during the study period..."
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lab Results -->
+      <div class="mb-8" formGroupName="labResults">
+        <h2 class="text-lg font-semibold mb-4">Laboratory Results</h2>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2"> Hemoglobin (g/dL) </label>
+            <input
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="hemoglobin"
+              placeholder="12.5"
+              step="0.1"
+              type="number"
+              />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Platelet Count (×10³/μL)
+            </label>
+            <input
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="plateletCount"
+              placeholder="250"
+              type="number"
+              />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2"> Creatinine (mg/dL) </label>
+            <input
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="creatinine"
+              placeholder="1.0"
+              step="0.01"
+              type="number"
+              />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2"> Glucose (mg/dL) </label>
+            <input
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              formControlName="glucose"
+              placeholder="95"
+              type="number"
+              />
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Notes -->
+      <div class="mb-8">
+        <h2 class="text-lg font-semibold mb-4">Additional Notes</h2>
+        <textarea
+          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          formControlName="notes"
+          placeholder="Enter any additional clinical notes, observations, or comments..."
+          rows="4"
+        ></textarea>
+      </div>
+
+      <!-- Save Section -->
+      <div class="flex justify-between items-center pt-6 border-t border-gray-200">
+        <div class="flex items-center space-x-2">
+          @if (saveStatus === 'saving') {
+            <div class="flex items-center text-blue-600">
+              <i class="pi pi-spin pi-spinner mr-2"></i>
+              Saving...
+            </div>
+          }
+          @if (saveStatus === 'success') {
+            <div class="flex items-center text-green-600">
+              <i class="pi pi-check-circle mr-2"></i>
+              Data saved successfully!
+            </div>
+          }
+          @if (saveStatus === 'error') {
+            <div class="flex items-center text-red-600">
+              <i class="pi pi-exclamation-circle mr-2"></i>
+              Please fix validation errors before saving
+            </div>
+          }
+        </div>
+
+        <button
+          [disabled]="saveStatus === 'saving'"
+          class="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition-colors"
+          type="submit"
+          >
+          <i class="pi pi-save"></i>
+          Save Data Entry
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

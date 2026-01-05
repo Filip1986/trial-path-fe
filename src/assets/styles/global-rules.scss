@@ -1,0 +1,9 @@
+@use 'apps/draft-fe/src/assets/styles/mixins';
+
+.dynamic-layout-height {
+  @include mixins.full-height-minus-header(70px);
+}
+
+i.pi {
+  color: var(--primary-color, #3B82F6);
+}

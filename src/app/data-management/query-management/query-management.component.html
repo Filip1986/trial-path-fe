@@ -1,0 +1,553 @@
+<div class="query-management-container">
+  <!-- Statistics Cards - 4 cards all on the same line using flex -->
+  <div class="flex gap-4 mb-8">
+    <!-- Total Queries Card -->
+    <div class="flex-1">
+      <p-card class="bg-light-error">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-semibold">Total Queries</h3>
+            <p>All queries in system</p>
+          </div>
+          <div class="text-3xl font-bold">{{ getQueryStats().total }}</div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Open Queries Card -->
+    <div class="flex-1">
+      <p-card class="bg-light-success">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-semibold">Open Queries</h3>
+            <p>Awaiting response</p>
+          </div>
+          <div class="text-3xl font-bold">{{ getQueryStats().open }}</div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Answered Card -->
+    <div class="flex-1">
+      <p-card class="bg-gray">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-semibold">Answered</h3>
+            <p>Queries resolved</p>
+          </div>
+          <div class="text-3xl font-bold">{{ getQueryStats().answered }}</div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Urgent Card -->
+    <div class="flex-1">
+      <p-card class="bg-primary">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-semibold">Urgent</h3>
+            <p>High priority queries</p>
+          </div>
+          <div class="text-3xl font-bold">{{ getQueryStats().urgent }}</div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+
+  <!-- Main Content Card -->
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="card-header">
+        <h2 class="card-title">
+          <i class="pi pi-comments mr-2"></i>
+          Query Management
+        </h2>
+        <p-button
+          (click)="createNewQuery()"
+          icon="pi pi-plus"
+          label="New Query"
+          styleClass="p-button-primary"
+        ></p-button>
+      </div>
+    </ng-template>
+
+    <!-- Filters Toolbar -->
+    <p-toolbar class="mb-4">
+      <ng-template pTemplate="start">
+        <div class="filter-group">
+          <span class="p-input-icon-left mr-3">
+            <i class="pi pi-search"></i>
+            <input
+              (input)="onGlobalFilter()"
+              [(ngModel)]="globalFilterValue"
+              class="p-inputtext p-component"
+              placeholder="Search queries..."
+              type="text"
+              />
+          </span>
+
+          <p-select
+            (onChange)="onStatusFilter()"
+            [(ngModel)]="statusFilter"
+            [options]="statusOptions"
+            class="mr-2"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Status"
+          ></p-select>
+
+          <p-select
+            (onChange)="onPriorityFilter()"
+            [(ngModel)]="priorityFilter"
+            [options]="priorityOptions"
+            class="mr-2"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Priority"
+          ></p-select>
+
+          <p-select
+            (onChange)="onCategoryFilter()"
+            [(ngModel)]="categoryFilter"
+            [options]="categoryOptions"
+            class="mr-2"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Category"
+          ></p-select>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="end">
+        <p-button
+          (click)="clearFilters()"
+          icon="pi pi-filter-slash"
+          label="Clear Filters"
+          styleClass="p-button-text"
+        ></p-button>
+      </ng-template>
+    </p-toolbar>
+
+    <!-- Queries Table -->
+    <p-table
+      [loading]="isLoading"
+      [paginator]="true"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [value]="filteredQueries"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} queries"
+      dataKey="id"
+      responsiveLayout="scroll"
+      sortField="createdDate"
+      >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id">Query ID <p-sortIcon field="id"></p-sortIcon></th>
+          <th pSortableColumn="participantId">
+            Participant <p-sortIcon field="participantId"></p-sortIcon>
+          </th>
+          <th pSortableColumn="formName">Form <p-sortIcon field="formName"></p-sortIcon></th>
+          <th pSortableColumn="fieldName">Field <p-sortIcon field="fieldName"></p-sortIcon></th>
+          <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+          <th pSortableColumn="priority">Priority <p-sortIcon field="priority"></p-sortIcon></th>
+          <th pSortableColumn="category">Category</th>
+          <th pSortableColumn="createdBy">
+            Created By <p-sortIcon field="createdBy"></p-sortIcon>
+          </th>
+          <th pSortableColumn="createdDate">
+            Created Date <p-sortIcon field="createdDate"></p-sortIcon>
+          </th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+
+      <ng-template let-query pTemplate="body">
+        <tr>
+          <td>
+            <span class="query-id">{{ query.id }}</span>
+          </td>
+          <td>
+            <span class="participant-id">{{ query.participantId }}</span>
+          </td>
+          <td>{{ query.formName }}</td>
+          <td>{{ query.fieldName }}</td>
+          <td>
+            <p-tag
+              [severity]="getStatusSeverity(query.status)"
+              [value]="query.status | titlecase"
+            ></p-tag>
+          </td>
+          <td>
+            <p-tag
+              [severity]="getPrioritySeverity(query.priority)"
+              [value]="query.priority | titlecase"
+            ></p-tag>
+          </td>
+          <td>
+            <span
+              [style.background-color]="getCategoryColor(query.category)"
+              class="category-badge"
+              >
+              {{ query.category.replace('_', ' ') | titlecase }}
+            </span>
+          </td>
+          <td>{{ query.createdBy }}</td>
+          <td>{{ formatDate(query.createdDate) }}</td>
+          <td>
+            <div class="action-buttons">
+              <p-button
+                (click)="viewQuery(query)"
+                [size]="'small'"
+                icon="pi pi-eye"
+                pTooltip="View Details"
+                styleClass="p-button-text p-button-sm"
+              ></p-button>
+
+              @if (query.status === 'open') {
+                <p-button
+                  (click)="answerQuery(query)"
+                  [size]="'small'"
+                  icon="pi pi-reply"
+                  pTooltip="Answer Query"
+                  styleClass="p-button-text p-button-sm p-button-success"
+                ></p-button>
+              }
+
+              @if (query.status === 'answered') {
+                <p-button
+                  (click)="closeQuery(query)"
+                  [size]="'small'"
+                  icon="pi pi-times-circle"
+                  pTooltip="Close Query"
+                  styleClass="p-button-text p-button-sm p-button-secondary"
+                ></p-button>
+              }
+
+              @if (query.status === 'closed') {
+                <p-button
+                  (click)="reopenQuery(query)"
+                  [size]="'small'"
+                  icon="pi pi-refresh"
+                  pTooltip="Reopen Query"
+                  styleClass="p-button-text p-button-sm p-button-warning"
+                ></p-button>
+              }
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td class="text-center" colspan="10">
+            <div class="empty-state">
+              <i class="pi pi-inbox empty-icon"></i>
+              <h3>No queries found</h3>
+              <p>Try adjusting your filters or create a new query.</p>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+</div>
+
+<!-- View Query Dialog -->
+<p-dialog
+  [(visible)]="viewQueryDialog"
+  [modal]="true"
+  [style]="{ width: '700px' }"
+  header="Query Details"
+  >
+  @if (selectedQuery) {
+    <div class="query-details">
+      <div class="detail-grid">
+        <div class="detail-row">
+          <label>Query ID:</label>
+          <span class="query-id">{{ selectedQuery.id }}</span>
+        </div>
+        <div class="detail-row">
+          <label>Participant:</label>
+          <span>{{ selectedQuery.participantId }}</span>
+        </div>
+        <div class="detail-row">
+          <label>Form:</label>
+          <span>{{ selectedQuery.formName }}</span>
+        </div>
+        <div class="detail-row">
+          <label>Field:</label>
+          <span>{{ selectedQuery.fieldName }}</span>
+        </div>
+        <div class="detail-row">
+          <label>Status:</label>
+          <p-tag
+            [severity]="getStatusSeverity(selectedQuery.status)"
+            [value]="selectedQuery.status | titlecase"
+          ></p-tag>
+        </div>
+        <div class="detail-row">
+          <label>Priority:</label>
+          <p-tag
+            [severity]="getPrioritySeverity(selectedQuery.priority)"
+            [value]="selectedQuery.priority | titlecase"
+          ></p-tag>
+        </div>
+        <div class="detail-row">
+          <label>Category:</label>
+          <span
+            [style.background-color]="getCategoryColor(selectedQuery.category)"
+            class="category-badge"
+            >
+            {{ selectedQuery.category.replace('_', ' ') | titlecase }}
+          </span>
+        </div>
+        <div class="detail-row">
+          <label>Created By:</label>
+          <span>{{ selectedQuery.createdBy }}</span>
+        </div>
+        <div class="detail-row">
+          <label>Created Date:</label>
+          <span>{{ formatDate(selectedQuery.createdDate) }}</span>
+        </div>
+      </div>
+      <div class="message-section">
+        <h4>Query Message</h4>
+        <div class="message-content">{{ selectedQuery.message }}</div>
+      </div>
+      @if (selectedQuery.answer) {
+        <div class="answer-section">
+          <h4>Answer</h4>
+          <div class="answer-content">{{ selectedQuery.answer }}</div>
+          <div class="answer-meta">
+            <small>
+              Answered by {{ selectedQuery.answeredBy }} on {{ formatDate(selectedQuery.answeredDate!)
+              }}
+            </small>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <ng-template pTemplate="footer">
+    <p-button
+      (click)="viewQueryDialog = false"
+      icon="pi pi-times"
+      label="Close"
+      styleClass="p-button-text"
+    ></p-button>
+    @if (selectedQuery?.status === 'open') {
+      <p-button
+        (click)="answerQuery(selectedQuery!); viewQueryDialog = false"
+        icon="pi pi-reply"
+        label="Answer Query"
+        styleClass="p-button-primary"
+      ></p-button>
+    }
+  </ng-template>
+</p-dialog>
+
+<!-- Answer Query Dialog -->
+<p-dialog
+  [(visible)]="answerQueryDialog"
+  [modal]="true"
+  [style]="{ width: '600px' }"
+  header="Answer Query"
+  >
+  @if (selectedQuery) {
+    <div class="answer-query-content">
+      <div class="query-summary">
+        <h4>{{ selectedQuery.id }} - {{ selectedQuery.fieldName }}</h4>
+        <p class="query-message">{{ selectedQuery.message }}</p>
+      </div>
+      <form [formGroup]="answerForm">
+        <div class="field">
+          <label for="answer">Your Answer *</label>
+          <textarea
+            class="w-full"
+            formControlName="answer"
+            id="answer"
+            pInputTextarea
+            placeholder="Provide a detailed answer to this query..."
+            rows="5"
+          ></textarea>
+          @if (answerForm.get('answer')?.invalid && answerForm.get('answer')?.touched) {
+            <small
+              class="p-error"
+              >
+              Answer is required and must be at least 10 characters long
+            </small>
+          }
+        </div>
+      </form>
+    </div>
+  }
+
+  <ng-template pTemplate="footer">
+    <p-button
+      (click)="answerQueryDialog = false"
+      icon="pi pi-times"
+      label="Cancel"
+      styleClass="p-button-text"
+    ></p-button>
+    <p-button
+      (click)="submitAnswer()"
+      [disabled]="answerForm.invalid || isSaving"
+      [loading]="isSaving"
+      icon="pi pi-check"
+      label="Submit Answer"
+      styleClass="p-button-primary"
+    ></p-button>
+  </ng-template>
+</p-dialog>
+
+<!-- Create New Query Dialog -->
+<p-dialog
+  [(visible)]="createQueryDialog"
+  [modal]="true"
+  [style]="{ width: '700px' }"
+  header="Create New Query"
+  >
+  <form [formGroup]="newQueryForm">
+    <div class="formgrid grid">
+      <div class="field col-6">
+        <label for="participantId">Participant ID *</label>
+        <input
+          class="w-full"
+          formControlName="participantId"
+          id="participantId"
+          pInputText
+          placeholder="PT-001"
+          />
+        @if (newQueryForm.get('participantId')?.invalid && newQueryForm.get('participantId')?.touched) {
+          <small
+            class="p-error"
+            >
+            Participant ID is required
+          </small>
+        }
+      </div>
+
+      <div class="field col-6">
+        <label for="formName">Form Name *</label>
+        <input
+          class="w-full"
+          formControlName="formName"
+          id="formName"
+          pInputText
+          placeholder="Baseline Assessment"
+          />
+        @if (newQueryForm.get('formName')?.invalid && newQueryForm.get('formName')?.touched) {
+          <small
+            class="p-error"
+            >
+            Form name is required
+          </small>
+        }
+      </div>
+
+      <div class="field col-6">
+        <label for="fieldId">Field ID *</label>
+        <input
+          class="w-full"
+          formControlName="fieldId"
+          id="fieldId"
+          pInputText
+          placeholder="patient_weight"
+          />
+        @if (newQueryForm.get('fieldId')?.invalid && newQueryForm.get('fieldId')?.touched) {
+          <small
+            class="p-error"
+            >
+            Field ID is required
+          </small>
+        }
+      </div>
+
+      <div class="field col-6">
+        <label for="fieldName">Field Name *</label>
+        <input
+          class="w-full"
+          formControlName="fieldName"
+          id="fieldName"
+          pInputText
+          placeholder="Patient Weight"
+          />
+        @if (newQueryForm.get('fieldName')?.invalid && newQueryForm.get('fieldName')?.touched) {
+          <small
+            class="p-error"
+            >
+            Field name is required
+          </small>
+        }
+      </div>
+
+      <div class="field col-6">
+        <label for="priority">Priority *</label>
+        <p-select
+          [options]="priorityOptions.slice(1)"
+          class="w-full"
+          formControlName="priority"
+          id="priority"
+          optionLabel="label"
+          optionValue="value"
+        ></p-select>
+      </div>
+
+      <div class="field col-6">
+        <label for="category">Category *</label>
+        <p-select
+          [options]="categoryOptions.slice(1)"
+          class="w-full"
+          formControlName="category"
+          id="category"
+          optionLabel="label"
+          optionValue="value"
+        ></p-select>
+      </div>
+
+      <div class="field col-12">
+        <label for="message">Query Message *</label>
+        <textarea
+          class="w-full"
+          formControlName="message"
+          id="message"
+          pInputTextarea
+          placeholder="Describe the issue or question in detail..."
+          rows="4"
+        ></textarea>
+        @if (newQueryForm.get('message')?.invalid && newQueryForm.get('message')?.touched) {
+          <small
+            class="p-error"
+            >
+            Message is required and must be at least 10 characters long
+          </small>
+        }
+      </div>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      (click)="createQueryDialog = false"
+      icon="pi pi-times"
+      label="Cancel"
+      styleClass="p-button-text"
+    ></p-button>
+    <p-button
+      (click)="submitNewQuery()"
+      [disabled]="newQueryForm.invalid || isSaving"
+      [loading]="isSaving"
+      icon="pi pi-check"
+      label="Create Query"
+      styleClass="p-button-primary"
+    ></p-button>
+  </ng-template>
+</p-dialog>
+
+<!-- Toast Messages -->
+<p-toast></p-toast>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog></p-confirmDialog>

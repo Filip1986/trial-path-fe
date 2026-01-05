@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" target-language="de" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="signInTitle" datatype="html">
+        <source>Sign In</source>
+        <target>Anmelden</target>
+      </trans-unit>
+      <trans-unit id="landing.hero.title" datatype="html">
+        <source>Welcome to TYME</source>
+        <target>Willkommen bei TYME</target>
+      </trans-unit>
+      <trans-unit id="landing.hero.subtitle" datatype="html">
+        <source> The ultimate time tracking solution for professionals, teams, and businesses. Manage your time, boost productivity, and gain insights into your work patterns. </source>
+        <target> Die ultimative Lösung für Zeiterfassung für Profis, Teams und Unternehmen. Verwalten Sie Ihre Zeit, steigern Sie die Produktivität und erhalten Sie Einblicke in Ihre Arbeitsmuster. </target>
+      </trans-unit>
+      <trans-unit id="landing.hero.getStarted" datatype="html">
+        <source> Get Started Free </source>
+        <target> Kostenlos starten </target>
+      </trans-unit>
+      <trans-unit id="landing.hero.learnMore" datatype="html">
+        <source> Learn More </source>
+        <target> Mehr erfahren </target>
+      </trans-unit>
+      <trans-unit id="landing.features.title" datatype="html">
+        <source> Why Choose TYME? </source>
+        <target> Warum TYME wählen? </target>
+      </trans-unit>
+      <trans-unit id="landing.features.subtitle" datatype="html">
+        <source> Discover the features that make TYME the perfect time tracking solution for your needs. </source>
+        <target> Entdecken Sie die Funktionen, die TYME zur perfekten Zeiterfassungslösung für Ihre Bedürfnisse machen. </target>
+      </trans-unit>
+      <trans-unit id="landing.features.tracking.title" datatype="html">
+        <source> Accurate Time Tracking </source>
+        <target> Präzise Zeiterfassung </target>
+      </trans-unit>
+      <trans-unit id="landing.features.tracking.description" datatype="html">
+        <source> Track time with precision using our intuitive interface. Start and stop timers, add manual entries, and categorize your work effortlessly. </source>
+        <target> Erfassen Sie Zeit präzise mit unserer intuitiven Oberfläche. Starten und stoppen Sie Timer, fügen Sie manuelle Einträge hinzu und kategorisieren Sie Ihre Arbeit mühelos. </target>
+      </trans-unit>
+      <trans-unit id="landing.features.insights.title" datatype="html">
+        <source> Detailed Insights </source>
+        <target> Detaillierte Einblicke </target>
+      </trans-unit>
+      <trans-unit id="landing.features.insights.description" datatype="html">
+        <source> Get comprehensive reports and analytics about your time usage. Identify patterns, optimize workflows, and make data-driven decisions. </source>
+        <target> Erhalten Sie umfassende Berichte und Analysen über Ihre Zeitnutzung. Erkennen Sie Muster, optimieren Sie Arbeitsabläufe und treffen Sie datenbasierte Entscheidungen. </target>
+      </trans-unit>
+      <trans-unit id="landing.features.collaboration.title" datatype="html">
+        <source> Team Collaboration </source>
+        <target> Teamzusammenarbeit </target>
+      </trans-unit>
+      <trans-unit id="landing.features.collaboration.description" datatype="html">
+        <source> Work seamlessly with your team. Share projects, assign tasks, and monitor progress across all team members in real-time. </source>
+        <target> Arbeiten Sie nahtlos mit Ihrem Team zusammen. Teilen Sie Projekte, weisen Sie Aufgaben zu und überwachen Sie den Fortschritt aller Teammitglieder in Echtzeit. </target>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.title" datatype="html">
+        <source> What Our Users Say </source>
+        <target> Was unsere Nutzer sagen </target>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.subtitle" datatype="html">
+        <source> Join thousands of satisfied users who have transformed their productivity with TYME. </source>
+        <target> Schließen Sie sich Tausenden zufriedener Nutzer an, die ihre Produktivität mit TYME gesteigert haben. </target>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user1.name" datatype="html">
+        <source> Sarah Johnson </source>
+        <target> Sarah Johnson </target>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user1.title" datatype="html">
+        <source> Project Manager </source>
+        <target> Projektmanagerin </target>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user1.quote" datatype="html">
+        <source> &quot;TYME has revolutionized how our team tracks time and manages projects. The insights we get help us deliver better results for our clients.&quot; </source>
+        <target> &quot;TYME hat die Art und Weise, wie unser Team Zeit erfasst und Projekte verwaltet, revolutioniert. Die Einblicke helfen uns, bessere Ergebnisse für unsere Kunden zu liefern.&quot; </target>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user2.name" datatype="html">
+        <source> Michael Chen </source>
+        <target> Michael Chen </target>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user2.title" datatype="html">
+        <source> Software Developer </source>
+        <target> Softwareentwickler </target>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user2.quote" datatype="html">
+        <source> &quot;As a developer, I appreciate TYME&apos;s clean interface and robust features. Integration with our existing tools was seamless.&quot; </source>
+        <target> &quot;Als Entwickler schätze ich TYME's übersichtliche Oberfläche und die robusten Funktionen. Die Integration mit unseren bestehenden Tools war nahtlos.&quot; </target>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user3.name" datatype="html">
+        <source> Emma Rodriguez </source>
+        <target> Emma Rodriguez </target>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user3.title" datatype="html">
+        <source> Freelance Designer </source>
+        <target> Freiberufliche Designerin </target>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user3.quote" datatype="html">
+        <source> &quot;TYME helps me track time across multiple clients and projects. The reporting features have simplified my invoicing process significantly.&quot; </source>
+        <target> &quot;TYME hilft mir, die Zeit für mehrere Kunden und Projekte zu erfassen. Die Berichtsfunktionen haben meinen Rechnungsprozess erheblich vereinfacht.&quot; </target>
+      </trans-unit>
+      <trans-unit id="landing.cta.title" datatype="html">
+        <source> Ready to Get Started? </source>
+        <target> Bereit loszulegen? </target>
+      </trans-unit>
+      <trans-unit id="landing.cta.subtitle" datatype="html">
+        <source> Join thousands of professionals who are already managing their time more effectively with TYME. </source>
+        <target> Schließen Sie sich Tausenden von Fachleuten an, die ihre Zeit bereits effektiver mit TYME verwalten. </target>
+      </trans-unit>
+      <trans-unit id="landing.cta.signUpFree" datatype="html">
+        <source>Sign Up Free</source>
+        <target>Kostenlos registrieren</target>
+      </trans-unit>
+      <trans-unit id="landing.cta.scheduleDemo" datatype="html">
+        <source>Schedule Demo</source>
+        <target>Demo vereinbaren</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.title" datatype="html">
+        <source> <x id="INTERPOLATION" equiv-text="{{ title }}"/> </source>
+        <target> <x id="INTERPOLATION" equiv-text="{{ title }}"/> </target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.subtitle" datatype="html">
+        <source> Create a new account to get started </source>
+        <target> Erstellen Sie ein neues Konto, um zu starten </target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.terms.prefix" datatype="html">
+        <source>I agree to the</source>
+        <target>Ich stimme den</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.terms.service" datatype="html">
+        <source>Terms of Service</source>
+        <target>Nutzungsbedingungen</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.terms.and" datatype="html">
+        <source>and</source>
+        <target>und</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.terms.privacy" datatype="html">
+        <source>Privacy Policy</source>
+        <target>Datenschutzrichtlinie</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.buttons.submit" datatype="html">
+        <source>Create Account</source>
+        <target>Konto erstellen</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.login.prefix" datatype="html">
+        <source>Already have an account?</source>
+        <target>Haben Sie bereits ein Konto?</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.login.link" datatype="html">
+        <source>Sign in</source>
+        <target>Anmelden</target>
+      </trans-unit>
+      <trans-unit id="registration.username.label" datatype="html">
+        <source>Username</source>
+        <target>Benutzername</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.username.placeholder" datatype="html">
+        <source>Enter your username (3-30 characters)</source>
+        <target>Geben Sie Ihren Benutzernamen ein (3-30 Zeichen)</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.username.help" datatype="html">
+        <source>Choose a username between 3 and 30 characters</source>
+        <target>Wählen Sie einen Benutzernamen zwischen 3 und 30 Zeichen</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.email.label" datatype="html">
+        <source>Email</source>
+        <target>E-Mail</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.email.placeholder" datatype="html">
+        <source>Enter your email address</source>
+        <target>Geben Sie Ihre E-Mail-Adresse ein</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.email.help" datatype="html">
+        <source>We will send a verification link to this address</source>
+        <target>Wir senden einen Bestätigungslink an diese Adresse</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.password.label" datatype="html">
+        <source>Password</source>
+        <target>Passwort</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.password.placeholder" datatype="html">
+        <source>Create a password (min. 6 characters)</source>
+        <target>Erstellen Sie ein Passwort (mind. 6 Zeichen)</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.password.help" datatype="html">
+        <source>Use a strong password with at least 6 characters</source>
+        <target>Verwenden Sie ein sicheres Passwort mit mindestens 6 Zeichen</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.confirmPassword.label" datatype="html">
+        <source>Confirm Password</source>
+        <target>Passwort bestätigen</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.confirmPassword.placeholder" datatype="html">
+        <source>Confirm your password</source>
+        <target>Bestätigen Sie Ihr Passwort</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.confirmPassword.help" datatype="html">
+        <source>Re-enter your password to confirm</source>
+        <target>Geben Sie Ihr Passwort erneut ein, um zu bestätigen</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.username.errors.required" datatype="html">
+        <source>Username is required</source>
+        <target>Benutzername ist erforderlich</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.username.errors.minLength" datatype="html">
+        <source>Username must be at least 3 characters</source>
+        <target>Benutzername muss mindestens 3 Zeichen lang sein</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.username.errors.maxLength" datatype="html">
+        <source>Username cannot exceed 30 characters</source>
+        <target>Benutzername darf nicht länger als 30 Zeichen sein</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.email.errors.required" datatype="html">
+        <source>Email is required</source>
+        <target>E-Mail ist erforderlich</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.email.errors.invalid" datatype="html">
+        <source>Please enter a valid email address</source>
+        <target>Bitte geben Sie eine gültige E-Mail-Adresse ein</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.password.errors.required" datatype="html">
+        <source>Password is required</source>
+        <target>Passwort ist erforderlich</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.password.errors.minLength" datatype="html">
+        <source>Password must be at least 6 characters</source>
+        <target>Passwort muss mindestens 6 Zeichen lang sein</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.confirmPassword.errors.required" datatype="html">
+        <source>Please confirm your password</source>
+        <target>Bitte bestätigen Sie Ihr Passwort</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.confirmPassword.errors.mismatch" datatype="html">
+        <source>Passwords do not match</source>
+        <target>Passwörter stimmen nicht überein</target>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.terms.errors.required" datatype="html">
+        <source>You must accept the terms and conditions</source>
+        <target>Sie müssen die Allgemeinen Geschäftsbedingungen akzeptieren</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

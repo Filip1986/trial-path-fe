@@ -1,0 +1,148 @@
+<div class="create-study-container p-4">
+  <p-toast />
+  <p-confirmDialog />
+
+  <p-card>
+    <ng-template #header>
+      <div class="card-header px-4 py-3">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">Create New Study</h1>
+        <p class="text-gray-600">Follow the steps below to create a comprehensive clinical study</p>
+      </div>
+    </ng-template>
+
+    <div class="wizard-container">
+      <!-- Header with Progress -->
+      <div class="wizard-header shadow-sm border-round-top p-4 mb-0">
+        <div class="flex justify-content-between align-items-center mb-4">
+          <div>
+            <h1 class="text-3xl font-bold text-gray-800 m-0">Create New Study</h1>
+            <p class="text-gray-600 mt-2 mb-0">
+              Step {{ currentStep() + 1 }} of {{ totalSteps() }}: {{ getCurrentStepLabel() }}
+            </p>
+          </div>
+
+          <!-- Auto-save indicator -->
+          <div class="flex align-items-center gap-3">
+            @if (autoSaving()) {
+              <span class="text-sm text-blue-600 flex align-items-center gap-2">
+                <i class="pi pi-spin pi-spinner"></i>
+                Auto-saving...
+              </span>
+            }
+            @if (!studyForm.dirty && !autoSaving()) {
+              <span
+                class="text-sm text-green-600 flex align-items-center gap-2"
+                >
+                <i class="pi pi-check"></i>
+                All changes saved
+              </span>
+            }
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-section mb-4">
+          <div class="flex justify-content-between align-items-center mb-2">
+            <span class="text-sm font-medium text-gray-700">Overall Progress</span>
+            <span class="text-sm text-gray-600">{{ getProgressPercentage() }}% Complete</span>
+          </div>
+          <p-progressBar [showValue]="false" [value]="getProgressPercentage()" styleClass="h-2rem">
+          </p-progressBar>
+        </div>
+      </div>
+
+      <!-- Form Content with Stepper -->
+      <div class="wizard-content shadow-sm p-4">
+        <form [formGroup]="studyForm" novalidate>
+          <!-- Step Navigation -->
+          <p-stepper [value]="currentStep() + 1" class="basis-[50rem]">
+            <p-step-list>
+              @for (step of formSteps(); track step; let i = $index) {
+                <p-step
+                  [value]="i + 1"
+                  [class.completed]="step.isCompleted"
+                  [class.active]="i === currentStep()"
+                  (click)="goToStep(i)"
+                  >
+                  {{ step.label }}
+                </p-step>
+              }
+            </p-step-list>
+
+            <!-- Step Content Container -->
+            <div class="step-content-container mt-6">
+              <ng-container #stepContainer></ng-container>
+            </div>
+          </p-stepper>
+
+          <!-- Navigation Buttons -->
+          <div
+            class="navigation-buttons flex justify-content-between align-items-center mt-6 pt-4 border-top-1 surface-border"
+            >
+            <div class="left-buttons flex gap-3">
+              <p-button
+                label="Cancel"
+                icon="pi pi-times"
+                severity="secondary"
+                [outlined]="true"
+                (onClick)="onCancel()"
+                />
+
+              <p-button
+                label="Save Draft"
+                icon="pi pi-save"
+                severity="info"
+                [outlined]="true"
+                (onClick)="saveDraft()"
+                />
+
+              @if (!studyForm.pristine) {
+                <p-button
+                  label="Clear Draft"
+                  icon="pi pi-trash"
+                  severity="danger"
+                  [outlined]="true"
+                  (onClick)="clearDraft()"
+                  />
+              }
+            </div>
+
+            <div class="right-buttons flex gap-3">
+              @if (currentStep() > 0) {
+                <p-button
+                  label="Previous"
+                  icon="pi pi-arrow-left"
+                  severity="secondary"
+                  [outlined]="true"
+                  [disabled]="!canGoPrevious()"
+                  (onClick)="previousStep()"
+                  />
+              }
+
+              @if (!isLastStep()) {
+                <p-button
+                  label="Next"
+                  icon="pi pi-arrow-right"
+                  iconPos="right"
+                  [disabled]="!canGoNext()"
+                  (onClick)="nextStep()"
+                  />
+              }
+
+              @if (isLastStep()) {
+                <p-button
+                  label="Create Study"
+                  icon="pi pi-check"
+                  iconPos="right"
+                  [loading]="saving()"
+                  [disabled]="!canSubmit()"
+                  (onClick)="onSubmit()"
+                  />
+              }
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </p-card>
+</div>

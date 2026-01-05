@@ -1,0 +1,493 @@
+<div class="p-4 min-h-screen">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+      <h1 class="text-2xl font-bold text-gray-800 mb-2">Application Documentation</h1>
+      <p class="text-gray-600">
+        Comprehensive overview of implemented features, security measures, and user flows. This
+        documentation provides insights into the architecture and capabilities of the TYME
+        application.
+      </p>
+    </div>
+
+    <!-- Accordion for documentation sections -->
+    <p-accordion [value]="['0']" [multiple]="true">
+      <p-accordion-panel value="0">
+        <p-accordion-header>CSRF Token System</p-accordion-header>
+        <p-accordion-content>
+          <p-card>
+            <h2 class="text-xl font-bold mb-3">Overview</h2>
+            <p class="mb-4">
+              This document describes the CSRF (Cross-Site Request Forgery) token system implemented
+              in the application. The system protects against CSRF attacks by requiring a valid
+              token for all state-changing operations.
+            </p>
+
+            <h2 class="text-xl font-bold mb-3">Architecture</h2>
+            <ul class="list-disc pl-6 mb-4">
+              <li><strong>CsrfTokenService:</strong> Central service for token management</li>
+              <li>
+                <strong>AuthInterceptor:</strong> Intercepts HTTP requests to add tokens and handle
+                errors
+              </li>
+              <li>
+                <strong>LibAuthService:</strong> Authentication service that works with the CSRF
+                token system
+              </li>
+            </ul>
+
+            <h2 class="text-xl font-bold mb-3">How it Works</h2>
+            <ol class="list-decimal pl-6 mb-4">
+              <li>When a user logs in, the server issues a CSRF token</li>
+              <li>The token is stored both in-memory and in localStorage</li>
+              <li>
+                For all subsequent requests:
+                <ul class="list-disc pl-6">
+                  <li>GET requests: Token is added as an HTTP header</li>
+                  <li>POST/PUT/DELETE/PATCH requests: Token is added to the request body</li>
+                </ul>
+              </li>
+              <li>
+                If a request fails due to an invalid CSRF token, the system automatically refreshes
+                the token and retries the request
+              </li>
+            </ol>
+
+            <h2 class="text-xl font-bold mb-3">Using the CSRF Token Service</h2>
+            <p class="mb-4">
+              The CSRF token service provides methods for token management, including retrieval,
+              refreshing, and clearing tokens.
+            </p>
+
+            <h3 class="text-lg font-bold mb-2">Injecting the Service</h3>
+            <pre class="bg-gray-100 p-3 rounded mb-4">
+<code>import &#123; CsrfTokenService &#125; from '../core/services/csrf-token.service';
+
+  &#64;Component(&#123;/* ... */&#125;)
+  export class MyComponent &#123;
+  constructor(private csrfTokenService: CsrfTokenService) &#123;&#125;
+&#125;</code>
+    </pre>
+
+            <h3 class="text-lg font-bold mb-2">Getting the Current Token</h3>
+            <pre class="bg-gray-100 p-3 rounded mb-4">
+<code>const token = this.csrfTokenService.getToken();</code>
+    </pre>
+
+            <h3 class="text-lg font-bold mb-2">Refreshing the Token</h3>
+            <pre class="bg-gray-100 p-3 rounded mb-4">
+<code>this.csrfTokenService.refreshToken().subscribe(&#123;
+  next: (token) => &#123;
+    console.log('Token refreshed:', token);
+  &#125;,
+  error: (err) => &#123;
+    console.error('Failed to refresh token:', err);
+  &#125;
+&#125;);</code>
+    </pre>
+
+            <h3 class="text-lg font-bold mb-2">Clearing the Token</h3>
+            <pre class="bg-gray-100 p-3 rounded mb-4">
+<code>this.csrfTokenService.clearToken();</code>
+    </pre>
+
+            <h2 class="text-xl font-bold mb-3">Making HTTP Requests</h2>
+            <p class="mb-4">
+              The CSRF token is automatically added to all HTTP requests by the
+              <strong>AuthInterceptor</strong>, so you don't need to manually add it when using
+              Angular's <code>HttpClient</code>:
+            </p>
+            <pre class="bg-gray-100 p-3 rounded mb-4">
+<code>import &#123; HttpClient &#125; from '&#64;angular/common/http';
+
+&#64;Component(&#123;/* ... */&#125;)
+export class MyComponent &#123;
+  constructor(private http: HttpClient) &#123;&#125;
+
+  makeApiCall() &#123;
+    // CSRF token is automatically added by the interceptor
+    this.http.post('/api/endpoint', &#123; data: 'value' &#125;).subscribe(/* ... */);
+  &#125;
+&#125;</code>
+</pre>
+
+            <h2 class="text-xl font-bold mb-3">Authentication Flow</h2>
+
+            <h3 class="text-lg font-bold mb-2">Login</h3>
+            <p class="mb-4">The login process automatically handles CSRF token acquisition:</p>
+            <pre class="bg-gray-100 p-3 rounded mb-4">
+<code>import &#123; LibAuthService &#125; from '&#64;artificial-sense/ui-lib';
+
+&#64;Component(&#123;/* ... */&#125;)
+export class LoginComponent &#123;
+  constructor(private authService: LibAuthService) &#123;&#125;
+
+  login(username: string, password: string) &#123;
+    this.authService.login(username, password).subscribe(&#123;
+      next: (response) => &#123;
+        // Login successful, CSRF token is automatically stored
+        console.log('Login successful');
+      &#125;,
+      error: (err) => &#123;
+        console.error('Login failed:', err);
+      &#125;
+    &#125;);
+  &#125;
+&#125;</code>
+</pre>
+
+            <h3 class="text-lg font-bold mb-2">Token Renewal</h3>
+            <p class="mb-4">When an access token expires, the system attempts to renew it:</p>
+            <pre class="bg-gray-100 p-3 rounded mb-4">
+<code>this.authService.renewToken().subscribe(&#123;
+  next: (response) => &#123;
+    // Token renewed, CSRF token is automatically updated
+    console.log('Token renewed successfully');
+  &#125;,
+  error: (err) => &#123;
+    console.error('Token renewal failed:', err);
+  &#125;
+&#125;);</code>
+</pre>
+
+            <h3 class="text-lg font-bold mb-2">Logout</h3>
+            <p class="mb-4">The logout process clears all tokens:</p>
+            <pre class="bg-gray-100 p-3 rounded mb-4">
+<code>this.authService.logout().subscribe(&#123;
+  next: () => &#123;
+    // Logout successful, CSRF token is automatically cleared
+    console.log('Logout successful');
+  &#125;,
+  error: (err) => &#123;
+    console.error('Logout failed:', err);
+  &#125;
+&#125;);</code>
+</pre>
+
+            <h2 class="text-xl font-bold mb-3">Error Handling</h2>
+            <p class="mb-4">
+              The <strong>AuthInterceptor</strong> automatically handles several error scenarios:
+            </p>
+            <ul class="list-disc pl-6 mb-4">
+              <li>
+                <strong>403/400 CSRF Errors:</strong> Refreshes the CSRF token and retries the
+                request
+              </li>
+              <li>
+                <strong>401 Unauthorized:</strong> Attempts token renewal and retries the request
+              </li>
+              <li>
+                <strong>403 Account Suspended:</strong> Shows suspension notification and logs the
+                user out
+              </li>
+            </ul>
+
+            <h2 class="text-xl font-bold mb-3">Implementation Details</h2>
+
+            <h3 class="text-lg font-bold mb-2">CsrfTokenService</h3>
+            <p class="mb-4">Manages the CSRF token lifecycle:</p>
+            <ul class="list-disc pl-6 mb-4">
+              <li>Storage in memory and localStorage</li>
+              <li>Token retrieval</li>
+              <li>Token refreshing</li>
+              <li>Adding tokens to HTTP requests</li>
+            </ul>
+
+            <h3 class="text-lg font-bold mb-2">AuthInterceptor</h3>
+            <p class="mb-4">
+              The <strong>AuthInterceptor</strong> is responsible for managing the HTTP
+              request/response lifecycle. Its key responsibilities include:
+            </p>
+            <ul class="list-disc pl-6 mb-4">
+              <li>
+                <strong>Adds CSRF tokens to all requests:</strong> Ensures that every HTTP request
+                includes the CSRF token for security.
+              </li>
+              <li>
+                <strong>Retries non-mutating requests automatically:</strong> Automatically retries
+                GET requests in case of transient errors.
+              </li>
+              <li>
+                <strong>Handles authentication errors:</strong> Detects and processes errors such as
+                unauthorized access or invalid tokens.
+              </li>
+              <li>
+                <strong>Manages token refreshing and renewal:</strong> Refreshes expired tokens and
+                retries the failed requests seamlessly.
+              </li>
+            </ul>
+
+            <h3 class="text-lg font-bold mb-2">LibAuthService</h3>
+            <p class="mb-4">
+              The <strong>LibAuthService</strong> is responsible for managing authentication
+              operations. Its key functionalities include:
+            </p>
+            <ul class="list-disc pl-6 mb-4">
+              <li>
+                <strong>Login:</strong> Handles user login by validating credentials and storing
+                tokens securely.
+              </li>
+              <li>
+                <strong>Logout:</strong> Clears all authentication tokens and ends the user session.
+              </li>
+              <li>
+                <strong>Token Renewal:</strong> Refreshes expired access tokens using a valid
+                refresh token.
+              </li>
+            </ul>
+
+            <h3 class="text-lg font-bold mb-2">Best Practices</h3>
+            <p class="mb-4">
+              Follow these best practices to ensure secure and efficient use of the CSRF token
+              system:
+            </p>
+            <ul class="list-disc pl-6 mb-4">
+              <li>
+                <strong>Never manually add CSRF tokens to requests:</strong> Always rely on the
+                <strong>AuthInterceptor</strong> to handle token addition automatically.
+              </li>
+              <li>
+                <strong>Don't directly access localStorage for token management:</strong> Use the
+                <strong>CsrfTokenService</strong> for all token-related operations.
+              </li>
+              <li>
+                <strong>Ensure new API endpoints are CSRF-protected:</strong> When creating new
+                endpoints, verify that they validate CSRF tokens properly.
+              </li>
+              <li>
+                <strong>Use CsrfTokenService for manual token management:</strong> For scenarios
+                requiring manual token handling, utilize the methods provided by the
+                <strong>CsrfTokenService</strong>.
+              </li>
+            </ul>
+
+            <h3 class="text-lg font-bold mb-2">Troubleshooting</h3>
+            <p class="mb-4">Here are some common issues and their resolutions:</p>
+            <ul class="list-disc pl-6 mb-4">
+              <li>
+                <strong>"Invalid CSRF token" errors:</strong> This typically occurs when the token
+                has expired. The system should automatically refresh the token and retry the
+                request. If the issue persists, check the token lifecycle management in the
+                <strong>CsrfTokenService</strong>.
+              </li>
+              <li>
+                <strong>Token not being added to requests:</strong> Ensure that the
+                <strong>AuthInterceptor</strong> is properly registered in your
+                <code>app.module.ts</code>:
+                <pre class="bg-gray-100 p-3 rounded mb-4">
+<code>providers: [
+  &#123;
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true,
+  &#125;
+]</code>
+    </pre>
+              </li>
+              <li>
+                <strong>Session expired messages:</strong> This usually indicates that both the
+                access token and refresh token have expired. The user needs to log in again to
+                obtain new tokens.
+              </li>
+            </ul>
+
+            <h3 class="text-lg font-bold mb-2">Debugging</h3>
+            <p class="mb-4">Follow these steps to debug CSRF token issues effectively:</p>
+            <ul class="list-disc pl-6 mb-4">
+              <li>
+                <strong>Check browser storage:</strong> Inspect <code>localStorage</code> to ensure
+                the CSRF token is present and valid.
+              </li>
+              <li>
+                <strong>Inspect network requests:</strong> Use browser developer tools to verify
+                that the CSRF token is being sent with API requests.
+              </li>
+              <li>
+                <strong>Check server logs:</strong> Look for CSRF validation errors in the server
+                logs to identify potential issues.
+              </li>
+              <li>
+                <strong>Test with example components:</strong> Use the provided example component to
+                validate token refreshing and API request functionality.
+              </li>
+            </ul>
+          </p-card>
+        </p-accordion-content>
+      </p-accordion-panel>
+      <p-accordion-panel value="1">
+        <p-accordion-header>Authentication Flow</p-accordion-header>
+        <p-accordion-content>
+          <p-card>
+            <h2 class="text-xl font-bold mb-3">Authentication Flow</h2>
+
+            <h3 class="text-lg font-bold mb-2">Login</h3>
+            <p class="mb-4">The login process automatically handles CSRF token acquisition:</p>
+            <pre class="bg-gray-100 p-3 rounded mb-4">
+<code>import &#123; LibAuthService &#125; from '&#64;artificial-sense/ui-lib';
+
+&#64;Component(&#123;/* ... */&#125;)
+export class LoginComponent &#123;
+  constructor(private authService: LibAuthService) &#123;&#125;
+
+  login(username: string, password: string) &#123;
+    this.authService.login(username, password).subscribe(&#123;
+      next: (response) => &#123;
+        // Login successful, CSRF token is automatically stored
+        console.log('Login successful');
+      &#125;,
+      error: (err) => &#123;
+        console.error('Login failed:', err);
+      &#125;
+    &#125;);
+  &#125;
+&#125;</code>
+</pre>
+
+            <h3 class="text-lg font-bold mb-2">Token Renewal</h3>
+            <p class="mb-4">When an access token expires, the system attempts to renew it:</p>
+            <pre class="bg-gray-100 p-3 rounded mb-4">
+<code>this.authService.renewToken().subscribe(&#123;
+  next: (response) => &#123;
+    // Token renewed, CSRF token is automatically updated
+    console.log('Token renewed successfully');
+  &#125;,
+  error: (err) => &#123;
+    console.error('Token renewal failed:', err);
+  &#125;
+&#125;);</code>
+</pre>
+
+            <h3 class="text-lg font-bold mb-2">Logout</h3>
+            <p class="mb-4">The logout process clears all tokens:</p>
+            <pre class="bg-gray-100 p-3 rounded mb-4">
+<code>this.authService.logout().subscribe(&#123;
+  next: () => &#123;
+    // Logout successful, CSRF token is automatically cleared
+    console.log('Logout successful');
+  &#125;,
+  error: (err) => &#123;
+    console.error('Logout failed:', err);
+  &#125;
+&#125;);</code>
+</pre>
+          </p-card>
+        </p-accordion-content>
+      </p-accordion-panel>
+      <p-accordion-panel value="2">
+        <p-accordion-header>Error Handling</p-accordion-header>
+        <p-accordion-content>
+          <p-card>
+            <h2 class="text-xl font-bold mb-3">Error Handling</h2>
+            <p class="mb-4">
+              The <strong>AuthInterceptor</strong> automatically handles several error scenarios:
+            </p>
+            <ul class="list-disc pl-6 mb-4">
+              <li>
+                <strong>403/400 CSRF Errors:</strong> Refreshes the CSRF token and retries the
+                request
+              </li>
+              <li>
+                <strong>401 Unauthorized:</strong> Attempts token renewal and retries the request
+              </li>
+              <li>
+                <strong>403 Account Suspended:</strong> Shows suspension notification and logs the
+                user out
+              </li>
+            </ul>
+          </p-card>
+        </p-accordion-content>
+      </p-accordion-panel>
+      <p-accordion-panel value="3">
+        <p-accordion-header>Implementation Details</p-accordion-header>
+        <p-accordion-content>
+          <p-card>
+            <h2 class="text-xl font-bold mb-3">Implementation Details</h2>
+
+            <h3 class="text-lg font-bold mb-2">CsrfTokenService</h3>
+            <p class="mb-4">Manages the CSRF token lifecycle:</p>
+            <ul class="list-disc pl-6 mb-4">
+              <li>Storage in memory and localStorage</li>
+              <li>Token retrieval</li>
+              <li>Token refreshing</li>
+              <li>Adding tokens to HTTP requests</li>
+            </ul>
+
+            <h3 class="text-lg font-bold mb-2">AuthInterceptor</h3>
+            <p class="mb-4">
+              The <strong>AuthInterceptor</strong> is responsible for managing the HTTP
+              request/response lifecycle. Its key responsibilities include:
+            </p>
+            <ul class="list-disc pl-6 mb-4">
+              <li>
+                <strong>Adds CSRF tokens to all requests:</strong> Ensures that every HTTP request
+                includes the CSRF token for security.
+              </li>
+              <li>
+                <strong>Retries non-mutating requests automatically:</strong> Automatically retries
+                GET requests in case of transient errors.
+              </li>
+              <li>
+                <strong>Handles authentication errors:</strong> Detects and processes errors such as
+                unauthorized access or invalid tokens.
+              </li>
+              <li>
+                <strong>Manages token refreshing and renewal:</strong> Refreshes expired tokens and
+                retries the failed requests seamlessly.
+              </li>
+            </ul>
+
+            <h3 class="text-lg font-bold mb-2">LibAuthService</h3>
+            <p class="mb-4">
+              The <strong>LibAuthService</strong> is responsible for managing authentication
+              operations. Its key functionalities include:
+            </p>
+            <ul class="list-disc pl-6 mb-4">
+              <li>
+                <strong>Login:</strong> Handles user login by validating credentials and storing
+                tokens securely.
+              </li>
+              <li>
+                <strong>Logout:</strong> Clears all authentication tokens and ends the user session.
+              </li>
+              <li>
+                <strong>Token Renewal:</strong> Refreshes expired access tokens using a valid
+                refresh token.
+              </li>
+            </ul>
+          </p-card>
+        </p-accordion-content>
+      </p-accordion-panel>
+      <p-accordion-panel value="4">
+        <p-accordion-header>Best Practices</p-accordion-header>
+        <p-accordion-content>
+          <p-card>
+            <h2 class="text-xl font-bold mb-3">Best Practices</h2>
+            <p class="mb-4">
+              Follow these best practices to ensure secure and efficient use of the CSRF token
+              system:
+            </p>
+            <ul class="list-disc pl-6 mb-4">
+              <li>
+                <strong>Never manually add CSRF tokens to requests:</strong> Always rely on the
+                <strong>AuthInterceptor</strong> to handle token addition automatically.
+              </li>
+              <li>
+                <strong>Don't directly access localStorage for token management:</strong> Use the
+                <strong>CsrfTokenService</strong> for all token-related operations.
+              </li>
+              <li>
+                <strong>Ensure new API endpoints are CSRF-protected:</strong> When creating new
+                endpoints, verify that they validate CSRF tokens properly.
+              </li>
+              <li>
+                <strong>Use CsrfTokenService for manual token management:</strong> For scenarios
+                requiring manual token handling, utilize the methods provided by the
+                <strong>CsrfTokenService</strong>.
+              </li>
+            </ul>
+          </p-card>
+        </p-accordion-content>
+      </p-accordion-panel>
+    </p-accordion>
+  </div>
+</div>

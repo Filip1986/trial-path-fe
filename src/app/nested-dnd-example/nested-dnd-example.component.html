@@ -1,0 +1,19 @@
+<div class="nested-dnd-container">
+  <h2>Nested Drag and Drop Example with Drag Factory</h2>
+
+  <!-- Drag Factory - Items can be dragged multiple times -->
+  <app-drag-factory (itemDropped)="handleFactoryItemDrop($event)"></app-drag-factory>
+
+  <div class="nested-structure-container">
+    <h3>Nested Structure</h3>
+    <p>Drag items from the palette above or reorder existing items in the structure below:</p>
+
+    <!-- Nested Drag & Drop Structure -->
+    <app-dnd-list-item
+      (itemDrop)="onDragDrop($event)"
+      [connectedDropListsIds]="connectedDropListsIds"
+      [item]="parentItem"
+    >
+    </app-dnd-list-item>
+  </div>
+</div>

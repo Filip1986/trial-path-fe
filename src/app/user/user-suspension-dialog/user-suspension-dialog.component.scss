@@ -1,0 +1,55 @@
+:host ::ng-deep {
+  .suspension-dialog .p-dialog-header {
+    background-color: #fee2e2;
+    color: #b91c1c;
+  }
+
+  .suspension-dialog .p-dialog-content {
+    padding-top: 1.5rem;
+  }
+
+  .p-dropdown {
+    width: 100%;
+  }
+
+  .p-inputtextarea {
+    width: 100%;
+    min-height: 80px;
+  }
+
+  .p-button-danger {
+    background-color: #dc2626;
+    border-color: #dc2626;
+
+    &:hover {
+      background-color: #b91c1c;
+      border-color: #b91c1c;
+    }
+  }
+
+  // Success button for unsuspend action
+  .p-button-success {
+    background-color: #10b981;
+    border-color: #10b981;
+
+    &:hover {
+      background-color: #059669;
+      border-color: #059669;
+    }
+  }
+
+  // Status badges
+  .status-badge {
+    &.suspended {
+      background-color: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    &.active {
+      background-color: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+  }
+}

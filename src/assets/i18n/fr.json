@@ -1,0 +1,67 @@
+{
+  "landing": {
+    "hero": {
+      "title": "Bienvenue sur Draft App!",
+      "subtitle": "Commencez votre essai gratuit et découvrez toutes les fonctionnalités.",
+      "getStarted": "Commencer",
+      "requestDemo": "Demander une démo"
+    },
+    "features": {
+      "title": "Fonctionnalités",
+      "subtitle": "Tout ce dont vous avez besoin pour réussir.",
+      "tracking": {
+        "title": "Suivi",
+        "description": "Surveillez facilement vos progrès."
+      },
+      "insights": {
+        "title": "Analyses",
+        "description": "Obtenez des analyses précieuses de vos données."
+      },
+      "compliance": {
+        "title": "Conformité",
+        "description": "Respectez les normes et réglementations du secteur."
+      },
+      "security": {
+        "title": "Sécurité",
+        "description": "Vos données sont protégées avec une sécurité de haut niveau."
+      },
+      "collaboration": {
+        "title": "Collaboration",
+        "description": "Travaillez ensemble sans effort avec votre équipe."
+      },
+      "analytics": {
+        "title": "Analytique",
+        "description": "Obtenez des informations grâce à des outils analytiques puissants."
+      },
+      "integrations": {
+        "title": "Intégrations",
+        "description": "Connectez-vous à vos outils et plateformes préférés."
+      }
+    },
+    "testimonials": {
+      "title": "Ce que disent nos utilisateurs",
+      "description": "Découvrez les avis de nos clients satisfaits.",
+      "alice": {
+        "name": "Alice Smith",
+        "role": "Chef de projet",
+        "text": "Draft App a transformé la collaboration de notre équipe."
+      },
+      "john": {
+        "name": "John Doe",
+        "role": "Directeur informatique",
+        "text": "Les fonctionnalités de sécurité et de conformité nous rassurent."
+      },
+      "maria": {
+        "name": "Maria Garcia",
+        "role": "Analyste d'affaires",
+        "text": "L'analytique et les intégrations facilitent mon travail chaque jour."
+      }
+    },
+    "cta": {
+      "title": "Prêt à commencer?",
+      "description": "Inscrivez-vous pour un essai gratuit ou demandez une démo pour voir Draft App en action.",
+      "startTrial": "Commencer l'essai gratuit",
+      "requestDemo": "Demander une démo"
+    }
+  }
+}

@@ -1,0 +1,95 @@
+@mixin dialog-styles {
+  // Add theming variables
+  --border-color: var(--surface-border, #dee2e6);
+  --section-border: 1px solid var(--border-color);
+
+  ::ng-deep {
+    .p-dialog-content {
+      max-height: 80vh;
+      padding: 0 !important;
+      overflow: hidden !important;
+
+      .preview-section {
+        background-color: var(--background-color);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        padding: 1rem;
+        border-bottom: 1px solid var(--primary-color, #3B82F6);
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .form-content {
+        overflow-y: auto;
+        max-height: 60vh;
+      }
+    }
+
+    .p-dialog .p-dialog-header {
+      background-color: var(--primary-color, #3B82F6);
+      color: white;
+      padding: 1rem 1.5rem;
+    }
+
+    .p-dialog .p-dialog-content {
+      padding: 1.5rem;
+    }
+
+    .p-dialog .p-dialog-footer {
+      padding: 1rem 1.5rem;
+      border-top: var(--section-border);
+    }
+
+    .p-field,
+    .p-field-checkbox {
+      margin-bottom: 1rem;
+    }
+
+    .form-section {
+      margin-bottom: 1.5rem;
+      border-bottom: var(--section-border);
+      padding-bottom: 1rem;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .p-error {
+      color: var(--red-500, #ef4444);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      display: block;
+    }
+
+    .p-button {
+      transition: background-color 0.2s, box-shadow 0.2s;
+    }
+
+    .p-checkbox {
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+
+    .p-disabled,
+    .p-component:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  .preview-section {
+    padding: 1.5rem;
+    background-color: var(--background-color);
+  }
+
+  @media screen and (max-width: 768px) {
+    ::ng-deep {
+      .p-dialog {
+        width: 95% !important;
+        max-width: 95vw !important;
+      }
+    }
+  }
+}

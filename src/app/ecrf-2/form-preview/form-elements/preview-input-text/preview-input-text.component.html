@@ -1,0 +1,7 @@
+<app-preview-wrapper
+  [helperText]="control.options?.helperText"
+  [title]="control.options?.title || control.title || 'Text Field'"
+  wrapperClass="preview-text-input p-3 border rounded-md"
+>
+  <lib-input-text [config]="getConfig()" [value]="getPreviewValue()" />
+</app-preview-wrapper>

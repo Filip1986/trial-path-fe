@@ -1,0 +1,7 @@
+<app-preview-wrapper
+  [helperText]="control.options?.helperText"
+  [title]="control.options?.title || control.title || 'Number Input'"
+  wrapperClass="preview-input-number p-3 border rounded-md"
+>
+  <lib-input-number [config]="getConfig()" [value]="getPreviewValue()" />
+</app-preview-wrapper>

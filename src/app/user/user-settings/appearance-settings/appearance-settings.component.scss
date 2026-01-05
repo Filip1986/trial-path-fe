@@ -1,0 +1,147 @@
+.appearance-settings {
+  .section-container {
+    background-color: var(--surface-card);
+    border-radius: var(--p-card-border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+  }
+
+  // Color button styles
+  .color-button {
+    position: relative;
+    transition: all 0.2s ease;
+    border: 1px solid var(--surface-border);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    &.selected {
+      box-shadow: 0 0 0 3px var(--surface-color), 0 0 0 6px var(--primary-color);
+
+      &::after {
+        content: '\e909'; // PrimeIcons check
+        font-family: 'primeicons';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  // Shadow options
+  .shadow-option-wrapper {
+    &.selected {
+      transform: translateY(-2px);
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        border: 2px solid var(--primary-color);
+        border-radius: 10px;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .shadow-preview {
+    // Shadow classes
+    &.shadow-none {
+      box-shadow: none;
+    }
+
+    &.shadow-sm {
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    &.shadow {
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    &.shadow-md {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    &.shadow-lg {
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    }
+
+    &.shadow-xl {
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    }
+
+    &.shadow-inner {
+      box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+    }
+
+    &.shadow-2xl {
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  // Font options
+  .font-option-wrapper {
+    &.selected {
+      transform: translateY(-2px);
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        border: 2px solid var(--primary-color);
+        border-radius: 10px;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .font-preview {
+    &.font-noto-serif {
+      font-family: "Noto Serif", serif;
+    }
+
+    &.font-bree-serif {
+      font-family: "Bree Serif", serif;
+    }
+  }
+
+  // PrimeNG component customizations
+  :host ::ng-deep {
+    .p-dropdown, .p-inputswitch, .p-radiobutton {
+      &:focus {
+        box-shadow: 0 0 0 2px var(--surface-color), 0 0 0 4px var(--primary-color);
+      }
+    }
+
+    .p-colorpicker-preview {
+      height: 2rem;
+    }
+  }
+
+  // Accessibility improvement
+  .color-button.opacity-50 {
+    &::before {
+      content: '\e90b'; // PrimeIcons lock
+      font-family: 'primeicons';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      font-size: 1.2rem;
+    }
+  }
+}

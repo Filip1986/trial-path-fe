@@ -1,0 +1,182 @@
+@import '../../../../assets/styles/tabs/tabs.scss';
+
+
+.participant-detail-page {
+  padding: 0;
+  min-height: calc(100vh - 70px); // Adjust for menubar height
+}
+
+.participant-header {
+  margin-bottom: 1.5rem;
+}
+
+.participant-id {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.study-title {
+  color: var(--text-color-secondary);
+}
+
+.info-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-weight: 600;
+  color: var(--text-color-secondary);
+  font-size: 0.9rem;
+}
+
+.info-value {
+  color: var(--text-color);
+  word-break: break-word;
+}
+
+.medical-history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.medical-history-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.medical-history-item:last-child {
+  border-bottom: none;
+}
+
+.custom-tabview {
+  @include custom-tabview-styles;
+}
+
+:host ::ng-deep {
+  // Card customization
+  .p-card {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    .p-card-content {
+      padding: 0; // Remove default padding to control it better
+    }
+  }
+
+  // Custom tabview styling
+  .custom-tabview {
+    .p-tablist-tab-list {
+      button {
+        padding: 1.5rem;
+        border: 2px dashed var(--surface-border);
+        background-color: var(--surface-card);
+        border-radius: 0.5rem;
+      }
+    }
+
+    .p-tabview-nav {
+      li {
+        margin-right: 20px; // 20px gap between tabs
+
+        .p-tabview-nav-link {
+          padding: 1rem 1.5rem; // More padding for tabs
+          border-radius: 6px 6px 0 0;
+          transition: all 0.2s;
+
+          &:hover {
+            background-color: var(--surface-hover);
+          }
+
+          .p-tabview-left-icon {
+            margin-right: 0.5rem;
+          }
+        }
+
+        &.p-highlight .p-tabview-nav-link {
+          background-color: var(--surface-card);
+          border-color: var(--surface-border);
+          border-bottom-color: var(--surface-card);
+          color: var(--primary-color);
+        }
+
+        &:last-child {
+          margin-right: 0; // Remove margin from last tab
+        }
+      }
+    }
+
+    // Tab panels padding
+    .p-tabview-panels {
+      padding: 0; // Remove default padding since we're adding it to individual tabs
+    }
+  }
+
+  // Form control customizations
+  .p-dropdown, .p-inputswitch, .p-radiobutton, .p-inputtext {
+    &:focus {
+      box-shadow: 0 0 0 1px var(--primary-color);
+    }
+  }
+
+  // Setting group styling
+  .field {
+    margin-bottom: 1.5rem;
+
+    label.block {
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+  }
+}
+
+// Responsive adjustments
+@media screen and (max-width: 768px) {
+  .participant-detail-page {
+    padding: 0.5rem;
+  }
+
+  .participant-header .flex {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .participant-actions {
+    width: 100%;
+  }
+
+  .participant-actions .p-button {
+    width: 100%;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .info-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  :host ::ng-deep {
+    .p-tabview .p-tabview-nav li {
+      margin-right: 10px; // Smaller gap on mobile
+
+      .p-tabview-nav-link {
+        padding: 0.75rem 1rem;
+      }
+    }
+  }
+}

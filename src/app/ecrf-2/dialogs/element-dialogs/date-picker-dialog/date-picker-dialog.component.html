@@ -1,0 +1,212 @@
+<app-form-dialog-wrapper
+  (cancelEvent)="onCancel()"
+  (loadPresetEvent)="showLoadPresetDialog()"
+  (saveEvent)="onSave()"
+  (savePresetEvent)="showSavePresetDialog()"
+  (showEvent)="onDialogShow()"
+  [header]="dialogConfiguration.title"
+  [height]="dialogConfiguration.height"
+  [loading]="isSaving"
+  [saveDisabled]="!isReadyForSave()"
+  [visible]="visible"
+>
+  <!-- Preview content -->
+  <div previewContent>
+    <lib-date-picker
+      [config]="{
+        label: form.get('label')?.value,
+        required: form.get('required')?.value,
+        disabled: form.get('disabled')?.value,
+        placeholder: form.get('placeholder')?.value,
+        selectionMode: form.get('selectionMode')?.value,
+        view: form.get('view')?.value,
+        dateFormat: form.get('dateFormat')?.value,
+        showTime: form.get('showTime')?.value,
+        hourFormat: form.get('hourFormat')?.value,
+        labelStyle: form.get('labelStyle')?.value,
+        labelPosition: form.get('labelPosition')?.value,
+        helperText: form.get('helperText')?.value,
+        showIcon: form.get('showIcon')?.value,
+        iconDisplay: IconDisplayMode.BUTTON,
+        variant: InputVariant.OUTLINED,
+        numberOfMonths: 1,
+        minDate: form.get('minDate')?.value,
+        maxDate: form.get('maxDate')?.value,
+        size: form.get('size')?.value,
+      }"
+      [disabled]="form.get('disabled')?.value || false"
+    />
+  </div>
+
+  <!-- Form content with tabs -->
+  <form [formGroup]="form" class="p-fluid" formContent>
+    <p-tabs value="0">
+      <p-tablist>
+        <p-tab value="0">
+          Basic Settings
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getBasicTabFields())"
+            [hasErrors]="hasTabErrors(getBasicTabFields())"
+            [warningCount]="getTabWarningCount(getBasicTabFields())"
+          />
+        </p-tab>
+        <p-tab value="1">
+          Date Selection
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getDateSelectionTabFields())"
+            [hasErrors]="hasTabErrors(getDateSelectionTabFields())"
+            [warningCount]="getTabWarningCount(getDateSelectionTabFields())"
+          />
+        </p-tab>
+        <p-tab value="2">
+          Behavior
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getBehaviorTabFields())"
+            [hasErrors]="hasTabErrors(getBehaviorTabFields())"
+            [warningCount]="getTabWarningCount(getBehaviorTabFields())"
+          />
+        </p-tab>
+        <p-tab value="3">
+          Validation
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getValidationTabFields())"
+            [hasErrors]="hasTabErrors(getValidationTabFields())"
+            [warningCount]="getTabWarningCount(getValidationTabFields())"
+          />
+        </p-tab>
+        <p-tab value="4">
+          Appearance
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getAppearanceTabFields())"
+            [hasErrors]="hasTabErrors(getAppearanceTabFields())"
+            [warningCount]="getTabWarningCount(getAppearanceTabFields())"
+          />
+        </p-tab>
+      </p-tablist>
+
+      <p-tabpanels>
+        <!-- Basic Settings Tab -->
+        <p-tabpanel value="0">
+          <app-basic-settings [fields]="basicFields" [form]="form" />
+        </p-tabpanel>
+
+        <!-- Date Selection Tab -->
+        <p-tabpanel value="1">
+          <app-config-section>
+            <div class="grid">
+              <div [form]="form" appFormField="selectionMode" colClasses="col-12 md:col-4">
+                <label class="field-label">Selection Mode</label>
+                <p-select
+                  [formControl]="getControl('selectionMode')"
+                  [options]="selectionModes"
+                  [style]="{width: '100%'}"
+                  appendTo="body"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="Select mode"
+                />
+              </div>
+
+              <div [form]="form" appFormField="view" colClasses="col-12 md:col-4">
+                <label class="field-label">Default View</label>
+                <p-select
+                  [formControl]="getControl('view')"
+                  [options]="views"
+                  [style]="{width: '100%'}"
+                  appendTo="body"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="Select view"
+                />
+              </div>
+
+              <div [form]="form" appFormField="dateFormat" colClasses="col-12 md:col-4">
+                <lib-input-text
+                  [config]="{
+                    label: 'Date Format',
+                    placeholder: 'mm/dd/yy',
+                    helperText: 'Format pattern for displaying dates',
+                    required: false,
+                    autofocus: false,
+                    disabled: false,
+                    variant: FormComponentVariantEnum.OUTLINED,
+                    labelStyle: FormLabelStyleEnum.DEFAULT,
+                    labelPosition: FormLabelPositionEnum.ABOVE,
+                    size: FormComponentSizeEnum.NORMAL,
+                  }"
+                  [formControl]="getControl('dateFormat')"
+                />
+              </div>
+
+              <div [form]="form" appFormField="hourFormat" colClasses="col-12 md:col-4">
+                <label class="field-label">Hour Format</label>
+                <p-select
+                  [disabled]="!form.get('showTime')?.value"
+                  [formControl]="getControl('hourFormat')"
+                  [options]="hourFormats"
+                  [style]="{width: '100%'}"
+                  appendTo="body"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="Select hour format"
+                />
+              </div>
+            </div>
+          </app-config-section>
+        </p-tabpanel>
+
+        <!-- Behavior Tab -->
+        <p-tabpanel value="2">
+          <app-behavior-settings [form]="form" [options]="behaviorOptions" />
+        </p-tabpanel>
+
+        <!-- Validation Tab -->
+        <p-tabpanel value="3">
+          <app-validation-settings [form]="form" type="date" />
+        </p-tabpanel>
+
+        <!-- Appearance Tab -->
+        <p-tabpanel value="4">
+          <app-appearance-settings
+            [form]="form"
+            [labelPositionOptions]="labelPositions"
+            [labelStyleOptions]="labelStyles"
+            [showSize]="false"
+            [showVariant]="false"
+          />
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+
+    <!-- Global Form Validation Summary -->
+    <app-validation-summary
+      [compact]="false"
+      [showQualityScore]="true"
+      [showWarnings]="true"
+      [validationResult]="validationResult"
+    />
+  </form>
+</app-form-dialog-wrapper>
+
+<!-- Save Preset Dialog -->
+<app-save-preset-dialog
+  (savePreset)="onSavePreset($event)"
+  [(visible)]="savePresetDialogVisible"
+  [currentConfiguration]="getConfigurationForPreset()"
+  [elementType]="dialogConfiguration.elementType"
+/>
+
+<!-- Load Preset Dialog -->
+<app-load-preset-dialog
+  (loadPreset)="onLoadPreset($event)"
+  (presetDeleted)="onPresetDeleted($event)"
+  [(visible)]="loadPresetDialogVisible"
+  [elementType]="dialogConfiguration.elementType"
+/>
+
+<p-confirmDialog
+  [baseZIndex]="10000"
+  [style]="{width: '450px'}"
+  acceptButtonStyleClass="p-button-danger"
+  rejectButtonStyleClass="p-button-secondary"
+/>

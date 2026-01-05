@@ -1,0 +1,73 @@
+<div class="options-manager">
+  <div
+    (cdkDropListDropped)="drop($event)"
+    [cdkDropListData]="optionGroups"
+    cdkDropList
+    class="options-list"
+    >
+    @for (optionGroup of optionGroups; track trackByOptionIndex(i, optionGroup); let i = $index) {
+      <div
+        [formGroup]="optionGroup"
+        cdkDrag
+        class="option-item"
+        >
+        <div cdkDragHandle class="drag-handle">
+          <i class="pi pi-bars"></i>
+        </div>
+        <div class="option-fields">
+          <lib-input-text [config]="getLabelConfig(i)" class="flex-1" formControlName="label" />
+          <lib-input-text [config]="getValueConfig(i)" class="flex-1" formControlName="value" />
+          @if (showGroupField) {
+            <div class="flex-1">
+              <lib-input-text [config]="getGroupConfig()" formControlName="group" />
+            </div>
+          }
+          @if (showDisabledField) {
+            <div class="option-checkbox">
+              <input [id]="'disabled-' + i" formControlName="disabled" type="checkbox" />
+              <label [for]="'disabled-' + i">Disabled</label>
+            </div>
+          }
+        </div>
+        <button
+          (click)="removeOption(i)"
+          [disabled]="optionsFormArray.length <= minOptions"
+          class="remove-btn"
+          type="button"
+          >
+          <i class="pi pi-trash"></i>
+        </button>
+      </div>
+    }
+  </div>
+
+  <button
+    (click)="addOption()"
+    [disabled]="maxOptions && optionsFormArray.length >= maxOptions"
+    class="add-option-btn"
+    type="button"
+    >
+    <i class="pi pi-plus mr-2"></i> Add Option
+  </button>
+
+  @if (showBulkImport) {
+    <div class="bulk-import">
+      <button (click)="toggleBulkImport()" class="bulk-import-btn" type="button">
+        <i class="pi pi-upload mr-2"></i> Bulk Import
+      </button>
+      @if (bulkImportVisible) {
+        <div class="bulk-import-panel">
+          <textarea
+            [(ngModel)]="bulkImportText"
+            placeholder="Paste options (one per line)"
+            rows="5"
+          ></textarea>
+          <div class="bulk-import-actions">
+            <button (click)="importBulkOptions()" type="button">Import</button>
+            <button (click)="cancelBulkImport()" type="button">Cancel</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

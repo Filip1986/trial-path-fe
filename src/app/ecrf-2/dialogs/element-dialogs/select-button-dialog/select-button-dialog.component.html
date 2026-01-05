@@ -1,0 +1,179 @@
+<app-form-dialog-wrapper
+  (cancelEvent)="onCancel()"
+  (loadPresetEvent)="showLoadPresetDialog()"
+  (saveEvent)="onSave()"
+  (savePresetEvent)="showSavePresetDialog()"
+  (showEvent)="onDialogShow()"
+  [header]="dialogConfiguration.title"
+  [height]="dialogConfiguration.height"
+  [loading]="isSaving"
+  [saveDisabled]="!isReadyForSave()"
+  [visible]="visible"
+  >
+  <!-- Preview content -->
+  <div previewContent>
+    <lib-select-button
+      [config]="{
+        options: form.get('options')?.value,
+        optionLabel: form.get('optionLabel')?.value || 'label',
+        optionValue: form.get('optionValue')?.value || 'value',
+        optionDisabled: form.get('optionDisabled')?.value || 'disabled',
+        multiple: form.get('multiple')?.value,
+        required: form.get('required')?.value,
+        disabled: form.get('disabled')?.value,
+        size: form.get('size')?.value,
+        variant: form.get('variant')?.value,
+        helperText: form.get('helperText')?.value,
+        labelStyle: form.get('labelStyle')?.value,
+        labelPosition: form.get('labelPosition')?.value
+      }"
+      [disabled]="form.get('disabled')?.value || false"
+      />
+  </div>
+
+  <!-- Form content with tabs -->
+  <form [formGroup]="form" class="p-fluid" formContent>
+    <p-tabs value="0">
+      <p-tablist>
+        <p-tab value="0">
+          Basic Settings
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getBasicTabFields())"
+            [hasErrors]="hasTabErrors(getBasicTabFields())"
+            [warningCount]="getTabWarningCount(getBasicTabFields())"
+            />
+        </p-tab>
+        <p-tab value="1">
+          Options
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getOptionsTabFields())"
+            [hasErrors]="hasTabErrors(getOptionsTabFields())"
+            [warningCount]="getTabWarningCount(getOptionsTabFields())"
+            />
+        </p-tab>
+        <p-tab value="2">
+          Behavior
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getBehaviorTabFields())"
+            [hasErrors]="hasTabErrors(getBehaviorTabFields())"
+            [warningCount]="getTabWarningCount(getBehaviorTabFields())"
+            />
+        </p-tab>
+        <p-tab value="3">
+          Appearance
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getAppearanceTabFields())"
+            [hasErrors]="hasTabErrors(getAppearanceTabFields())"
+            [warningCount]="getTabWarningCount(getAppearanceTabFields())"
+            />
+        </p-tab>
+      </p-tablist>
+
+      <p-tabpanels>
+        <!-- Basic Settings Tab -->
+        <p-tabpanel value="0">
+          <app-basic-settings [fields]="basicFields" [form]="form">
+            <div class="grid">
+              <div class="col-12 md:col-4">
+                <lib-input-text
+                  [config]="optionLabelConfig"
+                  [formControl]="getControl('optionLabel')"
+                  />
+              </div>
+
+              <div class="col-12 md:col-4">
+                <lib-input-text
+                  [config]="optionValueConfig"
+                  [formControl]="getControl('optionValue')"
+                  />
+              </div>
+
+              <div class="col-12 md:col-4">
+                <lib-input-text
+                  [config]="optionDisabledConfig"
+                  [formControl]="getControl('optionDisabled')"
+                  />
+              </div>
+            </div>
+          </app-basic-settings>
+        </p-tabpanel>
+
+        <!-- Options Tab -->
+        <p-tabpanel value="1">
+          <app-config-section>
+            <div class="col-12">
+              <app-options-manager
+                (optionsChanged)="onOptionsChanged($event)"
+                [minOptions]="2"
+                [parentForm]="form"
+                [showDisabledField]="true"
+                [showGroupField]="false"
+                />
+
+              @if (formErrors['options']) {
+                <div class="error-message">
+                  {{ formErrors['options'] }}
+                </div>
+              }
+            </div>
+          </app-config-section>
+
+          <!-- Inline validation for options -->
+          <app-validation-summary
+            [compact]="true"
+            [showQualityScore]="false"
+            [showWarnings]="true"
+            [validationResult]="validationResult"
+            />
+        </p-tabpanel>
+
+        <!-- Behavior Tab -->
+        <p-tabpanel value="2">
+          <app-behavior-settings [form]="form" [options]="behaviorOptions" />
+        </p-tabpanel>
+
+        <!-- Appearance Tab -->
+        <p-tabpanel value="3">
+          <app-appearance-settings
+            [form]="form"
+            [labelPositionOptions]="labelPositions"
+            [labelStyleOptions]="labelStyles"
+            [sizeOptions]="sizes"
+            [variantOptions]="variants"
+            />
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+
+    <!-- Global Form Validation Summary -->
+    <app-validation-summary
+      [compact]="false"
+      [showQualityScore]="true"
+      [showWarnings]="true"
+      [validationResult]="validationResult"
+      />
+  </form>
+</app-form-dialog-wrapper>
+
+<!-- Save Preset Dialog -->
+<app-save-preset-dialog
+  (savePreset)="onSavePreset($event)"
+  [(visible)]="savePresetDialogVisible"
+  [currentConfiguration]="getConfigurationForPreset()"
+  [elementType]="dialogConfiguration.elementType"
+  />
+
+<!-- Load Preset Dialog -->
+<app-load-preset-dialog
+  (loadPreset)="onLoadPreset($event)"
+  (presetDeleted)="onPresetDeleted($event)"
+  [(visible)]="loadPresetDialogVisible"
+  [elementType]="dialogConfiguration.elementType"
+  />
+
+<p-confirmDialog
+  [baseZIndex]="10000"
+  [style]="{width: '450px'}"
+  acceptButtonStyleClass="p-button-danger"
+  rejectButtonStyleClass="p-button-secondary"
+  />

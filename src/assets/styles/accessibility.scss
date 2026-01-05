@@ -1,0 +1,27 @@
+// Applied CSS classes for high contrast and reduced motion
+:root.high-contrast {
+  --text-color: #000;
+  --background-color: #fff;
+  --contrast-color: #000;
+
+  * {
+    border-color: #000 !important;
+  }
+
+  text, h1, h2, h3, h4, h5, h6, p, span, label, button {
+    color: var(--text-color) !important;
+  }
+
+  button, a, .p-inputswitch-slider {
+    border: 2px solid #000 !important;
+  }
+}
+
+:root.reduced-motion {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-delay: 0.001s !important;
+    transition-duration: 0.001s !important;
+    transition-delay: 0.001s !important;
+  }
+}

@@ -1,0 +1,85 @@
+@if (showBanner()) {
+  <div class="gdpr-banner">
+    <div class="gdpr-content">
+      <div class="gdpr-header">
+        <h2>Privacy Preferences</h2>
+        <p>
+          We use cookies and similar technologies to provide you with the best possible experience on
+          our website. By clicking "Accept All", you consent to our use of cookies. You can also
+          manage your preferences by clicking "Customize".
+        </p>
+      </div>
+      <div class="gdpr-actions">
+        <button
+          (click)="showSettings()"
+          [disabled]="isSaving()"
+          aria-label="Customize"
+          class="p-button-outlined"
+          label="Customize"
+          pButton
+        ></button>
+        <button
+          (click)="acceptNecessaryOnly()"
+          [disabled]="isSaving()"
+          [loading]="isSaving()"
+          aria-label="Accept Necessary Only"
+          class="p-button-outlined"
+          label="Accept Necessary Only"
+          pButton
+        ></button>
+        <button
+          (click)="acceptAll()"
+          [disabled]="isSaving()"
+          [loading]="isSaving()"
+          aria-label="Accept All"
+          class="p-button-primary"
+          label="Accept All"
+          pButton
+        ></button>
+      </div>
+      <div class="gdpr-footer">
+        <span
+          >By using this website, you agree to our
+          <a (click)="openPrivacyPolicy()">Privacy Policy</a></span
+          >
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Detailed Settings Dialog -->
+  <p-dialog
+    [(visible)]="showDetailedSettings"
+    [closable]="false"
+    [draggable]="false"
+    [modal]="true"
+    [resizable]="false"
+    [style]="{width: '90%', maxWidth: '600px'}"
+    header="Privacy Preferences"
+    styleClass="gdpr-settings-dialog"
+    >
+    <!-- Dialog content remains the same -->
+    <!-- ... -->
+
+    <ng-template pTemplate="footer">
+      <div class="dialog-footer">
+        <button
+          (click)="hideSettings()"
+          [disabled]="isSaving()"
+          aria-label="Cancel"
+          class="p-button-outlined"
+          label="Cancel"
+          pButton
+        ></button>
+        <button
+          (click)="savePreferences()"
+          [disabled]="isSaving()"
+          [loading]="isSaving()"
+          aria-label="Save Preferences"
+          class="p-button-primary"
+          label="Save Preferences"
+          pButton
+        ></button>
+      </div>
+    </ng-template>
+  </p-dialog>

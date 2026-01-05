@@ -1,0 +1,89 @@
+<!-- Updated template structure -->
+
+<!-- Component container -->
+<div class="enhanced-studies-container">
+  <!-- Contained loader (shown while initial data is loading) -->
+  @if (loading() && isInitialLoad()) {
+    <div class="fullscreen-loader">
+      <div class="loader-content">
+        <div class="loader"></div>
+        <p class="loader-text">Loading studies...</p>
+      </div>
+    </div>
+  }
+
+  <!-- Main content (shown after data is loaded) -->
+  @if (showContent() && !loading()) {
+    <div [@pageEnter]="!dataFromCache()">
+      <app-enhanced-table
+        (clearFilters)="onClearFilters()"
+        (createNew)="createNewStudy()"
+        (filterChange)="onFilterChange($event)"
+        [columns]="tableColumns"
+        [config]="tableConfig"
+        [createButtonIcon]="'pi pi-plus'"
+        [createButtonLabel]="'Create First Study'"
+        [data]="filteredStudies()"
+        [filterFields]="filterFields"
+        [filterTitle]="'Study Filters'"
+        [filterValues]="filterValuesSig()"
+        [getActionsForRow]="getActionMenuItems"
+        [loading]="false"
+        [metrics]="tableMetrics()"
+        [showCreateButton]="true"
+        [showFilters]="true"
+        tableTitle="Studies Overview"
+        >
+        <!-- Custom template for study title with tooltip -->
+        <ng-template #studyTitleTemplate let-field="field" let-rowData>
+          <div class="max-w-20rem">
+            <span [pTooltip]="rowData.title" class="text-900" tooltipPosition="top">
+              {{ rowData.title.length > 50 ? (rowData.title | slice: 0:50) + '...' : rowData.title }}
+            </span>
+          </div>
+        </ng-template>
+        <!-- Custom template for status with styling -->
+        <ng-template #statusTemplate let-field="field" let-rowData>
+          <p-tag
+            [value]="rowData[field]"
+            [severity]="getStatusSeverity(rowData[field])"
+            styleClass="status-tag"
+            />
+        </ng-template>
+        <!-- Custom template for enrollment progress -->
+        <ng-template #enrollmentTemplate let-field="field" let-rowData>
+          <div class="enrollment-progress">
+            <div class="progress-info">
+              <span class="progress-text">
+                {{ rowData.enrollment.current }}/{{ rowData.enrollment.planned }}
+              </span>
+              <span class="progress-percentage">
+                ({{ getEnrollmentProgress(rowData.enrollment.current, rowData.enrollment.planned) }}%)
+              </span>
+            </div>
+            <p-progressBar
+              [value]="getEnrollmentProgress(rowData.enrollment.current, rowData.enrollment.planned)"
+            [style]="{
+              'height': '6px',
+              'background-color': getEnrollmentProgressColor(getEnrollmentProgress(rowData.enrollment.current, rowData.enrollment.planned))
+            }"
+              styleClass="enrollment-progress-bar"
+              />
+          </div>
+        </ng-template>
+        <!-- Custom template for therapeutic areas -->
+        <ng-template #therapeuticAreasTemplate let-field="field" let-rowData>
+          <div class="therapeutic-areas">
+            <span class="therapeutic-areas-text">
+              {{ getTherapeuticAreasLabels(rowData[field]) }}
+            </span>
+          </div>
+        </ng-template>
+        <!-- Custom template for study phase -->
+        <ng-template #phaseTemplate let-field="field" let-rowData>
+          <p-tag [value]="getPhaseLabel(rowData[field])" severity="info" styleClass="phase-tag" />
+        </ng-template>
+      </app-enhanced-table>
+    </div>
+  }
+</div>

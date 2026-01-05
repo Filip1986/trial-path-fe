@@ -1,0 +1,139 @@
+<div class="form-step">
+  <div class="step-header mb-4">
+    <h2 class="text-xl font-semibold text-gray-800 flex align-items-center gap-2">
+      <i class="pi pi-tags text-green-500"></i>
+      Study Classification
+    </h2>
+    <p class="text-gray-600 mt-1">Classify and categorize your study</p>
+  </div>
+
+  <div class="grid grid-cols-12 gap-4">
+    <div class="col-span-12 md:col-span-6">
+      <lib-select
+        [config]="{
+              id: 'studyType',
+              label: 'Study Type',
+              placeholder: 'Select study type',
+              required: true,
+              variant: FormComponentVariantEnum.OUTLINED,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              helperText: 'Type of clinical study being conducted',
+              options: studyTypes,
+              scrollHeight: DEFAULT_SCROLL_HEIGHT,
+              size: FormComponentSizeEnum.NORMAL,
+              disabled: false,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+            }"
+        formControlName="studyType"
+      >
+      </lib-select>
+    </div>
+
+    <div class="col-span-12 md:col-span-6">
+      <lib-select
+        [config]="{
+              id: 'phase',
+              label: 'Study Phase',
+              placeholder: 'Select study phase',
+              required: true,
+              variant: FormComponentVariantEnum.OUTLINED,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              helperText: 'Clinical trial phase',
+              options: studyPhases,
+              scrollHeight: DEFAULT_SCROLL_HEIGHT,
+              size: FormComponentSizeEnum.NORMAL,
+              disabled: false,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+            }"
+        formControlName="phase"
+      >
+      </lib-select>
+    </div>
+
+    <div class="col-span-12 md:col-span-6">
+      <lib-multi-select
+        [config]="{
+              id: 'therapeuticArea',
+              label: 'Therapeutic Areas',
+              placeholder: 'Select therapeutic areas',
+              required: true,
+              variant: FormComponentVariantEnum.OUTLINED,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              helperText: 'Medical specialties involved in the study',
+              options: therapeuticAreas,
+              scrollHeight: DEFAULT_SCROLL_HEIGHT,
+              size: FormComponentSizeEnum.NORMAL,
+              disabled: false,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              showSelectAll: true,
+              maxSelectedLabels: 3,
+            }"
+        formControlName="therapeuticArea"
+      >
+      </lib-multi-select>
+    </div>
+
+    <div class="col-span-12 md:col-span-6">
+      <lib-input-text
+        [config]="{
+              id: 'indication',
+              label: 'Primary Indication',
+              placeholder: 'Enter the primary indication',
+              required: true,
+              variant: FormComponentVariantEnum.OUTLINED,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              helperText: 'Specify the primary medical condition being studied',
+              disabled: false,
+              size: FormComponentSizeEnum.NORMAL,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              autofocus: false
+            }"
+        formControlName="indication"
+      >
+      </lib-input-text>
+    </div>
+
+    <!-- Keywords (Optional) -->
+    <div class="col-span-12">
+      <lib-input-text
+        [config]="{
+              id: 'keywords',
+              label: 'Keywords (Optional)',
+              placeholder: 'Enter relevant keywords separated by commas',
+              required: false,
+              variant: FormComponentVariantEnum.OUTLINED,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              helperText: 'Keywords to help categorize and search for this study',
+              disabled: false,
+              size: FormComponentSizeEnum.NORMAL,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              autofocus: false
+            }"
+        formControlName="keywords"
+      >
+      </lib-input-text>
+    </div>
+
+    <!-- Classification Guidelines -->
+    <div class="col-span-12 mt-4">
+      <div class="bg-green-50 border-round p-4">
+        <h3 class="text-sm font-semibold text-green-800 mb-2">Classification Guidelines</h3>
+        <ul class="text-sm text-green-700 list-disc list-inside space-y-1">
+          <li>
+            <strong>Interventional:</strong> Studies where participants receive specific
+            interventions
+          </li>
+          <li>
+            <strong>Observational:</strong> Studies that observe participants without intervention
+          </li>
+          <li>
+            <strong>Phase selection:</strong> Choose the appropriate phase based on study objectives
+          </li>
+          <li>
+            <strong>Multiple therapeutic areas:</strong> Select all relevant medical specialties
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,269 @@
+:host {
+  .how-it-works-section {
+    position: relative;
+    background: linear-gradient(135deg, var(--background-color) 0%, var(--background-color) 100%);
+    padding: 100px 0;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .section-title-wrapper {
+      text-align: center;
+      margin-bottom: 60px;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
+
+      .section-title {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, var(--primary-color) 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        // Animation initial state
+        opacity: 0;
+        transform: translateY(-30px);
+        will-change: transform, opacity;
+
+        @media (max-width: 768px) {
+          font-size: 2rem;
+        }
+      }
+
+      .section-subtitle {
+        font-size: 1.2rem;
+        color: #b0b0b0;
+        max-width: 600px;
+        margin: 0 auto;
+        // Animation initial state
+        opacity: 0;
+        transform: translateY(-20px);
+        will-change: transform, opacity;
+      }
+    }
+
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      padding: 0 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+
+    .work-card {
+      background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+      border-radius: 20px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      min-height: 450px;
+      // Animation initial states
+      opacity: 0;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+
+      &:nth-child(1) {
+        transform: translateX(-80px); // Sign Up - from left
+      }
+
+      &:nth-child(2) {
+        transform: translateX(80px); // Customize - from right
+      }
+
+      &:nth-child(3) {
+        transform: translateY(40px); // Launch - from bottom
+      }
+
+      &:hover {
+        transform: translateY(-10px);
+        border-color: rgba(102, 126, 234, 0.5);
+        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color) 0%, #764ba2 100%);
+      }
+
+      @media (max-width: 768px) {
+        padding: 30px;
+        min-height: 400px;
+      }
+
+      .card-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        .card-icon {
+          width: 70px;
+          height: 70px;
+          background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+          margin-bottom: 30px;
+          border: 2px solid rgba(102, 126, 234, 0.3);
+          color: var(--primary-color);
+
+          i {
+            font-size: 2rem;
+          }
+        }
+
+        .card-title {
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: #ffffff;
+          margin-bottom: 15px;
+        }
+
+        .card-description {
+          font-size: 1rem;
+          color: #b0b0b0;
+          line-height: 1.6;
+          margin-bottom: 25px;
+          flex-grow: 1;
+        }
+
+        .card-features {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+
+          li {
+            font-size: 0.9rem;
+            color: #d0d0d0;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            &::before {
+              content: '✓';
+              color: var(--primary-color);
+              font-weight: bold;
+              margin-right: 10px;
+              font-size: 1.1rem;
+            }
+          }
+        }
+      }
+    }
+
+    // Animated states when visible
+    &.animate-in {
+      .section-title {
+        animation: slideDownFade 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+      }
+
+      .section-subtitle {
+        animation: slideDownFade 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.15s forwards;
+      }
+
+      .work-card:nth-child(1) {
+        animation: slideFromLeft 0.9s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.35s forwards;
+      }
+
+      .work-card:nth-child(2) {
+        animation: slideFromBottom 0.9s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.65s forwards;
+      }
+
+      .work-card:nth-child(3) {
+        animation: slideFromRight 0.9s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards;
+      }
+    }
+  }
+}
+
+// Keyframe animations
+@keyframes slideDownFade {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    will-change: auto;
+  }
+}
+
+@keyframes slideFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-80px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    will-change: auto;
+  }
+}
+
+@keyframes slideFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(80px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    will-change: auto;
+  }
+}
+
+@keyframes slideFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    will-change: auto;
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    .how-it-works-section {
+      .section-title,
+      .section-subtitle,
+      .work-card {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  }
+}

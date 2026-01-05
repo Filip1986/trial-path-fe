@@ -1,0 +1,141 @@
+<!-- apps/draft-fe/src/app/studies/components/create-study/steps/study-design-step/study-design-step.component.html -->
+<div class="form-step">
+  <div class="step-header mb-4">
+    <h2 class="text-xl font-semibold text-gray-800 flex align-items-center gap-2">
+      <i class="pi pi-cog text-purple-500"></i>
+      Study Design
+    </h2>
+    <p class="text-gray-600 mt-1">Define the methodology and structure of your study</p>
+  </div>
+
+  <div class="grid grid-cols-12 gap-4">
+    <!-- Design Type -->
+    <div class="col-span-12 md:col-span-6">
+      <lib-select
+        [config]="{
+          id: 'designType',
+          label: 'Design Type',
+          placeholder: 'Select design type',
+          required: true,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          helperText: 'Overall structure of the study design',
+          options: designTypes,
+          scrollHeight: DEFAULT_SCROLL_HEIGHT,
+          size: FormComponentSizeEnum.NORMAL,
+          disabled: false,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+        }"
+        formControlName="designType"
+      >
+      </lib-select>
+    </div>
+
+    <!-- Intervention Model -->
+    <div class="col-span-12 md:col-span-6">
+      <lib-select
+        [config]="{
+          id: 'interventionModel',
+          label: 'Intervention Model',
+          placeholder: 'Select intervention model',
+          required: true,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          helperText: 'Strategy for assigning interventions to participants',
+          options: interventionModels,
+          scrollHeight: DEFAULT_SCROLL_HEIGHT,
+          size: FormComponentSizeEnum.NORMAL,
+          disabled: false,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+        }"
+        formControlName="interventionModel"
+      >
+      </lib-select>
+    </div>
+
+    <!-- Primary Purpose -->
+    <div class="col-span-12 md:col-span-6">
+      <lib-select
+        [config]="{
+          id: 'primaryPurpose',
+          label: 'Primary Purpose',
+          placeholder: 'Select primary purpose',
+          required: true,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          helperText: 'Main objective of the study',
+          options: primaryPurposes,
+          scrollHeight: DEFAULT_SCROLL_HEIGHT,
+          size: FormComponentSizeEnum.NORMAL,
+          disabled: false,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+        }"
+        formControlName="primaryPurpose"
+      >
+      </lib-select>
+    </div>
+
+    <!-- Masking -->
+    <div class="col-span-12 md:col-span-6">
+      <lib-select
+        [config]="{
+          id: 'masking',
+          label: 'Masking (Blinding)',
+          placeholder: 'Select masking level',
+          required: true,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          helperText: 'Who will be blinded to the intervention assignment',
+          options: maskingOptions,
+          scrollHeight: DEFAULT_SCROLL_HEIGHT,
+          size: FormComponentSizeEnum.NORMAL,
+          disabled: false,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+        }"
+        formControlName="masking"
+      >
+      </lib-select>
+    </div>
+
+    <!-- Allocation -->
+    <div class="col-span-12 md:col-span-6">
+      <lib-select
+        [config]="{
+          id: 'allocation',
+          label: 'Allocation',
+          placeholder: 'Select allocation method',
+          required: true,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          helperText: 'Method used to assign participants to interventions',
+          options: allocationOptions,
+          scrollHeight: DEFAULT_SCROLL_HEIGHT,
+          size: FormComponentSizeEnum.NORMAL,
+          disabled: false,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+        }"
+        formControlName="allocation"
+      >
+      </lib-select>
+    </div>
+
+    <!-- Design Guidelines -->
+    <div class="col-span-12 mt-4">
+      <div class="bg-purple-50 border-round p-4">
+        <h3 class="text-sm font-semibold text-purple-800 mb-2">Study Design Guidelines</h3>
+        <ul class="text-sm text-purple-700 list-disc list-inside space-y-1">
+          <li>
+            <strong>Parallel:</strong> Participants receive one intervention throughout the study
+          </li>
+          <li>
+            <strong>Crossover:</strong> Participants receive multiple interventions in sequence
+          </li>
+          <li><strong>Randomized:</strong> Participants are randomly assigned to interventions</li>
+          <li>
+            <strong>Blinding:</strong> Higher levels reduce bias but may not always be feasible
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

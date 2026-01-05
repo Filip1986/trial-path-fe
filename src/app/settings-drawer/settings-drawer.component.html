@@ -1,0 +1,188 @@
+<!-- Floating cog icon button -->
+<button
+  (click)="toggleDrawer()"
+  [ngClass]="{'open': isOpen()}"
+  class="settings-button"
+  icon="pi pi-cog"
+  pButton
+  pRipple
+></button>
+
+<!-- Overlay when drawer is open -->
+@if (isOpen()) {
+  <div (click)="toggleDrawer()" class="settings-overlay"></div>
+}
+
+<!-- Settings drawer -->
+<div [ngClass]="{'open': isOpen()}" class="settings-drawer">
+  <div class="drawer-header">
+    <h2>Settings</h2>
+    <button
+      (click)="toggleDrawer()"
+      class="p-button-rounded p-button-text"
+      icon="pi pi-times"
+      pButton
+    ></button>
+  </div>
+
+  <div class="drawer-content">
+    <!-- Theme toggle option -->
+    <div class="setting-category">
+      <h3>Theme Options</h3>
+      <div class="setting-item">
+        <div class="setting-label">
+          <span>Dark Mode</span>
+        </div>
+        <div class="setting-control">
+          <p-toggleswitch (onChange)="toggleTheme()" [(ngModel)]="isDarkMode" />
+        </div>
+      </div>
+    </div>
+
+    <p-divider />
+
+    <!-- Add this after the dark mode toggle inside the Theme Options category -->
+    <div class="setting-item">
+      <div class="setting-label">
+        <span>Rounded Corners</span>
+      </div>
+      <div class="setting-control">
+        <p-inputSwitch
+          (onChange)="toggleBorderRadius()"
+          [(ngModel)]="isBordersRounded"
+        ></p-inputSwitch>
+      </div>
+    </div>
+
+    <p-divider />
+
+    <!-- Theme colors -->
+    <div class="setting-category">
+      <h3>Theme Colors</h3>
+      <div class="color-options">
+        @for (color of themeColors; track color) {
+          <button
+            (click)="changeThemeColor(color.value)"
+            [ngClass]="{'selected': selectedColor() === color.value}"
+            [style.backgroundColor]="color.value"
+            class="color-button"
+            pRipple
+          ></button>
+        }
+      </div>
+    </div>
+
+    <p-divider />
+
+    <!-- Dark Mode Background Colors -->
+    <div class="setting-category">
+      <h3>Dark Mode Background</h3>
+      <p class="text-sm text-gray-500 mb-2">Only applies when Dark Mode is enabled</p>
+      <div class="color-options">
+        @for (color of backgroundColors; track color) {
+          <button
+            (click)="changeBackgroundColor(color.value)"
+            [ngClass]="{'selected': selectedBackground() === color.value, 'disabled': !isDarkMode}"
+            [style.backgroundColor]="color.value"
+            class="color-button"
+            pRipple
+          ></button>
+        }
+      </div>
+    </div>
+
+    <p-divider />
+
+    <!-- Box Shadow Options -->
+    <div class="setting-category">
+      <h3>Box Shadow Styles</h3>
+      <div class="shadow-options">
+        @for (shadow of boxShadows; track shadow) {
+          <div
+            [ngClass]="{'selected': selectedShadow() === shadow.value}"
+            class="shadow-option-wrapper"
+            >
+            <div
+              (click)="changeBoxShadow(shadow.value)"
+              [ngClass]="shadow.preview"
+              class="shadow-preview"
+              pRipple
+              >
+              <span class="shadow-name">{{shadow.name}}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <p-divider />
+
+    <!-- Font Selection -->
+    <div class="setting-category">
+      <h3>Typography</h3>
+      <div class="setting-item mb-3">
+        <div class="setting-label">
+          <span>Font Family</span>
+          <small class="block text-xs text-gray-500">Change the application font</small>
+        </div>
+      </div>
+
+      <div class="font-options">
+        @for (font of fontOptions; track font) {
+          <div
+            [ngClass]="{'selected': selectedFont() === font.value}"
+            class="font-option-wrapper"
+            >
+            <button
+              (click)="changeFont(font.value)"
+              [ngClass]="font.class"
+              class="font-preview"
+              pRipple
+              >
+              <span>{{font.name}}</span>
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+
+    <p-divider />
+
+    <div class="setting-item">
+      <div class="setting-label">
+        <span>Container Layout</span>
+        <small class="block text-xs text-gray-500">Change how content is displayed</small>
+      </div>
+      <div class="setting-control flex items-center">
+        <span class="text-xs mr-2">Full</span>
+        <p-toggleswitch (onChange)="toggleContainerLayout()" />
+        <span class="text-xs ml-2">Boxed</span>
+      </div>
+    </div>
+
+    <p-divider />
+
+    <!-- Language Switcher -->
+    <div class="setting-category">
+      <h3>Language</h3>
+      <div class="setting-item">
+        <div class="setting-label">
+          <span>Select Language</span>
+        </div>
+        <div class="setting-control">
+          <select
+            #langSelect
+            [(ngModel)]="selectedLanguage"
+            (change)="onLanguageChange(langSelect.value)"
+            >
+            @for (lang of supportedLanguages; track lang) {
+              <option [value]="lang.code">
+                {{ lang.label }}
+              </option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

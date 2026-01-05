@@ -1,0 +1,28 @@
+/* Noto Serif font */
+.noto-serif {
+  font-family: "Noto Serif", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+/* Bree Serif font */
+.bree-serif {
+  font-family: "Bree Serif", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Apply font to the body when selected */
+body.font-noto-serif {
+  font-family: "Noto Serif", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+body.font-bree-serif {
+  font-family: "Bree Serif", serif;
+  font-weight: 400;
+  font-style: normal;
+}

@@ -1,0 +1,802 @@
+<div cdkDropListGroup class="ecrf-builder grid grid-cols-12 gap-4">
+  <!-- Form Elements (Left) -->
+  <div class="col-span-3 grid gap-4">
+    <!-- Form Properties Card -->
+    <p-card>
+      <!-- Form Properties Section -->
+      <div class="mt-4">
+        <h3>Form Properties</h3>
+        <div class="field">
+          <label for="formTitle">Form Title</label>
+          <input [(ngModel)]="currentForm.title" class="w-full" pInputText />
+        </div>
+        <div class="field">
+          <label for="formDescription">Description</label>
+          <textarea
+            [(ngModel)]="currentForm.description"
+            class="w-full"
+            pInputTextarea
+            rows="3"
+          ></textarea>
+        </div>
+        <div class="field">
+          <label for="formStatus">Status</label>
+          <p-select
+            [(ngModel)]="currentForm.status"
+            [options]="formStatusOptions"
+            class="w-full"
+            optionLabel="label"
+            optionValue="value"
+          ></p-select>
+        </div>
+      </div>
+    </p-card>
+
+    <!-- Form Elements Card -->
+    <p-card header="Form Elements">
+      <p-tabs>
+        @for (group of elementGroups; track group) {
+          <p-tab>
+            <ng-template pTemplate="title"> {{ group.name }} </ng-template>
+            <div
+              [cdkDropListData]="group.items"
+              [id]="'toolbox-' + group.name"
+              cdkDropList
+              class="toolbox-elements-list grid"
+              >
+              @for (item of group.items; track item) {
+                <div
+                  [cdkDragData]="{type: 'toolbox', item: item}"
+                  cdkDrag
+                  class="element-item col-span-6 p-2"
+                  >
+                  <!-- Existing item content -->
+                  <div
+                    class="flex flex-column align-items-center justify-content-center gap-3 p-3 text-center"
+                    >
+                    <i [ngClass]="['pi', item.icon]" class="pi self-center"></i>
+                    <span class="element-type-label">{{ item.label }}</span>
+                  </div>
+                </div>
+              }
+            </div>
+          </p-tab>
+        }
+      </p-tabs>
+    </p-card>
+
+    <!-- Help & Instructions Card -->
+    @if (canvasLayoutType === 'custom') {
+      <p-card header="Layout Instructions">
+        <div class="layout-instructions">
+          <ol class="p-3 text-sm">
+            <li class="mb-2">Drag a <strong>Row</strong> element to the canvas first</li>
+            <li class="mb-2">Use the row's settings to add columns</li>
+            <li class="mb-2">Drag form elements into the columns</li>
+            <li class="mb-2">Adjust column widths using the controls</li>
+          </ol>
+          <div class="text-center p-3 bg-primary-100 border-round">
+            <i class="pi pi-info-circle text-primary mr-2"></i>
+            <span>Columns use a 12-column grid system</span>
+          </div>
+        </div>
+      </p-card>
+    }
+  </div>
+
+  <!-- Form Canvas (Right) -->
+  <div class="col-span-9">
+    <p-card header="Form Canvas">
+      <!-- Canvas Settings section unchanged -->
+
+      <!-- Visual representation of the form -->
+      <div class="form-canvas-container">
+        <!-- Visual representation of elements -->
+        <div class="form-canvas">
+          <!-- Empty state message -->
+          @if (mainCanvasElements.length === 0) {
+            <div class="empty-canvas-message">
+              <i class="pi pi-arrow-left"></i>
+              <p>Drag elements from the left panel to build your form</p>
+            </div>
+          }
+
+          <!-- Visual rendering of form elements -->
+          @for (element of mainCanvasElements; track element) {
+            <!-- Regular elements (non-rows) -->
+            @if (element.type !== FormElementType.ROW) {
+              <div
+                [id]="'visual-element-' + element.id"
+                [ngClass]="getElementLayoutClass(element)"
+                class="form-element-wrapper"
+                >
+                <div class="form-element p-3 surface-border border-1 border-round">
+                  <!-- Element content (same as before, just without drag attributes) -->
+                  <div class="drag-handle">
+                    <i class="pi pi-bars mr-2 text-500 cursor-move"></i>
+                  </div>
+                  <!-- Element Header -->
+                  <div class="flex justify-content-between align-items-center">
+                    <span class="element-label">
+                      <i [ngClass]="getElementIcon(element.type)" class="pi mr-2"></i>
+                      {{ element.label }}
+                      @if (element.required) {
+                        <span class="text-xs text-muted ml-2">(Required)</span>
+                      }
+                    </span>
+                    <!-- Element Actions -->
+                    <div class="element-actions">
+                      <button
+                        (click)="editElement(element)"
+                        class="p-button-text p-button-rounded"
+                        icon="pi pi-pencil"
+                        pButton
+                      ></button>
+                      <button
+                        (click)="removeElement(element.id, 'main-canvas')"
+                        class="p-button-text p-button-rounded p-button-danger"
+                        icon="pi pi-trash"
+                        pButton
+                      ></button>
+                    </div>
+                  </div>
+                  <!-- Element Description if available -->
+                  @if (element.description) {
+                    <div class="text-sm text-muted mt-1 mb-2">
+                      {{ element.description }}
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+            <!-- Row Element with Columns - Visual representation only -->
+            @if (element.type === FormElementType.ROW && isRowElement(element)) {
+              <div
+                [id]="'visual-row-' + element.id"
+                [ngClass]="canvasLayoutType === 'custom' ? 'col-span-12' : getElementLayoutClass(element)"
+                class="row-element-wrapper"
+                >
+                <div
+                  [style.background-color]="element.backgroundColor || 'transparent'"
+                  [style.padding.px]="element.padding || 0"
+                  class="row-element p-2 surface-border border-1 border-round mb-3"
+                  >
+                  <!-- Row Header -->
+                  <div
+                    class="row-header flex justify-content-between align-items-center p-2 mb-2 bg-primary-50 border-round"
+                    >
+                    <div class="flex align-items-center">
+                      <div class="drag-handle mr-2">
+                        <i class="pi pi-bars text-500 cursor-move"></i>
+                      </div>
+                      <span class="element-label">
+                        <i class="pi pi-server mr-2"></i>
+                        {{ element.label }}
+                      </span>
+                    </div>
+                    <!-- Row Actions -->
+                    <div class="row-actions">
+                      <button
+                        (click)="configureLayoutElement(element)"
+                        class="p-button-text p-button-rounded"
+                        icon="pi pi-cog"
+                        pButton
+                      ></button>
+                      <button
+                        (click)="addColumnToRow(element)"
+                        class="p-button-text p-button-rounded"
+                        icon="pi pi-plus"
+                        pButton
+                      ></button>
+                      <button
+                        (click)="removeElement(element.id, 'main-canvas')"
+                        class="p-button-text p-button-rounded p-button-danger"
+                        icon="pi pi-trash"
+                        pButton
+                      ></button>
+                    </div>
+                  </div>
+                  <!-- Columns Container - visual only -->
+                  <div [style.gap.px]="element.gap || 8" class="columns-container flex">
+                    <!-- Loop through columns in the row -->
+                    @for (column of element.columns; track column; let colIndex = $index) {
+                      <!-- Column Container -->
+                      <div
+                        [id]="'visual-column-' + column.id"
+                        [style.background-color]="column.backgroundColor || 'transparent'"
+                        [style.padding.px]="column.padding || 8"
+                        [style.width]="getColumnWidthPercentage(column)"
+                        class="column-container border-1 border-dashed border-round flex-1"
+                        >
+                        <!-- Column Header -->
+                        <div
+                          class="column-header flex justify-content-between align-items-center p-2 mb-2 bg-surface-100 border-round"
+                          >
+                          <span class="element-label">
+                            <i class="pi pi-columns mr-2"></i>
+                            {{ column.label }} ({{ column.width }}/12)
+                          </span>
+                          <!-- Column Actions -->
+                          <div class="column-actions">
+                            <button
+                              (click)="configureLayoutElement(column)"
+                              class="p-button-text p-button-rounded p-button-sm"
+                              icon="pi pi-cog"
+                              pButton
+                            ></button>
+                            <button
+                              (click)="removeColumnFromRow(element, colIndex)"
+                              [disabled]="element.columns.length <= 1"
+                              class="p-button-text p-button-rounded p-button-danger p-button-sm"
+                              icon="pi pi-trash"
+                              pButton
+                            ></button>
+                          </div>
+                        </div>
+                        <!-- Placeholder for column content -->
+                        <div
+                          [id]="'visual-column-content-' + column.id"
+                          class="column-content-placeholder min-h-12 p-2"
+                          >
+                          <!-- Empty column message (visual only) -->
+                          @if (getColumnElements(column.id).length === 0) {
+                            <div
+                              class="empty-column-message text-center p-3 text-500 border-1 border-dashed border-round"
+                              >
+                              <i class="pi pi-inbox mb-2 text-xl"></i>
+                              <p>Drop elements here</p>
+                            </div>
+                          }
+                          <!-- Visual representation of column elements (no drag functionality) -->
+                          @for (colElement of getColumnElements(column.id); track colElement) {
+                            <div
+                              [id]="'visual-column-element-' + colElement.id"
+                              class="column-element-wrapper mb-2"
+                              >
+                              <div class="column-element p-3 surface-border border-1 border-round">
+                                <!-- Column Element content (similar to before, but without drag) -->
+                                <div class="flex justify-content-between align-items-center">
+                                  <div class="flex align-items-center">
+                                    <div class="drag-handle">
+                                      <i class="pi pi-bars mr-2 text-500 cursor-move"></i>
+                                    </div>
+                                    <span class="element-label">
+                                      <i
+                                        [ngClass]="getElementIcon(colElement.type)"
+                                        class="pi mr-2"
+                                      ></i>
+                                      {{ colElement.label }}
+                                      @if (colElement.required) {
+                                        <span class="text-xs text-muted ml-2"
+                                          >(Required)</span
+                                          >
+                                        }
+                                      </span>
+                                    </div>
+                                    <!-- Actions -->
+                                    <div class="element-actions">
+                                      <button
+                                        (click)="editElement(colElement)"
+                                        class="p-button-text p-button-rounded p-button-sm"
+                                        icon="pi pi-pencil"
+                                        pButton
+                                      ></button>
+                                      <button
+                                        (click)="removeElement(colElement.id, 'column-' + column.id)"
+                                        class="p-button-text p-button-rounded p-button-danger p-button-sm"
+                                        icon="pi pi-trash"
+                                        pButton
+                                      ></button>
+                                    </div>
+                                  </div>
+                                  <!-- Description -->
+                                  @if (colElement.description) {
+                                    <div class="text-sm text-muted mt-1">
+                                      {{ colElement.description }}
+                                    </div>
+                                  }
+                                </div>
+                              </div>
+                            }
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+            }
+          </div>
+        </div>
+      </p-card>
+
+      <!-- Action buttons unchanged -->
+      <div class="mt-4 text-right">
+        <button
+          aria-label="Preview Form"
+          class="p-button-outlined mr-2"
+          icon="pi pi-eye"
+          label="Preview"
+          pButton
+        ></button>
+        <button
+          (click)="saveFormDefinition()"
+          aria-label="Save Form Definition"
+          class="p-button-success"
+          icon="pi pi-save"
+          label="Save Form"
+          pButton
+        ></button>
+      </div>
+    </div>
+
+    <!-- NOW ADD ALL DRAG DROP LISTS AT THE SAME LEVEL -->
+
+    <!-- Main canvas drop list -->
+    <div
+      (cdkDropListDropped)="onDrop($event)"
+      [cdkDropListData]="mainCanvasElements"
+      [id]="'main-canvas'"
+      cdkDropList
+      class="main-canvas-drop-list"
+      >
+      <!-- Draggable elements for main canvas -->
+      @for (element of mainCanvasElements; track element) {
+        <div
+          [cdkDragData]="{type: 'element', element: element, containerId: 'main-canvas'}"
+          cdkDrag
+          class="element-drag-item"
+        ></div>
+      }
+    </div>
+
+    <!-- All column drop lists at the same DOM level -->
+    @for (entry of columnElements | keyvalue; track entry) {
+      <div
+        (cdkDropListDropped)="onDrop($event)"
+        [cdkDropListData]="entry.value"
+        [id]="'column-' + entry.key"
+        cdkDropList
+        class="column-drop-list"
+        >
+        <!-- Draggable elements for the column -->
+        @for (colElement of entry.value; track colElement) {
+          <div
+            [cdkDragData]="{type: 'element', element: colElement, containerId: 'column-' + entry.key}"
+            cdkDrag
+            class="element-drag-item"
+          ></div>
+        }
+      </div>
+    }
+
+    <!-- Element Configuration Dialog -->
+    <p-dialog
+      [(visible)]="showElementConfigDialog"
+      [draggable]="false"
+      [header]="currentElement ? 'Configure ' + formatElementType(currentElement.type) + ' Element' : 'Element Configuration'"
+      [modal]="true"
+      [resizable]="false"
+      [style]="{width: '700px'}"
+      >
+      <!-- Add element configuration form content here -->
+      @if (currentElement) {
+        <div class="grid">
+          <!-- Basic fields for all elements -->
+          <div class="col-span-12 field">
+            <label for="elementLabel">Label</label>
+            <input [(ngModel)]="currentElement.label" class="w-full" id="elementLabel" pInputText />
+          </div>
+          <div class="col-span-12 field">
+            <label for="elementDescription">Description (Optional)</label>
+            <textarea
+              [(ngModel)]="currentElement.description"
+              class="w-full"
+              id="elementDescription"
+              pInputTextarea
+              rows="2"
+            ></textarea>
+          </div>
+          <div class="col-span-12 field mb-3">
+            <p-checkbox
+              [(ngModel)]="currentElement.required"
+              [binary]="true"
+              inputId="required"
+            ></p-checkbox>
+            <label class="ml-2" for="required">Required field</label>
+          </div>
+          <!-- Text-specific properties -->
+          @if (currentElement.type === FormElementType.TEXT) {
+            <div class="col-span-6 field">
+              <label for="placeholder">Placeholder</label>
+              <input
+                [(ngModel)]="currentElement.placeholder"
+                class="w-full"
+                id="placeholder"
+                pInputText
+                />
+            </div>
+            <div class="col-span-6 field">
+              <label for="maxLength">Max Length</label>
+              <p-inputNumber
+                [(ngModel)]="currentElement.maxLength"
+                [min]="1"
+                class="w-full"
+                id="maxLength"
+              ></p-inputNumber>
+            </div>
+          }
+          <!-- Textarea-specific properties -->
+          @if (isTextAreaElement(currentElement)) {
+            <div class="col-span-6 field">
+              <label for="placeholder">Placeholder</label>
+              <input
+                [(ngModel)]="currentElement.placeholder"
+                class="w-full"
+                id="placeholder"
+                pInputText
+                />
+            </div>
+            <div class="col-span-6 field">
+              <label for="maxLength">Max Length</label>
+              <p-inputNumber
+                [(ngModel)]="currentElement.maxLength"
+                [min]="1"
+                class="w-full"
+                id="maxLength"
+              ></p-inputNumber>
+            </div>
+            <div class="col-span-6 field">
+              <label for="rows">Rows</label>
+              <p-inputNumber
+                [(ngModel)]="currentElement.rows"
+                [max]="20"
+                [min]="1"
+                class="w-full"
+                id="rows"
+              ></p-inputNumber>
+            </div>
+            @if (isTextAreaElementWithResize(currentElement)) {
+              <div class="col-span-6 field">
+                <label class="block mb-2">Resizable</label>
+                <p-checkbox
+                  [(ngModel)]="currentElement.resize"
+                  [binary]="true"
+                  inputId="resize"
+                ></p-checkbox>
+                <label class="ml-2" for="resize">Allow resize</label>
+              </div>
+            }
+          }
+          <!-- Number-specific properties -->
+          @if (isNumberElement(currentElement)) {
+            <div class="col-span-6 field">
+              <label for="placeholder">Placeholder</label>
+              <input
+                [(ngModel)]="currentElement.placeholder"
+                class="w-full"
+                id="placeholder"
+                pInputText
+                />
+            </div>
+            <div class="col-span-4 field">
+              <label for="min">Min Value</label>
+              <p-inputNumber [(ngModel)]="currentElement.min" class="w-full" id="min"></p-inputNumber>
+            </div>
+            <div class="col-span-4 field">
+              <label for="max">Max Value</label>
+              <p-inputNumber [(ngModel)]="currentElement.max" class="w-full" id="max"></p-inputNumber>
+            </div>
+            <div class="col-span-4 field">
+              <label for="step">Step</label>
+              <p-inputNumber
+                [(ngModel)]="currentElement.step"
+                [min]="0.01"
+                class="w-full"
+                id="step"
+              ></p-inputNumber>
+            </div>
+            <div class="col-span-6 field">
+              <label for="unit">Unit (Optional)</label>
+              <input [(ngModel)]="currentElement.unit" class="w-full" id="unit" pInputText />
+            </div>
+          }
+          <!-- Date/DateTime-specific properties -->
+          @if (hasShowTimeSupport(currentElement)) {
+            @if (hasFormatSupport(currentElement)) {
+              <div class="col-span-6 field">
+                <label for="format">Date Format</label>
+                <input [(ngModel)]="currentElement.format" class="w-full" id="format" pInputText />
+              </div>
+            }
+            <div class="col-span-6 field">
+              <label class="block mb-2">Time Selection</label>
+              <p-checkbox
+                [(ngModel)]="currentElement.showTime"
+                [binary]="true"
+                inputId="showTime"
+              ></p-checkbox>
+              <label class="ml-2" for="showTime">Include time selection</label>
+            </div>
+          }
+          <!-- Options for Radio, Dropdown, etc. -->
+          @if (hasOptions(currentElement)) {
+            <div class="col-span-12 field">
+              <label for="options">Options</label>
+              <div class="p-2 border-1 surface-border border-round mb-2">
+                @for (option of currentElement.options; track option; let i = $index) {
+                  <div
+                    class="flex mb-2 align-items-center"
+                    >
+                    <div class="flex-grow-1 mr-2">
+                      <input
+                        [(ngModel)]="option.label"
+                        class="w-full"
+                        pInputText
+                        placeholder="Option label"
+                        />
+                    </div>
+                    <div class="flex-grow-1 mr-2">
+                      <input
+                        [(ngModel)]="option.value"
+                        class="w-full"
+                        pInputText
+                        placeholder="Option value"
+                        />
+                    </div>
+                    <button
+                      (click)="currentElement.options.splice(i, 1)"
+                      aria-label="Remove Option"
+                      class="p-button-text p-button-danger p-button-rounded"
+                      icon="pi pi-trash"
+                      pButton
+                    ></button>
+                  </div>
+                }
+                <button
+                  (click)="currentElement.options.push({label: 'New Option', value: 'new_option'})"
+                  aria-label="Add Option"
+                  class="p-button-outlined mt-2 w-full"
+                  icon="pi pi-plus"
+                  label="Add Option"
+                  pButton
+                ></button>
+              </div>
+            </div>
+            @if (hasLayoutSupport(currentElement)) {
+              <div class="col-span-6 field">
+                <label for="layout">Layout</label>
+                <p-select
+                  [(ngModel)]="currentElement.layout"
+            [options]="[
+          {label: 'Vertical', value: 'vertical'},
+          {label: 'Horizontal', value: 'horizontal'}
+        ]"
+                  class="w-full"
+                  optionLabel="label"
+                  optionValue="value"
+                ></p-select>
+              </div>
+            }
+            @if (hasFilterSupport(currentElement)) {
+              <div class="col-span-6 field">
+                <label class="block mb-2">Filter Support</label>
+                <p-checkbox
+                  [(ngModel)]="currentElement.filter"
+                  [binary]="true"
+                  inputId="filter"
+                ></p-checkbox>
+                <label class="ml-2" for="filter">Enable search filter</label>
+              </div>
+            }
+            @if (hasAllowOtherSupport(currentElement)) {
+              <div class="col-span-6 field">
+                <label class="block mb-2">Other Option</label>
+                <p-checkbox
+                  [(ngModel)]="currentElement.allowOther"
+                  [binary]="true"
+                  inputId="allowOther"
+                ></p-checkbox>
+                <label class="ml-2" for="allowOther">Allow "Other" option</label>
+              </div>
+            }
+          }
+        </div>
+      }
+
+      <ng-template pTemplate="footer">
+        <button
+          (click)="showElementConfigDialog = false"
+          aria-label="Cancel Element Configuration"
+          class="p-button-text"
+          icon="pi pi-times"
+          label="Cancel"
+          pButton
+        ></button>
+        <button
+          (click)="saveElementConfiguration()"
+          aria-label="Save Element Configuration"
+          class="p-button-primary"
+          icon="pi pi-check"
+          label="Save"
+          pButton
+        ></button>
+      </ng-template>
+    </p-dialog>
+
+    <!-- Layout Configuration Dialog -->
+    <p-dialog
+      [(visible)]="showLayoutConfigDialog"
+      [draggable]="false"
+      [header]="currentLayoutElement ? 'Configure ' + formatElementType(currentLayoutElement.type) : 'Layout Configuration'"
+      [modal]="true"
+      [resizable]="false"
+      [style]="{width: '700px'}"
+      >
+      @if (currentLayoutElement) {
+        <div class="grid">
+          <div class="col-span-12 field">
+            <label for="layoutLabel">Label</label>
+            <input
+              [(ngModel)]="currentLayoutElement.label"
+              class="w-full"
+              pInputText
+              placeholder="Enter layout element label"
+              />
+          </div>
+          <div class="col-span-12 field">
+            <label for="layoutDescription">Description (Optional)</label>
+            <input
+              [(ngModel)]="currentLayoutElement.description"
+              class="w-full"
+              pInputText
+              placeholder="Enter layout element description"
+              />
+          </div>
+          <!-- Row-specific settings -->
+          @if (isRowElement(currentLayoutElement)) {
+            <div class="col-span-6 field">
+              <label for="rowGap">Gap Between Columns (px)</label>
+              <p-inputNumber
+                [(ngModel)]="currentLayoutElement.gap"
+                [max]="32"
+                [min]="0"
+                class="w-full"
+                />
+            </div>
+            <div class="col-span-6 field">
+              <label for="rowPadding">Padding (px)</label>
+              <p-inputNumber
+                [(ngModel)]="currentLayoutElement.padding"
+                [max]="32"
+                [min]="0"
+                class="w-full"
+                />
+            </div>
+            <div class="col-span-12 field">
+              <label for="rowBackgroundColor">Background Color</label>
+              <p-colorPicker [(ngModel)]="currentLayoutElement.backgroundColor" [inline]="false" />
+            </div>
+            <div class="col-span-12">
+              <h4>Columns</h4>
+              <div class="columns-preview flex mt-2 mb-3 p-2 border-1 border-dashed border-round">
+                @for (col of currentLayoutElement.columns; track col) {
+                  <div
+                    [style.background-color]="col.backgroundColor || '#f8f9fa'"
+                    [style.margin-right.px]="currentLayoutElement.gap"
+                    [style.padding]="'8px'"
+                    [style.width]="getColumnWidthPercentage(col)"
+                    class="column-preview border-round"
+                    >
+                    <div class="text-center">{{ col.label }} ({{ col.width }}/12)</div>
+                  </div>
+                }
+              </div>
+              @for (column of currentLayoutElement.columns; track column; let i = $index) {
+                <div
+                  class="column-config mb-3 p-3 border-1 border-round bg-surface-50"
+                  >
+                  <div class="flex justify-content-between align-items-center mb-2">
+                    <h5 class="mt-0 mb-2">Column {{ i + 1 }}</h5>
+                    <button
+                      (click)="removeColumnFromRow(currentLayoutElement, i)"
+                      [disabled]="currentLayoutElement.columns.length <= 1"
+                      aria-label="Remove Column"
+                      class="p-button-text p-button-rounded p-button-danger p-button-sm"
+                      icon="pi pi-trash"
+                      pButton
+                      pTooltip="Remove Column"
+                      tooltipPosition="top"
+                    ></button>
+                  </div>
+                  <div class="grid">
+                    <div class="col-span-6 field">
+                      <label for="columnLabel">Label</label>
+                      <input [(ngModel)]="column.label" class="w-full" pInputText />
+                    </div>
+                    <div class="col-span-6 field">
+                      <label for="columnWidth">Width (1-12)</label>
+                      <div class="flex align-items-center">
+                        <p-slider
+                          [(ngModel)]="column.width"
+                          [max]="12"
+                          [min]="1"
+                          [step]="1"
+                          class="w-full mr-2"
+                        ></p-slider>
+                        <span>{{ column.width }}/12</span>
+                      </div>
+                    </div>
+                    <div class="col-span-6 field">
+                      <label for="columnPadding">Padding (px)</label>
+                      <p-inputNumber [(ngModel)]="column.padding" [max]="32" [min]="0" class="w-full" />
+                    </div>
+                    <div class="col-span-6 field">
+                      <label for="columnBackgroundColor">Background Color</label>
+                      <p-colorPicker [(ngModel)]="column.backgroundColor" [inline]="false" />
+                    </div>
+                  </div>
+                </div>
+              }
+              <button
+                (click)="addColumnToRow(currentLayoutElement)"
+                aria-label="Add Column"
+                class="p-button-outlined"
+                icon="pi pi-plus"
+                label="Add Column"
+                pButton
+              ></button>
+            </div>
+          }
+          <!-- Column-specific settings -->
+          @if (isColumnElement(currentLayoutElement)) {
+            <div class="col-span-6 field">
+              <label for="columnWidth">Width (1-12)</label>
+              <div class="flex align-items-center">
+                <p-slider
+                  [(ngModel)]="currentLayoutElement.width"
+                  [max]="12"
+                  [min]="1"
+                  [step]="1"
+                  class="w-full mr-2"
+                ></p-slider>
+                <span>{{ currentLayoutElement.width }}/12</span>
+              </div>
+            </div>
+            <div class="col-span-6 field">
+              <label for="columnPadding">Padding (px)</label>
+              <p-inputNumber
+                [(ngModel)]="currentLayoutElement.padding"
+                [max]="32"
+                [min]="0"
+                class="w-full"
+                />
+            </div>
+            <div class="col-span-12 field">
+              <label for="columnBackgroundColor">Background Color</label>
+              <p-colorPicker [(ngModel)]="currentLayoutElement.backgroundColor" [inline]="false" />
+            </div>
+          }
+        </div>
+      }
+
+      <ng-template pTemplate="footer">
+        <button
+          (click)="showLayoutConfigDialog = false"
+          aria-label="Cancel Layout Configuration"
+          class="p-button-text"
+          icon="pi pi-times"
+          label="Cancel"
+          pButton
+        ></button>
+        <button
+          (click)="saveLayoutConfiguration()"
+          aria-label="Save Layout Configuration"
+          class="p-button-primary"
+          icon="pi pi-check"
+          label="Save"
+          pButton
+        ></button>
+      </ng-template>
+    </p-dialog>
+  </div>

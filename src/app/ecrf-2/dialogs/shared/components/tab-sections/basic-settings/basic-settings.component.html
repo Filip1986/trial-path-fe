@@ -1,0 +1,16 @@
+<app-config-section [isFirst]="true">
+  <div class="grid">
+    @for (field of fields; track trackByFieldName($index, field)) {
+      <div
+        [appFormField]="field.name"
+        [colClasses]="field.colClasses || 'col-12 md:col-6'"
+        [form]="form"
+        [suppressErrors]="true"
+        >
+        <lib-input-text [config]="field.config" [formControl]="getControl(field.name)" />
+      </div>
+    }
+
+    <ng-content></ng-content>
+  </div>
+</app-config-section>

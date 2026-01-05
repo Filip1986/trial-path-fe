@@ -1,0 +1,356 @@
+<div class="participant-detail-page">
+  @if (loading()) {
+    <div class="loading-state">
+      <p-card>
+        <p-skeleton height="200px" class="mb-4"></p-skeleton>
+        <p-skeleton height="100px" class="mb-2"></p-skeleton>
+        <p-skeleton height="100px"></p-skeleton>
+      </p-card>
+    </div>
+  }
+
+  @if (!loading() && participant(); as participant) {
+    <div class="participant-content">
+      <!-- Improved Header Section -->
+      <div class="participant-header mb-4">
+        <p-card>
+          <div class="flex justify-content-between align-items-start">
+            <div class="participant-info flex-1">
+              <div class="flex align-items-center justify-content-between mb-3">
+                <h1 class="text-3xl font-bold mb-0">
+                  {{ participant.firstName }} {{ participant.lastName }}
+                </h1>
+                <!-- Edit button moved to header for better visibility -->
+                <p-button
+                  (onClick)="editParticipant()"
+                  icon="pi pi-pencil"
+                  label="Edit Participant"
+                  severity="primary"
+                  size="small"
+                  />
+              </div>
+              <div class="participant-meta mb-3">
+                <span class="participant-id">ID: {{ participant.participantId }}</span>
+                <span class="mx-2">•</span>
+                <span class="study-title">{{ participant.studyTitle || 'N/A' }}</span>
+              </div>
+              <div class="status-info flex align-items-center gap-3">
+                <p-tag
+                  [severity]="getStatusSeverity(participant.status)"
+                  [value]="participant.status | titlecase"
+                  styleClass="text-lg"
+                  />
+                <span class="text-sm text-color-secondary">
+                  Enrolled: {{ participant.enrollmentDate | date:'mediumDate' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </p-card>
+      </div>
+      <!-- Tab View with Custom Styling (matching settings component) -->
+      <p-card>
+        <div class="p-4">
+          <p-tabs>
+            <!-- Personal Information Tab -->
+            <p-tab>
+              <ng-template pTemplate="title">
+                <i class="pi pi-user mr-2 text-primary"></i>
+                Personal Information
+              </ng-template>
+              <div class="p-4">
+                <div class="grid">
+                  <div class="col-12 md:col-6">
+                    <!-- Card with consistent styling -->
+                    <div class="settings-card">
+                      <p-card>
+                        <ng-template pTemplate="header">
+                          <div class="p-3">
+                            <h3 class="text-lg font-semibold flex align-items-center">
+                              <i class="pi pi-user mr-2 text-primary"></i>
+                              Basic Information
+                            </h3>
+                          </div>
+                        </ng-template>
+                        <div class="p-4">
+                          <div class="info-grid">
+                            <div class="info-row">
+                              <label class="info-label">Full Name:</label>
+                              <span class="info-value">
+                                {{ participant.firstName }} {{ participant.middleName ?
+                                participant.middleName + ' ' : '' }}{{ participant.lastName }}
+                              </span>
+                            </div>
+                            @if (participant.dateOfBirth) {
+                              <div class="info-row">
+                                <label class="info-label">Date of Birth:</label>
+                                <span class="info-value"
+                                  >{{ participant.dateOfBirth | date:'mediumDate' }}</span
+                                  >
+                                </div>
+                              }
+                              @if (participant.dateOfBirth) {
+                                <div class="info-row">
+                                  <label class="info-label">Age:</label>
+                                  <span class="info-value"
+                                    >{{ calculateAge(participant.dateOfBirth) }} years</span
+                                    >
+                                  </div>
+                                }
+                                @if (participant.gender) {
+                                  <div class="info-row">
+                                    <label class="info-label">Gender:</label>
+                                    <span class="info-value">{{ participant.gender | titlecase }}</span>
+                                  </div>
+                                }
+                                @if (participant.email) {
+                                  <div class="info-row">
+                                    <label class="info-label">Email:</label>
+                                    <span class="info-value">{{ participant.email }}</span>
+                                  </div>
+                                }
+                                @if (participant.phone) {
+                                  <div class="info-row">
+                                    <label class="info-label">Phone:</label>
+                                    <span class="info-value">{{ participant.phone }}</span>
+                                  </div>
+                                }
+                              </div>
+                            </div>
+                          </p-card>
+                        </div>
+                      </div>
+                      <div class="col-12 md:col-6">
+                        <!-- Study Information Card -->
+                        <div class="settings-card">
+                          <p-card>
+                            <ng-template pTemplate="header">
+                              <div class="p-3">
+                                <h3 class="text-lg font-semibold flex align-items-center">
+                                  <i class="pi pi-bookmark mr-2 text-primary"></i>
+                                  Study Information
+                                </h3>
+                              </div>
+                            </ng-template>
+                            <div class="p-4">
+                              <div class="info-grid">
+                                <div class="info-row">
+                                  <label class="info-label">Participant ID:</label>
+                                  <span class="info-value">{{ participant.participantId }}</span>
+                                </div>
+                                <div class="info-row">
+                                  <label class="info-label">Study:</label>
+                                  <span class="info-value">{{ participant.studyTitle || 'N/A' }}</span>
+                                </div>
+                                <div class="info-row">
+                                  <label class="info-label">Randomization Group:</label>
+                                  <span class="info-value"
+                                    >{{ participant.randomizationGroup || 'Not assigned' }}</span
+                                    >
+                                  </div>
+                                  <div class="info-row">
+                                    <label class="info-label">Status:</label>
+                                    <p-tag
+                                      [severity]="getStatusSeverity(participant.status)"
+                                      [value]="participant.status | titlecase"
+                                      />
+                                  </div>
+                                  <div class="info-row">
+                                    <label class="info-label">Enrollment Date:</label>
+                                    <span class="info-value"
+                                      >{{ participant.enrollmentDate | date:'mediumDate' }}</span
+                                      >
+                                    </div>
+                                    @if (participant.lastVisit) {
+                                      <div class="info-row">
+                                        <label class="info-label">Last Visit:</label>
+                                        <span class="info-value"
+                                          >{{ participant.lastVisit | date:'mediumDate' }}</span
+                                          >
+                                        </div>
+                                      }
+                                    </div>
+                                  </div>
+                                </p-card>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </p-tab>
+                      <!-- Medical Information Tab -->
+                      <p-tab>
+                        <ng-template pTemplate="title">
+                          <i class="pi pi-heart mr-2 text-primary"></i>
+                          Medical History
+                        </ng-template>
+                        <div class="p-4">
+                          <div class="settings-card">
+                            <p-card>
+                              <ng-template pTemplate="header">
+                                <div class="p-3">
+                                  <h3 class="text-lg font-semibold flex align-items-center">
+                                    <i class="pi pi-heart mr-2 text-primary"></i>
+                                    Medical History & Conditions
+                                  </h3>
+                                </div>
+                              </ng-template>
+                              <div class="p-4">
+                                <div class="grid">
+                                  <div class="col-12 md:col-6">
+                                    <div class="info-grid">
+                                      @if (participant.height) {
+                                        <div class="info-row">
+                                          <label class="info-label">Height:</label>
+                                          <span class="info-value">{{ participant.height }} cm</span>
+                                        </div>
+                                      }
+                                      @if (participant.weight) {
+                                        <div class="info-row">
+                                          <label class="info-label">Weight:</label>
+                                          <span class="info-value">{{ participant.weight }} kg</span>
+                                        </div>
+                                      }
+                                      @if (participant.bloodType) {
+                                        <div class="info-row">
+                                          <label class="info-label">Blood Type:</label>
+                                          <span class="info-value">{{ participant.bloodType }}</span>
+                                        </div>
+                                      }
+                                      @if (participant.allergies) {
+                                        <div class="info-row">
+                                          <label class="info-label">Allergies:</label>
+                                          <span class="info-value">{{ participant.allergies }}</span>
+                                        </div>
+                                      }
+                                    </div>
+                                  </div>
+                                  <div class="col-12 md:col-6">
+                                    @if (participant.medicalHistory) {
+                                      <div class="medical-conditions">
+                                        <h4 class="font-semibold mb-2 text-color-secondary">
+                                          Medical Conditions
+                                        </h4>
+                                        @if (isArray(participant.medicalHistory)) {
+                                          <ul
+                                            class="medical-history-list"
+                                            >
+                                            @for (condition of asStringArray(participant.medicalHistory); track condition) {
+                                              <li
+                                                class="medical-history-item"
+                                                >
+                                                <i class="pi pi-circle-fill text-xs mr-2 text-primary"></i>
+                                                {{ condition }}
+                                              </li>
+                                            }
+                                          </ul>
+                                        } @else {
+                                          <div class="medical-history-text">
+                                            <p>{{ participant.medicalHistory }}</p>
+                                          </div>
+                                        }
+                                      </div>
+                                    }
+                                  </div>
+                                </div>
+                              </div>
+                            </p-card>
+                          </div>
+                        </div>
+                      </p-tab>
+                      <!-- Emergency Contact Tab -->
+                      <p-tab>
+                        <ng-template pTemplate="title">
+                          <i class="pi pi-phone mr-2 text-primary"></i>
+                          Emergency Contact
+                        </ng-template>
+                        <div class="p-4">
+                          <div class="settings-card">
+                            <p-card>
+                              <ng-template pTemplate="header">
+                                <div class="p-3">
+                                  <h3 class="text-lg font-semibold flex align-items-center">
+                                    <i class="pi pi-phone mr-2 text-primary"></i>
+                                    Emergency Contact Information
+                                  </h3>
+                                </div>
+                              </ng-template>
+                              <div class="p-4">
+                                <div class="info-grid">
+                                  @if (participant.emergencyContact?.name || participant.emergencyContactName) {
+                                    <div
+                                      class="info-row"
+                                      >
+                                      <label class="info-label">Contact Name:</label>
+                                      <span class="info-value"
+                                        >{{ participant.emergencyContact?.name || participant.emergencyContactName
+                                        }}</span
+                                        >
+                                      </div>
+                                    }
+                                    @if (participant.emergencyContact?.relationship || participant.emergencyContactRelationship) {
+                                      <div
+                                        class="info-row"
+                                        >
+                                        <label class="info-label">Relationship:</label>
+                                        <span class="info-value"
+                                          >{{ participant.emergencyContact?.relationship ||
+                                          participant.emergencyContactRelationship }}</span
+                                          >
+                                        </div>
+                                      }
+                                      @if (participant.emergencyContact?.phone || participant.emergencyContactPhone) {
+                                        <div
+                                          class="info-row"
+                                          >
+                                          <label class="info-label">Phone Number:</label>
+                                          <span class="info-value"
+                                            >{{ participant.emergencyContact?.phone ||
+                                            participant.emergencyContactPhone }}</span
+                                            >
+                                          </div>
+                                        }
+                                      </div>
+                                    </div>
+                                  </p-card>
+                                </div>
+                              </div>
+                            </p-tab>
+                            <!-- Notes Tab -->
+                            <p-tab>
+                              <ng-template pTemplate="title">
+                                <i class="pi pi-file-edit mr-2 text-primary"></i>
+                                Notes
+                              </ng-template>
+                              <div class="p-4">
+                                <div class="settings-card">
+                                  <p-card>
+                                    <ng-template pTemplate="header">
+                                      <div class="p-3">
+                                        <h3 class="text-lg font-semibold flex align-items-center">
+                                          <i class="pi pi-file-edit mr-2 text-primary"></i>
+                                          Study Notes & Comments
+                                        </h3>
+                                      </div>
+                                    </ng-template>
+                                    <div class="p-4">
+                                      @if (participant.notes) {
+                                        <div>
+                                          <p class="text-color">{{ participant.notes }}</p>
+                                        </div>
+                                      } @else {
+                                        <div class="text-center py-4 text-color-secondary">
+                                          <i class="pi pi-file-edit text-4xl mb-2 block"></i>
+                                          <p>No notes available for this participant.</p>
+                                        </div>
+                                      }
+                                    </div>
+                                  </p-card>
+                                </div>
+                              </div>
+                            </p-tab>
+                          </p-tabs>
+                        </div>
+                      </p-card>
+                    </div>
+                  }
+                </div>

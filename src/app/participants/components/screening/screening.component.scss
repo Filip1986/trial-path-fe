@@ -1,0 +1,240 @@
+// Add these styles to your screening.component.scss
+
+.screening-container {
+  position: relative;
+  min-height: 600px;
+}
+
+.screening-loading-state {
+  animation: fadeIn 0.3s ease-in-out;
+
+  // Enhanced skeleton animations
+  :host ::ng-deep {
+    .p-skeleton {
+      background: linear-gradient(90deg,
+        var(--surface-200) 0%,
+        var(--surface-100) 50%,
+        var(--surface-200) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 4px;
+
+      &.p-skeleton-circle {
+        border-radius: 50%;
+      }
+    }
+  }
+
+  // Table skeleton specific styles
+  .table-skeleton-header {
+    border-bottom: 1px solid var(--surface-border);
+    background-color: var(--surface-50);
+
+    .flex {
+      min-height: 48px;
+      align-items: center;
+    }
+  }
+
+  .table-skeleton-rows {
+    .flex {
+      min-height: 60px;
+      align-items: center;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: var(--surface-50);
+      }
+
+      &:nth-child(even) {
+        background-color: var(--surface-25);
+      }
+    }
+  }
+
+  // Skeleton row staggered animation
+  .table-skeleton-rows .flex {
+    @for $i from 1 through 8 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{($i - 1) * 0.1}s;
+        animation: slideInFromLeft 0.6s ease-out forwards;
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+    }
+  }
+}
+
+// Keyframe animations
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Enhanced skeleton variants for different content types
+:host ::ng-deep {
+  .p-skeleton {
+    &.skeleton-text {
+      height: 1rem;
+      margin-bottom: 0.5rem;
+
+      &.skeleton-text-sm {
+        height: 0.75rem;
+      }
+
+      &.skeleton-text-lg {
+        height: 1.25rem;
+      }
+    }
+
+    &.skeleton-button {
+      height: 2.5rem;
+      border-radius: 6px;
+    }
+
+    &.skeleton-avatar {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+    }
+
+    &.skeleton-badge {
+      height: 1.5rem;
+      border-radius: 12px;
+      min-width: 3rem;
+    }
+
+    &.skeleton-input {
+      height: 2.75rem;
+      border-radius: 6px;
+    }
+  }
+
+  // Card skeleton enhancements
+  .p-card {
+    .p-card-header {
+      .p-skeleton {
+        background: linear-gradient(90deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.3) 50%,
+          rgba(255, 255, 255, 0.1) 100%);
+      }
+    }
+  }
+}
+
+// Responsive skeleton adjustments
+@media (max-width: 768px) {
+  .screening-loading-state {
+    .table-skeleton-header,
+    .table-skeleton-rows {
+      .flex {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 1rem;
+
+        .flex-auto {
+          width: 100%;
+
+          .p-skeleton {
+            width: 100% !important;
+          }
+        }
+      }
+    }
+
+    // Hide some skeleton elements on mobile to reduce clutter
+    .table-skeleton-header .flex .flex-auto:nth-child(n+6),
+    .table-skeleton-rows .flex .flex-auto:nth-child(n+6) {
+      display: none;
+    }
+  }
+}
+
+// Loading state transitions
+.screening-container {
+  [ng-reflect-ng-if="false"] {
+    animation: fadeOut 0.3s ease-in-out;
+  }
+
+  [ng-reflect-ng-if="true"] {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+// Accessibility enhancements
+.screening-loading-state {
+  // Screen reader only text
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  // High contrast mode support
+  @media (prefers-contrast: high) {
+    :host ::ng-deep .p-skeleton {
+      background: repeating-linear-gradient(
+          45deg,
+          var(--surface-300),
+          var(--surface-300) 10px,
+          var(--surface-400) 10px,
+          var(--surface-400) 20px
+      );
+      animation: none;
+    }
+  }
+
+  // Reduced motion support
+  @media (prefers-reduced-motion: reduce) {
+    :host ::ng-deep .p-skeleton {
+      animation: none;
+    }
+
+    .table-skeleton-rows .flex {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

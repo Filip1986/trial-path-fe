@@ -1,0 +1,67 @@
+<p-card>
+  <div class="element-header flex justify-between items-center mb-2">
+    <div class="flex items-center">
+      <i [ngClass]="iconName" class="mr-2 text-blue-500"></i>
+      <label class="text-sm font-medium text-gray-700">
+        {{ control?.options?.title || control?.title || 'Checkbox' }}
+      </label>
+    </div>
+    <div class="flex items-center gap-2">
+      <p-speedDial
+        [hideIcon]="'pi pi-times'"
+        [hideOnClickOutside]="true"
+        [model]="speedDialItems"
+        [showIcon]="'pi pi-ellipsis-v'"
+        [style]="{ position: 'relative' }"
+        [transitionDelay]="80"
+        buttonClass="p-button-sm p-button-outlined p-button-secondary"
+        direction="left"
+        radius="40"
+      >
+      </p-speedDial>
+    </div>
+  </div>
+  <div class="element-content">
+    <!-- Group title if available and in GROUP mode -->
+    @if (control?.options?.groupTitle && control?.mode === 'group') {
+    <div class="mb-2 font-medium">{{ control?.options?.groupTitle }}</div>
+    }
+
+    <!-- BINARY mode: Single checkbox -->
+    @if (control && (!control.mode || control.mode === 'binary')) {
+    <lib-checkbox
+      (valueChange)="onValueChange($event)"
+      [config]="getCheckboxConfig()"
+      [containerClass]="'w-full'"
+      [value]="control.value || false"
+    />
+    }
+
+    <!-- GROUP mode: Multiple checkboxes -->
+    @if (control && control.mode === 'group') {
+    <div class="checkbox-group">
+      @if (!control.options?.options || (control.options?.options?.length === 0)) {
+      <div class="text-gray-500 italic">No checkbox options defined. Edit to add options.</div>
+      } @for (option of control.options?.options; track option; let i = $index) {
+      <div class="mb-2">
+        <lib-checkbox
+          (valueChange)="onGroupValueChange(option.value, $event, i)"
+          [config]="{
+            label: option.label,
+            required: control.options?.required || false,
+            disabled: option.disabled || control.options?.disabled || false,
+            mode: CheckboxModeEnum.BINARY,
+            size: control.size,
+            variant: control.variant,
+            labelPosition: control.labelPosition,
+            labelStyle: control.labelStyle
+          }"
+          [containerClass]="'w-full'"
+          [value]="isOptionSelected(option.value)"
+        />
+      </div>
+      }
+    </div>
+    }
+  </div>
+</p-card>

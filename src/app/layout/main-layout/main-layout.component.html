@@ -1,0 +1,132 @@
+<div
+  [ngClass]="[emailBannerVisible ? 'dynamic-layout-height' : 'h-screen']"
+  class="flex overflow-hidden relative"
+  >
+  <!-- Sidenav Column -->
+  <div [class.collapsed]="!(expanded$ | async)" class="sidenav-container">
+    <lib-sidenav-1
+      (itemClick)="onNavItemClick($event)"
+      [isBetaTester]="userIsBetaTester"
+      [items]="navigationItems"
+      [title]="'Trial Path'"
+      >
+      <app-animated-logo-2 [size]="45" logo></app-animated-logo-2>
+      <ng-container ngProjectAs="[sidenav-footer]">
+        <lib-sidenav-footer-1
+          (logoutClick)="logout()"
+          [expanded]="(expanded$ | async) ?? true"
+          [isBetaTester]="userIsBetaTester"
+        ></lib-sidenav-footer-1>
+      </ng-container>
+    </lib-sidenav-1>
+  </div>
+
+  <!-- Content Column -->
+  <div [class.expanded]="!(expanded$ | async)" class="content-container overflow-auto">
+    <!-- Header with Toggle Button and Actions -->
+    <div class="content-header">
+      <!-- Left side group -->
+      <div class="header-left">
+        <!-- Hamburger Toggle Button -->
+        <button (click)="toggleSidenav()" aria-label="Toggle Sidenav" class="toggle-button">
+          <i [ngClass]="(expanded$ | async) ? 'pi-bars' : 'pi-ellipsis-v'" class="pi"></i>
+        </button>
+
+        <!-- Search Box -->
+        @if (user) {
+          <div class="search-container flex items-center">
+            <span class="relative">
+              <i class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+              <input
+                (keyup.enter)="performSearch()"
+                [(ngModel)]="searchTerm"
+                class="p-inputtext pl-10 pr-4 py-2 border border-gray-300 rounded-lg"
+                placeholder="Search"
+                type="text"
+                />
+              </span>
+            </div>
+          }
+        </div>
+
+        <!-- Logo Container - takes all available space -->
+        <div class="logo-container-flex"></div>
+
+        <!-- Right side group -->
+        <div class="header-right">
+          <!-- Role Selector - Only show for authenticated users -->
+          @if (user) {
+            <div class="role-selector-container">
+              <app-role-selector
+                (roleChanged)="onRoleChanged($event)"
+                [currentRole]="currentUserRole"
+              ></app-role-selector>
+            </div>
+          }
+
+          <!-- Action Buttons -->
+          <div class="header-actions">
+            <!-- Theme Toggle -->
+            <div class="theme-toggle flex items-center gap-2">
+              <i [class.text-yellow-500]="!isDarkMode" class="pi pi-sun"></i>
+              <p-toggleSwitch
+                (ngModelChange)="toggleTheme()"
+                [(ngModel)]="isDarkMode"
+                [class]="'theme-switch'"
+                />
+                <i [class.text-blue-400]="isDarkMode" class="pi pi-moon"></i>
+              </div>
+
+              <!-- User Profile / Login Actions -->
+              <div class="user-actions">
+                <!-- Authenticated User Menu -->
+                @if (user) {
+                  <div class="user-menu">
+                    <p-menu #userMenu [model]="menuItems" [popup]="true" appendTo="body"></p-menu>
+                    <div
+                      (click)="userMenu.toggle($event)"
+                      class="user-profile-button flex items-center gap-2 cursor-pointer p-2 hover:bg-surface-hover rounded-md"
+                      >
+                      <p-avatar
+                        image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                        shape="circle"
+                        size="normal"
+                        >
+                      </p-avatar>
+                      <span class="username">{{ username }}</span>
+                      <i class="pi pi-angle-down"></i>
+                    </div>
+                  </div>
+                }
+
+                <!-- Guest Actions -->
+                @if (!user) {
+                  <div class="guest-actions flex gap-2">
+                    <button
+                      (click)="login()"
+                      class="p-button-outlined"
+                      label="Login"
+                      pButton
+                      type="button"
+                    ></button>
+                    <button
+                      (click)="register()"
+                      class="p-button-primary"
+                      label="Register"
+                      pButton
+                      type="button"
+                    ></button>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="content-body flex-1">
+          <!-- Router outlet for page content -->
+          <router-outlet />
+        </div>
+      </div>
+    </div>

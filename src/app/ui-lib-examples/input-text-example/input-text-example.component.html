@@ -1,0 +1,260 @@
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-6">Input Text Examples</h1>
+
+  <p-toast />
+
+  <p-card header="Label Position Examples" styleClass="mb-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <!-- Above Label Example (Default) -->
+      <div>
+        <lib-input-text [config]="aboveLabelConfig" />
+      </div>
+
+      <!-- Inline Label Example -->
+      <div>
+        <lib-input-text [config]="inlineLabelConfig" />
+      </div>
+
+      <!-- Inline Label with Icon Example -->
+      <div>
+        <lib-input-text [config]="inlineLabelWithIconConfig" />
+      </div>
+
+      <!-- Required Inline Label Example -->
+      <div>
+        <lib-input-text [config]="requiredInlineLabelConfig" />
+      </div>
+    </div>
+
+    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+      <h3 class="text-lg font-semibold mb-2">Configuration Example:</h3>
+      <pre class="bg-white p-3 rounded text-sm overflow-auto">
+&#123;
+        id: 'inline-label-input',
+        label: 'Inline Label:',
+        placeholder: 'Label positioned inline',
+        labelPosition: 'inline',
+        helperText: 'This input has the label positioned inline',
+        required: false
+&#125;
+      </pre>
+    </div>
+  </p-card>
+
+  <p-card header="Basic Examples" styleClass="mb-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <!-- Basic Input -->
+      <div>
+        <lib-input-text [config]="basicConfig" />
+      </div>
+
+      <!-- Email Input -->
+      <div>
+        <lib-input-text [config]="emailConfig" />
+      </div>
+
+      <!-- Password Input -->
+      <div>
+        <lib-input-text [config]="passwordConfig" />
+      </div>
+
+      <!-- Search Input -->
+      <div>
+        <lib-input-text
+          (iconClick)="onInputEvent($event, 'search')"
+          (valueChange)="onInputEvent($event, 'search')"
+          [(value)]="templateModel.search"
+          [config]="searchConfig"
+        />
+      </div>
+    </div>
+  </p-card>
+
+  <p-card header="Floating Examples" styleClass="mb-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <!-- Basic Float -->
+      <div>
+        <lib-input-text [config]="standardFloatConfig" />
+      </div>
+
+      <!-- Float IN -->
+      <div>
+        <lib-input-text [config]="floatInConfig" />
+      </div>
+
+      <!-- Float ON -->
+      <div>
+        <lib-input-text [config]="floatOnConfig" />
+      </div>
+
+      <!-- Standard Float icon -->
+      <div>
+        <lib-input-text [config]="standardFloatIconConfig" />
+      </div>
+
+      <!-- Float IN icon -->
+      <div>
+        <lib-input-text [config]="floatInIconConfig" />
+      </div>
+
+      <!-- Float ON icon -->
+      <div>
+        <lib-input-text [config]="floatOnIconConfig" />
+      </div>
+
+      <!--      &lt;!&ndash; Search Input &ndash;&gt;-->
+      <!--      <div>-->
+      <!--        <lib-input-text-->
+      <!--          (iconClick)="onInputEvent($event, 'search')"-->
+      <!--          (valueChange)="onInputEvent($event, 'search')"-->
+      <!--          [(value)]="templateModel.search"-->
+      <!--          [config]="searchConfig"-->
+      <!--        />-->
+      <!--      </div>-->
+    </div>
+  </p-card>
+
+  <p-card header="Label Styles" styleClass="mb-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <!-- Float Label -->
+      <div>
+        <lib-input-text [config]="floatLabelConfig" />
+      </div>
+
+      <!-- IFTA Label -->
+      <div>
+        <lib-input-text [config]="iftaLabelConfig" />
+      </div>
+
+      <!-- Disabled Input -->
+      <div>
+        <lib-input-text [config]="disabledConfig" />
+      </div>
+    </div>
+  </p-card>
+
+  <p-card header="Reactive Forms Example" styleClass="mb-4">
+    <form (ngSubmit)="onSubmit()" [formGroup]="reactiveForm">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+          <lib-input-text
+            [config]="{
+              id: 'username',
+              label: 'Username',
+              placeholder: 'Enter your username',
+              required: true,
+              icon: 'pi pi-user',
+              minLength: 3,
+              helperText: 'Username must be at least 3 characters',
+              disabled: false,
+              autofocus: true,
+              variant: FormComponentVariantEnum.OUTLINED,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              size: FormComponentSizeEnum.NORMAL,
+            }"
+            formControlName="username"
+          />
+        </div>
+
+        <div>
+          <lib-input-text
+            [config]="{
+              id: 'email',
+              label: 'Email:',
+              placeholder: 'Enter your email',
+              type: InputTextType.EMAIL,
+              required: true,
+              icon: 'pi pi-envelope',
+              disabled: false,
+              autofocus: false,
+              labelPosition: LabelPosition.INLINE,
+              variant: FormComponentVariantEnum.OUTLINED,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              size: FormComponentSizeEnum.NORMAL,
+            }"
+            formControlName="email"
+          />
+        </div>
+
+        <div>
+          <lib-input-text
+            [config]="{
+              id: 'phone',
+              label: 'Phone:',
+              placeholder: 'Enter your phone',
+              type: InputTextType.TEL,
+              icon: 'pi pi-phone',
+              helperText: 'Optional: Format +1 234 567 8900',
+              disabled: false,
+              required: false,
+              autofocus: false,
+              labelPosition: LabelPosition.INLINE,
+              variant: FormComponentVariantEnum.OUTLINED,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              size: FormComponentSizeEnum.NORMAL,
+            }"
+            formControlName="phone"
+          />
+        </div>
+      </div>
+
+      <div class="flex justify-end">
+        <button icon="pi pi-check" label="Submit" pButton type="submit"></button>
+      </div>
+    </form>
+  </p-card>
+
+  <p-card header="Template-Driven Forms Example" styleClass="mb-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <div>
+        <lib-input-text
+          (blur)="onInputEvent($event, 'blur')"
+          (focus)="onInputEvent($event, 'name')"
+          (valueChange)="onInputEvent($event, 'name')"
+          [(value)]="templateModel.name"
+          [config]="{
+            id: 'name-template',
+            label: 'Name',
+            placeholder: 'Enter your name',
+            icon: 'pi pi-user',
+            helperText: 'This is a template-driven form example',
+            disabled: false,
+            required: true,
+            autofocus: true,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            labelPosition: FormLabelPositionEnum.ABOVE,
+            size: FormComponentSizeEnum.NORMAL,
+          }"
+        />
+      </div>
+
+      <div>
+        <lib-input-text
+          (valueChange)="onInputEvent($event, 'email')"
+          [(value)]="templateModel.email"
+          [config]="{
+            id: 'email-template',
+            label: 'Email:',
+            placeholder: 'Enter your email',
+            type: InputTextType.EMAIL,
+            icon: 'pi pi-envelope',
+            labelPosition: LabelPosition.INLINE,
+            disabled: false,
+            required: true,
+            autofocus: false,
+            variant: FormComponentVariantEnum.OUTLINED,
+            labelStyle: FormLabelStyleEnum.DEFAULT,
+            size: FormComponentSizeEnum.NORMAL,
+          }"
+        />
+      </div>
+    </div>
+
+    <div class="p-4 bg-gray-100 rounded">
+      <h3 class="text-lg font-medium mb-2">Model Values:</h3>
+      <pre class="bg-white p-2 rounded">{{ templateModel | json }}</pre>
+    </div>
+  </p-card>
+</div>

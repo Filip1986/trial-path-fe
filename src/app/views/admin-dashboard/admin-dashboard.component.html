@@ -1,0 +1,733 @@
+<app-suspension-dialog
+  (operationComplete)="handleSuspensionComplete($event)"
+  [(suspendDialogVisible)]="suspendDialogVisible"
+  [selectedUser]="userToSuspend"
+/>
+
+<div class="min-h-screen">
+  <div>
+    <!-- User welcome card (from user-dashboard) -->
+    <div class="mb-6">
+      <p-card class="mb-6 bg-light-primary text-primary" header="Welcome to Your Dashboard">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-2xl font-bold text-primary">Welcome, {{username}}!</h1>
+            <p class="text-gray-600">
+              @if (userEmail) {
+              <span>{{userEmail}} | </span>
+              }
+              <span class="bg-primary-100 text-primary-800 px-2 py-1 rounded-full text-xs"
+                >{{userRole}}</span
+              >
+            </p>
+          </div>
+          @if (user) {
+          <p-avatar
+            image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+            shape="circle"
+            size="large"
+          />
+          }
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Real-time Dashboard Stats -->
+    <div class="mb-8">
+      <p-card class="bg-light-warning">
+        <div class="flex justify-between items-center mb-8">
+          <div>
+            <h2 class="text-xl font-semibold mb-1 flex items-center">
+              <i class="pi pi-chart-line mr-2"></i>
+              Real-time Dashboard
+            </h2>
+            <p class="text-sm">Live data updates and system metrics</p>
+          </div>
+
+          <!-- Connection status -->
+          <div class="flex items-center">
+            <span class="text-sm mr-2">Real-time connection:</span>
+            <span
+              [ngClass]="wsConnected ? 'bg-green-500' : 'bg-red-500'"
+              class="h-3 w-3 rounded-full inline-block"
+              title="WebSocket connection status"
+            ></span>
+          </div>
+        </div>
+      </p-card>
+    </div>
+
+    <div class="grid grid-cols-4 gap-8 mb-8">
+      <!-- Total Users Card -->
+      <div class="col-span-1">
+        <p-card class="bg-light-error">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">Total Users</h3>
+              <p>Registered accounts</p>
+            </div>
+            <div class="text-3xl font-bold">
+              <!-- Show spinner when loading -->
+              @if (isLoadingUsers) {
+              <div class="flex items-center justify-center">
+                <i class="pi pi-spin pi-spinner text-primary"></i>
+              </div>
+              }
+              <!-- Show error icon if there was an error -->
+              @if (!isLoadingUsers && loadUsersError) {
+              <div class="flex items-center justify-center">
+                <i class="pi pi-exclamation-circle" title="Failed to load data"></i>
+              </div>
+              }
+              <!-- Show the actual number when loaded successfully -->
+              @if (!isLoadingUsers && !loadUsersError) {
+              <span>{{ userCount }}</span>
+              }
+            </div>
+          </div>
+        </p-card>
+      </div>
+
+      <!-- Active Users Card -->
+      <div class="col-span-1">
+        <p-card class="bg-light-success">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">Active Users</h3>
+              <p>Currently online</p>
+            </div>
+            <div class="text-3xl font-bold">
+              <!-- Show spinner when loading active users -->
+              @if (loadingUsersActivity) {
+              <div class="flex items-center justify-center">
+                <i class="pi pi-spin pi-spinner text-primary"></i>
+              </div>
+              }
+              <!-- Show the actual number when loaded -->
+              @if (!loadingUsersActivity) {
+              <span [ngClass]="{'animate-pulse': wsConnected}"> {{ activeUserCount }} </span>
+              }
+            </div>
+          </div>
+        </p-card>
+      </div>
+      <div class="col-span-1">
+        <p-card class="bg-gray">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">Reports</h3>
+              <p>Total reports</p>
+            </div>
+            <div class="text-3xl font-bold">{{ stats.reports }}</div>
+          </div>
+        </p-card>
+      </div>
+
+      <!-- Beta Subscribers Card -->
+      <div class="col-span-1">
+        <p-card class="bg-primary">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">Beta Subscribers</h3>
+              <p>Beta program members</p>
+            </div>
+            <div class="text-3xl font-bold">
+              @if (betaSubscribersLoading) {
+              <div class="flex items-center justify-center">
+                <i class="pi pi-spin pi-spinner text-xl"></i>
+              </div>
+              } @if (!betaSubscribersLoading) {
+              <div>{{ betaSubscribers.length }}</div>
+              }
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </div>
+
+    <div class="mb-8">
+      <!-- Map & Chart widgets section -->
+      <div class="grid grid-cols-3 gap-8 mb-8">
+        <!-- Sales Performance Row -->
+        <div class="col-span-2">
+          <lib-sales-chart-widget-1 />
+        </div>
+
+        <!-- Visitors Chart Widget -->
+        <div class="col-span-1">
+          <app-visitors-chart-widget />
+        </div>
+      </div>
+
+      <div class="flex items-center">
+        <span class="text-sm mr-2">Real-time connection:</span>
+        <span
+          [ngClass]="wsConnected ? 'bg-green-500' : 'bg-red-500'"
+          class="h-3 w-3 rounded-full inline-block"
+          title="WebSocket connection status"
+        ></span>
+        <button
+          (click)="refreshRealTimeData()"
+          aria-label="Refresh data"
+          class="p-button-text p-button-rounded ml-2"
+          icon="pi pi-refresh"
+          pButton
+          pTooltip="Refresh data"
+        ></button>
+        <!-- Add new button for refreshing maps -->
+        <button
+          (click)="refreshMapData()"
+          aria-label="Refresh maps"
+          class="p-button-text p-button-rounded ml-2"
+          icon="pi pi-map"
+          pButton
+          pTooltip="Refresh maps"
+        ></button>
+      </div>
+
+      <!-- Map widgets section -->
+      <div class="grid grid-cols-2 lg:grid-cols-2 gap-8 mb-8">
+        <!-- Active Users Map Card -->
+        <div class="col-span-1">
+          <lib-location-widget-1
+            [description]="'Real-time distribution of currently online users'"
+            [title]="'Active Users by Location'"
+          />
+        </div>
+        <div class="col-span-1">
+          <lib-location-widget-2
+            [description]="'Geographic distribution of all registered accounts'"
+            [title]="'Registered Users by Location'"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabbed Interface -->
+    <p-tabs>
+      <!-- User Management Tab -->
+      <p-tab label="User Management">
+        <!-- Existing Users Section Content -->
+        <div class="bg-white shadow-md overflow-hidden">
+          <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+            <h2 class="text-xl font-semibold text-gray-800">User Management</h2>
+            <div class="flex gap-2">
+              <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input
+                  (input)="filterUsers()"
+                  [(ngModel)]="searchTerm"
+                  aria-label="Search users"
+                  class="w-48"
+                  pInputText
+                  placeholder="Search users"
+                  type="text"
+                />
+              </span>
+              <button
+                (click)="openAddUserDialog()"
+                aria-label="Add User"
+                class="p-button-sm"
+                icon="pi pi-plus"
+                label="Add User"
+                pButton
+              ></button>
+            </div>
+          </div>
+
+          @if (isLoadingUsers) {
+          <div class="p-4">
+            <div class="flex justify-center">
+              <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="4" />
+            </div>
+          </div>
+          } @if (!isLoadingUsers && filteredUsers.length === 0) {
+          <div class="p-4">
+            <div class="text-center p-6 bg-gray-50 rounded-lg">
+              <i class="pi pi-search text-gray-400 text-4xl mb-3"></i>
+              <p class="text-gray-500 mb-2">No users found matching your search criteria.</p>
+              <button
+                (click)="clearFilters()"
+                aria-label="Clear filters"
+                class="p-button-text p-button-sm"
+                label="Clear filters"
+                pButton
+                type="button"
+              ></button>
+            </div>
+          </div>
+          } @if (!isLoadingUsers && filteredUsers.length > 0) {
+          <p-table
+            [paginator]="true"
+            [rowsPerPageOptions]="[5, 10, 25, 50]"
+            [rows]="10"
+            [tableStyle]="{'min-width': '100%'}"
+            [value]="filteredUsers"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="id">ID <p-sortIcon field="id" /></th>
+                <th pSortableColumn="username">Username <p-sortIcon field="username" /></th>
+                <th pSortableColumn="email">Email <p-sortIcon field="email" /></th>
+                <th pSortableColumn="role">Role <p-sortIcon field="role" /></th>
+                <th pSortableColumn="isEmailConfirmed">
+                  Email Verification
+                  <p-sortIcon field="isEmailConfirmed" />
+                </th>
+                <th pSortableColumn="isSuspended">
+                  Status
+                  <p-sortIcon field="isSuspended" />
+                </th>
+                <th pSortableColumn="firstLoginAt">
+                  First Login
+                  <p-sortIcon field="firstLoginAt" />
+                </th>
+                <th pSortableColumn="privacyPolicyVersion">
+                  Privacy Policy
+                  <p-sortIcon field="privacyPolicyVersion" />
+                </th>
+                <th>Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template let-user pTemplate="body">
+              <tr [ngClass]="{'bg-red-50': user.isSuspended}">
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                  <p-tag [severity]="getRoleSeverity(user.role)" [value]="user.role" />
+                </td>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <p-tag
+                      [severity]="getEmailVerificationSeverity(user.isEmailConfirmed)"
+                      [value]="getEmailVerificationLabel(user.isEmailConfirmed)"
+                    />
+                    @if (!user.isEmailConfirmed) {
+                    <button
+                      (click)="resendVerificationEmail(user)"
+                      aria-label="Resend verification email"
+                      class="p-button-rounded p-button-text p-button-sm"
+                      icon="pi pi-envelope"
+                      pButton
+                      pTooltip="Resend verification email"
+                    ></button>
+                    }
+                  </div>
+                </td>
+                <td>
+                  <div class="flex flex-col">
+                    <p-tag
+                      [severity]="getSuspensionStatusSeverity(user.isSuspended)"
+                      [value]="getSuspensionStatusLabel(user.isSuspended)"
+                    />
+                    @if (user.isSuspended && user.suspensionReason) {
+                    <small class="mt-1 text-red-500"> {{ user.suspensionReason }} </small>
+                    }
+                  </div>
+                </td>
+                <td>
+                  <div class="flex flex-col">
+                    @if (user.firstLoginAt) {
+                    <span>{{ user.firstLoginAt | date:'medium' }}</span>
+                    } @if (!user.firstLoginAt) {
+                    <span class="text-gray-500 italic">Never</span>
+                    }
+                  </div>
+                </td>
+                <td>
+                  <div class="flex flex-col">
+                    <span>{{ user.privacyPolicyVersion || 'Not Accepted' }}</span>
+                    @if (user.privacyPolicyAcceptanceTimestamp) {
+                    <small class="text-gray-500">
+                      {{ user.privacyPolicyAcceptanceTimestamp | date:'medium' }}
+                    </small>
+                    }
+                  </div>
+                </td>
+                <td>
+                  <!-- Create a separate menu for each user -->
+                  <p-menu
+                    #menu
+                    [model]="getActionMenuItems(user)"
+                    [popup]="true"
+                    appendTo="body"
+                  ></p-menu>
+                  <button
+                    (click)="menu.toggle($event)"
+                    aria-label="Actions"
+                    class="p-button-rounded p-button-text p-button-sm"
+                    icon="pi pi-ellipsis-v"
+                    pButton
+                    type="button"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="8">No users found.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+          }
+        </div>
+      </p-tab>
+
+      <!-- Privacy Policy Management Tab -->
+      <p-tab label="Privacy Policies">
+        <app-privacy-policy-management />
+      </p-tab>
+    </p-tabs>
+  </div>
+
+  <!-- Main content layout -->
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+    <!-- Quick Actions and User content (left side - 3 columns) -->
+    <div class="lg:col-span-3">
+      <!-- Quick Actions (from user-dashboard) -->
+      <p-card class="bg-light-secondary mb-6">
+        <h3 class="text-lg font-semibold">Quick Actions</h3>
+        <p class="mb-4">Common tasks and shortcuts for your convenience.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div
+            class="p-3 bg-white rounded border border-gray-200 shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+          >
+            <div class="flex items-center">
+              <i class="pi pi-file-edit text-blue-500 mr-2 text-xl"></i>
+              <span>Create new document</span>
+            </div>
+          </div>
+
+          <div
+            class="p-3 bg-white rounded border border-gray-200 shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+          >
+            <div class="flex items-center">
+              <i class="pi pi-users text-blue-500 mr-2 text-xl"></i>
+              <span>Manage team</span>
+            </div>
+          </div>
+
+          <div
+            class="p-3 bg-white rounded border border-gray-200 shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+          >
+            <div class="flex items-center">
+              <i class="pi pi-chart-bar text-blue-500 mr-2 text-xl"></i>
+              <span>View analytics</span>
+            </div>
+          </div>
+
+          <div
+            class="p-3 bg-white rounded border border-gray-200 shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+          >
+            <div class="flex items-center">
+              <i class="pi pi-cog text-blue-500 mr-2 text-xl"></i>
+              <span>System settings</span>
+            </div>
+          </div>
+        </div>
+      </p-card>
+
+      <!-- Admin Controls (visible for all users, but enhanced for admins) -->
+      <p-card class="bg-light-secondary mb-6">
+        <h3 class="text-lg font-semibold">
+          @if (isAdmin) {
+          <span>Admin Controls</span>
+          } @if (!isAdmin) {
+          <span>Available Tools</span>
+          }
+        </h3>
+        <p class="mb-4">
+          @if (isAdmin) {
+          <span>Administrative functions and system management.</span>
+          } @if (!isAdmin) {
+          <span>Tools and features available to you.</span>
+          }
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div
+            class="p-3 bg-white rounded border border-red-100 shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+            [routerLink]="isAdmin ? '/admin-dashboard' : null"
+          >
+            <div class="flex items-center">
+              <i class="pi pi-users-gear mr-2 text-xl" [class.text-red-500]="isAdmin"></i>
+              <span>User Management</span>
+            </div>
+          </div>
+
+          <div
+            class="p-3 bg-white rounded border border-red-100 shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+          >
+            <div class="flex items-center">
+              <i class="pi pi-shield mr-2 text-xl" [class.text-red-500]="isAdmin"></i>
+              <span>Security Settings</span>
+            </div>
+          </div>
+
+          <div
+            class="p-3 bg-white rounded border border-red-100 shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+          >
+            <div class="flex items-center">
+              <i class="pi pi-chart-line mr-2 text-xl" [class.text-red-500]="isAdmin"></i>
+              <span>System Analytics</span>
+            </div>
+          </div>
+        </div>
+      </p-card>
+
+      <!-- Dashboard Stats Cards (for admins) -->
+      @if (isAdmin) {
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <p-card>
+          <div class="text-center">
+            <i class="pi pi-users text-blue-500 text-3xl mb-2"></i>
+            <div class="text-2xl font-bold">{{stats.userCount}}</div>
+            <div class="text-gray-600">Total Users</div>
+          </div>
+        </p-card>
+        <p-card>
+          <div class="text-center">
+            <i class="pi pi-circle text-green-500 text-3xl mb-2"></i>
+            <div class="text-2xl font-bold">{{stats.activeUsers}}</div>
+            <div class="text-gray-600">Active Users</div>
+          </div>
+        </p-card>
+        <p-card>
+          <div class="text-center">
+            <i class="pi pi-file text-orange-500 text-3xl mb-2"></i>
+            <div class="text-2xl font-bold">{{stats.reports}}</div>
+            <div class="text-gray-600">Reports</div>
+          </div>
+        </p-card>
+        <p-card>
+          <div class="text-center">
+            <i class="pi pi-sync text-purple-500 text-3xl mb-2"></i>
+            <div class="text-2xl font-bold">{{stats.pendingUpdates}}</div>
+            <div class="text-gray-600">Pending Updates</div>
+          </div>
+        </p-card>
+      </div>
+      }
+    </div>
+
+    <!-- Beta Program Widget (right side - 1 column) -->
+    <div class="lg:col-span-1">
+      <app-beta-program-widget />
+    </div>
+  </div>
+
+  <!-- User Edit Dialog -->
+  <p-dialog
+    [(visible)]="userDialogVisible"
+    [modal]="true"
+    [style]="{width: '450px'}"
+    header="Edit User"
+    styleClass="p-fluid"
+  >
+    @if (selectedUser) {
+    <div>
+      <div class="field mb-8">
+        <label class="block mb-2" for="username">Username</label>
+        <input [(ngModel)]="selectedUser.username" class="w-full" id="username" pInputText />
+      </div>
+      <div class="field mb-8">
+        <label class="block mb-2" for="email">Email</label>
+        <input [(ngModel)]="selectedUser.email" class="w-full" id="email" pInputText />
+      </div>
+      <div class="field mb-8">
+        <label class="block mb-2" for="role">Role</label>
+        <p-select
+          [(ngModel)]="selectedUser.role"
+          [options]="roles"
+          appendTo="body"
+          class="w-full"
+          id="role"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select a Role"
+        />
+      </div>
+      <div class="field mb-8">
+        <label class="block mb-2" for="emailVerification">Email Verification</label>
+        <div class="flex items-center gap-2">
+          <p-tag
+            [severity]="getEmailVerificationSeverity(selectedUser.isEmailConfirmed)"
+            [value]="getEmailVerificationLabel(selectedUser.isEmailConfirmed)"
+          />
+          @if (!selectedUser.isEmailConfirmed) {
+          <button
+            (click)="resendVerificationEmail(selectedUser)"
+            aria-label="Resend verification email"
+            class="p-button-rounded p-button-sm p-button-outlined"
+            icon="pi pi-envelope"
+            label="Resend"
+            pButton
+          ></button>
+          }
+        </div>
+      </div>
+      <!-- Account Status (Suspension) -->
+      <div class="field mb-8">
+        <label class="block mb-2" for="accountStatus">Account Status</label>
+        <div class="flex items-center gap-2">
+          <p-tag
+            [severity]="getSuspensionStatusSeverity(selectedUser.isSuspended)"
+            [value]="getSuspensionStatusLabel(selectedUser.isSuspended)"
+          />
+          @if (!selectedUser.isSuspended) {
+          <button
+            (click)="openSuspendUserDialog(selectedUser); userDialogVisible = false;"
+            aria-label="Suspend user"
+            class="p-button-rounded p-button-sm p-button-danger p-button-outlined"
+            icon="pi pi-lock"
+            label="Suspend"
+            pButton
+          ></button>
+          } @if (selectedUser.isSuspended) {
+          <button
+            (click)="confirmUnsuspendUser(selectedUser)"
+            aria-label="Reactivate user"
+            class="p-button-rounded p-button-sm p-button-success p-button-outlined"
+            icon="pi pi-unlock"
+            label="Reactivate"
+            pButton
+          ></button>
+          }
+        </div>
+        @if (selectedUser.isSuspended && selectedUser.suspensionReason) {
+        <small class="block text-red-500 mt-1"> Reason: {{ selectedUser.suspensionReason }} </small>
+        }
+      </div>
+      <div class="field mb-8">
+        <label class="block mb-2" for="firstLogin">First Login</label>
+        <div>
+          @if (selectedUser.firstLoginAt) {
+          <span>{{ selectedUser.firstLoginAt | date:'medium' }}</span>
+          } @if (!selectedUser.firstLoginAt) {
+          <span class="text-gray-500 italic">Never logged in</span>
+          }
+        </div>
+      </div>
+      <div class="field mb-8">
+        <label class="block mb-2" for="privacyPolicy">Privacy Policy</label>
+        <div>
+          <span>{{ selectedUser.privacyPolicyVersion || 'Not Accepted' }}</span>
+          @if (selectedUser.privacyPolicyAcceptanceTimestamp) {
+          <small class="block text-gray-500 mt-1">
+            Accepted: {{ selectedUser.privacyPolicyAcceptanceTimestamp | date:'medium' }}
+          </small>
+          }
+        </div>
+      </div>
+    </div>
+    }
+
+    <ng-template pTemplate="footer">
+      <button
+        (click)="userDialogVisible = false"
+        aria-label="Cancel"
+        class="p-button-text"
+        icon="pi pi-times"
+        label="Cancel"
+        pButton
+      ></button>
+      <button
+        (click)="saveUserChanges()"
+        [disabled]="isSaving"
+        [loading]="isSaving"
+        aria-label="Save changes"
+        class="p-button-primary"
+        icon="pi pi-check"
+        label="Save Changes"
+        pButton
+      ></button>
+    </ng-template>
+  </p-dialog>
+</div>
+
+<!-- Add User Dialog -->
+<p-dialog
+  [(visible)]="addUserDialogVisible"
+  [modal]="true"
+  [style]="{width: '450px'}"
+  header="Create New User"
+  styleClass="p-fluid"
+>
+  <div>
+    <div class="field mb-8">
+      <label class="block mb-2" for="newUsername">Username</label>
+      <input [(ngModel)]="newUser.username" class="w-full" id="newUsername" pInputText required />
+      @if (usernameError) {
+      <small class="p-error">{{usernameError}}</small>
+      }
+    </div>
+
+    <div class="field mb-8">
+      <label class="block mb-2" for="newEmail">Email</label>
+      <input
+        [(ngModel)]="newUser.email"
+        class="w-full"
+        id="newEmail"
+        pInputText
+        required
+        type="email"
+      />
+      @if (emailError) {
+      <small class="p-error">{{emailError}}</small>
+      }
+    </div>
+
+    <div class="field mb-8">
+      <label class="block mb-2" for="newPassword">Password</label>
+      <p-password
+        [(ngModel)]="newUser.password"
+        [feedback]="true"
+        id="newPassword"
+        styleClass="w-full"
+      />
+      @if (passwordError) {
+      <small class="p-error">{{passwordError}}</small>
+      }
+    </div>
+
+    <div class="field mb-8">
+      <label class="block mb-2" for="newRole">Role</label>
+      <p-select
+        [(ngModel)]="newUser.role"
+        [options]="roles"
+        appendTo="body"
+        class="w-full"
+        id="newRole"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select a Role"
+      />
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button
+      (click)="addUserDialogVisible = false"
+      aria-label="Cancel"
+      class="p-button-text"
+      icon="pi pi-times"
+      label="Cancel"
+      pButton
+    ></button>
+    <button
+      (click)="createUser()"
+      [disabled]="isCreatingUser"
+      [loading]="isCreatingUser"
+      aria-label="Create user"
+      class="p-button-primary"
+      icon="pi pi-user-plus"
+      label="Create User"
+      pButton
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog [style]="{width: '450px'}" />

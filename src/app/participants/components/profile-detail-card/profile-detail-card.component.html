@@ -1,0 +1,160 @@
+<!-- Profile Detail Card Component -->
+<div class="profile-detail-card">
+  <p-card styleClass="profile-card">
+    <!-- Gradient Header Section -->
+    <ng-template pTemplate="header">
+      <div class="profile-card-header">
+        <div class="gradient-background">
+          <div class="pattern-overlay"></div>
+          <!-- Optional: Add some decorative elements -->
+          <div class="header-decoration">
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+            <div class="circle circle-3"></div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Profile Content -->
+    <div class="profile-content">
+      <!-- User Avatar Section -->
+      <div class="avatar-section">
+        <div class="avatar-container">
+          <p-avatar
+            [image]="user()?.profilePicture || 'https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png'"
+            shape="circle"
+            [size]="avatarSize()"
+            styleClass="profile-avatar"
+            >
+          </p-avatar>
+          <!-- Online status indicator (optional) -->
+          <div class="status-indicator" [ngClass]="getStatusIndicatorClass(user()?.status)"></div>
+        </div>
+
+        <!-- User Name -->
+        <div class="user-name-section">
+          <h2 class="user-name">{{ user()?.firstName }} {{ user()?.lastName }}</h2>
+          <p class="user-title">{{ user()?.role || 'User' }}</p>
+        </div>
+      </div>
+
+      <!-- User Details Section -->
+      <div class="user-details-section">
+        <div class="details-grid">
+          <!-- Email -->
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="pi pi-envelope"></i>
+            </div>
+            <div class="detail-content">
+              <label class="detail-label">Email</label>
+              <span class="detail-value">{{ user()?.email || 'Not provided' }}</span>
+            </div>
+          </div>
+
+          <!-- Phone -->
+          @if (user()?.phone) {
+            <div class="detail-item">
+              <div class="detail-icon">
+                <i class="pi pi-phone"></i>
+              </div>
+              <div class="detail-content">
+                <label class="detail-label">Phone</label>
+                <span class="detail-value">{{ user()?.phone }}</span>
+              </div>
+            </div>
+          }
+
+          <!-- Department/Study -->
+          @if (user()?.department || user()?.studyTitle) {
+            <div class="detail-item">
+              <div class="detail-icon">
+                <i class="pi pi-building"></i>
+              </div>
+              <div class="detail-content">
+                <label class="detail-label">Department</label>
+                <span class="detail-value"
+                  >{{ user()?.department || user()?.studyTitle || 'Not assigned' }}</span
+                  >
+                </div>
+              </div>
+            }
+
+            <!-- Join Date -->
+            @if (user()?.createdAt || user()?.enrollmentDate) {
+              <div class="detail-item">
+                <div class="detail-icon">
+                  <i class="pi pi-calendar"></i>
+                </div>
+                <div class="detail-content">
+                  <label class="detail-label">Member Since</label>
+                  <span class="detail-value"
+                    >{{ (user()?.createdAt || user()?.enrollmentDate) | date:'mediumDate' }}</span
+                    >
+                  </div>
+                </div>
+              }
+
+              <!-- Status -->
+              @if (user()?.status) {
+                <div class="detail-item">
+                  <div class="detail-icon">
+                    <i class="pi pi-circle-fill" [class]="'status-' + (user()?.status?.toLowerCase() || '')"></i>
+                  </div>
+                  @if (user()) {
+                    <div class="detail-content">
+                      <label class="detail-label">Status</label>
+                      <p-tag
+                        [value]="(user()?.status || '') | titlecase"
+                        [severity]="getStatusSeverity(user()?.status)"
+                        styleClass="status-tag"
+                        >
+                      </p-tag>
+                    </div>
+                  }
+                </div>
+              }
+
+              <!-- Location -->
+              @if (user()?.location || user()?.address) {
+                <div class="detail-item">
+                  <div class="detail-icon">
+                    <i class="pi pi-map-marker"></i>
+                  </div>
+                  <div class="detail-content">
+                    <label class="detail-label">Location</label>
+                    <span class="detail-value"
+                      >{{ user()?.location || user()?.address || 'Not specified' }}</span
+                      >
+                    </div>
+                  </div>
+                }
+              </div>
+
+              <!-- Action Buttons -->
+              @if (showActions()) {
+                <div class="action-buttons">
+                  <p-button
+                    icon="pi pi-pencil"
+                    label="Edit Profile"
+                    styleClass="edit-button"
+                    [outlined]="true"
+                    (onClick)="onEditProfile()"
+                    >
+                  </p-button>
+                  <p-button
+                    icon="pi pi-cog"
+                    label="Settings"
+                    styleClass="settings-button"
+                    severity="secondary"
+                    [outlined]="true"
+                    (onClick)="onOpenSettings()"
+                    >
+                  </p-button>
+                </div>
+              }
+            </div>
+          </div>
+        </p-card>
+      </div>

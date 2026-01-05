@@ -1,0 +1,420 @@
+<div class="study-form-container min-h-screen bg-gray-50 py-8">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Create New Study</h1>
+      <p class="text-gray-600">Configure and initialize a new clinical study</p>
+    </div>
+
+    <!-- Loading Spinner -->
+    @if (isLoading()) {
+      <div class="flex justify-center items-center py-12">
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+    }
+
+    <!-- Main Form -->
+    @if (!isLoading()) {
+      <form
+        (ngSubmit)="onSubmit()"
+        [formGroup]="studyForm"
+        class="space-y-8"
+        data-testid="study-form"
+        >
+        <!-- Study Information Section -->
+        <p-card header="Study Information" styleClass="shadow-sm">
+          <div class="grid grid-cols-12 gap-6">
+            <!-- Study Title -->
+            <div class="col-span-12">
+              <lib-input-text
+                [helperText]="'Provide a clear and concise title (10-200 characters)'"
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Study Title'"
+                [maxLength]="200"
+                [minLength]="10"
+                [placeholder]="'Enter a descriptive title for the study'"
+                [required]="true"
+                formControlName="studyTitle"
+                />
+            </div>
+            <!-- Principal Investigator -->
+            <div class="col-span-12 md:col-span-6">
+              <lib-input-text
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Principal Investigator'"
+                [placeholder]="'Dr. John Smith'"
+                [required]="true"
+                formControlName="principalInvestigator"
+                />
+            </div>
+            <!-- Protocol Number -->
+            <div class="col-span-12 md:col-span-6">
+              <lib-input-text
+                [helperText]="'Use uppercase letters, numbers, and hyphens only'"
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Protocol Number'"
+                [pattern]="'^[A-Z0-9-]+$'"
+                [placeholder]="'PROTO-2025-001'"
+                [required]="true"
+                formControlName="protocolNumber"
+                />
+            </div>
+            <!-- Study Phase -->
+            <div class="col-span-12 md:col-span-6">
+              <lib-select
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Study Phase'"
+                [optionLabel]="'label'"
+                [optionValue]="'value'"
+                [options]="studyPhaseOptions"
+                [placeholder]="'Select study phase'"
+                [required]="true"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="studyPhase"
+              ></lib-select>
+            </div>
+            <!-- Study Type -->
+            <div class="col-span-12 md:col-span-6">
+              <lib-select
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Study Type'"
+                [optionLabel]="'label'"
+                [optionValue]="'value'"
+                [options]="studyTypeOptions"
+                [placeholder]="'Select study type'"
+                [required]="true"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="studyType"
+              ></lib-select>
+            </div>
+            <!-- Study Description -->
+            <div class="col-span-12">
+              <lib-textarea
+                [autoResize]="true"
+                [helperText]="'Minimum 50 characters required'"
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Study Description'"
+                [minLength]="50"
+                [placeholder]="'Provide a detailed description of the study objectives, methodology, and expected outcomes...'"
+                [required]="true"
+                [rows]="6"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="studyDescription"
+              ></lib-textarea>
+            </div>
+          </div>
+        </p-card>
+        <!-- Timeline Section -->
+        <p-card header="Study Timeline" styleClass="shadow-sm">
+          <div class="grid grid-cols-12 gap-6">
+            <!-- Start Date -->
+            <div class="col-span-12 md:col-span-4">
+              <lib-date-picker
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Start Date'"
+                [placeholder]="'Select start date'"
+                [required]="true"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="startDate"
+              ></lib-date-picker>
+            </div>
+            <!-- End Date -->
+            <div class="col-span-12 md:col-span-4">
+              <lib-date-picker
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'End Date'"
+                [placeholder]="'Select end date'"
+                [required]="true"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="endDate"
+              ></lib-date-picker>
+            </div>
+            <!-- Expected Duration -->
+            <div class="col-span-12 md:col-span-4">
+              <lib-input-number
+                [label]="'Expected Duration (months)'"
+                [max]="120"
+                [min]="1"
+                [placeholder]="'12'"
+                [required]="true"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="expectedDuration"
+                />
+            </div>
+          </div>
+        </p-card>
+        <!-- Participant Information Section -->
+        <p-card header="Participant Information" styleClass="shadow-sm">
+          <div class="grid grid-cols-12 gap-6">
+            <!-- Target Enrollment -->
+            <div class="col-span-12 md:col-span-6">
+              <lib-input-number
+                [helperText]="'Number of participants to enroll'"
+                [label]="'Target Enrollment'"
+                [max]="10000"
+                [min]="1"
+                [placeholder]="'100'"
+                [required]="true"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="targetEnrollment"
+                />
+            </div>
+            <!-- Age Range -->
+            <div class="col-span-12 md:col-span-6">
+              <lib-multiselect
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Age Range'"
+                [optionLabel]="'label'"
+                [optionValue]="'value'"
+                [options]="ageRangeOptions"
+                [placeholder]="'Select applicable age ranges'"
+                [required]="true"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="ageRange"
+              ></lib-multiselect>
+            </div>
+            <!-- Inclusion Criteria -->
+            <div class="col-span-12 md:col-span-6">
+              <lib-textarea
+                [autoResize]="true"
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Inclusion Criteria'"
+                [placeholder]="'List the criteria for participant inclusion...'"
+                [required]="true"
+                [rows]="4"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="inclusionCriteria"
+              ></lib-textarea>
+            </div>
+            <!-- Exclusion Criteria -->
+            <div class="col-span-12 md:col-span-6">
+              <lib-textarea
+                [autoResize]="true"
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Exclusion Criteria'"
+                [placeholder]="'List the criteria for participant exclusion...'"
+                [required]="true"
+                [rows]="4"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="exclusionCriteria"
+              ></lib-textarea>
+            </div>
+          </div>
+        </p-card>
+        <!-- Study Design Section -->
+        <p-card header="Study Design" styleClass="shadow-sm">
+          <div class="grid grid-cols-12 gap-6">
+            <!-- Study Design Checkboxes -->
+            <div class="col-span-12 md:col-span-6">
+              <div class="space-y-4">
+                <lib-checkbox
+                  [label]="'Randomized Study'"
+                  [mode]="CheckboxModeEnum.BINARY"
+                  [size]="FormComponentSizeEnum.NORMAL"
+                  formControlName="randomized"
+                  />
+                <lib-checkbox
+                  [label]="'Blinded Study'"
+                  [mode]="CheckboxModeEnum.BINARY"
+                  [size]="FormComponentSizeEnum.NORMAL"
+                  formControlName="blinded"
+                  />
+              </div>
+            </div>
+            <!-- Control Type -->
+            <div class="col-span-12 md:col-span-6">
+              <lib-select
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Control Type'"
+                [optionLabel]="'label'"
+                [optionValue]="'value'"
+                [options]="controlTypeOptions"
+                [placeholder]="'Select control type'"
+                [required]="true"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="controlType"
+                />
+            </div>
+            <!-- Primary Endpoint -->
+            <div class="col-span-12 md:col-span-6">
+              <lib-textarea
+                [autoResize]="true"
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Primary Endpoint'"
+                [placeholder]="'Define the primary outcome measure...'"
+                [required]="true"
+                [rows]="3"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="primaryEndpoint"
+                />
+            </div>
+            <!-- Secondary Endpoints -->
+            <div class="col-span-12 md:col-span-6">
+              <lib-textarea
+                [autoResize]="true"
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Secondary Endpoints'"
+                [placeholder]="'Define any secondary outcome measures...'"
+                [rows]="3"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="secondaryEndpoints"
+                />
+            </div>
+          </div>
+        </p-card>
+        <!-- Regulatory Section -->
+        <p-card header="Regulatory Requirements" styleClass="shadow-sm">
+          <div class="grid grid-cols-12 gap-6">
+            <div class="col-span-12">
+              <div class="space-y-4">
+                <lib-checkbox
+                  [label]="'IRB/Ethics Committee Approval Obtained'"
+                  [mode]="CheckboxModeEnum.BINARY"
+                  [required]="true"
+                  [size]="FormComponentSizeEnum.NORMAL"
+                  formControlName="irbApproval"
+                  />
+                <lib-checkbox
+                  [label]="'FDA Regulated Study'"
+                  [mode]="CheckboxModeEnum.BINARY"
+                  [size]="FormComponentSizeEnum.NORMAL"
+                  formControlName="fdaRegulated"
+                  />
+                <lib-checkbox
+                  [label]="'Good Clinical Practice (GCP) Compliance'"
+                  [mode]="CheckboxModeEnum.BINARY"
+                  [required]="true"
+                  [size]="FormComponentSizeEnum.NORMAL"
+                  formControlName="goodClinicalPractice"
+                  />
+              </div>
+            </div>
+          </div>
+        </p-card>
+        <!-- Contact Information Section -->
+        <p-card header="Contact Information" styleClass="shadow-sm">
+          <div class="grid grid-cols-12 gap-6">
+            <!-- Contact Person -->
+            <div class="col-span-12 md:col-span-4">
+              <lib-input-text
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Contact Person'"
+                [placeholder]="'Study Coordinator Name'"
+                [required]="true"
+                formControlName="contactPerson"
+                />
+            </div>
+            <!-- Contact Email -->
+            <div class="col-span-12 md:col-span-4">
+              <lib-input-text
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Contact Email'"
+                [placeholder]="'study.coordinator@example.com'"
+                [required]="true"
+                [type]="InputTextTypeEnum.EMAIL"
+                formControlName="contactEmail"
+                />
+            </div>
+            <!-- Contact Phone -->
+            <div class="col-span-12 md:col-span-4">
+              <lib-input-text
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Contact Phone'"
+                [placeholder]="'+1 (555) 123-4567'"
+                [required]="true"
+                [type]="InputTextTypeEnum.TEL"
+                formControlName="contactPhone"
+                />
+            </div>
+          </div>
+        </p-card>
+        <!-- Additional Information Section -->
+        <p-card header="Additional Information" styleClass="shadow-sm">
+          <div class="grid grid-cols-12 gap-6">
+            <!-- Special Requirements -->
+            <div class="col-span-12 md:col-span-6">
+              <lib-textarea
+                [autoResize]="true"
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Special Requirements'"
+                [placeholder]="'Any special equipment, facilities, or procedures required...'"
+                [rows]="4"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="specialRequirements"
+                />
+            </div>
+            <!-- Additional Notes -->
+            <div class="col-span-12 md:col-span-6">
+              <lib-textarea
+                [autoResize]="true"
+                [labelPosition]="FormLabelPositionEnum.ABOVE"
+                [labelStyle]="FormLabelStyleEnum.DEFAULT"
+                [label]="'Additional Notes'"
+                [placeholder]="'Any additional information or comments...'"
+                [rows]="4"
+                [size]="FormComponentSizeEnum.NORMAL"
+                formControlName="notes"
+                />
+            </div>
+          </div>
+        </p-card>
+        <!-- Form Actions -->
+        <p-card styleClass="shadow-sm">
+          <div class="flex flex-col sm:flex-row justify-end gap-3 pt-4">
+            <p-button
+              (onClick)="onCancel()"
+              [disabled]="isSubmitting()"
+              [outlined]="true"
+              data-testid="cancel-button"
+              icon="pi pi-times"
+              label="Cancel"
+              severity="secondary"
+              size="large"
+              />
+            <p-button
+              (onClick)="onReset()"
+              [disabled]="isSubmitting()"
+              [outlined]="true"
+              data-testid="reset-button"
+              icon="pi pi-refresh"
+              label="Reset Form"
+              severity="warn"
+              size="large"
+              />
+            <p-button
+              [disabled]="!studyForm.valid || isSubmitting()"
+              [loading]="isSubmitting()"
+              data-testid="submit-button"
+              icon="pi pi-check"
+              label="Create Study"
+              severity="success"
+              size="large"
+              type="submit"
+              />
+          </div>
+        </p-card>
+      </form>
+    }
+  </div>
+
+  <!-- Toast Messages -->
+  <p-toast />
+</div>

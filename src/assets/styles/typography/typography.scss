@@ -1,0 +1,20 @@
+html {
+  .text-primary {
+    color: var(--my-text-primary) !important;
+  }
+  .text-warning {
+    color: var(--my-text-warning) !important;
+  }
+  .text-secondary {
+    color: var(--my-text-warning) !important;
+  }
+  .text-light-error {
+    color: var(--my-text-light-error) !important;
+  }
+  .text-success {
+    color: var(--my-text-success) !important;
+  }
+  .text-for-gray {
+    color: var(--my-text-for-gray) !important;
+  }
+}

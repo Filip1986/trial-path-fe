@@ -1,0 +1,58 @@
+<p-card>
+  <ng-template pTemplate="header">
+    <div class="flex justify-between items-center p-3">
+      <div>
+        <h3 class="text-xl font-semibold m-0">Our Visitors</h3>
+        <p class="text-sm m-0 mt-1">Device distribution this month</p>
+      </div>
+      <div class="h-10 w-10 rounded-full flex items-center justify-center">
+        <i class="pi pi-users"></i>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="flex flex-col items-center">
+    <div class="chart-container w-full">
+      <apx-chart
+        #chart
+        [chart]="chartOptions.chart"
+        [colors]="chartOptions.colors"
+        [dataLabels]="chartOptions.dataLabels"
+        [labels]="chartOptions.labels"
+        [legend]="chartOptions.legend"
+        [plotOptions]="chartOptions.plotOptions"
+        [responsive]="chartOptions.responsive"
+        [series]="chartOptions.series"
+        [stroke]="chartOptions.stroke"
+        [tooltip]="chartOptions.tooltip"
+      ></apx-chart>
+    </div>
+
+    <div class="stats mt-3 grid grid-cols-2 gap-4 w-full">
+      @for (device of visitorData.devices; track device) {
+        <div
+          [ngStyle]="{'background-color': device.color + '20', 'border-left': '3px solid ' + device.color}"
+          class="p-3 rounded-lg"
+          >
+          <div class="flex justify-between items-center">
+            <span class="text-gray-700">{{ device.name }}</span>
+            <span class="font-semibold">{{ device.count }}%</span>
+          </div>
+          <div class="w-full h-1 mt-2 rounded-full">
+            <div
+              [ngStyle]="{'width': device.count + '%', 'background-color': device.color}"
+              class="h-1 rounded-full"
+            ></div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="text-center text-sm text-gray-500">
+      Total visitors this month:
+      <span class="font-semibold">24,591</span>
+    </div>
+  </ng-template>
+</p-card>

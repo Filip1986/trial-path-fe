@@ -1,0 +1,25 @@
+<div class="studies-layout">
+  <!-- Header Section -->
+  <div class="layout-header mb-4">
+    <div class="flex justify-between align-items-center mb-3">
+      <div>
+        <h1 class="text-3xl font-bold text-900 text-gray-600 mb-1">Studies Management</h1>
+        <p class="text-color-secondary text-gray-600 text-lg">
+          Manage clinical studies, protocols, and research data
+        </p>
+      </div>
+    </div>
+
+    <!-- Breadcrumb Navigation -->
+    <p-breadcrumb
+      [model]="breadcrumbItems()"
+      [home]="homeBreadcrumb"
+      styleClass="p-breadcrumb-custom"
+    />
+  </div>
+
+  <!-- Main Content -->
+  <div class="layout-content">
+    <router-outlet />
+  </div>
+</div>

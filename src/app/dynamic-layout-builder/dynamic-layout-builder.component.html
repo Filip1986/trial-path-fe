@@ -1,0 +1,27 @@
+<div class="dynamic-layout-builder">
+  <h2>Dynamic Layout Builder</h2>
+
+  <div class="toolbar">
+    <button (click)="clearLayout()" class="clear-btn">
+      <i class="pi pi-trash"></i> Clear Layout
+    </button>
+    <button (click)="exportLayout()" class="export-btn">
+      <i class="pi pi-download"></i> Export Layout
+    </button>
+  </div>
+
+  <!-- Element palette -->
+  <app-layout-palette (itemDropped)="onPaletteItemDropped($event)"></app-layout-palette>
+
+  <!-- Main layout container -->
+  <div class="layout-canvas">
+    <h3>Layout Canvas</h3>
+    <app-layout-container
+      (itemDrop)="onItemDrop($event)"
+      (removeItem)="onRemoveItem($event)"
+      [connectedDropListIds]="allDropListIds"
+      [container]="rootContainer"
+      [isRoot]="true"
+    ></app-layout-container>
+  </div>
+</div>

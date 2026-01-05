@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+}
+
+:host {
+  display: block;
+}
+
+.wrapper {
+  width: 100%;
+  background-color: #87233b;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 750px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+svg {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  visibility: hidden; // Will be set to visible by GSAP
+}
+
+// Optional: Add a hover effect
+.wrapper:hover svg {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}

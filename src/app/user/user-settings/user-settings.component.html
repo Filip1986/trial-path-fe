@@ -1,0 +1,483 @@
+<div class="settings-container p-4">
+  <div class="max-w-5xl mx-auto">
+    <p-card>
+      <!-- Card Header -->
+      <ng-template pTemplate="header">
+        <div class="p-6">
+          <div class="flex items-center">
+            <i class="pi pi-cog text-4xl mr-4"></i>
+            <div>
+              <h1 class="text-2xl font-bold">Application Settings</h1>
+              <p class="mt-1 text-primary-100">Customize your experience with TYME</p>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <div class="p-4">
+        <!-- Tab View for Settings Management -->
+        <p-tabs styleClass="custom-tabview">
+          <!-- Appearance Tab -->
+          <p-tab header="Appearance" leftIcon="pi pi-palette">
+            <div class="p-4">
+              <!-- Use the new AppearanceSettingsComponent -->
+              <app-appearance-settings />
+            </div>
+          </p-tab>
+
+          <!-- Notifications Tab -->
+          <p-tab header="Notifications" leftIcon="pi pi-bell">
+            <div class="p-4">
+              <form [formGroup]="notificationSettings">
+                <div class="mb-6">
+                  <h2 class="text-xl font-semibold mb-4">Notification Settings</h2>
+                  <p class="text-gray-600 mb-4">Manage how and when you receive notifications.</p>
+
+                  <!-- Email Notifications Toggle -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="emailNotifications"
+                      >Email Notifications</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-toggleswitch formControlName="emailNotifications" />
+                      <small class="ml-2 text-gray-500">Receive notifications via email</small>
+                    </div>
+                  </div>
+
+                  <!-- Push Notifications Toggle -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="pushNotifications"
+                      >Push Notifications</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-toggleswitch formControlName="pushNotifications" />
+                      <small class="ml-2 text-gray-500">Receive browser push notifications</small>
+                    </div>
+                  </div>
+
+                  <!-- Notification Sound Toggle -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="notificationSound"
+                      >Notification Sound</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-toggleswitch formControlName="notificationSound" />
+                      <small class="ml-2 text-gray-500"
+                        >Play a sound when notifications arrive</small
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Notification Timing Dropdown -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="notificationTiming"
+                      >Notification Timing</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-select
+                        [options]="notificationTimingOptions"
+                        formControlName="notificationTiming"
+                        optionLabel="name"
+                        optionValue="value"
+                        placeholder="Select notification timing"
+                        styleClass="w-full"
+                      ></p-select>
+                      <small class="text-gray-500"
+                        >Control how frequently notifications are sent</small
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Desktop Alerts Toggle -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="desktopAlerts"
+                      >Desktop Alerts</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-toggleswitch formControlName="desktopAlerts" />
+                      <small class="ml-2 text-gray-500">Show alerts on your desktop</small>
+                    </div>
+                  </div>
+
+                  <!-- Reminder Emails Toggle -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="reminderEmails"
+                      >Reminder Emails</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-toggleswitch formControlName="reminderEmails" />
+                      <small class="ml-2 text-gray-500"
+                        >Send reminder emails for upcoming events</small
+                      >
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </p-tab>
+
+          <!-- Privacy Tab -->
+          <p-tab header="Privacy" leftIcon="pi pi-shield">
+            <div class="p-4">
+              <form [formGroup]="privacySettings">
+                <div class="mb-6">
+                  <h2 class="text-xl font-semibold mb-4">Privacy Settings</h2>
+                  <p class="text-gray-600 mb-4">
+                    Control who can see your information and how your data is used.
+                  </p>
+
+                  <!-- Profile Visibility Radio Buttons -->
+                  <div class="mb-4 flex flex-col md:flex-row">
+                    <label class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      >Profile Visibility</label
+                    >
+                    <div class="md:w-2/3">
+                      <div class="flex flex-col gap-2">
+                        <div class="flex items-center">
+                          <p-radioButton
+                            formControlName="profileVisibility"
+                            inputId="visibility1"
+                            name="profileVisibility"
+                            value="public"
+                          />
+                          <label class="ml-2" for="visibility1"
+                            >Public (Anyone can see your profile)</label
+                          >
+                        </div>
+                        <div class="flex items-center">
+                          <p-radioButton
+                            formControlName="profileVisibility"
+                            inputId="visibility2"
+                            name="profileVisibility"
+                            value="contacts"
+                          />
+                          <label class="ml-2" for="visibility2"
+                            >Contacts Only (Only your contacts can see your profile)</label
+                          >
+                        </div>
+                        <div class="flex items-center">
+                          <p-radioButton
+                            formControlName="profileVisibility"
+                            inputId="visibility3"
+                            name="profileVisibility"
+                            value="private"
+                          />
+                          <label class="ml-2" for="visibility3"
+                            >Private (Only you can see your profile)</label
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Activity Tracking Toggle -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="activityTracking"
+                      >Activity Tracking</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-toggleswitch formControlName="activityTracking" />
+                      <small class="ml-2 text-gray-500"
+                        >Allow tracking of your activities to improve your experience</small
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Data Sharing Consent Toggle -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="dataSharingConsent"
+                      >Data Sharing</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-toggleswitch formControlName="dataSharingConsent" />
+                      <small class="ml-2 text-gray-500"
+                        >Allow sharing of anonymized data with third parties</small
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Data Collection Toggle -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="dataCollection"
+                      >Data Collection</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-toggleswitch formControlName="dataCollection" />
+                      <small class="ml-2 text-gray-500"
+                        >Allow collection of usage data to improve functionality</small
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Cookies Consent Toggle -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="cookiesConsent"
+                      >Cookies Consent</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-toggleswitch formControlName="cookiesConsent" />
+                      <small class="ml-2 text-gray-500"
+                        >Allow cookies to personalize your experience</small
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Privacy Policy Link -->
+                  <div class="mt-6 p-4 bg-blue-50 rounded-md">
+                    <h3 class="font-medium text-blue-700">Privacy Information</h3>
+                    <p class="mt-2 text-blue-600 text-sm">
+                      Learn more about how we handle your data in our
+                      <a class="text-blue-600 underline" href="#">Privacy Policy</a>. For questions
+                      regarding your privacy, please contact our
+                      <a class="text-blue-600 underline" href="#">Data Protection Officer</a>.
+                    </p>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </p-tab>
+
+          <!-- Accessibility Tab -->
+          <p-tab header="Accessibility" leftIcon="pi pi-users">
+            <div class="p-4">
+              <form [formGroup]="accessibilitySettings">
+                <div class="mb-6">
+                  <h2 class="text-xl font-semibold mb-4">Accessibility Settings</h2>
+                  <p class="text-gray-600 mb-4">
+                    Adjust settings to make the application more accessible.
+                  </p>
+
+                  <!-- High Contrast Mode Toggle -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="highContrast"
+                      >High Contrast Mode</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-toggleswitch formControlName="highContrast" />
+                      <small class="ml-2 text-gray-500"
+                        >Increase contrast for better readability</small
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Font Size Selector -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="fontSize"
+                      >Font Size</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-selectButton
+                        [options]="fontSizeOptions"
+                        formControlName="fontSize"
+                        optionLabel="name"
+                        optionValue="value"
+                      />
+                      <div class="mt-2">
+                        <small class="text-gray-500"
+                          >Adjust the font size throughout the application</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Reduced Animations Toggle -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="animationsReduced"
+                      >Reduced Animations</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-toggleswitch formControlName="animationsReduced" />
+                      <small class="ml-2 text-gray-500">Reduce or disable animations</small>
+                    </div>
+                  </div>
+
+                  <!-- Screen Reader Optimization Toggle -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="screenReaderOptimized"
+                      >Screen Reader Optimization</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-toggleswitch formControlName="screenReaderOptimized" />
+                      <small class="ml-2 text-gray-500"
+                        >Optimize for screen readers and assistive technologies</small
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Keyboard Navigation Toggle -->
+                  <div class="mb-4 flex flex-col md:flex-row md:items-center">
+                    <label
+                      class="block text-gray-700 font-medium mb-2 md:mb-0 md:w-1/3"
+                      for="keyboardNavigation"
+                      >Keyboard Navigation</label
+                    >
+                    <div class="md:w-2/3">
+                      <p-toggleswitch formControlName="keyboardNavigation" />
+                      <small class="ml-2 text-gray-500">Enable enhanced keyboard navigation</small>
+                    </div>
+                  </div>
+
+                  <!-- Accessibility Resources -->
+                  <div class="mt-6 p-4 bg-green-50 rounded-md">
+                    <h3 class="font-medium text-green-700">Accessibility Resources</h3>
+                    <p class="mt-2 text-green-600 text-sm">
+                      We are committed to making our application accessible to everyone. For more
+                      information or assistance, please visit our
+                      <a class="text-green-600 underline" href="#">Accessibility Help Center</a>.
+                    </p>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </p-tab>
+
+          <!-- Advanced Settings Tab -->
+          <p-tab header="Advanced" leftIcon="pi pi-cog">
+            <div class="p-4">
+              <h2 class="text-xl font-semibold mb-4">Advanced Settings</h2>
+              <p class="text-gray-600 mb-4">Configure advanced options and manage your settings.</p>
+
+              <!-- Export/Import Settings -->
+              <div class="mb-6">
+                <h3 class="text-lg font-medium mb-3">Export/Import Settings</h3>
+                <p class="text-gray-600 mb-3">
+                  Save your settings for backup or transfer to another device.
+                </p>
+
+                <div class="flex flex-wrap gap-3">
+                  <button
+                    (click)="exportSettings()"
+                    icon="pi pi-download"
+                    label="Export Settings"
+                    pButton
+                  ></button>
+
+                  <label
+                    class="p-button p-component flex items-center cursor-pointer"
+                    for="import-settings"
+                  >
+                    <span class="pi pi-upload mr-2"></span>
+                    <span class="p-button-label">Import Settings</span>
+                    <input
+                      (change)="importSettings($event)"
+                      accept=".json"
+                      class="hidden"
+                      id="import-settings"
+                      type="file"
+                    />
+                  </label>
+                </div>
+
+                <small class="block mt-2 text-gray-500">
+                  Export creates a JSON file containing all your settings. Import allows you to
+                  restore settings from a previously exported file.
+                </small>
+              </div>
+
+              <!-- Reset Settings -->
+              <div class="mb-6">
+                <h3 class="text-lg font-medium mb-3">Reset Settings</h3>
+                <p class="text-gray-600 mb-3">Reset all settings to their default values.</p>
+
+                <button
+                  (click)="resetToDefaults()"
+                  class="p-button-danger"
+                  icon="pi pi-replay"
+                  label="Reset to Defaults"
+                  pButton
+                ></button>
+
+                <small class="block mt-2 text-gray-500">
+                  This will reset all your settings to their original default values. This action
+                  cannot be undone.
+                </small>
+              </div>
+
+              <!-- Cache & Storage -->
+              <div class="mb-6">
+                <h3 class="text-lg font-medium mb-3">Cache & Storage</h3>
+                <p class="text-gray-600 mb-3">Manage application cache and local storage.</p>
+
+                <div class="flex flex-wrap gap-3">
+                  <button
+                    class="p-button-outlined"
+                    icon="pi pi-trash"
+                    label="Clear Cache"
+                    pButton
+                  ></button>
+                  <button
+                    aria-label="Clear Local Storage"
+                    class="p-button-outlined"
+                    icon="pi pi-database"
+                    label="Clear Local Storage"
+                    pButton
+                  ></button>
+                </div>
+
+                <small class="block mt-2">
+                  Clearing cache or local storage can resolve some issues but will reset some of
+                  your preferences.
+                </small>
+              </div>
+
+              <!-- Developer Options -->
+              <div class="mb-6">
+                <h3 class="text-lg font-medium mb-3">Developer Options</h3>
+                <p class="text-gray-600 mb-3">Advanced options for developers.</p>
+
+                <div class="p-4 text-center">
+                  <i class="pi pi-code text-3xl mb-2"></i>
+                  <p>Developer options will be available in a future update.</p>
+                </div>
+              </div>
+            </div>
+          </p-tab>
+        </p-tabs>
+      </div>
+
+      <!-- Save Settings Button -->
+      <ng-template pTemplate="footer">
+        <div class="flex justify-end p-4">
+          <button
+            (click)="saveSettings()"
+            [disabled]="isSaving"
+            [loading]="isSaving"
+            aria-label="Save All Settings"
+            class="w-full md:w-auto"
+            icon="pi pi-save"
+            label="Save All Settings"
+            pButton
+          ></button>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>

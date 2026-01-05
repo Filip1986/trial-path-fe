@@ -1,0 +1,194 @@
+// shared/components/enhanced-table/enhanced-table.component.scss
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+// Responsive table improvements
+::ng-deep {
+  .p-datatable {
+    .p-datatable-wrapper {
+      overflow-x: auto;
+    }
+
+    .p-datatable-thead > tr > th {
+      position: sticky;
+      top: 0;
+      background: var(--surface-section);
+      z-index: 1;
+      border-bottom: 1px solid var(--surface-border);
+    }
+
+    // Better mobile responsiveness
+    @media screen and (max-width: 768px) {
+      .p-datatable-thead > tr > th,
+      .p-datatable-tbody > tr > td {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+      }
+    }
+  }
+
+  // Custom progress bar styling
+  .progress-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .progress-bar {
+      flex-grow: 1;
+      height: 6px;
+      background-color: var(--gray-200);
+      border-radius: 3px;
+      overflow: hidden;
+
+      .progress-fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 0.3s ease;
+      }
+    }
+
+    .progress-text {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-color);
+      min-width: fit-content;
+    }
+  }
+
+  // Metrics cards styling
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+
+    .metric-card {
+      .p-card-body {
+        padding: 1.5rem;
+      }
+
+      .metric-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .metric-info {
+          h3 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-color);
+          }
+
+          p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: var(--text-color-secondary);
+          }
+        }
+
+        .metric-value {
+          font-size: 2rem;
+          font-weight: 700;
+          color: var(--text-color);
+        }
+      }
+
+      // Background color variants
+      &.bg-light-error {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        .metric-value { color: #dc2626; }
+      }
+
+      &.bg-light-success {
+        background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+        .metric-value { color: #16a34a; }
+      }
+
+      &.bg-primary {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        .metric-value { color: #2563eb; }
+      }
+
+      &.bg-gray {
+        background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        .metric-value { color: #374151; }
+      }
+    }
+  }
+
+  // Enhanced empty state
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+
+    .empty-icon {
+      font-size: 3rem;
+      color: var(--text-color-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .empty-message {
+      color: var(--text-color-secondary);
+      margin-bottom: 1rem;
+    }
+  }
+
+  // Loading state improvements
+  .loading-state {
+    text-align: center;
+    padding: 2rem;
+
+    .loading-message {
+      color: var(--text-color-secondary);
+      margin-top: 1rem;
+    }
+  }
+
+  // Action button improvements
+  .action-button {
+    &:hover {
+      background-color: var(--primary-color);
+      color: var(--primary-color-text);
+    }
+  }
+
+  // Tag styling improvements
+  .p-tag {
+    font-weight: 500;
+
+    &.p-tag-success {
+      background-color: #10b981;
+      color: white;
+    }
+    &.p-tag-warning {
+      background-color: #f59e0b;
+      color: white;
+    }
+    &.p-tag-danger {
+      background-color: #ef4444;
+      color: white;
+    }
+    &.p-tag-info {
+      background-color: #3b82f6;
+      color: white;
+    }
+    &.p-tag-secondary {
+      background-color: #6b7280;
+      color: white;
+    }
+  }
+}
+
+// Animation for loading states
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.table-content {
+  animation: fadeIn 0.3s ease-out;
+}

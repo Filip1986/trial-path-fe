@@ -1,0 +1,118 @@
+<div class="form-step">
+  <app-step-header
+    title="Timeline"
+    description="Define the study timeline and key dates"
+    iconClass="pi pi-calendar text-orange-500"
+  />
+
+  <div class="grid grid-cols-12 gap-4">
+    <div class="col-span-12 md:col-span-6">
+      <lib-date-picker
+        [config]="{
+              id: 'plannedStartDate',
+              label: 'Planned Start Date',
+              placeholder: 'Select start date',
+              required: true,
+              variant: FormComponentVariantEnum.OUTLINED,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              helperText: 'When the study is planned to begin',
+              disabled: false,
+              size: FormComponentSizeEnum.NORMAL,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              dateView: DatePickerViewEnum.DATE,
+              hourFormat: DatePickerHourFormatEnum.TWELVE,
+              showIcon: true,
+              showTime: false,
+              autofocus: false,
+            }"
+        formControlName="plannedStartDate"
+      >
+      </lib-date-picker>
+    </div>
+
+    <div class="col-span-12 md:col-span-6">
+      <lib-date-picker
+        [config]="{
+              id: 'plannedEndDate',
+              label: 'Planned End Date',
+              placeholder: 'Select end date',
+              required: true,
+              variant: FormComponentVariantEnum.OUTLINED,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              helperText: 'When the study is planned to conclude',
+              disabled: false,
+              size: FormComponentSizeEnum.NORMAL,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              dateView: DatePickerViewEnum.DATE,
+              hourFormat: DatePickerHourFormatEnum.TWELVE,
+              showIcon: true,
+              showTime: false,
+              autofocus: false,
+            }"
+        formControlName="plannedEndDate"
+      >
+      </lib-date-picker>
+    </div>
+
+    <div class="col-span-12 md:col-span-6">
+      <lib-date-picker
+        [config]="{
+              id: 'enrollmentStartDate',
+              label: 'Enrollment Start Date',
+              placeholder: 'Select enrollment start',
+              required: true,
+              variant: FormComponentVariantEnum.OUTLINED,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              helperText: 'When participant enrollment begins',
+              disabled: false,
+              size: FormComponentSizeEnum.NORMAL,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              dateView: DatePickerViewEnum.DATE,
+              hourFormat: DatePickerHourFormatEnum.TWELVE,
+              showIcon: true,
+              showTime: false,
+              autofocus: false,
+            }"
+        formControlName="enrollmentStartDate"
+      >
+      </lib-date-picker>
+    </div>
+
+    <div class="col-span-12 md:col-span-6">
+      <lib-date-picker
+        [config]="{
+              id: 'enrollmentEndDate',
+              label: 'Enrollment End Date',
+              placeholder: 'Select enrollment end',
+              required: true,
+              variant: FormComponentVariantEnum.OUTLINED,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              helperText: 'When participant enrollment concludes',
+              disabled: false,
+              size: FormComponentSizeEnum.NORMAL,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              dateView: DatePickerViewEnum.DATE,
+              hourFormat: DatePickerHourFormatEnum.TWELVE,
+              showIcon: true,
+              showTime: false,
+              autofocus: false,
+            }"
+        formControlName="enrollmentEndDate"
+      >
+      </lib-date-picker>
+    </div>
+
+    <!-- Additional timeline information -->
+    <div class="col-span-12 mt-4">
+      <div class="bg-blue-50 border-round p-4">
+        <h3 class="text-sm font-semibold text-blue-800 mb-2">Timeline Guidelines</h3>
+        <ul class="text-sm text-blue-700 list-disc list-inside space-y-1">
+          <li>Study start date should be after enrollment start date</li>
+          <li>Enrollment period should be within the overall study period</li>
+          <li>Consider regulatory approval timelines when setting dates</li>
+          <li>Allow buffer time for unexpected delays</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

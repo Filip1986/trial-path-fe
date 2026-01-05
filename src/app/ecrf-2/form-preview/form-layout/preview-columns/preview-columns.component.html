@@ -1,0 +1,50 @@
+<div class="preview-columns">
+  <div [ngClass]="getColumnsClass()" class="grid">
+    @for (column of getColumns(); track trackByColumnIndex($index)) {
+    <div class="bg-gray-50 p-3 rounded">
+      <!-- Column content -->
+      @for (item of column.container?.controls || []; track trackByControlId($index, item)) {
+      <div class="mb-3">
+        @switch (item.type) {
+        <!-- Input text preview -->
+        @case (FormElementType.INPUT_TEXT) {
+        <app-preview-text-input [control]="item" [value]="getControlValue(item)" />
+        }
+        <!-- Text area preview -->
+        @case (FormElementType.TEXT_AREA) {
+        <app-preview-textarea [control]="item" [value]="getControlValue(item)" />
+        }
+        <!-- Checkbox preview -->
+        @case (FormElementType.CHECKBOX) {
+        <app-preview-checkbox [control]="item" [value]="getControlValue(item)" />
+        }
+        <!-- Radio Button preview -->
+        @case (FormElementType.RADIO) {
+        <app-preview-radio-button [control]="item" [value]="getControlValue(item)" />
+        }
+        <!-- Date picker preview -->
+        @case (FormElementType.DATE_PICKER) {
+        <app-preview-date-picker [control]="item" [value]="getControlValue(item)" />
+        }
+        <!-- Select preview -->
+        @case (FormElementType.SELECT) {
+        <app-preview-select [control]="item" [value]="getControlValue(item)" />
+        }
+        <!-- Render other control types as needed -->
+        @default {
+        <div class="p-2 border rounded-md">
+          <span class="text-sm">{{ item.title }}</span>
+        </div>
+        } }
+      </div>
+      }
+      <!-- Empty column state -->
+      @if (column.container?.controls?.length === 0) {
+      <div class="py-2 text-center text-gray-400 text-sm">
+        <span>No elements in this column</span>
+      </div>
+      }
+    </div>
+    }
+  </div>
+</div>

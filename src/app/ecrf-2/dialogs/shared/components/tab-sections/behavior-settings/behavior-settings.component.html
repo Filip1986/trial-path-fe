@@ -1,0 +1,18 @@
+<app-config-section>
+  <div class="col-12">
+    <div class="checkbox-grid">
+      @for (option of options; track trackByOptionName($index, option)) {
+        <div class="checkbox-item">
+          <lib-checkbox
+            [formControl]="getControl(option.controlName)"
+            [id]="option.name"
+            [label]="option.label"
+            [mode]="checkboxMode"
+            />
+        </div>
+      }
+
+      <ng-content />
+    </div>
+  </div>
+</app-config-section>

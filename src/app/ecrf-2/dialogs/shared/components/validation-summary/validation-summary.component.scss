@@ -1,0 +1,53 @@
+/* apps/draft-fe/src/app/ecrf-2/dialogs/shared/components/validation-summary/validation-summary.component.scss */
+
+.validation-summary-container {
+  .form-warnings,
+  .form-quality-score {
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .form-warnings {
+    animation: slideInFromTop 0.3s ease-out;
+  }
+
+  .form-quality-score {
+    animation: slideInFromBottom 0.3s ease-out;
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Compact mode adjustments
+.validation-summary-container {
+  &.compact {
+    .form-warnings,
+    .form-quality-score {
+      padding: 0.5rem;
+      font-size: 0.75rem;
+    }
+  }
+}

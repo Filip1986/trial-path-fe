@@ -1,0 +1,64 @@
+<p-card [style]="{ width: '100%' }" styleClass="study-card">
+  <ng-template pTemplate="header">
+    <div class="flex justify-content-between align-items-center p-3">
+      <div>
+        <h3 class="m-0 text-lg font-semibold">{{ study().shortTitle }}</h3>
+        <p class="m-0 text-sm text-600">{{ study().protocolNumber }}</p>
+      </div>
+      <p-tag [severity]="statusSeverity()" [value]="study().status | studyStatus" />
+    </div>
+  </ng-template>
+
+  <div class="card-content">
+    <h4 class="mt-0 mb-2 text-base">{{ study().title }}</h4>
+
+    <div class="grid mb-3">
+      <div class="col-6">
+        <small class="text-600">Phase:</small>
+        <div class="font-medium">{{ study().phase | studyPhase }}</div>
+      </div>
+      <div class="col-6">
+        <small class="text-600">Principal Investigator:</small>
+        <div class="font-medium">{{ study().principalInvestigator }}</div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <div class="flex justify-content-between align-items-center mb-1">
+        <small class="text-600">Enrollment Progress</small>
+        <small class="text-600">{{ study().currentEnrollment }}/{{ study().plannedEnrollment }}</small>
+      </div>
+      <p-progressBar
+        [showValue]="false"
+        [style]="{ height: '8px' }"
+        [value]="enrollmentProgress()"
+        />
+    </div>
+
+    <div class="flex flex-wrap gap-1 mb-3">
+      @for (area of study().therapeuticAreas; track area) {
+        <p-tag
+          [value]="area"
+          severity="info"
+          styleClass="text-xs"
+          />
+      }
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex gap-2 justify-content-end">
+      <p-button (onClick)="onView()" [outlined]="true" icon="pi pi-eye" label="View" size="small">
+      </p-button>
+      @if (canEdit()) {
+        <p-button
+          (onClick)="onEdit()"
+          icon="pi pi-pencil"
+          label="Edit"
+          severity="secondary"
+          size="small"
+          />
+      }
+    </div>
+  </ng-template>
+</p-card>

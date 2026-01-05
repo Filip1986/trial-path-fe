@@ -1,0 +1,58 @@
+:host {
+  display: block;
+
+  .chart-container {
+    height: 320px;
+    width: 100%;
+  }
+
+  ::ng-deep {
+    // Style customizations for the apexchart component
+    .apexcharts-legend-text {
+      color: var(--text-color, #333) !important;
+    }
+
+    .apexcharts-datalabel-label,
+    .apexcharts-datalabel-value {
+      fill: var(--text-color, #333) !important;
+    }
+
+    // Custom styling for the donut hole center text
+    .apexcharts-datalabel-label {
+      font-weight: bold;
+    }
+
+    // Card styling
+    .p-card {
+      border-radius: 12px;
+
+      .p-card-body {
+        padding: 1rem;
+      }
+
+      .p-card-content {
+        padding: 0.5rem 0;
+      }
+
+      .p-card-footer {
+        padding-top: 1rem;
+        border-top: 1px solid var(--surface-border, #dee2e6);
+      }
+    }
+  }
+
+  // Progress bar styling
+  .stats {
+    .progress-bar {
+      height: 4px;
+      background-color: #e9ecef;
+      border-radius: 4px;
+      overflow: hidden;
+
+      .progress-value {
+        height: 100%;
+        border-radius: 4px;
+      }
+    }
+  }
+}

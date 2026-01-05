@@ -1,0 +1,24 @@
+@if (control) {
+  <div class="p-2">
+    <div class="grid grid-cols-2 gap-4">
+      @for (column of control.columns; track trackByColumnIndex(columnIndex, column); let columnIndex = $index) {
+        <div
+          [attr.data-nesting-level]="nestingLevel"
+          [class.nesting-level-warning]="nestingLevel >= maxNestingLevel - 1"
+          class="bg-gray-50 p-3 rounded border border-gray-200 column-container"
+          >
+          <!-- Use the dynamic component loader instead of ngComponentOutlet directly -->
+          <app-dynamic-component
+        [inputs]="{
+          container: column.container,
+          id: 'column-' + columnIndex + '-' + control.id,
+          nestingLevel: nestingLevel + 1,
+          showDebugInfo: showDebugInfo
+        }"
+            componentName="FormContainer"
+          ></app-dynamic-component>
+        </div>
+      }
+    </div>
+  </div>
+}

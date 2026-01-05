@@ -1,0 +1,10 @@
+<div class="p-4 flex flex-col items-center">
+  <p-selectButton
+    [(ngModel)]="selectedArticleStyle"
+    [options]="styleOptions"
+    class="mb-4"
+    optionLabel="name"
+    optionValue="value"
+  />
+  <lib-article-card [variant]="selectedArticleStyle" />
+</div>

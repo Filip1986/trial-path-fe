@@ -1,0 +1,64 @@
+<div
+  (cdkDropListDropped)="onDragDrop($event)"
+  (cdkDropListEntered)="onDragEnter($event)"
+  (cdkDropListExited)="onDragExit($event)"
+  [cdkDropListConnectedTo]="allDropListsIds"
+  [cdkDropListData]="parentItem"
+  [id]="parentItemId"
+  cdkDropList
+  class="item-dropzone parent"
+  >
+  <div
+    [cdkDragData]="item"
+    [cdkDragDisabled]="dragDisabled"
+    [id]="item.uId"
+    cdkDrag
+    class="item-wrapper"
+    >
+    <div cdkDragHandle class="item-drag-handle" title="Drag this item with children">
+      <span>{{item.name}}</span>
+      <i class="material-icons">drag_indicator</i>
+    </div>
+
+    <!-- Preview shown while dragging -->
+    <div *cdkDragPreview class="item-drag-preview">
+      <div class="preview-content">
+        <i class="material-icons">folder</i>
+        <span>{{item.name}} with {{item.children.length}} child item(s)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nested drop zone for children -->
+  <ul
+    (cdkDropListDropped)="onDragDrop($event)"
+    (cdkDropListEntered)="onDragEnter($event)"
+    (cdkDropListExited)="onDragExit($event)"
+    [cdkDropListConnectedTo]="connectedDropListsIds"
+    [cdkDropListData]="item"
+    [id]="item.uId"
+    cdkDropList
+    class="item-dropzone"
+    >
+    <!-- Drop zone hint when empty -->
+    @if (item.children.length === 0) {
+      <div class="empty-dropzone-hint">
+        <i class="material-icons">arrow_downward</i>
+        <span>Drop items here</span>
+      </div>
+    }
+
+    <!-- Child items -->
+    @for (subItem of item.children; track subItem) {
+      <li>
+        <app-dnd-list-item
+          (itemDrop)="onDragDrop($event)"
+          [connectedDropListsIds]="allDropListsIds"
+          [item]="subItem"
+          [parentItem]="item"
+          >
+        </app-dnd-list-item>
+      </li>
+    }
+  </ul>
+</div>

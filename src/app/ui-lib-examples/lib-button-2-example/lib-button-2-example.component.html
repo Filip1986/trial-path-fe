@@ -1,0 +1,209 @@
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-6">Animated Button Component Examples</h1>
+
+  <!-- Default/Basic Buttons -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Default Buttons</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-2
+        (clickEvent)="showMessage('Default left button clicked')"
+        icon="tablet"
+        position="left"
+        text="Buy in App Store"
+      >
+      </lib-button-2>
+
+      <lib-button-2
+        (clickEvent)="showMessage('Default right button clicked')"
+        icon="tablet"
+        position="right"
+        text="Buy in App Store"
+      >
+      </lib-button-2>
+    </div>
+  </div>
+
+  <!-- Arrow Variant -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Arrow Variant</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-2
+        (clickEvent)="showMessage('Arrow left button clicked')"
+        icon="heart"
+        position="left"
+        text="Favorite This!"
+        variant="arrow"
+      >
+      </lib-button-2>
+
+      <lib-button-2
+        (clickEvent)="showMessage('Arrow right button clicked')"
+        icon="heart"
+        position="right"
+        text="Favorite This!"
+        variant="arrow"
+      >
+      </lib-button-2>
+    </div>
+  </div>
+
+  <!-- Gear Variant -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Gear Variant</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-2
+        (clickEvent)="showMessage('Gear left button clicked')"
+        icon="cog"
+        position="left"
+        text="Change Settings"
+        variant="gear"
+      >
+      </lib-button-2>
+
+      <lib-button-2
+        (clickEvent)="showMessage('Gear right button clicked')"
+        icon="cog"
+        position="right"
+        text="Change Settings"
+        variant="gear"
+      >
+      </lib-button-2>
+    </div>
+  </div>
+
+  <!-- Slant Variant -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Slant Variant</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-2
+        (clickEvent)="showMessage('Slant left button clicked')"
+        icon="comments"
+        position="left"
+        text="Submit Comment"
+        variant="slant"
+      >
+      </lib-button-2>
+
+      <lib-button-2
+        (clickEvent)="showMessage('Slant right button clicked')"
+        icon="comments"
+        position="right"
+        text="Submit Comment"
+        variant="slant"
+      >
+      </lib-button-2>
+    </div>
+  </div>
+
+  <!-- Color Variants -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Color Variants</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-2
+        (clickEvent)="showMessage('Default color button clicked')"
+        color="default"
+        icon="tablet"
+        position="left"
+        text="Default Color"
+      >
+      </lib-button-2>
+
+      <lib-button-2
+        (clickEvent)="showMessage('Blue color button clicked')"
+        color="blue"
+        icon="tablet"
+        position="left"
+        text=" Blue Color"
+      >
+      </lib-button-2>
+
+      <lib-button-2
+        (clickEvent)="showMessage('Red color button clicked')"
+        color="red"
+        icon="tablet"
+        position="left"
+        text="Red Color"
+      >
+      </lib-button-2>
+
+      <lib-button-2
+        (clickEvent)="showMessage('Green color button clicked')"
+        color="green"
+        icon="tablet"
+        position="left"
+        text="Green Color"
+      >
+      </lib-button-2>
+    </div>
+  </div>
+
+  <!-- Size Variants -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Size Variants</h2>
+    <div class="flex flex-wrap items-center gap-2">
+      <lib-button-2
+        (clickEvent)="showMessage('Small button clicked')"
+        icon="tablet"
+        position="left"
+        size="small"
+        text="Small Button"
+      >
+      </lib-button-2>
+
+      <lib-button-2
+        (clickEvent)="showMessage('Medium button clicked')"
+        icon="tablet"
+        position="left"
+        size="medium"
+        text="Medium Button"
+      >
+      </lib-button-2>
+
+      <lib-button-2
+        (clickEvent)="showMessage('Large button clicked')"
+        icon="tablet"
+        position="left"
+        size="large"
+        text="Large Button"
+      >
+      </lib-button-2>
+    </div>
+  </div>
+
+  <!-- Disabled State -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Disabled State</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-2
+        [disabled]="true"
+        icon="tablet"
+        position="left"
+        text="Disabled Button"
+      >
+      </lib-button-2>
+
+      <lib-button-2
+        [disabled]="true"
+        icon="tablet"
+        position="right"
+        text="Disabled Button"
+      >
+      </lib-button-2>
+    </div>
+  </div>
+
+  <!-- With Href -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">With Href</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-2
+        (clickEvent)="showMessage('Link clicked - would navigate to example.com')"
+        href="https://example.com"
+        icon="link"
+        position="left"
+        text="Link Button"
+      >
+      </lib-button-2>
+    </div>
+  </div>
+</div>

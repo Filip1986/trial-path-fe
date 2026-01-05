@@ -1,0 +1,199 @@
+<div class="appearance-settings">
+  <!-- Theme Selection -->
+  <div class="section-container mb-6">
+    <h3 class="text-lg font-semibold mb-3">Theme</h3>
+    <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+      <label class="block font-medium md:w-1/3">Theme Mode</label>
+      <div class="md:w-2/3">
+        <p-select
+          (onChange)="onThemeChange($event.value)"
+          [ngModel]="settings().theme"
+          [options]="themeOptions"
+          optionLabel="name"
+          optionValue="value"
+          placeholder="Select a theme"
+          styleClass="w-full"
+          />
+        <small class="text-gray-500 block mt-1">
+          Choose between light and dark themes or follow your system preference
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Primary Color Selection -->
+  <div class="section-container mb-6">
+    <h3 class="text-lg font-semibold mb-3">Colors</h3>
+
+    <!-- Primary Color Picker -->
+    <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+      <label class="block font-medium md:w-1/3">Primary Color</label>
+      <div class="md:w-2/3">
+        <p-colorPicker
+          (onChange)="onColorChange($event)"
+          [ngModel]="settings().primaryColor"
+          format="hex"
+          styleClass="w-full"
+        ></p-colorPicker>
+        <small class="text-gray-500 block mt-1">
+          Customize the primary color used throughout the application
+        </small>
+      </div>
+    </div>
+
+    <!-- Theme Color Presets -->
+    <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+      <label class="block font-medium md:w-1/3">Color Presets</label>
+      <div class="md:w-2/3">
+        <div class="color-options grid grid-cols-3 gap-3">
+          @for (color of themeColors; track color) {
+            <button
+              (click)="onColorChange({ value: color.value })"
+              [ngClass]="{'selected': settings().primaryColor === color.value}"
+              [style.backgroundColor]="color.value"
+              class="color-button aspect-square rounded-md cursor-pointer transition-all hover:shadow-md hover:-translate-y-1"
+              pRipple
+            ></button>
+          }
+        </div>
+        <small class="text-gray-500 block mt-2"> Quick select from predefined color options </small>
+      </div>
+    </div>
+
+    <!-- Dark Mode Background (only for dark mode) -->
+    <div class="flex flex-col md:flex-row md:items-center gap-4">
+      <label class="block font-medium md:w-1/3">Dark Mode Background</label>
+      <div class="md:w-2/3">
+        <div class="color-options grid grid-cols-3 gap-3">
+          @for (color of backgroundColors; track color) {
+            <button
+              (click)="changeBackgroundColor(color.value)"
+              [disabled]="settings().theme === 'light'"
+              [ngClass]="{'selected': settings().selectedBackground === color.value, 'opacity-50 cursor-not-allowed': settings().theme === 'light'}"
+              [style.backgroundColor]="color.value"
+              class="color-button aspect-square rounded-md cursor-pointer transition-all hover:shadow-md hover:-translate-y-1"
+              pRipple
+            ></button>
+          }
+        </div>
+        <small class="text-gray-500 block mt-1"> Only applies when using Dark Mode </small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Visual Style Section -->
+  <div class="section-container mb-6">
+    <h3 class="text-lg font-semibold mb-3">Visual Style</h3>
+
+    <!-- Border Radius Toggle -->
+    <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+      <label class="block font-medium md:w-1/3">Rounded Corners</label>
+      <div class="md:w-2/3 flex items-center">
+        <p-toggleswitch
+          (onChange)="toggleBorderRadius($event.checked)"
+          [ngModel]="settings().isBordersRounded"
+        ></p-toggleswitch>
+        <small class="ml-2 text-gray-500">
+          Toggle between rounded and square interface elements
+        </small>
+      </div>
+    </div>
+
+    <!-- Box Shadow Selection -->
+    <div class="flex flex-col md:flex-row gap-4 mb-4">
+      <label class="block font-medium md:w-1/3 mt-2">Shadow Style</label>
+      <div class="md:w-2/3">
+        <div class="shadow-options grid grid-cols-2 gap-3">
+          @for (shadow of boxShadows; track shadow) {
+            <div
+              [ngClass]="{'selected': settings().selectedShadow === shadow.value}"
+              class="shadow-option-wrapper relative transition-all"
+              >
+              <div
+                (click)="changeBoxShadow(shadow.value)"
+                [ngClass]="shadow.preview"
+                class="shadow-preview h-16 bg-surface-card border border-surface-border rounded-md flex items-center justify-center cursor-pointer transition-transform hover:-translate-y-1"
+                pRipple
+                >
+                <span class="shadow-name text-xs font-medium">{{shadow.name}}</span>
+              </div>
+            </div>
+          }
+        </div>
+        <small class="text-gray-500 block mt-1">
+          Select the shadow style for cards and containers
+        </small>
+      </div>
+    </div>
+
+    <!-- Compact Mode Toggle -->
+    <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+      <label class="block font-medium md:w-1/3">Compact Mode</label>
+      <div class="md:w-2/3 flex items-center">
+        <p-toggleswitch
+          (onChange)="toggleCompactMode($event.checked)"
+          [ngModel]="settings().compactMode"
+          />
+        <small class="ml-2 text-gray-500"> Reduce spacing for a more compact interface </small>
+      </div>
+    </div>
+
+    <!-- Container Layout Toggle -->
+    <div class="flex flex-col md:flex-row md:items-center gap-4">
+      <label class="block font-medium md:w-1/3">Container Layout</label>
+      <div class="md:w-2/3 flex items-center">
+        <span class="text-xs mr-2">Full</span>
+        <p-toggleswitch (onChange)="toggleContainerLayout()" [ngModel]="settings().isBoxedLayout" />
+        <span class="text-xs ml-2">Boxed</span>
+        <small class="ml-3 text-gray-500"> Change how content is displayed </small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Typography Section -->
+  <div class="section-container mb-6">
+    <h3 class="text-lg font-semibold mb-3">Typography</h3>
+
+    <!-- Language Selection -->
+    <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+      <label class="block font-medium md:w-1/3">Language</label>
+      <div class="md:w-2/3">
+        <p-select
+          [options]="languageOptions"
+          [ngModel]="settings().language"
+          (ngModelChange)="onLanguageChange($event)"
+          optionLabel="name"
+          optionValue="code"
+          placeholder="Select language"
+          styleClass="w-full"
+        ></p-select>
+        <small class="text-gray-500 block mt-1"> Choose your preferred display language </small>
+      </div>
+    </div>
+
+    <!-- Font Selection -->
+    <div class="flex flex-col md:flex-row gap-4">
+      <label class="block font-medium md:w-1/3 mt-2">Font Family</label>
+      <div class="md:w-2/3">
+        <div class="font-options grid grid-cols-3 gap-3">
+          @for (font of fontOptions; track font) {
+            <div
+              [ngClass]="{'selected': settings().selectedFont === font.value}"
+              class="font-option-wrapper relative transition-all"
+              >
+              <button
+                (click)="changeFont(font.value)"
+                [ngClass]="font.class"
+                class="font-preview w-full h-14 bg-surface-card border border-surface-border rounded-md flex items-center justify-center cursor-pointer transition-transform hover:-translate-y-1 text-sm"
+                pRipple
+                >
+                <span>{{font.name}}</span>
+              </button>
+            </div>
+          }
+        </div>
+        <small class="text-gray-500 block mt-1"> Change the application font </small>
+      </div>
+    </div>
+  </div>
+</div>

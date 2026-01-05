@@ -1,0 +1,44 @@
+.scroll-reveal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+blockquote {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  max-width: 800px;
+  cursor: pointer;
+  line-height: 1.4;
+  margin: 0;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.ts-line {
+  overflow: hidden;
+  display: block;
+}
+
+// Also apply to the animated elements
+.ts-line,
+.word {
+  will-change: transform, opacity;
+}
+
+.note {
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  color: #666;
+  opacity: 0;
+}

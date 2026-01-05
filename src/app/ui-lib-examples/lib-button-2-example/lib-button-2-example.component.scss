@@ -1,0 +1,23 @@
+.container {
+  h1 {
+    margin-bottom: 2rem;
+    color: #333;
+  }
+
+  h2 {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  // Add some spacing between sections
+  .mb-8 {
+    margin-bottom: 2.5rem;
+  }
+}

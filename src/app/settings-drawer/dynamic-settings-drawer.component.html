@@ -1,0 +1,202 @@
+<!-- Floating settings button -->
+<button
+  class="settings-button"
+  [ngClass]="{ open: isOpen() }"
+  (click)="toggleDrawer()"
+  pButton
+  pRipple
+  type="button"
+  aria-label="Settings"
+  >
+  <i class="pi pi-cog"></i>
+</button>
+
+<!-- Overlay -->
+@if (isOpen()) {
+  <div class="settings-overlay" (click)="closeDrawer()"></div>
+}
+
+<!-- Settings drawer -->
+<div class="settings-drawer" [ngClass]="{ open: isOpen() }">
+  <!-- Header -->
+  <div class="drawer-header">
+    <h2>Settings</h2>
+    <button
+      pButton
+      pRipple
+      icon="pi pi-times"
+      class="p-button-text p-button-rounded"
+      (click)="closeDrawer()"
+      aria-label="Close Settings"
+    ></button>
+  </div>
+
+  <!-- Content with Dynamic Accordion -->
+  <div class="drawer-content">
+    <p-accordion [value]="activeAccordionTabs()" [multiple]="true" class="settings-accordion">
+      <!-- Dynamic Category Panels -->
+      @for (category of categories; track trackByCategory($index, category)) {
+        <p-accordion-panel [value]="category.id" [ngClass]="category.id + '-panel'">
+          <p-accordion-header>
+            <div class="accordion-header-content">
+              <i [class]="'pi ' + category.icon"></i>
+              <div class="header-text">
+                <span class="header-title">{{ category.title }}</span>
+                @if (category.description) {
+                  <small class="header-description">
+                    {{ category.description }}
+                  </small>
+                }
+              </div>
+            </div>
+          </p-accordion-header>
+          <p-accordion-content>
+            <div class="accordion-content-wrapper">
+              <!-- Dynamic Sections for each Category -->
+              @for (section of getSectionsByCategory(category.id); track trackBySection($index, section)) {
+                <div
+                  class="setting-section"
+                  >
+                  <h4 class="section-title">{{ section.title }}</h4>
+                  @if (section.description) {
+                    <p class="section-description">
+                      {{ section.description }}
+                    </p>
+                  }
+                  <!-- Dynamic Setting Items -->
+                  @for (item of section.items; track trackByItem($index, item)) {
+                    <div
+                      class="setting-item"
+                      [ngClass]="getItemClasses(item)"
+                      >
+                      <!-- Toggle Setting -->
+                      @if (item.type === 'toggle') {
+                        <div class="setting-info">
+                          <span class="setting-label">{{ item.label }}</span>
+                          @if (item.description) {
+                            <small class="setting-description">
+                              {{ item.description }}
+                            </small>
+                          }
+                        </div>
+                        <p-toggleswitch
+                          [ngModel]="getSettingValue(item.id)"
+                          (onChange)="updateSetting(item.id, $event.checked)"
+                          />
+                      }
+                      <!-- Dropdown Setting -->
+                      @if (item.type === 'dropdown') {
+                        <div class="setting-info">
+                          <span class="setting-label">{{ item.label }}</span>
+                          @if (item.description) {
+                            <small class="setting-description">
+                              {{ item.description }}
+                            </small>
+                          }
+                        </div>
+                        <p-select
+                          [ngModel]="getSettingValue(item.id)"
+                          (ngModelChange)="updateSetting(item.id, $event)"
+                          [options]="item.options"
+                          optionLabel="label"
+                          optionValue="value"
+                          [style]="{ minWidth: '120px' }"
+                        ></p-select>
+                      }
+                      <!-- Color Setting -->
+                      @if (item.type === 'color') {
+                        <div class="setting-info">
+                          <span class="setting-label">{{ item.label }}</span>
+                          @if (item.description) {
+                            <small class="setting-description">
+                              {{ item.description }}
+                            </small>
+                          }
+                        </div>
+                        <p-colorPicker
+                          [ngModel]="getSettingValue(item.id)"
+                          (onChange)="updateSetting(item.id, $event.value)"
+                          format="hex"
+                        ></p-colorPicker>
+                      }
+                      <!-- Slider Setting -->
+                      @if (item.type === 'slider') {
+                        <div class="setting-info full-width">
+                          <div class="slider-header">
+                            <span class="setting-label">{{ item.label }}</span>
+                            <span class="setting-value">{{ getSettingValue(item.id) }}</span>
+                          </div>
+                          @if (item.description) {
+                            <small class="setting-description">
+                              {{ item.description }}
+                            </small>
+                          }
+                          <p-slider
+                            [ngModel]="getSettingValue(item.id)"
+                            (onChange)="updateSetting(item.id, $event.value)"
+                            [min]="item.min || 0"
+                            [max]="item.max || 100"
+                            [step]="item.step || 1"
+                            class="slider-control"
+                          ></p-slider>
+                        </div>
+                      }
+                      <!-- Text Setting -->
+                      @if (item.type === 'text') {
+                        <div class="setting-info">
+                          <span class="setting-label">{{ item.label }}</span>
+                          @if (item.description) {
+                            <small class="setting-description">
+                              {{ item.description }}
+                            </small>
+                          }
+                        </div>
+                        <input
+                          pInputText
+                          [ngModel]="getSettingValue(item.id)"
+                          (ngModelChange)="updateSetting(item.id, $event)"
+                          [style]="{ minWidth: '120px' }"
+                          />
+                      }
+                      <!-- Number Setting -->
+                      @if (item.type === 'number') {
+                        <div class="setting-info">
+                          <span class="setting-label">{{ item.label }}</span>
+                          @if (item.description) {
+                            <small class="setting-description">
+                              {{ item.description }}
+                            </small>
+                          }
+                        </div>
+                        <p-inputNumber
+                          [ngModel]="getSettingValue(item.id)"
+                          (onInput)="updateSetting(item.id, $event.value)"
+                          [min]="item.min"
+                          [max]="item.max"
+                          [step]="item.step || 1"
+                          [style]="{ width: '120px' }"
+                        ></p-inputNumber>
+                      }
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          </p-accordion-content>
+        </p-accordion-panel>
+      }
+    </p-accordion>
+
+    <!-- Save Button -->
+    <div class="drawer-footer">
+      <button
+        pButton
+        class="p-button-outlined w-full"
+        label="Save Settings"
+        icon="pi pi-save"
+        (click)="saveAllSettings()"
+        [loading]="isSaving()"
+      ></button>
+    </div>
+  </div>
+</div>

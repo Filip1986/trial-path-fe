@@ -1,0 +1,58 @@
+<!-- Form Elements Toolbox -->
+<div class="p-3">
+  <!-- Drag elements list with tabbed categories -->
+  <p-tabs [value]="0">
+    <p-tablist>
+      @for (group of elementGroups; track group; let i = $index) {
+        <p-tab [value]="i">
+          {{ group.name }}
+        </p-tab>
+      }
+    </p-tablist>
+    <p-tabpanels>
+      @for (group of elementGroups; track group; let i = $index) {
+        <p-tabpanel [value]="i">
+          <div
+            (cdkDropListEntered)="removeItemClone()"
+            (cdkDropListExited)="createItemClone($event)"
+            [cdkDropListConnectedTo]="connectedLists"
+            [cdkDropListData]="getGroupItems(i)"
+            [cdkDropListEnterPredicate]="disallowDropPredicate"
+            [cdkDropListSortingDisabled]="true"
+            cdkDropList
+            class="toolbox-elements-list grid"
+            id="toolbox-{{ group.name }}"
+            >
+            @for (item of getGroupItems(i); track trackByControlId($index, item)) {
+              <div
+                (cdkDragMoved)="dragMoved($event)"
+                (cdkDragReleased)="dragReleased($event)"
+                [cdkDragData]="item"
+                [title]="getElementTooltip(item.type)"
+                cdkDrag
+                class="element-item col-span-6 p-2"
+                >
+                <!-- Existing item content -->
+                <div
+                  class="flex flex-column align-items-center justify-content-center gap-3 p-3 text-center"
+                  >
+                  <i [ngClass]="getElementIcon(item.type)" class="self-center"></i>
+                  <span class="element-type-label">{{ item.title }}</span>
+                </div>
+                <!-- This will be shown during dragging -->
+                <div *cdkDragPreview class="item-preview">{{ item.title }}</div>
+                <!-- This placeholder stays in the original location during drag -->
+                <div *cdkDragPlaceholder class="item-placeholder">{{ item.title }}</div>
+              </div>
+            }
+          </div>
+        </p-tabpanel>
+      }
+    </p-tabpanels>
+  </p-tabs>
+
+  <!-- Instructions -->
+  <div class="mt-4 instruction text-sm text-gray-600">
+    Drag these items multiple times into any drop zone
+  </div>
+</div>

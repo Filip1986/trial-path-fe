@@ -1,0 +1,124 @@
+<div class="container mx-auto p-4">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold mb-2">WYSIWYG Editor Demo</h1>
+    <p class="text-gray-600">Try out different rich text editors from our UI library</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Left sidebar with controls -->
+    <div class="lg:col-span-1">
+      <p-card header="Editor Controls" styleClass="h-full">
+        <div class="flex flex-col gap-4">
+          <!-- Current editor type -->
+          <div>
+            <h3 class="text-lg font-semibold mb-2">Current Editor</h3>
+            <div class="p-3 bg-blue-50 text-blue-800 rounded-lg">
+              {{ getEditorTypeName(selectedEditorType) }}
+            </div>
+          </div>
+
+          <!-- Options -->
+          <div>
+            <h3 class="text-lg font-semibold mb-2">Options</h3>
+            <div class="flex items-center mb-3">
+              <p-checkbox
+                (onChange)="toggleReadOnly($event)"
+                [(ngModel)]="editorOptions.readonly"
+                [binary]="true"
+                inputId="readonly"
+              ></p-checkbox>
+              <label class="ml-2" for="readonly">Read-only mode</label>
+            </div>
+
+            <div class="mb-3">
+              <label class="block mb-2" for="placeholder">Placeholder text</label>
+              <input
+                [(ngModel)]="editorOptions.placeholder"
+                class="w-full"
+                id="placeholder"
+                pInputText
+              />
+            </div>
+
+            <div>
+              <label class="block mb-2" for="minHeight">Min height</label>
+              <input
+                [(ngModel)]="editorOptions.minHeight"
+                class="w-full"
+                id="minHeight"
+                pInputText
+              />
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div>
+            <h3 class="text-lg font-semibold mb-2">Actions</h3>
+            <div class="flex flex-col gap-2">
+              <button
+                (click)="insertSampleImage()"
+                [disabled]="editorOptions.readonly"
+                icon="pi pi-image"
+                label="Insert Sample Image"
+                pButton
+              ></button>
+              <button
+                (click)="clearEditor()"
+                [disabled]="editorOptions.readonly"
+                class="p-button-danger"
+                icon="pi pi-trash"
+                label="Clear Editor"
+                pButton
+              ></button>
+              <button
+                (click)="resetContent()"
+                [disabled]="editorOptions.readonly"
+                class="p-button-secondary"
+                icon="pi pi-refresh"
+                label="Reset Content"
+                pButton
+              ></button>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Main editor area -->
+    <div class="lg:col-span-2">
+      <p-card header="Rich Text Editor" styleClass="h-full">
+        <!-- Editor Selection Component -->
+        <lib-editor-selection
+          (contentChange)="onContentChange($event)"
+          (editorChange)="onEditorTypeChange($event)"
+          (editorReady)="onEditorReady($event)"
+          [content]="editorContent"
+          [options]="editorOptions"
+          [selectedEditor]="selectedEditorType"
+        ></lib-editor-selection>
+
+        <!-- Output preview -->
+        <div class="mt-6">
+          <h3 class="text-lg font-semibold mb-2">HTML Output</h3>
+          <div class="bg-gray-100 p-3 rounded-lg">
+            <textarea
+              [ngModel]="outputContent"
+              [rows]="5"
+              class="w-full font-mono text-sm"
+              pInputTextarea
+              readonly
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Rendered preview -->
+        <div class="mt-6">
+          <h3 class="text-lg font-semibold mb-2">Rendered Preview</h3>
+          <div class="bg-white text-black border border-gray-200 p-4 rounded-lg">
+            <div [innerHTML]="outputContent"></div>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-6">Application Testing Flows</h1>
+
+  <p-tabs>
+    <p-tab header="Login Flow" leftIcon="pi pi-sign-in">
+      @for (step of loginTestSteps; track step) {
+        <div class="mb-6">
+          <p-card>
+            <h2 class="text-xl font-semibold mb-4">{{ step.description }}</h2>
+            <p class="mb-4 text-gray-600">{{ step.expectedResult }}</p>
+            @for (testCase of step.testCases; track testCase) {
+              <div class="mb-4 p-3 border rounded-lg">
+                <div class="flex items-center mb-2">
+                  <span class="mr-2 font-bold text-primary">Scenario:</span>
+                  <span>{{ testCase.scenario }}</span>
+                  @if (testCase.errorHandling) {
+                    <p-tag
+                      class="ml-2"
+                      severity="warn"
+                      value="Error Handling"
+                    ></p-tag>
+                  }
+                </div>
+                <div class="mb-2">
+                  <strong>Input:</strong>
+                  <pre class="bg-gray-100 text-gray-800 p-2 rounded">{{ testCase.input | json }}</pre>
+                </div>
+                <div>
+                  <strong>Expected Outcome:</strong>
+                  <p class="text-gray-700">{{ testCase.expectedOutcome }}</p>
+                </div>
+              </div>
+            }
+          </p-card>
+        </div>
+      }
+    </p-tab>
+    <p-tab header="Registration Flow" leftIcon="pi pi-user-plus">
+      @for (step of registrationTestSteps; track step) {
+        <div class="mb-6">
+          <p-card>
+            <h2 class="text-xl font-semibold mb-4">{{ step.description }}</h2>
+            <p class="mb-4 text-gray-600">{{ step.expectedResult }}</p>
+            @for (testCase of step.testCases; track testCase) {
+              <div class="mb-4 p-3 border rounded-lg">
+                <div class="flex items-center mb-2">
+                  <span class="mr-2 font-bold text-primary">Scenario:</span>
+                  <span>{{ testCase.scenario }}</span>
+                  @if (testCase.errorHandling) {
+                    <p-tag
+                      class="ml-2"
+                      severity="warn"
+                      value="Error Handling"
+                    ></p-tag>
+                  }
+                </div>
+                <div class="mb-2">
+                  <strong>Input:</strong>
+                  <pre class="bg-gray-100 text-gray-800 p-2 rounded">{{ testCase.input | json }}</pre>
+                </div>
+                <div>
+                  <strong>Expected Outcome:</strong>
+                  <p class="text-gray-700">{{ testCase.expectedOutcome }}</p>
+                </div>
+              </div>
+            }
+          </p-card>
+        </div>
+      }
+    </p-tab>
+    <p-tab header="Forgot Password Flow" leftIcon="pi pi-unlock">
+      @for (step of forgotPasswordTestSteps; track step) {
+        <div class="mb-6">
+          <p-card>
+            <h2 class="text-xl font-semibold mb-4">{{ step.description }}</h2>
+            <p class="mb-4 text-gray-600">{{ step.expectedResult }}</p>
+            @for (testCase of step.testCases; track testCase) {
+              <div class="mb-4 p-3 border rounded-lg">
+                <div class="flex items-center mb-2">
+                  <span class="mr-2 font-bold text-primary">Scenario:</span>
+                  <span>{{ testCase.scenario }}</span>
+                  @if (testCase.errorHandling) {
+                    <p-tag
+                      class="ml-2"
+                      severity="warn"
+                      value="Error Handling"
+                    ></p-tag>
+                  }
+                </div>
+                <div class="mb-2">
+                  <strong>Input:</strong>
+                  <pre class="bg-gray-100 text-gray-800 p-2 rounded">{{ testCase.input | json }}</pre>
+                </div>
+                <div>
+                  <strong>Expected Outcome:</strong>
+                  <p class="text-gray-700">{{ testCase.expectedOutcome }}</p>
+                </div>
+              </div>
+            }
+          </p-card>
+        </div>
+      }
+    </p-tab>
+  </p-tabs>
+</div>

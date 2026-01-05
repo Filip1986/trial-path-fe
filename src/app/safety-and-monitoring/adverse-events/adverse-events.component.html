@@ -1,0 +1,391 @@
+<div class="adverse-events-container p-4">
+  <!-- Page Header -->
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-800 mb-2 flex align-items-center gap-3">
+      <i class="pi pi-exclamation-triangle text-red-500"></i>
+      Adverse Events
+    </h1>
+    <p class="text-gray-600">Monitor and manage adverse events across all studies</p>
+  </div>
+
+  <!-- Statistics Cards - 5 cards all on the same line using flex -->
+  <div class="flex gap-4 mb-8">
+    <!-- Total Events Card -->
+    <div class="flex-1">
+      <p-card class="bg-light-error">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-semibold">Total Events</h3>
+            <p>All adverse events</p>
+          </div>
+          <div class="text-3xl font-bold">{{ stats().total }}</div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Under Review Card -->
+    <div class="flex-1">
+      <p-card class="bg-gray">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-semibold text-orange-700">Open Events</h3>
+            <p class="text-orange-600">Requiring attention</p>
+          </div>
+          <div class="text-3xl font-bold text-orange-700">{{ stats().open }}</div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Pending Card -->
+    <div class="flex-1">
+      <p-card class="bg-light-warning">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-semibold">Serious Events</h3>
+            <p>SAEs requiring reports</p>
+          </div>
+          <div class="text-3xl font-bold">{{ stats().serious }}</div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Closed Card -->
+    <div class="flex-1">
+      <p-card class="bg-light-success">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-semibold">Drug Related</h3>
+            <p>Related to study drug</p>
+          </div>
+          <div class="text-3xl font-bold">{{ stats().studyDrugRelated }}</div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+
+  <!-- Integrated Table Filters Component -->
+  <app-table-filters
+    (clearFilters)="onClearFilters()"
+    (filterChange)="onFilterChange($event)"
+    [filterFields]="filterFields"
+    [filterValues]="filterValues()"
+    title="Adverse Event Filters"
+  >
+  </app-table-filters>
+
+  <!-- Actions Toolbar -->
+  <p-toolbar class="mb-4">
+    <div class="p-toolbar-group-start">
+      <p-button
+        (click)="createNewReport()"
+        icon="pi pi-plus"
+        label="New AE Report"
+        styleClass="p-button-primary mr-2"
+      >
+      </p-button>
+      <p-button
+        (click)="loadAdverseEvents()"
+        icon="pi pi-refresh"
+        label="Refresh"
+        styleClass="p-button-outlined"
+      >
+      </p-button>
+    </div>
+    <div class="p-toolbar-group-end">
+      <p-button
+        (click)="exportData()"
+        icon="pi pi-download"
+        label="Export"
+        styleClass="p-button-outlined"
+      >
+      </p-button>
+    </div>
+  </p-toolbar>
+
+  <!-- Events Table -->
+  <p-card>
+    <p-table
+      #dt
+      [globalFilterFields]="['participantName', 'participantId', 'eventTerm', 'description']"
+      [loading]="loading()"
+      [paginator]="true"
+      [rowsPerPageOptions]="[5, 10, 20, 50]"
+      [rows]="10"
+      [scrollable]="true"
+      [showCurrentPageReport]="true"
+      [value]="filteredAdverseEvents()"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} adverse events"
+      responsiveLayout="scroll"
+      scrollHeight="600px"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="reportId" style="width: 120px">
+            Report ID <p-sortIcon field="reportId"></p-sortIcon>
+          </th>
+          <th pSortableColumn="participantName" style="width: 150px">
+            Participant <p-sortIcon field="participantName"></p-sortIcon>
+          </th>
+          <th pSortableColumn="studyTitle" style="width: 200px">
+            Study <p-sortIcon field="studyTitle"></p-sortIcon>
+          </th>
+          <th pSortableColumn="eventTerm" style="width: 150px">
+            Event Term <p-sortIcon field="eventTerm"></p-sortIcon>
+          </th>
+          <th pSortableColumn="severity" style="width: 100px">
+            Severity <p-sortIcon field="severity"></p-sortIcon>
+          </th>
+          <th pSortableColumn="seriousness" style="width: 100px">
+            Seriousness <p-sortIcon field="seriousness"></p-sortIcon>
+          </th>
+          <th pSortableColumn="relatedToStudyDrug" style="width: 120px">
+            Drug Related <p-sortIcon field="relatedToStudyDrug"></p-sortIcon>
+          </th>
+          <th pSortableColumn="status" style="width: 100px">
+            Status <p-sortIcon field="status"></p-sortIcon>
+          </th>
+          <th pSortableColumn="reportedDate" style="width: 120px">
+            Reported Date <p-sortIcon field="reportedDate"></p-sortIcon>
+          </th>
+          <th style="width: 100px">Actions</th>
+        </tr>
+      </ng-template>
+
+      <ng-template let-event pTemplate="body">
+        <tr (click)="viewEventDetails(event)" class="cursor-pointer hover:bg-gray-50">
+          <td>
+            <span class="font-mono text-sm font-semibold">{{ event.reportId }}</span>
+          </td>
+          <td>
+            <div>
+              <div class="font-semibold">{{ event.participantName }}</div>
+              <div class="text-sm text-gray-500">{{ event.participantId }}</div>
+            </div>
+          </td>
+          <td>
+            <div class="text-sm">{{ event.studyTitle }}</div>
+          </td>
+          <td>
+            <span class="font-medium">{{ event.eventTerm }}</span>
+          </td>
+          <td>
+            <p-tag
+              [severity]="getSeverityTagSeverity(event.severity)"
+              [value]="event.severity"
+              class="text-xs"
+            >
+            </p-tag>
+          </td>
+          <td>
+            <p-tag
+              [severity]="event.seriousness === 'serious' ? 'danger' : 'success'"
+              [value]="event.seriousness"
+              class="text-xs"
+            >
+            </p-tag>
+          </td>
+          <td>
+            <p-tag
+              [severity]="event.relatedToStudyDrug === 'related' ? 'danger' : 'info'"
+              [value]="event.relatedToStudyDrug"
+              class="text-xs"
+            >
+            </p-tag>
+          </td>
+          <td>
+            <p-tag
+              [severity]="getStatusTagSeverity(event.status)"
+              [value]="event.status"
+              class="text-xs"
+            >
+            </p-tag>
+          </td>
+          <td>
+            <span class="text-sm">{{ event.reportedDate | date:'short' }}</span>
+          </td>
+          <td>
+            <div class="flex gap-2">
+              <p-button
+                (click)="viewEventDetails(event); $event.stopPropagation()"
+                icon="pi pi-eye"
+                pTooltip="View Details"
+                styleClass="p-button-rounded p-button-text p-button-sm"
+              >
+              </p-button>
+              <p-button
+                icon="pi pi-pencil"
+                pTooltip="Edit Event"
+                styleClass="p-button-rounded p-button-text p-button-sm"
+              >
+              </p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td class="text-center p-4" colspan="10">
+            <div class="flex flex-col items-center justify-center py-8">
+              <i class="pi pi-search text-4xl text-gray-400 mb-4"></i>
+              <h3 class="text-lg font-semibold text-gray-600 mb-2">No adverse events found</h3>
+              <p class="text-gray-500">Try adjusting your filters or search criteria.</p>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+</div>
+
+<!--&lt;!&ndash; Event Details Dialog &ndash;&gt;-->
+<!--<p-dialog-->
+<!--  [(visible)]="showEventDialog"-->
+<!--  [draggable]="false"-->
+<!--  [modal]="true"-->
+<!--  [resizable]="false"-->
+<!--  [style]="{width: '90vw', maxWidth: '1000px'}"-->
+<!--  header="Adverse Event Details"-->
+<!--&gt;-->
+<!--  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">-->
+<!--    &lt;!&ndash; Event Information &ndash;&gt;-->
+<!--    <div>-->
+<!--      <h5>Event Information</h5>-->
+<!--      <div class="space-y-3">-->
+<!--        <div><strong>Event ID:</strong> {{ selectedEvent.id }}</div>-->
+<!--        <div><strong>Type:</strong> {{ selectedEvent.eventType }}</div>-->
+<!--        <div><strong>Severity:</strong> {{ selectedEvent.severity }}</div>-->
+<!--        <div><strong>Status:</strong> {{ selectedEvent.status }}</div>-->
+<!--        <div><strong>Onset Date:</strong> {{ selectedEvent.onset | date: 'medium' }}</div>-->
+<!--        <div><strong>Reported Date:</strong> {{ selectedEvent.reportedDate | date: 'medium' }}</div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Patient Information &ndash;&gt;-->
+<!--    <div>-->
+<!--      <h5>Patient Information</h5>-->
+<!--      <div class="space-y-3">-->
+<!--        <div><strong>Patient:</strong> {{ selectedEvent.patientName }}</div>-->
+<!--        <div><strong>Patient ID:</strong> {{ selectedEvent.patientId }}</div>-->
+<!--        <div><strong>Age:</strong> {{ selectedEvent.age }}</div>-->
+<!--        <div><strong>Gender:</strong> {{ selectedEvent.gender }}</div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Description &ndash;&gt;-->
+<!--    <div class="col-span-2">-->
+<!--      <h5>Description</h5>-->
+<!--      <p>{{ selectedEvent.description }}</p>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Study Information &ndash;&gt;-->
+<!--    <div class="col-span-2">-->
+<!--      <h5>Study Information</h5>-->
+<!--      <div class="space-y-3">-->
+<!--        <div><strong>Study ID:</strong> {{ selectedEvent.studyId }}</div>-->
+<!--        <div><strong>Study Name:</strong> {{ selectedEvent.studyName }}</div>-->
+<!--        <div><strong>Reporter:</strong> {{ selectedEvent.reporter }}</div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <ng-template pTemplate="footer">-->
+<!--    <p-button-->
+<!--      (click)="displayEventDialog = false"-->
+<!--      icon="pi pi-times"-->
+<!--      label="Close"-->
+<!--      styleClass="p-button-text"-->
+<!--    ></p-button>-->
+<!--    <p-button (click)="editEvent(selectedEvent)" icon="pi pi-pencil" label="Edit"></p-button>-->
+<!--  </ng-template>-->
+<!--</p-dialog>-->
+
+<!--&lt;!&ndash; Add Event Dialog &ndash;&gt;-->
+<!--<p-dialog-->
+<!--  [(visible)]="displayAddDialog"-->
+<!--  [draggable]="false"-->
+<!--  [modal]="true"-->
+<!--  [resizable]="true"-->
+<!--  [style]="{ width: '60vw', maxWidth: '800px' }"-->
+<!--  header="Report New Adverse Event"-->
+<!--&gt;-->
+<!--  <div class="grid gap-4">-->
+<!--    <div class="grid grid-cols-2 gap-4">-->
+<!--      <div>-->
+<!--        <label for="patientName">Patient Name *</label>-->
+<!--        <input-->
+<!--          [(ngModel)]="newEvent.patientName"-->
+<!--          class="w-full"-->
+<!--          id="patientName"-->
+<!--          pInputText-->
+<!--          type="text"-->
+<!--        />-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <label for="patientId">Patient ID</label>-->
+<!--        <input-->
+<!--          [(ngModel)]="newEvent.patientId"-->
+<!--          class="w-full"-->
+<!--          id="patientId"-->
+<!--          pInputText-->
+<!--          type="text"-->
+<!--        />-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div>-->
+<!--      <label for="description">Event Description *</label>-->
+<!--      <textarea-->
+<!--        [(ngModel)]="newEvent.description"-->
+<!--        class="w-full"-->
+<!--        id="description"-->
+<!--        pInputTextarea-->
+<!--        rows="3"-->
+<!--      ></textarea>-->
+<!--    </div>-->
+
+<!--    <div class="grid grid-cols-3 gap-4">-->
+<!--      <div>-->
+<!--        <label for="severity">Severity</label>-->
+<!--        <p-dropdown-->
+<!--          [(ngModel)]="newEvent.severity"-->
+<!--          [options]="severityOptions"-->
+<!--          class="w-full"-->
+<!--          id="severity"-->
+<!--          placeholder="Select Severity"-->
+<!--        ></p-dropdown>-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <label for="eventType">Event Type</label>-->
+<!--        <p-dropdown-->
+<!--          [(ngModel)]="newEvent.eventType"-->
+<!--          [options]="eventTypeOptions"-->
+<!--          class="w-full"-->
+<!--          id="eventType"-->
+<!--          placeholder="Select Type"-->
+<!--        ></p-dropdown>-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <label for="onset">Onset Date</label>-->
+<!--        <p-calendar-->
+<!--          [(ngModel)]="newEvent.onset"-->
+<!--          class="w-full"-->
+<!--          dateFormat="yy-mm-dd"-->
+<!--          id="onset"-->
+<!--        ></p-calendar>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <ng-template pTemplate="footer">-->
+<!--    <p-button-->
+<!--      (click)="displayAddDialog = false"-->
+<!--      icon="pi pi-times"-->
+<!--      label="Cancel"-->
+<!--      styleClass="p-button-text"-->
+<!--    ></p-button>-->
+<!--    <p-button (click)="saveNewEvent()" icon="pi pi-check" label="Save"></p-button>-->
+<!--  </ng-template>-->
+<!--</p-dialog>-->
+
+<p-toast />

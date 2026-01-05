@@ -1,0 +1,59 @@
+// Main container styles
+:host {
+  display: block;
+  min-height: calc(100vh - 70px); // Adjust for menubar height
+}
+
+// Editor container styles
+::ng-deep {
+  // Card styling
+  .p-card {
+    height: 100%;
+
+    .p-card-body {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .p-card-content {
+      flex: 1;
+      overflow: auto;
+    }
+  }
+
+  // Editor selection styling
+  lib-editor-selection {
+    min-height: 400px;
+    display: block;
+
+    // Make sure editor has proper height
+    .tiptap-content-area,
+    .quill-content-area,
+    .ckeditor-content-area,
+    .tinymce-content-area {
+      min-height: 300px;
+    }
+  }
+
+  // HTML output textarea
+  textarea.p-inputtextarea {
+    resize: vertical;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  // Rendered preview
+  .rendered-preview {
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

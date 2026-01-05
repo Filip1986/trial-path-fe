@@ -1,0 +1,59 @@
+{
+  "landing": {
+    "hero": {
+      "title": "Welcome to Draft App!",
+      "subtitle": "Start your free trial and explore all features.",
+      "getStarted": "Get Started",
+      "requestDemo": "Request Demo"
+    },
+    "features": {
+      "title": "Features",
+      "subtitle": "Everything you need to succeed.",
+      "compliance": {
+        "title": "Compliance",
+        "description": "Meet industry standards and regulations."
+      },
+      "security": {
+        "title": "Security",
+        "description": "Your data is protected with top-level security."
+      },
+      "collaboration": {
+        "title": "Collaboration",
+        "description": "Work together seamlessly with your team."
+      },
+      "analytics": {
+        "title": "Analytics",
+        "description": "Gain insights with powerful analytics tools."
+      },
+      "integrations": {
+        "title": "Integrations",
+        "description": "Connect with your favorite tools and platforms."
+      }
+    },
+    "testimonials": {
+      "title": "What Our Users Say",
+      "description": "Hear from our satisfied customers.",
+      "alice": {
+        "name": "Alice Smith",
+        "role": "Project Manager",
+        "text": "Draft App has transformed the way our team collaborates."
+      },
+      "john": {
+        "name": "John Doe",
+        "role": "IT Director",
+        "text": "The security and compliance features give us peace of mind."
+      },
+      "maria": {
+        "name": "Maria Garcia",
+        "role": "Business Analyst",
+        "text": "Analytics and integrations make my job easier every day."
+      }
+    },
+    "cta": {
+      "title": "Ready to get started?",
+      "description": "Sign up for a free trial or request a demo to see Draft App in action.",
+      "startTrial": "Start Free Trial",
+      "requestDemo": "Request Demo"
+    }
+  }
+}

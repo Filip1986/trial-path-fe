@@ -1,0 +1,291 @@
+<div class="compact-custom-validation">
+  <!-- Add Rule Button -->
+  <div class="mb-4">
+    <button
+      (click)="addValidationRule()"
+      class="w-full px-3 py-2 bg-purple-600 text-white text-sm rounded-md hover:bg-purple-700 transition-colors flex items-center justify-center gap-2 border-2 border-dashed border-purple-300 bg-transparent text-purple-600 hover:bg-purple-50"
+      type="button"
+    >
+      <i class="pi pi-plus text-xs"></i>
+      Add Custom Validation Rule
+    </button>
+  </div>
+
+  <!-- Rules List -->
+  @if (customValidationRules.length > 0) {
+  <div (cdkDropListDropped)="onDrop($event)" cdkDropList class="space-y-3">
+    @for (ruleGroup of customValidationRulesControls; track trackByRuleIndex(i); let i = $index) {
+    <div
+      [formGroup]="ruleGroup"
+      cdkDrag
+      class="compact-rule-card bg-white border border-gray-200 rounded-lg p-3 hover:border-purple-300 transition-colors"
+    >
+      <!-- Rule Header -->
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <div cdkDragHandle class="cursor-move text-gray-400 hover:text-gray-600">
+            <i class="pi pi-bars text-sm"></i>
+          </div>
+          <lib-checkbox
+            [config]="{
+                  label: '',
+                  mode: CheckboxModeEnum.BINARY,
+                  size: FormComponentSizeEnum.SMALL,
+                  variant: FormComponentVariantEnum.OUTLINED,
+                  labelPosition: FormLabelPositionEnum.ABOVE,
+                  labelStyle: FormLabelStyleEnum.DEFAULT,
+                  required: false,
+                  disabled: false,
+                }"
+            [formControl]="getRuleControl(ruleGroup, 'enabled')"
+          />
+          <span class="text-sm font-medium text-gray-700">Rule {{ i + 1 }}</span>
+          <span
+            [ngClass]="{
+                  'bg-blue-100 text-blue-700': getRuleType(i) === 'regex',
+                  'bg-green-100 text-green-700': getRuleType(i) === 'range',
+                  'bg-yellow-100 text-yellow-700': getRuleType(i) === 'custom',
+                  'bg-purple-100 text-purple-700': getRuleType(i) === 'dependency'
+                }"
+            class="px-2 py-1 text-xs rounded-full"
+          >
+            {{ getTypeLabel(getRuleType(i)) }}
+          </span>
+        </div>
+        <button
+          (click)="removeValidationRule(i)"
+          class="text-red-500 hover:text-red-700 p-1"
+          title="Remove rule"
+          type="button"
+        >
+          <i class="pi pi-trash text-sm"></i>
+        </button>
+      </div>
+      <!-- Compact Rule Configuration -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+        <!-- Basic Settings Column -->
+        <div class="space-y-2">
+          <lib-input-text
+            [config]="{
+                  label: 'Rule Name',
+                  placeholder: 'Enter rule name',
+                  required: true,
+                  variant: FormComponentVariantEnum.OUTLINED,
+                  labelStyle: FormLabelStyleEnum.DEFAULT,
+                  labelPosition: FormLabelPositionEnum.ABOVE,
+                  size: FormComponentSizeEnum.SMALL,
+                  autofocus: false,
+                  disabled: false
+                }"
+            [formControl]="getRuleControl(ruleGroup, 'name')"
+          />
+          <lib-select
+            [config]="{
+                  label: 'Type',
+                  placeholder: 'Select type',
+                  options: validationTypes,
+                  optionLabel: 'label',
+                  optionValue: 'value',
+                  required: true,
+                  variant: FormComponentVariantEnum.OUTLINED,
+                  labelStyle: FormLabelStyleEnum.DEFAULT,
+                  labelPosition: FormLabelPositionEnum.ABOVE,
+                  size: FormComponentSizeEnum.SMALL,
+                  scrollHeight: DEFAULT_SCROLL_HEIGHT,
+                  disabled: false
+                }"
+            [formControl]="getRuleControl(ruleGroup, 'type')"
+          />
+        </div>
+        <!-- Type-Specific Configuration Column -->
+        <div class="space-y-2">
+          <!-- Regex Configuration -->
+          @if (getRuleType(i) === 'regex') {
+          <lib-input-text
+            [config]="{
+                    label: 'Pattern',
+                    placeholder: 'Regex pattern',
+                    variant: FormComponentVariantEnum.OUTLINED,
+                    labelStyle: FormLabelStyleEnum.DEFAULT,
+                    labelPosition: FormLabelPositionEnum.ABOVE,
+                    size: FormComponentSizeEnum.SMALL,
+                    autofocus: false,
+                    required: false,
+                    disabled: false
+                  }"
+            [formControl]="getRuleControl(ruleGroup, 'pattern')"
+          />
+          <lib-select
+            (valueChange)="applyCommonPattern(i, $event)"
+            [config]="{
+                    label: 'Quick Patterns',
+                    placeholder: 'Select common pattern',
+                    options: commonPatterns,
+                    optionLabel: 'label',
+                    optionValue: 'value',
+                    showClear: true,
+                    variant: FormComponentVariantEnum.OUTLINED,
+                    labelStyle: FormLabelStyleEnum.DEFAULT,
+                    labelPosition: FormLabelPositionEnum.ABOVE,
+                    size: FormComponentSizeEnum.SMALL,
+                    scrollHeight: DEFAULT_SCROLL_HEIGHT,
+                    required: false,
+                    disabled: false
+                  }"
+          />
+          }
+          <!-- Range Configuration -->
+          @if (getRuleType(i) === 'range') {
+          <div class="grid grid-cols-2 gap-2">
+            <lib-input-text
+              [config]="{
+                      label: 'Min',
+                      placeholder: '0',
+                      type: InputTextTypeEnum.NUMBER,
+                      variant: FormComponentVariantEnum.OUTLINED,
+                      labelStyle: FormLabelStyleEnum.DEFAULT,
+                      labelPosition: FormLabelPositionEnum.ABOVE,
+                      size: FormComponentSizeEnum.SMALL,
+                      autofocus: false,
+                      required: false,
+                      disabled: false
+                    }"
+              [formControl]="getRuleControl(ruleGroup, 'minValue')"
+            />
+            <lib-input-text
+              [config]="{
+                      label: 'Max',
+                      placeholder: '100',
+                      type: InputTextTypeEnum.NUMBER,
+                      variant: FormComponentVariantEnum.OUTLINED,
+                      labelStyle: FormLabelStyleEnum.DEFAULT,
+                      labelPosition: FormLabelPositionEnum.ABOVE,
+                      size: FormComponentSizeEnum.SMALL,
+                      autofocus: false,
+                      required: false,
+                      disabled: false
+                    }"
+              [formControl]="getRuleControl(ruleGroup, 'maxValue')"
+            />
+          </div>
+          }
+          <!-- Custom Function Configuration -->
+          @if (getRuleType(i) === 'custom') {
+          <lib-textarea
+            [config]="{
+                    label: 'Function',
+                    placeholder: 'function validate(value) { return true; }',
+                    rows: 3,
+                    variant: FormComponentVariantEnum.OUTLINED,
+                    labelStyle: FormLabelStyleEnum.DEFAULT,
+                    labelPosition: FormLabelPositionEnum.ABOVE,
+                    size: FormComponentSizeEnum.SMALL,
+                    autofocus: false,
+                    required: false,
+                    disabled: false
+                  }"
+            [formControl]="getRuleControl(ruleGroup, 'customFunction')"
+          />
+          }
+          <!-- Dependency Configuration -->
+          @if (getRuleType(i) === 'dependency') {
+          <lib-input-text
+            [config]="{
+                    label: 'Depends On',
+                    placeholder: 'Field name',
+                    variant: FormComponentVariantEnum.OUTLINED,
+                    labelStyle: FormLabelStyleEnum.DEFAULT,
+                    labelPosition: FormLabelPositionEnum.ABOVE,
+                    size: FormComponentSizeEnum.SMALL,
+                    required: false,
+                    disabled: false,
+                    autofocus: false,
+                  }"
+            [formControl]="getRuleControl(ruleGroup, 'dependsOn')"
+          />
+          }
+        </div>
+      </div>
+      <!-- Error Message -->
+      <div class="mt-3">
+        <lib-input-text
+          [config]="{
+                label: 'Error Message',
+                placeholder: 'Enter error message',
+                required: true,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelStyle: FormLabelStyleEnum.DEFAULT,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                size: FormComponentSizeEnum.SMALL,
+                disabled: false,
+                autofocus: false,
+              }"
+          [formControl]="getRuleControl(ruleGroup, 'errorMessage')"
+        />
+      </div>
+      <!-- Expandable Advanced Options -->
+      <details class="mt-3">
+        <summary
+          class="cursor-pointer text-sm text-gray-600 hover:text-gray-800 flex items-center gap-1"
+        >
+          <i class="pi pi-chevron-right text-xs transition-transform"></i>
+          Advanced Options
+        </summary>
+        <div class="mt-2 pt-2 border-t border-gray-100">
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
+            <lib-checkbox
+              [config]="{
+                    label: 'On Blur',
+                    mode: CheckboxModeEnum.BINARY,
+                    size: FormComponentSizeEnum.SMALL,
+                    variant: FormComponentVariantEnum.OUTLINED,
+                    labelPosition: FormLabelPositionEnum.ABOVE,
+                    labelStyle: FormLabelStyleEnum.DEFAULT,
+                    required: false,
+                    disabled: false,
+                  }"
+              [formControl]="getRuleControl(ruleGroup, 'validateOnBlur')"
+            />
+            <lib-checkbox
+              [config]="{
+                    label: 'On Change',
+                    mode: CheckboxModeEnum.BINARY,
+                    size: FormComponentSizeEnum.SMALL,
+                    variant: FormComponentVariantEnum.OUTLINED,
+                    labelPosition: FormLabelPositionEnum.ABOVE,
+                    labelStyle: FormLabelStyleEnum.DEFAULT,
+                    required: false,
+                    disabled: false,
+                  }"
+              [formControl]="getRuleControl(ruleGroup, 'validateOnChange')"
+            />
+            <lib-checkbox
+              [config]="{
+                    label: 'Skip Empty',
+                    mode: CheckboxModeEnum.BINARY,
+                    size: FormComponentSizeEnum.SMALL,
+                    variant: FormComponentVariantEnum.OUTLINED,
+                    labelPosition: FormLabelPositionEnum.ABOVE,
+                    labelStyle: FormLabelStyleEnum.DEFAULT,
+                    required: false,
+                    disabled: false,
+                  }"
+              [formControl]="getRuleControl(ruleGroup, 'skipIfEmpty')"
+            />
+          </div>
+        </div>
+      </details>
+    </div>
+    }
+  </div>
+  }
+
+  <!-- Empty State -->
+  @if (customValidationRules.length === 0) {
+  <div class="text-center py-6 text-gray-500">
+    <i class="pi pi-shield text-2xl mb-2 text-gray-400"></i>
+    <p class="text-sm">No custom validation rules yet.</p>
+    <p class="text-xs text-gray-400">Click the button above to add your first rule.</p>
+  </div>
+  }
+</div>

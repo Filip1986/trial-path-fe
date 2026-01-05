@@ -1,0 +1,92 @@
+.participants-dashboard {
+  padding: 0;
+}
+
+.metric-card {
+  height: 100%;
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.metric-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: var(--text-color);
+}
+
+.metric-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+  margin: 0 0 0.5rem 0;
+}
+
+.metric-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  line-height: 1;
+}
+
+.metric-icon {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  opacity: 0.1;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+
+.metric-value-container {
+  position: relative;
+  text-align: right;
+}
+
+.metric-trend {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.trend-value {
+  color: var(--text-color-secondary);
+}
+
+.metric-card-primary {
+  border-left: 4px solid var(--primary-color);
+}
+
+.metric-card-success {
+  border-left: 4px solid var(--green-500);
+}
+
+.metric-card-info {
+  border-left: 4px solid var(--blue-500);
+}
+
+.metric-card-warning {
+  border-left: 4px solid var(--orange-500);
+}
+
+:host ::ng-deep .p-card .p-card-body {
+  padding: 1.25rem;
+}
+
+:host ::ng-deep .p-table .p-table-thead > tr > th {
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.75rem;
+}
+
+:host ::ng-deep .p-table .p-table-tbody > tr > td {
+  padding: 0.75rem;
+  font-size: 0.875rem;
+}

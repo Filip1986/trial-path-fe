@@ -1,0 +1,141 @@
+<div class="table-skeleton-container" [attr.aria-label]="ariaLabel">
+  <!-- Header Actions Skeleton -->
+  @if (config.showHeader) {
+    <div class="mb-6">
+      <div class="flex justify-content-between align-items-center mb-4">
+        <div>
+          <p-skeleton [width]="headerButtonWidth" height="40px"></p-skeleton>
+        </div>
+        <div class="flex gap-2">
+          <p-skeleton width="80px" height="40px"></p-skeleton>
+          <p-skeleton width="80px" height="40px"></p-skeleton>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Filters Skeleton -->
+  @if (config.showFilters) {
+    <p-card class="mb-4">
+      <ng-template pTemplate="header">
+        <p-skeleton width="120px" height="24px"></p-skeleton>
+      </ng-template>
+      <div class="grid">
+        @for (col of filterColumns; track col) {
+          <div [class]="'col-12 md:col-' + 12 / config.columnCount!">
+            <p-skeleton width="100%" height="40px" class="mb-2"></p-skeleton>
+            <p-skeleton [width]="getRandomWidth()" height="16px"></p-skeleton>
+          </div>
+        }
+      </div>
+      <div class="flex justify-content-between align-items-center mt-3">
+        <p-skeleton width="60px" height="32px"></p-skeleton>
+        <p-skeleton width="120px" height="32px"></p-skeleton>
+      </div>
+    </p-card>
+  }
+
+  <!-- Table Skeleton -->
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center">
+        <p-skeleton width="180px" height="24px"></p-skeleton>
+        <p-skeleton width="100px" height="16px"></p-skeleton>
+      </div>
+    </ng-template>
+
+    <!-- Table Header Skeleton -->
+    <div class="table-skeleton-header">
+      <div class="flex p-3 border-bottom-1 surface-border">
+        @for (col of tableColumns; track col) {
+          <div class="flex-auto px-2">
+            <p-skeleton [width]="col.headerWidth" height="20px"></p-skeleton>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Table Rows Skeleton -->
+    <div class="table-skeleton-rows">
+      @for (row of skeletonRows; track row; let i = $index) {
+        <div
+          class="flex p-3 border-bottom-1 surface-border"
+          [style.animation-delay]="i * 0.1 + 's'"
+          >
+          @for (col of tableColumns; track col; let j = $index) {
+            <div class="flex-auto px-2">
+              @switch (col.type) {
+                <!-- Avatar + Name -->
+                @case ('avatar') {
+                  <div class="flex align-items-center gap-2">
+                    <p-skeleton shape="circle" size="32px"></p-skeleton>
+                    <div>
+                      <p-skeleton [width]="col.width" height="16px" class="mb-1"></p-skeleton>
+                      <p-skeleton [width]="getRandomWidth(50, 80)" height="12px"></p-skeleton>
+                    </div>
+                  </div>
+                }
+                <!-- Status Tag -->
+                @case ('status') {
+                  <p-skeleton
+                    [width]="getRandomWidth(60, 100)"
+                    height="24px"
+                    borderRadius="16px"
+                    >
+                  </p-skeleton>
+                }
+                <!-- Actions -->
+                @case ('actions') {
+                  <div class="flex gap-1">
+                    <p-skeleton width="24px" height="24px" borderRadius="4px"></p-skeleton>
+                    <p-skeleton width="24px" height="24px" borderRadius="4px"></p-skeleton>
+                    <p-skeleton width="24px" height="24px" borderRadius="4px"></p-skeleton>
+                  </div>
+                }
+                <!-- Checkbox -->
+                @case ('checkbox') {
+                  <div class="flex gap-1">
+                    <p-skeleton shape="circle" size="16px"></p-skeleton>
+                    <p-skeleton shape="circle" size="16px"></p-skeleton>
+                  </div>
+                }
+                <!-- Default Text -->
+                @default {
+                  <p-skeleton [width]="col.width" height="16px"> </p-skeleton>
+                }
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Pagination Skeleton -->
+    @if (config.showPagination) {
+      <div
+        class="flex justify-content-between align-items-center p-3 border-top-1 surface-border"
+        >
+        <div class="flex align-items-center gap-2">
+          <p-skeleton width="120px" height="16px"></p-skeleton>
+        </div>
+        <div class="flex align-items-center gap-2">
+          <p-skeleton width="80px" height="32px"></p-skeleton>
+          <div class="flex gap-1">
+            @for (page of paginationButtons; track page) {
+              <p-skeleton
+                width="32px"
+                height="32px"
+                borderRadius="4px"
+                >
+              </p-skeleton>
+            }
+          </div>
+          <p-skeleton width="80px" height="32px"></p-skeleton>
+        </div>
+      </div>
+    }
+  </p-card>
+
+  <!-- Screen reader text -->
+  <span class="sr-only">{{ loadingMessage }}</span>
+</div>

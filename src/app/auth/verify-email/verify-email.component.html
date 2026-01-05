@@ -1,0 +1,73 @@
+<div class="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+  <p-card styleClass="w-full max-w-lg">
+    <ng-template pTemplate="header">
+      <div class="bg-primary-600 text-white p-4 flex items-center">
+        <i class="pi pi-envelope-circle-check text-4xl mr-3"></i>
+        <h2 class="text-2xl font-bold m-0">Email Verification</h2>
+      </div>
+    </ng-template>
+
+    <div class="p-4">
+      <!-- Loading state -->
+      @if (isVerifying()) {
+        <div class="flex flex-col items-center justify-center py-8">
+          <p-progressSpinner />
+          <p class="mt-4 text-gray-600">Verifying your email address...</p>
+        </div>
+      }
+
+      <!-- Verification success -->
+      @if (verificationComplete() && verificationSuccess()) {
+        <div class="text-center py-6">
+          <div
+            class="bg-green-100 text-green-800 p-4 mb-6 rounded-lg flex items-center justify-center"
+            >
+            <i class="pi pi-check-circle text-4xl mr-3 text-green-600"></i>
+            <div class="text-left">
+              <h3 class="font-bold text-lg">Email Verified!</h3>
+              <p>{{ verificationMessage() }}</p>
+            </div>
+          </div>
+          <div class="mt-6">
+            <button
+              (click)="goToDashboard()"
+              class="w-full mb-3"
+              icon="pi pi-home"
+              label="Go to Dashboard"
+              pButton
+            ></button>
+          </div>
+        </div>
+      }
+
+      <!-- Verification error -->
+      @if (verificationComplete() && !verificationSuccess()) {
+        <div class="text-center py-6">
+          <div class="bg-red-100 text-red-800 p-4 mb-6 rounded-lg flex items-center justify-center">
+            <i class="pi pi-exclamation-circle text-4xl mr-3 text-red-600"></i>
+            <div class="text-left">
+              <h3 class="font-bold text-lg">Verification Failed</h3>
+              <p>{{ verificationMessage() || errorMessage() }}</p>
+            </div>
+          </div>
+          <div class="mt-6 flex flex-col gap-3">
+            <button
+              (click)="resendVerificationEmail()"
+              class="w-full"
+              icon="pi pi-refresh"
+              label="Resend Verification Email"
+              pButton
+            ></button>
+            <button
+              (click)="goToLogin()"
+              class="w-full p-button-outlined"
+              icon="pi pi-sign-in"
+              label="Go to Login"
+              pButton
+            ></button>
+          </div>
+        </div>
+      }
+    </div>
+  </p-card>
+</div>

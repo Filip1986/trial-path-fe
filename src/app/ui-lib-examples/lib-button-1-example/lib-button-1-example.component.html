@@ -1,0 +1,226 @@
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-6">Button Component Examples</h1>
+
+  <!-- Basic Colors -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Basic Color Variants</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-1 (clickEvent)="showMessage('Blue button clicked')" variant="blue"
+        >Blue</lib-button-1
+      >
+      <lib-button-1 (clickEvent)="showMessage('Red button clicked')" variant="red"
+        >Red</lib-button-1
+      >
+      <lib-button-1 (clickEvent)="showMessage('Green button clicked')" variant="green"
+        >Green</lib-button-1
+      >
+      <lib-button-1 (clickEvent)="showMessage('Yellow button clicked')" variant="yellow"
+        >Yellow</lib-button-1
+      >
+      <lib-button-1 (clickEvent)="showMessage('Primary button clicked')" variant="primary"
+        >Primary</lib-button-1
+      >
+      <lib-button-1 (clickEvent)="showMessage('Secondary button clicked')" variant="secondary"
+        >Secondary</lib-button-1
+      >
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Button Sizes</h2>
+    <div class="flex flex-wrap items-center gap-2">
+      <lib-button-1 (clickEvent)="showMessage('Small button clicked')" size="small" variant="blue"
+        >Small</lib-button-1
+      >
+      <lib-button-1 (clickEvent)="showMessage('Medium button clicked')" size="medium" variant="blue"
+        >Medium</lib-button-1
+      >
+      <lib-button-1 (clickEvent)="showMessage('Large button clicked')" size="large" variant="blue"
+        >Large</lib-button-1
+      >
+    </div>
+  </div>
+
+  <!-- Rounded -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Rounded Buttons</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-1
+        (clickEvent)="showMessage('Rounded blue button clicked')"
+        [rounded]="true"
+        variant="blue"
+        >Rounded Blue</lib-button-1
+      >
+      <lib-button-1
+        (clickEvent)="showMessage('Rounded red button clicked')"
+        [rounded]="true"
+        variant="red"
+        >Rounded Red</lib-button-1
+      >
+      <lib-button-1
+        (clickEvent)="showMessage('Rounded green button clicked')"
+        [rounded]="true"
+        variant="green"
+        >Rounded Green</lib-button-1
+      >
+      <lib-button-1
+        (clickEvent)="showMessage('Rounded yellow button clicked')"
+        [rounded]="true"
+        variant="yellow"
+        >Rounded Yellow</lib-button-1
+      >
+    </div>
+  </div>
+
+  <!-- With Icons -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Buttons with Icons</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-1
+        (clickEvent)="showMessage('Check button clicked')"
+        icon="pi-check"
+        iconPosition="left"
+        variant="blue"
+      >
+        Check
+      </lib-button-1>
+      <lib-button-1
+        (clickEvent)="showMessage('Add button clicked')"
+        icon="pi-plus"
+        iconPosition="left"
+        variant="green"
+      >
+        Add
+      </lib-button-1>
+      <lib-button-1
+        (clickEvent)="showMessage('Delete button clicked')"
+        icon="pi-trash"
+        iconPosition="left"
+        variant="red"
+      >
+        Delete
+      </lib-button-1>
+      <lib-button-1
+        (clickEvent)="showMessage('Next button clicked')"
+        icon="pi-arrow-right"
+        iconPosition="right"
+        variant="primary"
+      >
+        Next
+      </lib-button-1>
+    </div>
+  </div>
+
+  <!-- Flat Style -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Flat Style Buttons</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-1
+        (clickEvent)="showMessage('Flat blue button clicked')"
+        class="variant-flat-blue"
+        variant="flat"
+        >Flat Blue</lib-button-1
+      >
+      <lib-button-1
+        (clickEvent)="showMessage('Flat red button clicked')"
+        class="variant-flat-red"
+        variant="flat"
+        >Flat Red</lib-button-1
+      >
+      <lib-button-1
+        (clickEvent)="showMessage('Flat green button clicked')"
+        class="variant-flat-green"
+        variant="flat"
+        >Flat Green</lib-button-1
+      >
+      <lib-button-1
+        (clickEvent)="showMessage('Flat yellow button clicked')"
+        class="variant-flat-yellow"
+        variant="flat"
+        >Flat Yellow</lib-button-1
+      >
+    </div>
+  </div>
+
+  <!-- Outline Style -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Outline Style Buttons</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-1
+        (clickEvent)="showMessage('Outline blue button clicked')"
+        class="variant-outline-blue"
+        variant="outline"
+        >Outline Blue</lib-button-1
+      >
+      <lib-button-1
+        (clickEvent)="showMessage('Outline red button clicked')"
+        class="variant-outline-red"
+        variant="outline"
+        >Outline Red</lib-button-1
+      >
+      <lib-button-1
+        (clickEvent)="showMessage('Outline green button clicked')"
+        class="variant-outline-green"
+        variant="outline"
+        >Outline Green</lib-button-1
+      >
+      <lib-button-1
+        (clickEvent)="showMessage('Outline yellow button clicked')"
+        class="variant-outline-yellow"
+        variant="outline"
+        >Outline Yellow</lib-button-1
+      >
+    </div>
+  </div>
+
+  <!-- Disabled -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Disabled Buttons</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-1 [disabled]="true" variant="blue">Disabled Blue</lib-button-1>
+      <lib-button-1 [disabled]="true" variant="red">Disabled Red</lib-button-1>
+      <lib-button-1 [disabled]="true" class="variant-outline-green" variant="outline"
+        >Disabled Outline</lib-button-1
+      >
+      <lib-button-1 [disabled]="true" class="variant-flat-yellow" variant="flat"
+        >Disabled Flat</lib-button-1
+      >
+    </div>
+  </div>
+
+  <!-- Button Types -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Button Types</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-1 (clickEvent)="showMessage('Button type clicked')" type="button" variant="blue"
+        >Button Type</lib-button-1
+      >
+      <lib-button-1 (clickEvent)="showMessage('Submit type clicked')" type="submit" variant="green"
+        >Submit Type</lib-button-1
+      >
+      <lib-button-1 (clickEvent)="showMessage('Reset type clicked')" type="reset" variant="red"
+        >Reset Type</lib-button-1
+      >
+    </div>
+  </div>
+
+  <!-- Animation Toggle -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Animation Toggle</h2>
+    <div class="flex flex-wrap gap-2">
+      <lib-button-1
+        (clickEvent)="showMessage('Animated button clicked')"
+        [animate]="true"
+        variant="blue"
+        >With Animation</lib-button-1
+      >
+      <lib-button-1
+        (clickEvent)="showMessage('Non-animated button clicked')"
+        [animate]="false"
+        variant="blue"
+        >No Animation</lib-button-1
+      >
+    </div>
+  </div>
+</div>

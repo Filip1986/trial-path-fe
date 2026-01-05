@@ -1,0 +1,69 @@
+.scroll-reveal-container {
+  min-height: 150vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 80px 32px;
+  padding-top: 20vh;
+  background-color: #000;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.text-wrapper {
+  max-width: 1200px;
+  width: 100%;
+  transform: translateZ(0);
+}
+
+// Apply to animated elements
+.line {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+
+.split {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #dfdcff;
+  margin: 0;
+  opacity: 0; // Initially hidden, will be shown by GSAP
+  overflow: hidden;
+}
+
+// Line masking for reveal effect
+:host ::ng-deep .line {
+  display: block;
+  overflow: hidden;
+  padding: 4px 0;
+  position: relative;
+}
+
+// Word styling within lines
+:host ::ng-deep .word {
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: 0.25em;
+}
+
+@media (max-width: 1024px) {
+  .split {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .split {
+    font-size: 28px;
+  }
+
+  .scroll-reveal-container {
+    padding: 60px 24px;
+    padding-top: 15vh;
+  }
+}

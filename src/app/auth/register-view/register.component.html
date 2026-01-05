@@ -1,0 +1,16 @@
+<div class="p-4 flex flex-col items-center">
+  <p-selectButton
+    [(ngModel)]="selectedLoginStyle"
+    [options]="styleOptions"
+    class="mb-4"
+    optionLabel="name"
+    optionValue="value"
+  />
+  <lib-registration
+    (navigateToLoginRequest)="navigateToLogin()"
+    (submitRegistration)="handleRegistrationSubmit($event)"
+    [isSubmitting]="isSubmitting()"
+    [registrationError]="registrationError()"
+    [variant]="selectedLoginStyle"
+  />
+</div>

@@ -1,0 +1,525 @@
+<div class="study-detail-page">
+  <!-- Loading State -->
+  <div *ngIf="loading()" class="flex justify-content-center p-8">
+    <p-progressSpinner />
+  </div>
+
+  <!-- Error State -->
+  <p-message *ngIf="error() as error" [text]="error" class="mb-4" severity="error" />
+
+  <!-- Study Detail Content -->
+  <div *ngIf="study() as study" class="study-detail-content">
+    <!-- Header Section -->
+    <div class="study-header mb-6">
+      <div class="flex justify-content-between align-items-start mb-4">
+        <div class="flex-grow-1">
+          <!-- Study Title and Basic Info -->
+          <div class="flex align-items-center gap-3 mb-3">
+            <p-button
+              (onClick)="goBack()"
+              [rounded]="true"
+              [text]="true"
+              icon="pi pi-arrow-left"
+              pTooltip="Back to Studies"
+              severity="secondary"
+            />
+            <div>
+              <h1 class="text-3xl font-bold text-gray-900 m-0">{{ study.title }}</h1>
+              <p class="text-lg text-gray-600 mt-1">{{ study.shortTitle }}</p>
+            </div>
+          </div>
+
+          <!-- Study Meta Information -->
+          <div class="flex flex-wrap align-items-center gap-4 mb-4">
+            <div class="flex align-items-center gap-2">
+              <i class="pi pi-hashtag text-gray-500"></i>
+              <span class="font-medium">{{ study.protocolNumber }}</span>
+            </div>
+            <div class="flex align-items-center gap-2">
+              <i class="pi pi-tag text-gray-500"></i>
+              <p-tag [value]="study.phase" severity="info" />
+            </div>
+            <div class="flex align-items-center gap-2">
+              <i class="pi pi-flag text-gray-500"></i>
+              <p-tag
+                [severity]="getStatusSeverity(study.status)"
+                [value]="study.status | titlecase"
+              />
+            </div>
+            <div class="flex align-items-center gap-2">
+              <i class="pi pi-shield text-gray-500"></i>
+              <!-- HTML -->
+              <p-tag
+                [severity]="getRiskLevelSeverity(study.riskLevel)"
+                [value]="getRiskLevelDisplay(study.riskLevel)"
+              />
+            </div>
+          </div>
+
+          <!-- Key Metrics Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div
+              *ngFor="let metric of studyMetrics()"
+              class="metric-card p-4 border border-gray-200 rounded-lg bg-white shadow-sm"
+            >
+              <div class="flex align-items-center gap-3">
+                <div
+                  [style.background-color]="metric.color + '20'"
+                  [style.color]="metric.color"
+                  class="metric-icon p-3 rounded-full"
+                >
+                  <i [class]="metric.icon"></i>
+                </div>
+                <div class="flex-grow-1">
+                  <div class="text-2xl font-bold text-gray-900">{{ metric.value }}</div>
+                  <div class="text-sm text-gray-600">{{ metric.label }}</div>
+                  <div *ngIf="metric.description" class="text-xs text-gray-500 mt-1">
+                    {{ metric.description }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-2 ml-4">
+          <p-button
+            (onClick)="editStudy(study)"
+            [outlined]="true"
+            icon="pi pi-pencil"
+            label="Edit"
+            severity="secondary"
+          />
+          <p-button
+            #actionMenu
+            (onClick)="menu.toggle($event)"
+            [outlined]="true"
+            icon="pi pi-ellipsis-v"
+            severity="secondary"
+          />
+          <!-- HTML -->
+          <p-menu #menu [model]="getMenuItems" [popup]="true" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Content -->
+    <p-tabs [(tabIndex)]="activeTabIndex">
+      <!-- Overview Tab -->
+      <p-tab>
+        <ng-template pTemplate="title"> <i class="pi pi-info-circle"></i> Overview </ng-template>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Study Information -->
+          <div class="lg:col-span-2">
+            <p-card header="Study Information" styleClass="mb-4">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="font-semibold text-gray-700">Study Type</label>
+                  <p class="text-gray-900">{{ study.studyType }}</p>
+                </div>
+                <div>
+                  <label class="font-semibold text-gray-700">Therapeutic Area</label>
+                  <div class="flex flex-wrap gap-1 mt-1">
+                    <p-tag
+                      *ngFor="let area of study.therapeuticAreas"
+                      [value]="area"
+                      class="text-xs"
+                      severity="secondary"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label class="font-semibold text-gray-700">Indication</label>
+                  <p class="text-gray-900">{{ study.indication }}</p>
+                </div>
+                <div>
+                  <label class="font-semibold text-gray-700">Sponsor</label>
+                  <p class="text-gray-900">{{ study.sponsorName }}</p>
+                </div>
+                <div>
+                  <label class="font-semibold text-gray-700">Principal Investigator</label>
+                  <p class="text-gray-900">{{ study.principalInvestigator }}</p>
+                </div>
+                <div>
+                  <label class="font-semibold text-gray-700">Budget</label>
+                  <p class="text-gray-900">
+                    {{ study.budget ? (study.budget | currency) : 'Not specified' }}
+                  </p>
+                </div>
+              </div>
+
+              <p-divider />
+
+              <!-- Endpoints -->
+              <div class="mt-4">
+                <h3 class="font-semibold text-gray-700 mb-3">Study Endpoints</h3>
+                <div *ngIf="study.primaryEndpoint" class="mb-3">
+                  <label class="font-medium text-gray-600">Primary Endpoint</label>
+                  <p class="text-gray-900 mt-1">{{ study.primaryEndpoint }}</p>
+                </div>
+                <div *ngIf="study.secondaryEndpoints?.length">
+                  <label class="font-medium text-gray-600">Secondary Endpoints</label>
+                  <ul class="list-disc list-inside text-gray-900 mt-1 space-y-1">
+                    <li *ngFor="let endpoint of study.secondaryEndpoints">{{ endpoint }}</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Inclusion/Exclusion Criteria -->
+              <p-divider />
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div *ngIf="study.inclusionCriteria?.length">
+                  <h4 class="font-medium text-green-700 mb-2">
+                    <i class="pi pi-check-circle mr-2"></i>
+                    Inclusion Criteria
+                  </h4>
+                  <ul class="text-sm text-gray-700 space-y-1">
+                    <li
+                      *ngFor="let criteria of study.inclusionCriteria"
+                      class="flex align-items-start"
+                    >
+                      <i class="pi pi-check text-green-500 mr-2 mt-1 text-xs"></i>
+                      {{ criteria }}
+                    </li>
+                  </ul>
+                </div>
+                <div *ngIf="study.exclusionCriteria?.length">
+                  <h4 class="font-medium text-red-700 mb-2">
+                    <i class="pi pi-times-circle mr-2"></i>
+                    Exclusion Criteria
+                  </h4>
+                  <ul class="text-sm text-gray-700 space-y-1">
+                    <li
+                      *ngFor="let criteria of study.exclusionCriteria"
+                      class="flex align-items-start"
+                    >
+                      <i class="pi pi-times text-red-500 mr-2 mt-1 text-xs"></i>
+                      {{ criteria }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </p-card>
+          </div>
+
+          <!-- Enrollment Progress -->
+          <div>
+            <p-card header="Enrollment Progress" styleClass="mb-4">
+              <div class="text-center mb-4">
+                <div class="text-3xl font-bold text-gray-900">
+                  {{ getEnrollmentProgress(study.currentEnrollment, study.plannedEnrollment) }}%
+                </div>
+                <div class="text-gray-600">
+                  {{ study.currentEnrollment }} of {{ study.plannedEnrollment }} enrolled
+                </div>
+              </div>
+
+              <!-- Enrollment Chart -->
+              <div class="chart-container" style="height: 200px">
+                <p-chart
+                  [data]="enrollmentChartData()"
+                  [options]="enrollmentChartOptions"
+                  [responsive]="true"
+                  type="doughnut"
+                />
+              </div>
+
+              <!-- Progress Bar -->
+              <div class="mt-4">
+                <p-progressBar
+                  [style]="{ height: '8px' }"
+                  [value]="getEnrollmentProgress(study.currentEnrollment, study.plannedEnrollment)"
+                />
+              </div>
+            </p-card>
+
+            <!-- Timeline Summary -->
+            <p-card header="Key Dates">
+              <div class="space-y-3">
+                <div class="flex justify-content-between align-items-center">
+                  <span class="text-gray-600">Created</span>
+                  <span class="font-medium">{{ study.createdDate | date:'mediumDate' }}</span>
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <span class="text-gray-600">Start Date</span>
+                  <span class="font-medium">{{ study.plannedStartDate | date:'mediumDate' }}</span>
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <span class="text-gray-600">End Date</span>
+                  <span class="font-medium">{{ study.plannedEndDate | date:'mediumDate' }}</span>
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <span class="text-gray-600">Last Modified</span>
+                  <span class="font-medium">{{ study.lastModified | date:'mediumDate' }}</span>
+                </div>
+              </div>
+            </p-card>
+          </div>
+        </div>
+      </p-tab>
+
+      <!-- Timeline Tab -->
+      <p-tab>
+        <ng-template pTemplate="title"> <i class="pi pi-calendar"></i> Timeline </ng-template>
+        <p-card header="Study Timeline">
+          <p-timeline [value]="studyTimeline()" align="alternate" layout="vertical">
+            <ng-template #content let-event>
+              <p-card [style]="{ 'margin-top': '1rem' }">
+                <div class="flex align-items-center gap-2 mb-2">
+                  <i [class]="event.icon" [style.color]="event.color"></i>
+                  <span class="font-semibold">{{ event.title }}</span>
+                </div>
+                <p class="text-gray-600 text-sm mb-1">{{ event.date }}</p>
+                <p *ngIf="event.description" class="text-gray-700 text-sm">
+                  {{ event.description }}
+                </p>
+              </p-card>
+            </ng-template>
+            <ng-template #marker let-event>
+              <div
+                [style.background-color]="event.color"
+                class="timeline-marker"
+                style="width: 12px; height: 12px; border-radius: 50%"
+              ></div>
+            </ng-template>
+          </p-timeline>
+        </p-card>
+      </p-tab>
+
+      <!-- Participants Tab -->
+      <p-tab>
+        <ng-template pTemplate="title"> <i class="pi pi-users"></i> Participants </ng-template>
+        <p-card header="Study Participants">
+          <p-table
+            [paginator]="true"
+            [rows]="10"
+            [value]="getParticipants()"
+            responsiveLayout="scroll"
+          >
+            <ng-template #header>
+              <tr>
+                <th>Participant ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Enrollment Date</th>
+                <th>Status</th>
+                <th>Last Visit</th>
+                <th>Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-participant>
+              <tr>
+                <td>{{ participant.id }}</td>
+                <td>{{ participant.name }}</td>
+                <td>{{ participant.age }}</td>
+                <td>{{ participant.gender }}</td>
+                <td>{{ participant.enrollmentDate | date:'shortDate' }}</td>
+                <td>
+                  <p-tag
+                    [severity]="participant.status === 'Active' ? 'success' : 'secondary'"
+                    [value]="participant.status"
+                  />
+                </td>
+                <td>{{ participant.lastVisit | date:'shortDate' }}</td>
+                <td>
+                  <p-button
+                    [rounded]="true"
+                    [text]="true"
+                    icon="pi pi-eye"
+                    pTooltip="View Participant"
+                    severity="secondary"
+                  />
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </p-tab>
+
+      <!-- Documents Tab -->
+      <p-tab>
+        <ng-template pTemplate="title"> <i class="pi pi-file"></i> Documents </ng-template>
+        <p-card header="Study Documents">
+          <div class="flex justify-content-end mb-4">
+            <p-button icon="pi pi-upload" label="Upload Document" severity="secondary" />
+          </div>
+
+          <p-table
+            [paginator]="true"
+            [rows]="10"
+            [value]="getDocuments()"
+            responsiveLayout="scroll"
+          >
+            <ng-template #header>
+              <tr>
+                <th>Document Name</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Version</th>
+                <th>Upload Date</th>
+                <th>Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-document>
+              <tr>
+                <td>
+                  <div class="flex align-items-center gap-2">
+                    <i class="pi pi-file-pdf text-red-500"></i>
+                    {{ document.name }}
+                  </div>
+                </td>
+                <td>{{ document.type }}</td>
+                <td>{{ document.size }}</td>
+                <td>
+                  <p-tag [value]="'v' + document.version" severity="info" />
+                </td>
+                <td>{{ document.uploadDate | date:'shortDate' }}</td>
+                <td>
+                  <div class="flex gap-1">
+                    <p-button
+                      [rounded]="true"
+                      [text]="true"
+                      icon="pi pi-download"
+                      pTooltip="Download"
+                      severity="secondary"
+                    />
+                    <p-button
+                      [rounded]="true"
+                      [text]="true"
+                      icon="pi pi-eye"
+                      pTooltip="Preview"
+                      severity="secondary"
+                    />
+                    <p-button
+                      [rounded]="true"
+                      [text]="true"
+                      icon="pi pi-trash"
+                      pTooltip="Delete"
+                      severity="danger"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </p-tab>
+
+      <!-- Settings Tab -->
+      <p-tab>
+        <ng-template pTemplate="title"> <i class="pi pi-cog"></i> Settings </ng-template>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Study Settings -->
+          <p-card header="Study Settings">
+            <div class="space-y-4">
+              <div class="flex justify-content-between align-items-center">
+                <div>
+                  <label class="font-semibold text-gray-700">Data Export Enabled</label>
+                  <p class="text-sm text-gray-600">Allow study data to be exported</p>
+                </div>
+                <p-check-box [binary]="true" [disabled]="true" />
+              </div>
+
+              <p-divider />
+
+              <div class="flex justify-content-between align-items-center">
+                <div>
+                  <label class="font-semibold text-gray-700">Electronic Signatures</label>
+                  <p class="text-sm text-gray-600">Require electronic signatures for documents</p>
+                </div>
+                <p-checkbox [binary]="true" [disabled]="true" />
+              </div>
+
+              <p-divider />
+
+              <div class="flex justify-content-between align-items-center">
+                <div>
+                  <label class="font-semibold text-gray-700">Audit Trail</label>
+                  <p class="text-sm text-gray-600">Maintain detailed audit logs</p>
+                </div>
+                <p-checkbox [binary]="true" [disabled]="true" />
+              </div>
+
+              <p-divider />
+
+              <div class="flex justify-content-between align-items-center">
+                <div>
+                  <label class="font-semibold text-gray-700">Blinded Study</label>
+                  <p class="text-sm text-gray-600">Study uses blinding methodology</p>
+                </div>
+                <p-checkbox [binary]="true" [disabled]="true" />
+              </div>
+            </div>
+          </p-card>
+
+          <!-- System Information -->
+          <p-card header="System Information">
+            <div class="space-y-4">
+              <div>
+                <label class="font-semibold text-gray-700">Study ID</label>
+                <p class="text-gray-900 font-mono">{{ study.id }}</p>
+              </div>
+
+              <p-divider />
+
+              <div>
+                <label class="font-semibold text-gray-700">Created By</label>
+                <p class="text-gray-900">{{ study.createdBy }}</p>
+              </div>
+
+              <p-divider />
+
+              <div>
+                <label class="font-semibold text-gray-700">Created Date</label>
+                <p class="text-gray-900">{{ study.createdDate | date:'full' }}</p>
+              </div>
+
+              <p-divider />
+
+              <div>
+                <label class="font-semibold text-gray-700">Last Modified</label>
+                <p class="text-gray-900">{{ study.lastModified | date:'full' }}</p>
+              </div>
+
+              <p-divider />
+
+              <div>
+                <label class="font-semibold text-gray-700">Version</label>
+                <p class="text-gray-900">1.0</p>
+              </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <p-divider />
+            <div class="border border-red-200 rounded-lg p-4 bg-red-50 mt-6">
+              <h4 class="font-semibold text-red-700 mb-2">
+                <i class="pi pi-exclamation-triangle mr-2"></i>
+                Danger Zone
+              </h4>
+              <p class="text-sm text-red-600 mb-4">
+                These actions are irreversible and will permanently affect the study data.
+              </p>
+              <div class="flex gap-2">
+                <p-button
+                  (onClick)="deleteStudy(study)"
+                  [outlined]="true"
+                  icon="pi pi-trash"
+                  label="Delete Study"
+                  severity="danger"
+                />
+              </div>
+            </div>
+          </p-card>
+        </div>
+      </p-tab>
+    </p-tabs>
+  </div>
+
+  <!-- Confirmation Dialog -->
+  <p-confirmDialog />
+
+  <!-- Toast Messages -->
+  <p-toast position="top-right" />
+</div>

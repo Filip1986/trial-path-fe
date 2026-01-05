@@ -1,0 +1,66 @@
+<div class="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+  <p-card styleClass="w-full max-w-lg">
+    <ng-template pTemplate="header">
+      <div class="bg-primary-600 text-white p-4 flex items-center">
+        <i class="pi pi-envelope-circle-check text-4xl mr-3"></i>
+        <h2 class="text-2xl font-bold m-0">Email Verification</h2>
+      </div>
+    </ng-template>
+
+    <div class="p-4">
+      <h3 class="font-medium text-lg mb-4">Verify your email address</h3>
+
+      <div class="mb-6">
+        <p class="mb-2">We've sent a verification email to <strong>{{ userEmail() }}</strong>.</p>
+        <p class="mb-4">
+          Please check your inbox and click on the verification link to complete your registration.
+        </p>
+
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <i class="pi pi-info-circle text-blue-500"></i>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-blue-700">
+                If you don't see the email, check your spam folder or request a new verification
+                email.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <button
+          (click)="resendVerificationEmail()"
+          [disabled]="isResending()"
+          [loading]="isResending()"
+          class="p-button-outlined w-full"
+          icon="pi pi-refresh"
+          label="Resend Verification Email"
+          pButton
+        ></button>
+
+        <button
+          (click)="confirmVerification()"
+          [disabled]="isChecking()"
+          [loading]="isChecking()"
+          class="w-full"
+          icon="pi pi-check"
+          label="I've Verified My Email"
+          pButton
+        ></button>
+
+        <button
+          (click)="goBack()"
+          [disabled]="isChecking() || isResending()"
+          class="p-button-text w-full"
+          icon="pi pi-arrow-left"
+          label="Back to Dashboard"
+          pButton
+        ></button>
+      </div>
+    </div>
+  </p-card>
+</div>

@@ -1,0 +1,23 @@
+<div class="p-4 flex flex-col items-center">
+  <p-selectButton
+    [(ngModel)]="selectedNotFoundStyle"
+    [options]="styleOptions"
+    class="mb-4"
+    optionLabel="name"
+    optionValue="value"
+  />
+  <lib-not-found
+    (goBack)="navigateBack()"
+    (goHome)="navigateToHome()"
+    (search)="handleSearch($event)"
+    [features]="{
+    showHomeLink: true,
+    showBackButton: true,
+    showSearchBox: true
+  }"
+    [variant]="selectedNotFoundStyle"
+    message="The page you're looking for doesn't exist or has been moved."
+    title="Oops! Page Not Found"
+    variant="2"
+  />
+</div>

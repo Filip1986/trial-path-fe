@@ -1,0 +1,28 @@
+<!-- Horizontal Scroll Section -->
+<div #horizontalSection class="horizontal-scroll-section">
+  <div class="section-title-wrapper">
+    <h2 class="horizontal-section-title">{{ 'landing.horizontalFeatures.title' | translate }}</h2>
+    <p class="horizontal-section-subtitle">
+      {{ 'landing.horizontalFeatures.subtitle' | translate }}
+    </p>
+  </div>
+
+  <div class="scroll-container">
+    <div #cardsWrapper class="cards-wrapper">
+      @for (card of featureCardsData; track card) {
+        <div class="horizontal-card">
+          <div class="card-content">
+            <div class="card-icon">{{ card.icon }}</div>
+            <h3 class="card-title">{{ card.title }}</h3>
+            <p class="card-description">{{ card.description }}</p>
+            <ul class="card-features">
+              @for (feature of card.features; track feature) {
+                <li>{{ feature }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

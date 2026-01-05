@@ -1,0 +1,13 @@
+:host {
+  display: block;
+
+  .container {
+    max-width: 1200px;
+  }
+
+  pre {
+    font-family: monospace;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+}

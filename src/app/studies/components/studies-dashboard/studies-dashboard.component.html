@@ -1,0 +1,319 @@
+<div class="studies-dashboard">
+  <!-- Loading State with Skeleton (matching participants dashboard) -->
+  @if (loading()) {
+    <div class="grid grid-cols-4 gap-8 mb-8">
+      @for (i of [1,2,3,4]; track i) {
+        <div class="col-span-1">
+          <p-card>
+            <p-skeleton height="80px"></p-skeleton>
+          </p-card>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Charts Loading Skeletons -->
+  @if (loading()) {
+    <div class="grid grid-cols-3 gap-8 mb-8">
+      <div class="col-span-2">
+        <p-card>
+          <ng-template pTemplate="header">
+            <div class="flex justify-content-between align-items-center">
+              <p-skeleton width="160px" height="24px"></p-skeleton>
+            </div>
+          </ng-template>
+          <div class="chart-skeleton-container">
+            <p-skeleton height="300px" width="100%"></p-skeleton>
+          </div>
+        </p-card>
+      </div>
+      <div class="col-span-1">
+        <p-card>
+          <ng-template pTemplate="header">
+            <div class="flex justify-content-between align-items-center">
+              <p-skeleton width="140px" height="24px"></p-skeleton>
+            </div>
+          </ng-template>
+          <div class="chart-skeleton-container">
+            <p-skeleton height="300px" width="100%"></p-skeleton>
+          </div>
+        </p-card>
+      </div>
+    </div>
+  }
+
+  <!-- Tables Loading Skeletons -->
+  @if (loading()) {
+    <div class="grid grid-cols-2 gap-8">
+      <!-- Recent Studies Table Skeleton -->
+      <div class="col-span-1">
+        <p-card>
+          <ng-template pTemplate="header">
+            <div class="flex justify-content-between align-items-center">
+              <p-skeleton width="120px" height="24px"></p-skeleton>
+              <p-skeleton width="60px" height="32px"></p-skeleton>
+            </div>
+          </ng-template>
+          <div class="table-skeleton">
+            <!-- Table Header Skeleton -->
+            <div class="table-skeleton-header mb-3">
+              <div class="flex gap-4">
+                <div class="flex-auto"><p-skeleton height="20px"></p-skeleton></div>
+                <div class="flex-auto"><p-skeleton height="20px"></p-skeleton></div>
+                <div class="flex-auto"><p-skeleton height="20px"></p-skeleton></div>
+                <div class="flex-auto"><p-skeleton height="20px"></p-skeleton></div>
+              </div>
+            </div>
+            <!-- Table Rows Skeleton -->
+            <div class="table-skeleton-rows">
+              @for (i of [1,2,3,4,5]; track i) {
+                <div class="flex gap-4 mb-2">
+                  <div class="flex-auto"><p-skeleton height="16px"></p-skeleton></div>
+                  <div class="flex-auto"><p-skeleton height="16px"></p-skeleton></div>
+                  <div class="flex-auto"><p-skeleton height="16px"></p-skeleton></div>
+                  <div class="flex-auto"><p-skeleton height="16px"></p-skeleton></div>
+                </div>
+              }
+            </div>
+          </div>
+        </p-card>
+      </div>
+      <!-- Recent Activities Table Skeleton -->
+      <div class="col-span-1">
+        <p-card>
+          <ng-template pTemplate="header">
+            <div class="flex justify-content-between align-items-center">
+              <p-skeleton width="140px" height="24px"></p-skeleton>
+              <p-skeleton width="60px" height="32px"></p-skeleton>
+            </div>
+          </ng-template>
+          <div class="table-skeleton">
+            <!-- Table Header Skeleton -->
+            <div class="table-skeleton-header mb-3">
+              <div class="flex gap-4">
+                <div class="flex-auto"><p-skeleton height="20px"></p-skeleton></div>
+                <div class="flex-auto"><p-skeleton height="20px"></p-skeleton></div>
+                <div class="flex-auto"><p-skeleton height="20px"></p-skeleton></div>
+                <div class="flex-auto"><p-skeleton height="20px"></p-skeleton></div>
+              </div>
+            </div>
+            <!-- Table Rows Skeleton -->
+            <div class="table-skeleton-rows">
+              @for (i of [1,2,3,4,5]; track i) {
+                <div class="flex gap-4 mb-2">
+                  <div class="flex-auto"><p-skeleton height="16px"></p-skeleton></div>
+                  <div class="flex-auto"><p-skeleton height="16px"></p-skeleton></div>
+                  <div class="flex-auto"><p-skeleton height="16px"></p-skeleton></div>
+                  <div class="flex-auto"><p-skeleton height="16px"></p-skeleton></div>
+                </div>
+              }
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error(); as error) {
+    <p-message [text]="error" severity="error" styleClass="mb-8" />
+  }
+
+  <!-- Main Dashboard Content -->
+  @if (!loading() && !error()) {
+    <div class="dashboard-content">
+      <!-- Study Metrics Container - using gap-8 (consistent with participants design) -->
+      <!-- Study Metrics Container -->
+      <div class="study-metrics-container mb-8">
+        <!-- Main Metrics Grid -->
+        <div class="grid grid-cols-4 gap-8">
+          <!-- Total Studies - Clickable -->
+          <div class="col-span-1">
+            <p-card
+              class="bg-light-error cursor-pointer hover:shadow-lg transition-shadow"
+              (click)="onMetricCardClick('total')"
+              >
+              <div class="flex justify-between items-center">
+                <div>
+                  <h3 class="text-lg font-semibold">Total Studies</h3>
+                  <p>Registered studies</p>
+                </div>
+                <div class="text-3xl font-bold">{{ metrics()?.totalStudies || 0 }}</div>
+              </div>
+            </p-card>
+          </div>
+          <!-- Active Studies - Clickable -->
+          <div class="col-span-1">
+            <p-card
+              class="bg-light-success cursor-pointer hover:shadow-lg transition-shadow"
+              (click)="onMetricCardClick('active')"
+              >
+              <div class="flex justify-between items-center">
+                <div>
+                  <h3 class="text-lg font-semibold">Active Studies</h3>
+                  <p>Currently running</p>
+                </div>
+                <div class="text-3xl font-bold">{{ metrics()?.activeStudies || 0 }}</div>
+              </div>
+            </p-card>
+          </div>
+          <!-- Total Participants -->
+          <div class="col-span-1">
+            <p-card class="bg-gray">
+              <div class="flex justify-between items-center">
+                <div>
+                  <h3 class="text-lg font-semibold">Total Participants</h3>
+                  <p>Enrolled participants</p>
+                </div>
+                <div class="text-3xl font-bold">
+                  {{ formatNumber(metrics()?.totalParticipants || 0) }}
+                </div>
+              </div>
+            </p-card>
+          </div>
+          <!-- Average Enrollment -->
+          <div class="col-span-1">
+            <p-card class="bg-primary">
+              <div class="flex justify-between items-center">
+                <div>
+                  <h3 class="text-lg font-semibold">Avg. Enrollment</h3>
+                  <p>Enrollment rate</p>
+                </div>
+                <div class="text-3xl font-bold">
+                  {{ metrics()?.averageEnrollmentRate || 0 }}%
+                </div>
+              </div>
+            </p-card>
+          </div>
+        </div>
+      </div>
+      <!-- Charts Row -->
+      <div class="grid grid-cols-3 gap-8 mb-8">
+        <div class="col-span-2">
+          <p-card>
+            <ng-template pTemplate="header">
+              <div class="flex justify-content-between align-items-center">
+                <span>Study Enrollment Trends</span>
+              </div>
+            </ng-template>
+            <p-chart
+              type="line"
+              [data]="enrollmentChartData()"
+              [options]="enrollmentChartOptions"
+              height="300px"
+            ></p-chart>
+          </p-card>
+        </div>
+        <div class="col-span-1">
+          <p-card>
+            <ng-template pTemplate="header">
+              <div class="flex justify-content-between align-items-center">
+                <span>Study Status Distribution</span>
+              </div>
+            </ng-template>
+            <p-chart
+              type="doughnut"
+              [data]="statusChartData()"
+              [options]="statusChartOptions"
+              height="300px"
+            ></p-chart>
+          </p-card>
+        </div>
+      </div>
+      <!-- Data Tables Row -->
+      <div class="grid grid-cols-2 gap-8">
+        <!-- Recent Studies -->
+        <div class="col-span-1">
+          <p-card>
+            <ng-template pTemplate="header">
+              <div class="flex justify-content-between align-items-center">
+                <span>Recent Studies</span>
+                <p-button
+                  (onClick)="createStudy()"
+                  label="Create Study"
+                  size="small"
+                  styleClass="p-button-text"
+                  />
+              </div>
+            </ng-template>
+            <p-table [value]="recentStudies()" [paginator]="false" [rows]="5">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Study</th>
+                  <th>Status</th>
+                  <th>Progress</th>
+                  <th>Actions</th>
+                </tr>
+              </ng-template>
+              <ng-template let-study pTemplate="body">
+                <tr>
+                  <td>
+                    <div>
+                      <div class="font-medium">{{ study.shortTitle }}</div>
+                      <div class="text-sm text-color-secondary">
+                        {{ study.principalInvestigator }}
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p-tag
+                      [severity]="getStatusSeverity(study.status)"
+                      [value]="study.status | titlecase"
+                    ></p-tag>
+                  </td>
+                  <td>
+                    <div class="progress-container">
+                      <div class="text-sm mb-1">
+                        {{ study.currentEnrollment }}/{{ study.plannedEnrollment }}
+                      </div>
+                      <p-progressBar
+                        [value]="getEnrollmentProgress(study)"
+                        [showValue]="false"
+                        styleClass="progress-bar-sm"
+                      ></p-progressBar>
+                    </div>
+                  </td>
+                  <td>
+                    <p-button
+                      icon="pi pi-eye"
+                      size="small"
+                      text
+                      (onClick)="viewStudy(study)"
+                      pTooltip="View Study"
+                    ></p-button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-card>
+        </div>
+        <!-- Recent Activities -->
+        <div class="col-span-1">
+          <p-card>
+            <ng-template pTemplate="header">
+              <div class="flex justify-content-between align-items-center">
+                <span>Recent Activities</span>
+                <p-button label="View All" size="small" styleClass="p-button-text" />
+              </div>
+            </ng-template>
+            <div class="activity-list">
+              @for (activity of recentActivities(); track activity) {
+                <div class="activity-item">
+                  <div class="activity-icon">
+                    <i [class]="getActivityIcon(activity.type)"></i>
+                  </div>
+                  <div class="activity-content">
+                    <div class="activity-title">{{ activity.message }}</div>
+                    <div class="activity-meta">
+                      {{ activity.studyTitle }} • {{ activity.timestamp | date:'short' }}
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </p-card>
+        </div>
+      </div>
+    </div>
+  }
+</div>

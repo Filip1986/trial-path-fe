@@ -1,0 +1,712 @@
+<div class="enroll-participant-container p-4 max-w-6xl mx-auto">
+  <!-- Header with Progress -->
+  <div class="header-section mb-6">
+    <div class="flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Enroll New Participant</h1>
+        <p class="text-gray-600">Complete the steps below to enroll a new participant</p>
+      </div>
+      <div class="text-right">
+        <div class="text-sm text-gray-500 mb-1">Overall Progress</div>
+        <p-progressbar
+          [style]="{'width': '200px', 'height': '8px'}"
+          styleClass="progress-bar-custom"
+          [value]="overallProgress()"
+          >
+        </p-progressbar>
+        <div class="text-xs text-gray-500 mt-1">{{overallProgress()}}% Complete</div>
+      </div>
+    </div>
+
+    <!-- Step Navigator -->
+    <div class="step-navigator mb-6">
+      <div class="flex align-items-center justify-content-center gap-4">
+        @for (step of [0,1,2,3,4]; track step; let i = $index) {
+          <div
+            class="step-item flex align-items-center cursor-pointer"
+            [class.active]="currentStep() === i"
+            [class.completed]="completedSteps()[i]"
+            (click)="goToStep(i)"
+            >
+            <div class="step-circle">
+              @if (completedSteps()[i]) {
+                <i class="pi pi-check"></i>
+              } @else {
+                {{i + 1}}
+              }
+            </div>
+            <div class="step-label ml-2">
+              <div class="step-title">
+                {{ ['Demographics', 'Contact Info', 'Medical Info', 'Study Details', 'Consent'][i] }}
+              </div>
+            </div>
+            <!-- Connector line -->
+            @if (i < 4) {
+              <div class="step-connector ml-4"></div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Content -->
+  <p-card class="form-card">
+    @switch (currentStep()) {
+      <!-- Step 1: Demographics -->
+      @case (0) {
+        <div class="form-step">
+          <div class="step-header mb-4">
+            <h2 class="text-xl font-semibold flex align-items-center gap-2">
+              <i class="pi pi-user text-blue-500"></i>
+              Basic Demographics
+            </h2>
+            <p class="text-gray-600 mt-1">Enter the participant's basic demographic information</p>
+          </div>
+          <form [formGroup]="formSections['demographics']" class="grid grid-cols-12 gap-4">
+            <div class="col-span-12 md:col-span-4">
+              <lib-input-text
+              [config]="{
+                id: 'firstName',
+                label: 'First Name',
+                placeholder: 'Enter first name',
+                required: true,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                helperText: getFieldValidationMessage('demographics', 'firstName'),
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                labelStyle: FormLabelStyleEnum.DEFAULT,
+                autofocus: false,
+              }"
+                />
+            </div>
+            <div class="col-span-12 md:col-span-4">
+              <lib-input-text
+              [config]="{
+                id: 'lastName',
+                label: 'Last Name',
+                placeholder: 'Enter last name',
+                required: true,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                helperText: getFieldValidationMessage('demographics', 'lastName'),
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                labelStyle: FormLabelStyleEnum.DEFAULT,
+                autofocus: false,
+              }"
+                />
+            </div>
+            <div class="col-span-12 md:col-span-4">
+              <lib-input-text
+              [config]="{
+                id: 'middleName',
+                label: 'Middle Name',
+                placeholder: 'Enter middle name (optional)',
+                required: false,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                labelStyle: FormLabelStyleEnum.DEFAULT,
+                autofocus: false,
+              }"
+                />
+            </div>
+            <div class="col-span-12 md:col-span-4">
+              <lib-date-picker
+              [config]="{
+                id: 'dateOfBirth',
+                label: 'Date of Birth',
+                placeholder: 'Select date of birth',
+                required: true,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                helperText: calculatedAge() ? 'Age: ' + calculatedAge() + ' years' : '',
+                iconDisplay: IconDisplayModeEnum.BUTTON,
+                view: DatePickerViewEnum.DATE,
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                numberOfMonths: 1,
+                showTime: false,
+                hourFormat: DatePickerHourFormatEnum.TWENTY_FOUR,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+            <div class="col-span-12 md:col-span-4">
+              <lib-select
+              [config]="{
+                id: 'gender',
+                label: 'Gender',
+                placeholder: 'Select gender',
+                required: true,
+                options: genders(),
+                optionLabel: 'label',
+                optionValue: 'value',
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                scrollHeight: DEFAULT_SCROLL_HEIGHT,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+            <div class="col-span-12 md:col-span-4">
+              <lib-select
+              [config]="{
+                id: 'ethnicity',
+                label: 'Ethnicity',
+                placeholder: 'Select ethnicity',
+                required: false,
+                options: ethnicities(),
+                optionLabel: 'label',
+                optionValue: 'value',
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                scrollHeight: DEFAULT_SCROLL_HEIGHT,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+          </form>
+        </div>
+      }
+      <!-- Step 2: Contact Information -->
+      @case (1) {
+        <div class="form-step">
+          <div class="step-header mb-4">
+            <h2 class="text-xl font-semibold flex align-items-center gap-2">
+              <i class="pi pi-phone text-green-500"></i>
+              Contact Information
+            </h2>
+            <p class="text-gray-600 mt-1">Enter contact details and address information</p>
+          </div>
+          <form [formGroup]="formSections['contact']" class="grid grid-cols-12 gap-4">
+            <div class="col-span-12 md:col-span-6">
+              <lib-input-text
+              [config]="{
+                id: 'phone',
+                label: 'Phone Number',
+                placeholder: 'Enter phone number',
+                required: true,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                helperText: getFieldValidationMessage('contact', 'phone'),
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                autofocus: false,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+            <div class="col-span-12 md:col-span-6">
+              <lib-input-text
+              [config]="{
+                id: 'email',
+                label: 'Email Address',
+                placeholder: 'Enter email address',
+                required: true,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                helperText: getFieldValidationMessage('contact', 'email'),
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                autofocus: false,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+            <div class="col-span-12">
+              <lib-textarea
+              [config]="{
+                id: 'address',
+                label: 'Street Address',
+                placeholder: 'Enter street address',
+                required: true,
+                rows: 2,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                autofocus: false,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+            <div class="col-span-12 md:col-span-4">
+              <lib-input-text
+              [config]="{
+                id: 'city',
+                label: 'City',
+                placeholder: 'Enter city',
+                required: true,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                autofocus: false,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+            <div class="col-span-12 md:col-span-4">
+              <lib-input-text
+              [config]="{
+                id: 'state',
+                label: 'State/Province',
+                placeholder: 'Enter state or province',
+                required: true,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                autofocus: false,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+            <div class="col-span-12 md:col-span-4">
+              <lib-input-text
+              [config]="{
+                id: 'zipCode',
+                label: 'ZIP/Postal Code',
+                placeholder: 'Enter ZIP or postal code',
+                required: true,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                helperText: getFieldValidationMessage('contact', 'zipCode'),
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                autofocus: false,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+          </form>
+        </div>
+      }
+      <!-- Step 3: Medical Information -->
+      @case (2) {
+        <div class="form-step">
+          <div class="step-header mb-4">
+            <h2 class="text-xl font-semibold flex align-items-center gap-2">
+              <i class="pi pi-heart text-red-500"></i>
+              Medical Information
+            </h2>
+            <p class="text-gray-600 mt-1">Enter medical history and physical measurements</p>
+          </div>
+          <form [formGroup]="formSections['medical']" class="grid grid-cols-12 gap-4">
+            <div class="col-span-12 md:col-span-3">
+              <lib-input-number
+              [config]="{
+                id: 'height',
+                label: 'Height (cm)',
+                placeholder: 'Enter height in cm',
+                required: true,
+                min: 50,
+                max: 250,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+            <div class="col-span-12 md:col-span-3">
+              <lib-input-number
+              [config]="{
+                id: 'weight',
+                label: 'Weight (kg)',
+                placeholder: 'Enter weight in kg',
+                required: true,
+                min: 20,
+                max: 300,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+            <!-- BMI Display -->
+            @if (calculatedBMI()) {
+              <div class="col-span-12 md:col-span-3">
+                <label class="block text-sm font-medium text-gray-700 mb-2">BMI</label>
+                <div class="bmi-display">
+                  <span class="bmi-value">{{calculatedBMI()}}</span>
+                  <span class="bmi-unit">kg/m²</span>
+                </div>
+              </div>
+            }
+            <div class="col-span-12 md:col-span-3">
+              <lib-select
+              [config]="{
+                id: 'bloodType',
+                label: 'Blood Type',
+                placeholder: 'Select blood type',
+                required: false,
+                options: bloodTypes(),
+                optionLabel: 'label',
+                optionValue: 'value',
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                scrollHeight: DEFAULT_SCROLL_HEIGHT,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+            <div class="col-span-12">
+              <lib-textarea
+              [config]="{
+                id: 'medicalHistory',
+                label: 'Medical History',
+                placeholder: 'Describe relevant medical history, conditions, and surgeries...',
+                required: false,
+                rows: 4,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                helperText: 'Include any relevant medical conditions, surgeries, or hospitalizations',
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                autofocus: false,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+            <div class="col-span-12">
+              <lib-textarea
+              [config]="{
+                id: 'currentMedications',
+                label: 'Current Medications',
+                placeholder: 'List all current medications with dosages...',
+                required: false,
+                rows: 3,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                helperText: 'Include dosages and frequency for all current medications',
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                autofocus: false,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+          </form>
+        </div>
+      }
+      <!-- Step 4: Study Assignment -->
+      @case (3) {
+        <div class="form-step">
+          <div class="step-header mb-4">
+            <h2 class="text-xl font-semibold flex align-items-center gap-2">
+              <i class="pi pi-bookmark text-purple-500"></i>
+              Study Assignment
+            </h2>
+            <p class="text-gray-600 mt-1">Assign participant to study and set enrollment details</p>
+          </div>
+          <form [formGroup]="formSections['study']" class="grid grid-cols-12 gap-4">
+            <div class="col-span-12 md:col-span-6">
+              <lib-select
+              [config]="{
+                id: 'studyId',
+                label: 'Study',
+                placeholder: 'Select study',
+                required: true,
+                options: studies(),
+                optionLabel: 'title',
+                optionValue: 'id',
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                helperText: 'Select the study to enroll this participant in',
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                scrollHeight: DEFAULT_SCROLL_HEIGHT,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+            <div class="col-span-12 md:col-span-6">
+              <lib-input-text
+              [config]="{
+                id: 'participantId',
+                label: 'Participant ID',
+                placeholder: 'Auto-generated ID',
+                required: false,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                helperText: 'Unique participant identifier (auto-generated)',
+                disabled: true,
+                size: FormComponentSizeEnum.NORMAL,
+                autofocus: false,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+            <div class="col-span-12 md:col-span-6">
+              <lib-date-picker
+              [config]="{
+                id: 'enrollmentDate',
+                label: 'Enrollment Date',
+                placeholder: 'Select enrollment date',
+                required: true,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                helperText: 'Date of enrollment in the study',
+                iconDisplay: IconDisplayModeEnum.BUTTON,
+                view: DatePickerViewEnum.DATE,
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                numberOfMonths: 1,
+                showTime: false,
+                hourFormat: DatePickerHourFormatEnum.TWENTY_FOUR,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+            <div class="col-span-12 md:col-span-6">
+              <lib-select
+              [config]="{
+                id: 'randomizationGroup',
+                label: 'Randomization Group',
+                placeholder: 'Select group (if applicable)',
+                required: false,
+                options: randomizationGroups(),
+                optionLabel: 'label',
+                optionValue: 'value',
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                helperText: 'Randomization group assignment (if applicable)',
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                scrollHeight: DEFAULT_SCROLL_HEIGHT,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+          </form>
+        </div>
+      }
+      <!-- Step 5: Consent & Eligibility -->
+      @case (4) {
+        <div class="form-step">
+          <div class="step-header mb-4">
+            <h2 class="text-xl font-semibold flex align-items-center gap-2">
+              <i class="pi pi-shield text-orange-500"></i>
+              Consent & Eligibility
+            </h2>
+            <p class="text-gray-600 mt-1">Confirm consent forms and eligibility criteria</p>
+          </div>
+          <form [formGroup]="formSections['consent']" class="grid grid-cols-12 gap-6">
+            <div class="col-span-12">
+              <div class="consent-section bg-gray-50 p-4 border-round">
+                <h3 class="text-lg font-medium mb-4">Required Consents</h3>
+                <div class="consent-items space-y-4">
+                  <div class="flex align-items-start gap-3">
+                    <lib-checkbox
+                    [config]="{
+                      id: 'informedConsentSigned',
+                      label: 'Informed Consent Form Signed',
+                      required: true,
+                      disabled: false,
+                      size: FormComponentSizeEnum.NORMAL,
+                      labelStyle: FormLabelStyleEnum.DEFAULT,
+                      labelPosition: FormLabelPositionEnum.ABOVE,
+                      variant: FormComponentVariantEnum.OUTLINED
+                    }"
+                      />
+                    <div class="ml-2">
+                      <p class="text-sm text-gray-600">
+                        Participant has read, understood, and signed the informed consent form
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex align-items-start gap-3">
+                    <lib-checkbox
+                    [config]="{
+                      id: 'eligibilityCriteriaMet',
+                      label: 'Eligibility Criteria Met',
+                      required: true,
+                      disabled: false,
+                      size: FormComponentSizeEnum.NORMAL,
+                      labelStyle: FormLabelStyleEnum.DEFAULT,
+                      labelPosition: FormLabelPositionEnum.ABOVE,
+                      variant: FormComponentVariantEnum.OUTLINED
+                    }"
+                      />
+                    <div class="ml-2">
+                      <p class="text-sm text-gray-600">
+                        Participant meets all inclusion criteria and has no exclusion criteria
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex align-items-start gap-3">
+                    <lib-checkbox
+                    [config]="{
+                      id: 'hipaaConsentSigned',
+                      label: 'HIPAA Authorization Signed',
+                      required: true,
+                      disabled: false,
+                      size: FormComponentSizeEnum.NORMAL,
+                      labelStyle: FormLabelStyleEnum.DEFAULT,
+                      labelPosition: FormLabelPositionEnum.ABOVE,
+                      variant: FormComponentVariantEnum.OUTLINED
+                    }"
+                      />
+                    <div class="ml-2">
+                      <p class="text-sm text-gray-600">
+                        Participant has signed HIPAA authorization for use of health information
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex align-items-start gap-3">
+                    <lib-checkbox
+                    [config]="{
+                      id: 'willingStoUseContraception',
+                      label: 'Willing to Use Contraception (if applicable)',
+                      required: false,
+                      disabled: false,
+                      size: FormComponentSizeEnum.NORMAL,
+                      labelStyle: FormLabelStyleEnum.DEFAULT,
+                      labelPosition: FormLabelPositionEnum.ABOVE,
+                      variant: FormComponentVariantEnum.OUTLINED
+                    }"
+                      />
+                    <div class="ml-2">
+                      <p class="text-sm text-gray-600">
+                        Participant agrees to use adequate contraception during study period (if
+                        applicable)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-12">
+              <lib-textarea
+              [config]="{
+                id: 'notes',
+                label: 'Additional Notes',
+                placeholder: 'Any additional notes, observations, or special considerations...',
+                required: false,
+                rows: 4,
+                variant: FormComponentVariantEnum.OUTLINED,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                helperText: 'Document any special considerations or observations',
+                disabled: false,
+                size: FormComponentSizeEnum.NORMAL,
+                autofocus: false,
+                labelStyle: FormLabelStyleEnum.DEFAULT
+              }"
+                />
+            </div>
+          </form>
+        </div>
+      }
+    }
+
+    <!-- Form Navigation -->
+    <div class="form-navigation mt-6 pt-4 border-top-1 border-gray-200">
+      <div class="flex justify-content-between align-items-center">
+        <div class="navigation-left">
+          @if (currentStep() > 0) {
+            <p-button
+              (onClick)="previousStep()"
+              [outlined]="true"
+              icon="pi pi-chevron-left"
+              label="Previous"
+              severity="secondary"
+              size="large"
+            ></p-button>
+          }
+        </div>
+
+        <div class="navigation-center">
+          <span class="text-sm text-gray-500"> Step {{currentStep() + 1}} of {{totalSteps()}} </span>
+        </div>
+
+        <div class="navigation-right flex gap-2">
+          <!-- Auto-save indicator -->
+          @if (currentStep() < totalSteps() - 1) {
+            <p-button
+              (onClick)="autoSaveForm()"
+              [text]="true"
+              icon="pi pi-save"
+              label="Save Draft"
+              severity="secondary"
+              size="small"
+            ></p-button>
+          }
+
+          <!-- Next/Submit button -->
+          @if (currentStep() < totalSteps() - 1) {
+            <p-button
+              (onClick)="nextStep()"
+              [disabled]="!validateCurrentStep()"
+              icon="pi pi-chevron-right"
+              iconPos="right"
+              label="Next"
+              severity="primary"
+              size="large"
+            ></p-button>
+          } @else {
+            <p-button
+              (onClick)="onSubmit()"
+              [disabled]="!isFormCompletelyValid() || saving()"
+              [loading]="saving()"
+              icon="pi pi-check"
+              label="Enroll Participant"
+              severity="success"
+              size="large"
+            ></p-button>
+          }
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions mt-4 pt-3 border-top-1 border-gray-100">
+      <div class="flex justify-content-between align-items-center text-sm">
+        <div class="flex gap-3">
+          <p-button
+            (onClick)="loadDraft()"
+            [text]="true"
+            icon="pi pi-upload"
+            label="Load Draft"
+            severity="secondary"
+            size="small"
+          ></p-button>
+
+          <p-button
+            (onClick)="onReset()"
+            [text]="true"
+            icon="pi pi-refresh"
+            label="Reset Form"
+            severity="warn"
+            size="small"
+          ></p-button>
+        </div>
+
+        <div class="text-gray-500">
+          <i class="pi pi-info-circle mr-1"></i>
+          Auto-save enabled • Progress is saved automatically
+        </div>
+      </div>
+    </div>
+  </p-card>
+
+  <!-- Toast Messages -->
+  <p-toast position="top-right"></p-toast>
+
+  <!-- Confirmation Dialog -->
+  <p-confirmDialog />
+</div>

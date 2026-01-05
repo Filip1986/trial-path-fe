@@ -1,0 +1,138 @@
+<div class="form-step">
+  <div class="step-header mb-4">
+    <h2 class="text-xl font-semibold text-gray-800 flex align-items-center gap-2">
+      <i class="pi pi-users text-teal-500"></i>
+      Population & Enrollment
+    </h2>
+    <p class="text-gray-600 mt-1">Define participant criteria and enrollment targets</p>
+  </div>
+
+  <div class="grid grid-cols-12 gap-4">
+    <!-- Planned Enrollment -->
+    <div class="col-span-12 md:col-span-4">
+      <lib-input-number
+        [config]="{
+          id: 'plannedEnrollment',
+          label: 'Planned Enrollment',
+          placeholder: '100',
+          required: true,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          helperText: 'Target number of participants to enroll',
+          disabled: false,
+          size: FormComponentSizeEnum.NORMAL,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+          min: 1,
+          max: 10000,
+          step: 1
+        }"
+        formControlName="plannedEnrollment"
+      >
+      </lib-input-number>
+    </div>
+
+    <!-- Minimum Age -->
+    <div class="col-span-12 md:col-span-4">
+      <lib-input-number
+        [config]="{
+          id: 'minimumAge',
+          label: 'Minimum Age',
+          placeholder: '18',
+          required: true,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          helperText: 'Minimum age for participation',
+          disabled: false,
+          size: FormComponentSizeEnum.NORMAL,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+          min: 0,
+          max: 120,
+          step: 1
+        }"
+        formControlName="minimumAge"
+      >
+      </lib-input-number>
+    </div>
+
+    <!-- Maximum Age -->
+    <div class="col-span-12 md:col-span-4">
+      <lib-input-number
+        [config]="{
+          id: 'maximumAge',
+          label: 'Maximum Age',
+          placeholder: '65',
+          required: true,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          helperText: 'Maximum age for participation (0 for no limit)',
+          disabled: false,
+          size: FormComponentSizeEnum.NORMAL,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+          min: 0,
+          max: 120,
+          step: 1
+        }"
+        formControlName="maximumAge"
+      >
+      </lib-input-number>
+    </div>
+
+    <!-- Healthy Volunteers -->
+    <div class="col-span-12 md:col-span-6">
+      <lib-select
+        [config]="{
+          id: 'healthyVolunteers',
+          label: 'Healthy Volunteers',
+          placeholder: 'Select option',
+          required: true,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          helperText: 'Whether healthy volunteers are accepted',
+          options: healthyVolunteerOptions,
+          scrollHeight: DEFAULT_SCROLL_HEIGHT,
+          size: FormComponentSizeEnum.NORMAL,
+          disabled: false,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+        }"
+        formControlName="healthyVolunteers"
+      >
+      </lib-select>
+    </div>
+
+    <!-- Gender Based -->
+    <div class="col-span-12 md:col-span-6">
+      <lib-select
+        [config]="{
+          id: 'genderBased',
+          label: 'Gender Eligibility',
+          placeholder: 'Select gender eligibility',
+          required: true,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          helperText: 'Gender requirements for participation',
+          options: genderOptions,
+          scrollHeight: DEFAULT_SCROLL_HEIGHT,
+          size: FormComponentSizeEnum.NORMAL,
+          disabled: false,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+        }"
+        formControlName="genderBased"
+      >
+      </lib-select>
+    </div>
+
+    <!-- Population Guidelines -->
+    <div class="col-span-12 mt-4">
+      <div class="bg-teal-50 border-round p-4">
+        <h3 class="text-sm font-semibold text-teal-800 mb-2">Population Selection Guidelines</h3>
+        <ul class="text-sm text-teal-700 list-disc list-inside space-y-1">
+          <li>Set realistic enrollment targets based on study duration and resources</li>
+          <li>Consider regulatory requirements for age ranges in your indication</li>
+          <li>Healthy volunteers may be appropriate for early-phase or safety studies</li>
+          <li>Gender requirements should be scientifically justified</li>
+          <li>Document inclusion and exclusion criteria separately in protocol</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

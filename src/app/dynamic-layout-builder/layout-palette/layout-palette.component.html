@@ -1,0 +1,28 @@
+<div class="layout-palette">
+  <h3>Element Palette</h3>
+  <p class="instruction">Drag these items to build your layout</p>
+
+  <div class="palette-items">
+    @for (item of paletteItems; track item) {
+      <div
+        (cdkDragDropped)="onDrop($event, item.type, item.label)"
+        (cdkDragEnded)="onDragEnded()"
+        (cdkDragStarted)="onDragStarted($event)"
+        [cdkDragData]="item"
+        [class.dragging]="activeDrag"
+        cdkDrag
+        class="palette-item"
+        >
+        <div class="item-content">
+          <i class="{{ item.icon }}"></i>
+          <span>{{ item.label }}</span>
+        </div>
+        <!-- Preview shown while dragging -->
+        <div *cdkDragPreview class="item-preview">
+          <i class="{{ item.icon }}"></i>
+          <span>{{ item.label }}</span>
+        </div>
+      </div>
+    }
+  </div>
+</div>

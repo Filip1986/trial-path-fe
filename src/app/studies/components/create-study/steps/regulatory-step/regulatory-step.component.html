@@ -1,0 +1,190 @@
+<p-card header="Regulatory Information" styleClass="w-full">
+  <form [formGroup]="regulatoryForm" class="grid grid-cols-12 gap-4">
+    <!-- IRB Approval Section -->
+    <div class="col-span-12">
+      <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+        <i class="pi pi-shield text-blue-500"></i>
+        IRB Approval
+      </h3>
+    </div>
+
+    <div class="col-span-12">
+      <p-checkbox
+        formControlName="irbApprovalRequired"
+        [binary]="true"
+        styleClass="mr-2"
+      ></p-checkbox>
+    </div>
+
+    @if (regulatoryForm.get('irbApprovalRequired')?.value) {
+      <div class="col-span-12 md:col-span-6">
+        <label class="block text-sm font-medium text-gray-700 mb-2" for="irbApprovalNumber">
+          IRB Approval Number <span class="text-red-500">*</span>
+        </label>
+        <input
+          pInputText
+          id="irbApprovalNumber"
+          formControlName="irbApprovalNumber"
+          placeholder="IRB-2025-001"
+          class="w-full"
+          [class.ng-invalid]="isFieldInvalid('irbApprovalNumber')"
+          />
+        @if (isFieldInvalid('irbApprovalNumber')) {
+          <small class="text-red-500">
+            IRB Approval Number is required
+          </small>
+        }
+      </div>
+    }
+
+    @if (regulatoryForm.get('irbApprovalRequired')?.value) {
+      <div class="col-span-12 md:col-span-3">
+        <label class="block text-sm font-medium text-gray-700 mb-2" for="irbApprovalDate">
+          Approval Date <span class="text-red-500">*</span>
+        </label>
+        <p-datePicker
+          formControlName="irbApprovalDate"
+          id="irbApprovalDate"
+          placeholder="Select date"
+          [showIcon]="true"
+          inputId="irbApprovalDate"
+          styleClass="w-full"
+        ></p-datePicker>
+      </div>
+    }
+
+    @if (regulatoryForm.get('irbApprovalRequired')?.value) {
+      <div class="col-span-12 md:col-span-3">
+        <label class="block text-sm font-medium text-gray-700 mb-2" for="irbExpirationDate">
+          Expiration Date <span class="text-red-500">*</span>
+        </label>
+        <p-datePicker
+          formControlName="irbExpirationDate"
+          id="irbExpirationDate"
+          placeholder="Select date"
+          [showIcon]="true"
+          inputId="irbExpirationDate"
+          styleClass="w-full"
+        ></p-datePicker>
+      </div>
+    }
+
+    <!-- FDA IND Section -->
+    <div class="col-span-12">
+      <p-divider></p-divider>
+      <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+        <i class="pi pi-file-check text-green-500"></i>
+        FDA IND
+      </h3>
+    </div>
+
+    <div class="col-span-12">
+      <p-checkbox formControlName="fdaIndRequired" [binary]="true" styleClass="mr-2"></p-checkbox>
+    </div>
+
+    @if (regulatoryForm.get('fdaIndRequired')?.value) {
+      <div class="col-span-12 md:col-span-6">
+        <label class="block text-sm font-medium text-gray-700 mb-2" for="fdaIndNumber">
+          FDA IND Number <span class="text-red-500">*</span>
+        </label>
+        <input
+          pInputText
+          id="fdaIndNumber"
+          formControlName="fdaIndNumber"
+          placeholder="IND-123456"
+          class="w-full"
+          [class.ng-invalid]="isFieldInvalid('fdaIndNumber')"
+          />
+        @if (isFieldInvalid('fdaIndNumber')) {
+          <small class="text-red-500">
+            FDA IND Number is required
+          </small>
+        }
+      </div>
+    }
+
+    <!-- Compliance Section -->
+    <div class="col-span-12">
+      <p-divider></p-divider>
+      <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+        <i class="pi pi-verified text-purple-500"></i>
+        Compliance
+      </h3>
+    </div>
+
+    <div class="col-span-12">
+      <p-checkbox formControlName="gmpCompliance" [binary]="true" styleClass="mr-2"></p-checkbox>
+    </div>
+
+    <!-- Protocol Information -->
+    <div class="col-span-12">
+      <p-divider></p-divider>
+      <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+        <i class="pi pi-book text-indigo-500"></i>
+        Protocol Information
+      </h3>
+    </div>
+
+    <div class="col-span-12 md:col-span-6">
+      <label class="block text-sm font-medium text-gray-700 mb-2" for="protocolVersion">
+        Protocol Version <span class="text-red-500">*</span>
+      </label>
+      <input
+        pInputText
+        id="protocolVersion"
+        formControlName="protocolVersion"
+        placeholder="v1.0"
+        class="w-full"
+        [class.ng-invalid]="isFieldInvalid('protocolVersion')"
+        />
+    </div>
+
+    <div class="col-span-12 md:col-span-6">
+      <label class="block text-sm font-medium text-gray-700 mb-2" for="consentFormVersion">
+        Consent Form Version <span class="text-red-500">*</span>
+      </label>
+      <input
+        pInputText
+        id="consentFormVersion"
+        formControlName="consentFormVersion"
+        placeholder="v1.0"
+        class="w-full"
+        [class.ng-invalid]="isFieldInvalid('consentFormVersion')"
+        />
+    </div>
+
+    <!-- Notes -->
+    <div class="col-span-12">
+      <label class="block text-sm font-medium text-gray-700 mb-2" for="regulatoryNotes">
+        Regulatory Notes
+      </label>
+      <textarea
+        pInputTextarea
+        id="regulatoryNotes"
+        formControlName="regulatoryNotes"
+        placeholder="Additional regulatory notes or requirements"
+        class="w-full"
+        rows="4"
+      ></textarea>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="col-span-12 flex justify-between pt-4">
+      <p-button
+        (onClick)="onPrevious()"
+        icon="pi pi-arrow-left"
+        label="Previous"
+        severity="secondary"
+        styleClass="p-button-outlined"
+      ></p-button>
+
+      <p-button
+        (onClick)="onNext()"
+        icon="pi pi-arrow-right"
+        iconPos="right"
+        label="Next"
+        [disabled]="!regulatoryForm.valid"
+      ></p-button>
+    </div>
+  </form>
+</p-card>

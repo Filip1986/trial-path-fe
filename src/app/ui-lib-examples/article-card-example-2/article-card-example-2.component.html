@@ -1,0 +1,151 @@
+<h4 class="font-medium text-blue-800 mb-2">All Card Styles Available:</h4>
+<ul class="text-sm text-blue-700 space-y-1">
+  <li>• <strong>Default</strong> - Clean and simple</li>
+  <li>• <strong>Elevated</strong> - Enhanced shadows</li>
+  <li>• <strong>Outlined</strong> - Border-focused</li>
+  <li>• <strong>Filled</strong> - Solid backgrounds</li>
+  <li>• <strong>Glass</strong> - Glassmorphism effect</li>
+  <li>• <strong>Minimal</strong> - Less is more</li>
+  <li>• <strong>Gradient</strong> - Color transitions</li>
+  <li>• <strong>Neon</strong> - Glowing effects</li>
+  <li>• <strong>Modern</strong> - Contemporary design</li>
+  <li>• <strong>Vintage</strong> - Classic retro styling</li>
+</ul>
+<div class="article-card-example-2">
+  <!-- Header with Global Color Controls -->
+  <div class="controls-header mb-4 p-4 bg-gray-50 rounded-lg">
+    <h2 class="text-xl font-bold mb-3">Article Card Header Color Customization</h2>
+
+    <!-- Global Color Picker -->
+    <div class="flex flex-wrap items-center gap-3 mb-3">
+      <label class="font-medium text-gray-700">Global Header Color:</label>
+      <p-colorPicker
+        [(ngModel)]="selectedColor"
+        (onChange)="applyColorToAll($event.value)"
+        [inline]="false"
+        format="hex"
+        class="color-picker-input"
+        >
+      </p-colorPicker>
+
+      <!-- Quick Action Buttons -->
+      <p-button
+        label="Reset to Defaults"
+        icon="pi pi-refresh"
+        (onClick)="resetToDefaults()"
+        severity="secondary"
+        size="small"
+        >
+      </p-button>
+
+      <p-button
+        label="Randomize Colors"
+        icon="pi pi-shuffle"
+        (onClick)="randomizeColors()"
+        severity="help"
+        size="small"
+        >
+      </p-button>
+    </div>
+
+    <!-- Preset Color Palette -->
+    <div class="preset-colors">
+      <label class="font-medium text-gray-700 block mb-2">Quick Color Presets:</label>
+      <div class="flex flex-wrap gap-2">
+        @for (color of presetColors; track color) {
+          <button
+            (click)="applyColorToAll(color)"
+            class="color-swatch"
+            [style.background-color]="color"
+            [title]="color"
+            [class.selected]="selectedColor === color"
+          ></button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Cards Grid - Updated for better display of all 10 cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+    @for (card of cardData; track card) {
+      <div class="card-container">
+        <!-- Individual Card Color Controls -->
+        <div class="card-color-controls mb-3 p-3 bg-white rounded-lg shadow-sm border">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-600">Card {{ card.id }} Header:</span>
+            <div class="flex items-center gap-2">
+              <p-colorPicker
+                [(ngModel)]="card.headerColor"
+                (onChange)="onColorChange($event, card.id)"
+                [inline]="false"
+                format="hex"
+                class="individual-color-picker"
+                >
+              </p-colorPicker>
+              <!-- Individual Preset Colors -->
+              <div class="flex gap-1">
+                @for (color of presetColors.slice(0, 6); track color) {
+                  <button
+                    (click)="applyPresetColor(color, card.id)"
+                    class="mini-color-swatch"
+                    [style.background-color]="color"
+                    [title]="color"
+                  ></button>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Article Card -->
+        <ui-card
+          [style]="card.style"
+          [title]="card.title"
+          [subtitle]="card.subtitle"
+          [description]="card.description"
+          [tags]="card.tags"
+          [status]="card.status"
+          [headerImage]="card.headerImage"
+          [headerIcon]="card.headerIcon"
+          [primaryAction]="card.primaryAction"
+          [secondaryAction]="card.secondaryAction"
+          [showFooter]="true"
+          [clickable]="true"
+          [cardStyle]="getCardStyles(card)"
+          (cardClick)="onCardClick(card)"
+          class="article-card"
+          >
+          Filip
+        </ui-card>
+      </div>
+    }
+  </div>
+
+  <!-- Color Information Panel -->
+  <div class="color-info-panel mt-6 p-4 bg-blue-50 rounded-lg">
+    <h3 class="font-bold text-lg mb-3 text-blue-900">Color Customization Features</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <h4 class="font-medium text-blue-800 mb-2">Individual Card Controls:</h4>
+        <ul class="text-sm text-blue-700 space-y-1">
+          <li>• Each card has its own color picker</li>
+          <li>• Quick preset colors for each card</li>
+          <li>• Automatic text contrast adjustment</li>
+          <li>• Real-time color preview</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-medium text-blue-800 mb-2">Advanced Features:</h4>
+        <ul class="text-sm text-blue-700 space-y-1">
+          <li>• Dynamic background colors based on header</li>
+          <li>• Automatic contrast adjustment</li>
+          <li>• Smooth color transitions</li>
+          <li>• Responsive grid layout</li>
+          <li>• All 10 card style variations</li>
+          <li>• CSS custom properties integration</li>
+          <li>• Gradient and accent color generation</li>
+          <li>• Real-time visual feedback</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

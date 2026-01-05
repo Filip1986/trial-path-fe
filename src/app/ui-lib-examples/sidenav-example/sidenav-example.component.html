@@ -1,0 +1,76 @@
+<div class="flex h-screen">
+  <!-- Sidenav Column -->
+  <div [class.collapsed]="!(expanded$ | async)" class="sidenav-container">
+    <lib-sidenav
+      (itemClick)="onNavItemClick($event)"
+      [items]="navigationItems"
+      [logo]="'images/tyme-logo.svg'"
+      [title]="'Dashboard'"
+      [variant]="selectedVariant"
+      >
+    </lib-sidenav>
+  </div>
+
+  <!-- Content Column -->
+  <div [class.expanded]="!(expanded$ | async)" class="content-container">
+    <!-- Header with Toggle Button -->
+    <div class="content-header">
+      <!-- Hamburger Toggle Button -->
+      <button (click)="toggleSidenav()" aria-label="Toggle Sidenav" class="toggle-button">
+        <i [ngClass]="(expanded$ | async) ? 'pi-bars' : 'pi-ellipsis-v'" class="pi"></i>
+      </button>
+
+      <h1 class="header-title">Sidenav Component Demo</h1>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="content-body">
+      @if (!selectedItem) {
+        <div class="empty-state">
+          <i class="pi pi-arrow-left"></i>
+          <p>Click on a navigation item to see its details</p>
+        </div>
+      }
+
+      @if (selectedItem) {
+        <div class="item-details">
+          <h2>Selected Item Details</h2>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="detail-label">Label:</div>
+              <div class="detail-value">{{ selectedItem.label }}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Icon:</div>
+              <div class="detail-value">
+                <i [class]="selectedItem.icon" class="mr-2"></i>
+                {{ selectedItem.icon }}
+              </div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Route:</div>
+              <div class="detail-value">{{ selectedItem.route || 'No route specified' }}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Disabled:</div>
+              <div class="detail-value">{{ selectedItem.disabled ? 'Yes' : 'No' }}</div>
+            </div>
+          </div>
+          @if (selectedItem.children) {
+            <div class="subitems-section">
+              <h3>Subitems:</h3>
+              <ul class="subitem-list">
+                @for (child of selectedItem.children; track child) {
+                  <li class="subitem">
+                    <i [class]="child.icon" class="subitem-icon"></i>
+                    <span>{{ child.label }}</span>
+                  </li>
+                }
+              </ul>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

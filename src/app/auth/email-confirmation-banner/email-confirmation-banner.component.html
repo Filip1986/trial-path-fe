@@ -1,0 +1,36 @@
+@if (showBanner()) {
+  <div class="email-confirmation-banner">
+    <div class="content-container">
+      <div class="message">
+        <i class="pi pi-envelope-circle-check icon"></i>
+        <span
+          >Please confirm your email address to unlock all features. Check your
+          inbox for the confirmation link.</span
+          >
+        </div>
+        <div class="actions">
+          <button
+            (click)="resendConfirmationEmail()"
+            [disabled]="isResending() || isVerifying()"
+            [loading]="isResending()"
+            class="p-button-outlined p-button-sm"
+            label="Resend Email"
+            pButton
+          ></button>
+          <button
+            (click)="goToVerificationPage()"
+            class="p-button-sm"
+            label="Verify Now"
+            pButton
+          ></button>
+          <button
+            (click)="dismissBanner()"
+            [disabled]="isResending() || isVerifying()"
+            class="p-button-rounded p-button-text p-button-sm close-button"
+            icon="pi pi-times"
+            pButton
+          ></button>
+        </div>
+      </div>
+    </div>
+  }

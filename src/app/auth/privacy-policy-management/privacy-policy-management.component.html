@@ -1,0 +1,319 @@
+<div class="bg-white rounded-lg shadow-md overflow-hidden p-4">
+  <div class="flex justify-between items-center mb-4 border-b pb-4">
+    <h2 class="text-xl font-semibold text-gray-800">Privacy Policy Management</h2>
+    <button
+      (click)="openNewPolicyDialog()"
+      icon="pi pi-plus"
+      label="Create New Version"
+      pButton
+    ></button>
+  </div>
+
+  @if (isLoading()) {
+  <div class="flex justify-center my-6">
+    <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="4" />
+  </div>
+  } @if (!isLoading() && policies().length > 0) {
+  <p-table
+    [globalFilterFields]="['version']"
+    [paginator]="true"
+    [rowsPerPageOptions]="[5, 10, 25, 50]"
+    [rows]="10"
+    [tableStyle]="{'min-width': '50rem'}"
+    [value]="policies()"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="version">Version <p-sortIcon field="version" /></th>
+        <th pSortableColumn="effectiveDate">Effective Date <p-sortIcon field="effectiveDate" /></th>
+        <th pSortableColumn="publishedDate">
+          Published Date <p-sortIcon field="publishedDate"></p-sortIcon>
+        </th>
+        <th pSortableColumn="isActive">Status <p-sortIcon field="isActive" /></th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template let-policy pTemplate="body">
+      <tr>
+        <td>{{ policy.version }}</td>
+        <td>{{ policy.effectiveDate | date:'medium' }}</td>
+        <td>{{ policy.publishedDate | date:'medium' }}</td>
+        <td>
+          <p-tag
+            [severity]="policy.isActive ? 'success' : 'warn'"
+            [value]="policy.isActive ? 'Active' : 'Inactive'"
+          />
+        </td>
+        <td>
+          <div class="flex gap-2">
+            <button
+              (click)="viewPolicy(policy)"
+              class="p-button-rounded p-button-info p-button-sm"
+              icon="pi pi-eye"
+              pButton
+              pRipple
+              pTooltip="View"
+            ></button>
+            <button
+              (click)="editPolicy(policy)"
+              class="p-button-rounded p-button-success p-button-sm"
+              icon="pi pi-pencil"
+              pButton
+              pRipple
+              pTooltip="Edit"
+            ></button>
+            @if (!policy.isActive) {
+            <button
+              (click)="makeActive(policy)"
+              class="p-button-rounded p-button-warning p-button-sm"
+              icon="pi pi-check-circle"
+              pButton
+              pRipple
+              pTooltip="Make Active"
+            ></button>
+            }
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td class="text-center p-4" colspan="5">No privacy policies found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  } @if (!isLoading() && policies().length === 0) {
+  <div class="text-center p-6 bg-gray-50 rounded-lg">
+    <i class="pi pi-file-edit text-gray-400 text-4xl mb-3"></i>
+    <p class="text-gray-500 mb-2">No privacy policies found.</p>
+    <p class="text-gray-500 mb-4">Create your first privacy policy to get started.</p>
+    <button
+      (click)="openNewPolicyDialog()"
+      icon="pi pi-plus"
+      label="Create First Policy"
+      pButton
+    ></button>
+  </div>
+  }
+</div>
+
+<!-- Policy View Dialog -->
+<p-dialog
+  [(visible)]="viewPolicyDialog"
+  [draggable]="false"
+  [modal]="true"
+  [resizable]="false"
+  [style]="{width: '800px'}"
+  header="View Privacy Policy"
+  styleClass="p-fluid"
+>
+  @if (selectedPolicy) {
+  <div class="privacy-policy-view">
+    <div class="mb-4 flex justify-between items-center">
+      <div>
+        <h3 class="text-lg font-bold">Version: {{ selectedPolicy.version }}</h3>
+        <p class="text-sm text-gray-600">
+          Effective: {{ selectedPolicy.effectiveDate | date:'medium' }} | Published: {{
+          selectedPolicy.publishedDate | date:'medium' }}
+        </p>
+      </div>
+      <p-tag
+        [severity]="!(selectedPolicy) || selectedPolicy.isActive ? 'success' : 'warn'"
+        [value]="!(selectedPolicy) || selectedPolicy.isActive ? 'Active' : 'Inactive'"
+      ></p-tag>
+    </div>
+    <div class="privacy-policy-content border rounded p-4 bg-gray-50 max-h-[400px] overflow-auto">
+      <div [innerHTML]="selectedPolicy.content"></div>
+    </div>
+  </div>
+  }
+  <ng-template pTemplate="footer">
+    <button
+      (click)="viewPolicyDialog = false"
+      class="p-button-text"
+      icon="pi pi-times"
+      label="Close"
+      pButton
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<!-- Policy Edit Dialog -->
+<p-dialog
+  [(visible)]="editPolicyDialog"
+  [draggable]="false"
+  [modal]="true"
+  [resizable]="false"
+  [style]="{width: '800px'}"
+  header="Edit Privacy Policy"
+  styleClass="p-fluid"
+>
+  @if (selectedPolicy && policyForm) {
+  <div>
+    <form [formGroup]="policyForm">
+      <div class="mb-4 grid grid-cols-2 gap-4">
+        <div class="field">
+          <label class="font-medium mb-2 block" for="version">Version</label>
+          <input
+            [readonly]="editMode"
+            class="w-full"
+            formControlName="version"
+            id="version"
+            pInputText
+            type="text"
+          />
+          @if (!(policyForm) || policyForm.get('version')?.invalid &&
+          policyForm.get('version')?.touched) {
+          <small class="p-error">Version is required</small>
+          }
+        </div>
+        <div class="field">
+          <label class="font-medium mb-2 block" for="effectiveDate">Effective Date</label>
+          <p-datepicker
+            [showButtonBar]="true"
+            [showTime]="true"
+            dateFormat="mm/dd/yy"
+            formControlName="effectiveDate"
+            inputId="effectiveDate"
+            styleClass="w-full"
+          />
+          @if (!(policyForm) || policyForm.get('effectiveDate')?.invalid &&
+          policyForm.get('effectiveDate')?.touched) {
+          <small class="p-error">Effective date is required</small>
+          }
+        </div>
+      </div>
+      <div class="field mb-4">
+        <label class="font-medium mb-2 block" for="isActive">Active Status</label>
+        <p-toggleButton
+          [style]="{'width': '10em'}"
+          formControlName="isActive"
+          offIcon="pi pi-times"
+          offLabel="Inactive"
+          onIcon="pi pi-check"
+          onLabel="Active"
+        ></p-toggleButton>
+        <small class="block text-gray-600 mt-1"
+          >Making this policy active will deactivate all other policies.</small
+        >
+      </div>
+      <div class="field">
+        <label class="font-medium mb-2 block" for="content">Policy Content</label>
+        <lib-ckeditor formControlName="content" />
+        @if (!(policyForm) || policyForm.get('content')?.invalid &&
+        policyForm.get('content')?.touched) {
+        <small class="p-error">Content is required</small>
+        }
+      </div>
+    </form>
+  </div>
+  }
+  <ng-template pTemplate="footer">
+    <button
+      (click)="cancelEdit()"
+      class="p-button-text"
+      icon="pi pi-times"
+      label="Cancel"
+      pButton
+    ></button>
+    <button
+      (click)="savePolicy()"
+      [disabled]="policyForm?.invalid || isSaving()"
+      [loading]="isSaving()"
+      icon="pi pi-check"
+      label="Save"
+      pButton
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<!-- New Policy Dialog -->
+<p-dialog
+  [(visible)]="newPolicyDialog"
+  [draggable]="false"
+  [modal]="true"
+  [resizable]="false"
+  [style]="{width: '800px'}"
+  header="Create New Privacy Policy"
+  styleClass="p-fluid"
+>
+  @if (policyForm) {
+  <div>
+    <form [formGroup]="policyForm">
+      <div class="mb-4 grid grid-cols-2 gap-4">
+        <div class="field">
+          <label class="font-medium mb-2 block" for="version">Version</label>
+          <input
+            class="w-full"
+            formControlName="version"
+            id="version"
+            pInputText
+            placeholder="e.g., v1.0.1"
+            type="text"
+          />
+          @if (!(policyForm) || policyForm.get('version')?.invalid &&
+          policyForm.get('version')?.touched) {
+          <small class="p-error">Version is required</small>
+          }
+        </div>
+        <div class="field">
+          <label class="font-medium mb-2 block" for="effectiveDate">Effective Date</label>
+          <p-datepicker
+            [showButtonBar]="true"
+            [showTime]="true"
+            dateFormat="mm/dd/yy"
+            formControlName="effectiveDate"
+            inputId="effectiveDate"
+            styleClass="w-full"
+          />
+          @if (!(policyForm) || policyForm.get('effectiveDate')?.invalid &&
+          policyForm.get('effectiveDate')?.touched) {
+          <small class="p-error">Effective date is required</small>
+          }
+        </div>
+      </div>
+      <div class="field mb-4">
+        <label class="font-medium mb-2 block" for="isActive">Active Status</label>
+        <p-toggleButton
+          [style]="{'width': '10em'}"
+          formControlName="isActive"
+          offIcon="pi pi-times"
+          offLabel="Inactive"
+          onIcon="pi pi-check"
+          onLabel="Active"
+        />
+        <small class="block text-gray-600 mt-1"
+          >Making this policy active will deactivate all other policies.</small
+        >
+      </div>
+      <div class="field">
+        <label class="font-medium mb-2 block" for="content">Policy Content</label>
+        <lib-ckeditor formControlName="content" />
+        @if (!(policyForm) || policyForm.get('content')?.invalid &&
+        policyForm.get('content')?.touched) {
+        <small class="p-error">Content is required</small>
+        }
+      </div>
+    </form>
+  </div>
+  }
+  <ng-template pTemplate="footer">
+    <button
+      (click)="cancelCreate()"
+      class="p-button-text"
+      icon="pi pi-times"
+      label="Cancel"
+      pButton
+    ></button>
+    <button
+      (click)="createPolicy()"
+      [disabled]="policyForm?.invalid || isSaving()"
+      [loading]="isSaving()"
+      icon="pi pi-check"
+      label="Create"
+      pButton
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}" />

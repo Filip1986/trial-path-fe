@@ -1,0 +1,146 @@
+<app-config-section>
+  <p-accordion [multiple]="true" class="validation-accordion">
+    <!-- Standard Validation Rules Panel (Always open by default) -->
+    <p-accordion-panel value="0">
+      <p-accordion-header>
+        <div class="flex items-center justify-between w-full">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-shield text-blue-600"></i>
+            <span class="font-medium">Standard Validation Rules</span>
+          </div>
+          <div class="text-sm text-gray-500">Basic field validation options</div>
+        </div>
+      </p-accordion-header>
+      <p-accordion-content>
+        <div class="grid standard-validation-grid">
+          <!-- Text validation settings -->
+          @if (type === 'text') {
+            <div [form]="form" appFormField="minLength" colClasses="col-12 md:col-6">
+              <lib-input-text
+                [config]="minLengthConfig"
+                [formControl]="getControl('minLength')"
+              ></lib-input-text>
+            </div>
+            <div [form]="form" appFormField="maxLength" colClasses="col-12 md:col-6">
+              <lib-input-text
+                [config]="maxLengthConfig"
+                [formControl]="getControl('maxLength')"
+              ></lib-input-text>
+              @if (form.get('maxLength')?.errors?.['minGreaterThanMax']) {
+                <div
+                  class="error-message text-red-500 text-xs mt-1"
+                  >
+                  Maximum length must be greater than minimum length
+                </div>
+              }
+            </div>
+            @if (showPattern) {
+              <div [form]="form" appFormField="pattern" colClasses="col-12">
+                <lib-input-text
+                  [config]="patternConfig"
+                  [formControl]="getControl('pattern')"
+                ></lib-input-text>
+              </div>
+            }
+          }
+
+          <!-- Number validation settings -->
+          @if (type === 'number') {
+            <div [form]="form" appFormField="min" colClasses="col-12 md:col-6">
+              <lib-input-text
+                [config]="minConfig"
+                [formControl]="getControl('min')"
+              ></lib-input-text>
+            </div>
+            <div [form]="form" appFormField="max" colClasses="col-12 md:col-6">
+              <lib-input-text
+                [config]="maxConfig"
+                [formControl]="getControl('max')"
+              ></lib-input-text>
+              @if (form.get('max')?.errors?.['minGreaterThanMax']) {
+                <div
+                  class="error-message text-red-500 text-xs mt-1"
+                  >
+                  Maximum value must be greater than minimum value
+                </div>
+              }
+            </div>
+          }
+
+          <!-- Date validation settings -->
+          @if (type === 'date') {
+            <div [form]="form" appFormField="minDate" colClasses="col-12 md:col-6">
+              <label class="field-label">Minimum Date</label>
+              <p-datePicker
+                [appendTo]="'body'"
+                [formControl]="getControl('minDate')"
+                [showIcon]="true"
+                dateFormat="mm/dd/yy"
+                placeholder="Select minimum date"
+              ></p-datePicker>
+            </div>
+            <div [form]="form" appFormField="maxDate" colClasses="col-12 md:col-6">
+              <label class="field-label">Maximum Date</label>
+              <p-datePicker
+                [appendTo]="'body'"
+                [formControl]="getControl('maxDate')"
+                [showIcon]="true"
+                dateFormat="mm/dd/yy"
+                placeholder="Select maximum date"
+              ></p-datePicker>
+              @if (form.get('maxDate')?.errors?.['minGreaterThanMax']) {
+                <div
+                  class="error-message text-red-500 text-xs mt-1"
+                  >
+                  Maximum date must be after minimum date
+                </div>
+              }
+            </div>
+          }
+
+          <ng-content></ng-content>
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+
+    <!-- Custom Validation Rules Panel -->
+    <p-accordion-panel value="1" [disabled]="false">
+      <p-accordion-header>
+        <div class="flex items-center justify-between w-full">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-cog text-purple-600"></i>
+            <span class="font-medium">Custom Validation Rules</span>
+            @if (getCustomValidationRuleCount() > 0) {
+              <span
+                class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800"
+                >
+                {{ getCustomValidationRuleCount() }} active
+              </span>
+            }
+          </div>
+          <div class="text-sm text-gray-500">Advanced validation logic</div>
+        </div>
+      </p-accordion-header>
+      <p-accordion-content>
+        <!-- Custom Validation Content -->
+        <div class="custom-validation-content">
+          <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+            <div class="flex items-start gap-2">
+              <i class="pi pi-info-circle text-blue-600 mt-0.5"></i>
+              <div class="text-sm text-blue-800">
+                <p class="font-medium mb-1">Custom Validation Rules</p>
+                <p class="text-blue-700">
+                  Create advanced validation logic beyond standard field validation. These rules
+                  will be evaluated in addition to the standard validation above.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Compact Custom Validation Settings Component -->
+          <app-custom-validation-settings [elementType]="elementType" [form]="form" />
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+  </p-accordion>
+</app-config-section>

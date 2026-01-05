@@ -1,0 +1,158 @@
+.form-preview-container {
+  background-color: var(--surface-ground, #f8f9fa);
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--surface-border, #dee2e6);
+  min-height: 400px;
+  max-height: 70vh;
+  overflow-y: auto;
+
+  /* Add transition for smooth theme changes */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-toggle-btn {
+  transition: all 0.2s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+::ng-deep {
+  .p-dialog-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 !important;
+    overflow: hidden; /* Prevent double scrollbars */
+
+    .dialog-content-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .preview-section {
+      margin-bottom: 0 !important;
+      border-bottom: 0 !important;
+      flex-shrink: 0; /* Prevent preview from shrinking */
+      transition: background-color 0.3s ease;
+
+      &.preview-dark-theme {
+        background-color: #121212;
+        color: #e0e0e0;
+
+        /* Override PrimeNG card styles for dark theme */
+        .p-card {
+          background-color: #1e1e1e;
+          color: #e0e0e0;
+          border: 1px solid #333;
+
+          .p-card-content {
+            color: #e0e0e0;
+          }
+        }
+
+        /* Apply dark theme to form components in preview */
+        lib-input-text, lib-textarea, lib-checkbox, lib-radio-button,
+        lib-date-picker, lib-time-picker, lib-input-number, lib-multiselect,
+        lib-select, lib-listbox, lib-select-button {
+          --text-color: #e0e0e0;
+          --text-color-secondary: #aaa;
+          --surface-a: #1e1e1e;
+          --surface-b: #121212;
+          --surface-c: #2b2b2b;
+          --surface-d: #383838;
+          --surface-e: #1e1e1e;
+          --surface-f: #1e1e1e;
+          --surface-0: #121212;
+          --surface-100: #2b2b2b;
+          --surface-200: #383838;
+          --surface-300: #4f4f4f;
+          --surface-500: #717171;
+          --surface-700: #8f8f8f;
+          --surface-900: #afafaf;
+          --surface-ground: #121212;
+          --surface-section: #1e1e1e;
+          --surface-card: #1e1e1e;
+          --surface-overlay: #2b2b2b;
+          --surface-border: #383838;
+          --surface-hover: #2b2b2b;
+        }
+      }
+    }
+
+    .form-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      form {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      p-tabs {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+
+        .p-tabview {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          overflow: hidden;
+        }
+
+        .p-tablist {
+          flex-shrink: 0; /* Don't shrink the tab headers */
+
+          .p-tablist-content {
+            box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+          }
+        }
+
+        .p-tabpanels {
+          flex: 1;
+          overflow: auto; /* Make tab panels scrollable */
+          padding: 1rem 2rem !important;
+        }
+      }
+    }
+  }
+
+  p-tab {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .p-tab-active {
+    border-color: var(--primary-color, #3B82F6);
+  }
+}
+
+/* Add a spinner for loading state */
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border-left-color: var(--primary-color, #3B82F6);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

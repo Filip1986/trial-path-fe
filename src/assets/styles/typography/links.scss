@@ -1,0 +1,13 @@
+a {
+  color: var(--primary-color);
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--primary-color);
+    opacity: 0.8;
+  }
+
+  &:hover:not(.p-menu-item-link) {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+:host ::ng-deep {
+  .p-selectbutton {
+    .p-button {
+      background-color: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      color: var(--text-color);
+
+      &.p-highlight {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        color: var(--primary-color-text);
+      }
+    }
+  }
+}

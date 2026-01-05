@@ -1,0 +1,254 @@
+<div class="landing-container">
+  <!-- Header Section -->
+  <app-trial-path-header />
+
+  <!-- How It Works Section -->
+  <app-trial-path-how-it-works />
+
+  <!--  <app-scroll-reveal-text-6 [pinInPlace]="true" />-->
+
+  <!-- Normal behavior (scrolls with the page) -->
+  <!--  <app-scroll-reveal-text />-->
+
+  <!-- Pinned behavior (stays in place while animating) -->
+  <app-scroll-reveal-text-1 [pinInPlace]="true" />
+
+  <!-- Normal behavior (lines animate as they scroll into view) -->
+  <!--  <app-scroll-reveal-text-2 />-->
+
+  <!-- Pinned behavior (container stays in place while lines animate) -->
+  <app-scroll-reveal-text-2 [pinInPlace]="true" />
+
+  <!-- Normal behavior (characters animate as section scrolls into view) -->
+  <!--  <app-scroll-reveal-text-3 />-->
+
+  <!-- Pinned behavior (section stays in place while characters animate) -->
+  <app-scroll-reveal-text-3 [pinInPlace]="true" />
+
+  <!-- Normal behavior (characters break in as section scrolls into view) -->
+  <!--  <app-scroll-reveal-text-4 />-->
+
+  <!-- Pinned behavior (section stays in place while characters break in) -->
+  <app-scroll-reveal-text-4 [pinInPlace]="true" />
+
+  <!-- Normal behavior (words and note animate as section scrolls into view) -->
+  <!--  <app-scroll-reveal-text-5 />-->
+
+  <!-- Pinned behavior (section stays in place while words slide up and note fades in) -->
+  <app-scroll-reveal-text-5 [pinInPlace]="true" />
+
+  <!-- Features Section -->
+  <div class="features-section py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          {{ 'landing.features.title' | translate }}
+        </h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          {{ 'landing.features.subtitle' | translate }}
+        </p>
+      </div>
+      <div #featureCards class="grid md:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div class="text-center">
+          <div
+            class="bg-blue-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center"
+          >
+            <i class="pi pi-shield text-2xl text-primary-color"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">
+            {{ 'landing.features.compliance.title' | translate }}
+          </h3>
+          <p class="text-gray-600">{{ 'landing.features.compliance.description' | translate }}</p>
+        </div>
+        <!-- Feature 2 -->
+        <div class="text-center">
+          <div
+            class="bg-green-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center"
+          >
+            <i class="pi pi-lock text-2xl text-primary-color"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">
+            {{ 'landing.features.security.title' | translate }}
+          </h3>
+          <p class="text-gray-600">{{ 'landing.features.security.description' | translate }}</p>
+        </div>
+        <!-- Feature 3 -->
+        <div class="text-center">
+          <div
+            class="bg-purple-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center"
+          >
+            <i class="pi pi-users text-2xl text-primary-color"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">
+            {{ 'landing.features.collaboration.title' | translate }}
+          </h3>
+          <p class="text-gray-600">
+            {{ 'landing.features.collaboration.description' | translate }}
+          </p>
+        </div>
+        <!-- Feature 4 -->
+        <div class="text-center">
+          <div
+            class="bg-yellow-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center"
+          >
+            <i class="pi pi-chart-bar text-2xl text-primary-color"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">
+            {{ 'landing.features.analytics.title' | translate }}
+          </h3>
+          <p class="text-gray-600">{{ 'landing.features.analytics.description' | translate }}</p>
+        </div>
+        <!-- Feature 5 -->
+        <div class="text-center">
+          <div
+            class="bg-teal-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center"
+          >
+            <i class="pi pi-link text-2xl text-primary-color"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">
+            {{ 'landing.features.integrations.title' | translate }}
+          </h3>
+          <p class="text-gray-600">{{ 'landing.features.integrations.description' | translate }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonials Section -->
+  <div class="testimonial-section py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          {{ 'landing.testimonials.title' | translate }}
+        </h2>
+        <p class="text-xl text-gray-600">{{ 'landing.testimonials.description' | translate }}</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Testimonial 1 -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <div class="flex items-center mb-4">
+            <div class="bg-blue-100 rounded-full p-2 mr-3">
+              <i class="pi pi-user text-primary-color"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-900">
+                {{ 'landing.testimonials.alice.name' | translate }}
+              </h4>
+              <p class="text-sm text-gray-600">
+                {{ 'landing.testimonials.alice.role' | translate }}
+              </p>
+            </div>
+          </div>
+          <p class="text-gray-600">{{ 'landing.testimonials.alice.text' | translate }}</p>
+        </div>
+        <!-- Testimonial 2 -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <div class="flex items-center mb-4">
+            <div class="bg-blue-100 rounded-full p-2 mr-3">
+              <i class="pi pi-user text-primary-color"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-900">
+                {{ 'landing.testimonials.john.name' | translate }}
+              </h4>
+              <p class="text-sm text-gray-600">
+                {{ 'landing.testimonials.john.role' | translate }}
+              </p>
+            </div>
+          </div>
+          <p class="text-gray-600">{{ 'landing.testimonials.john.text' | translate }}</p>
+        </div>
+        <!-- Testimonial 3 -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <div class="flex items-center mb-4">
+            <div class="bg-blue-100 rounded-full p-2 mr-3">
+              <i class="pi pi-user text-primary-color"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-900">
+                {{ 'landing.testimonials.maria.name' | translate }}
+              </h4>
+              <p class="text-sm text-gray-600">
+                {{ 'landing.testimonials.maria.role' | translate }}
+              </p>
+            </div>
+          </div>
+          <p class="text-gray-600">{{ 'landing.testimonials.maria.text' | translate }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Brands Section (Animated) -->
+  <div #brandsSection class="brands-section py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Trusted by leading brands</h2>
+        <p class="text-lg text-gray-600">
+          Our platform is used by teams at top companies worldwide.
+        </p>
+      </div>
+      <div #brandLogos class="flex flex-wrap justify-center items-center gap-10">
+        <img
+          src="images/brands/google.png"
+          alt="Google"
+          class="brand-logo w-32 h-16 object-contain"
+        />
+        <img
+          src="images/brands/microsoft.png"
+          alt="Microsoft"
+          class="brand-logo w-32 h-16 object-contain"
+        />
+        <img
+          src="assets/brands/amazon.svg"
+          alt="Amazon"
+          class="brand-logo w-32 h-16 object-contain"
+        />
+        <img
+          src="assets/brands/netflix.svg"
+          alt="Netflix"
+          class="brand-logo w-32 h-16 object-contain"
+        />
+        <img
+          src="assets/brands/spotify.svg"
+          alt="Spotify"
+          class="brand-logo w-32 h-16 object-contain"
+        />
+        <img
+          src="assets/brands/adobe.svg"
+          alt="Adobe"
+          class="brand-logo w-32 h-16 object-contain"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Call to Action Section -->
+  <div class="cta-section bg-primary-color text-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-extrabold mb-6">{{ 'landing.cta.title' | translate }}</h2>
+      <p class="text-xl mb-8 max-w-2xl mx-auto">{{ 'landing.cta.description' | translate }}</p>
+      <div #ctaButtons class="flex justify-center gap-4">
+        <button
+          (click)="navigateToSignUp()"
+          class="p-button-secondary"
+          label=""
+          pButton
+          type="button"
+        >
+          <span>{{ 'landing.cta.startTrial' | translate }}</span>
+        </button>
+        <button
+          (click)="navigateToDemo()"
+          class="p-button-outlined p-button-secondary"
+          label=""
+          pButton
+          type="button"
+        >
+          <span>{{ 'landing.cta.requestDemo' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

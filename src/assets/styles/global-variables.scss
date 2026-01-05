@@ -1,0 +1,137 @@
+// CARDS backgrounds
+:root {
+  --my-bg-primary: rgb(0, 116, 186);
+  --my-bg-light-primary: rgba(0, 116, 186, .15);
+  --my-bg-light-secondary: rgba(71, 215, 188, .15);
+  --my-bg-light-error: rgba(247, 68, 86, .15);
+  --my-bg-light-warning: #ffad1f30;
+  --my-bg-light-success: #13deb930;
+  --my-bg-gray: #1c252e;
+}
+
+// Text colors
+:root {
+  --my-text-primary: rgb(0, 116, 186);
+  --my-text-warning: #ffae1f;
+  --my-text-secondary: rgb(71, 215, 188);
+  --my-text-light-error: rgb(250, 137, 107);
+  --my-text-success: #13deb9;
+  --my-text-for-gray: rgba(255,255,255, .9);
+}
+
+// Theme light/dark
+:root {
+  /* Light theme variables (default) */
+  --background-color: #fafafa;
+  --surface-ground: #fafafa; /* Added this for consistency */
+  --text-color: #495057;
+  --text-color-secondary: #6c757d;
+  --primary-color: #3B82F6;
+  --primary-color-rgb: 59, 130, 246;
+  --primary-100: #EFF6FF;
+  --primary-200: #DBEAFE;
+  --primary-300: #BFDBFE;
+  --primary-400: #93C5FD;
+  --primary-500: #3B82F6;
+  --primary-600: #2563EB;
+  --primary-700: #1D4ED8;
+  --border-color: #dee2e6;
+  --card-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Dark theme variables */
+[data-theme='dark'] {
+  --background-color: #141a21;
+  --surface-color: #1c2531;
+  --text-color: #e6e6e6;
+  --text-color-secondary: #a1a1a1;
+  --primary-color: #4d8fff;
+  --primary-color-rgb: 77, 143, 255;
+  --primary-100: #1a2942;
+  --primary-200: #203354;
+  --primary-300: #264166;
+  --primary-400: #315283;
+  --primary-500: #4d8fff;
+  --primary-600: #3d7ff5;
+  --primary-700: #2d6fe6;
+  --border-color: #2c3542;
+  --card-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.4);
+  --surface-hover: rgba(255, 255, 255, 0.1);
+  --card-background-color: #1c252e;
+
+  /* PrimeNG components custom styling for dark mode */
+  .p-component {
+    color: var(--text-color);
+  }
+
+  .p-card, .p-panel, .p-dialog, .p-tabview-panels, .p-tabview-nav {
+    background-color: var(--surface-color);
+    color: var(--text-color);
+  }
+
+  .p-dropdown, .p-multiselect {
+    background-color: #2c3542;
+    color: var(--text-color);
+    border-color: var(--border-color);
+  }
+
+  .p-button.p-button-outlined {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  .p-menubar {
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+  }
+
+  .p-menubar .p-menuitem-link {
+    color: var(--text-color);
+  }
+
+  .p-menubar .p-menuitem-link:hover {
+    background-color: var(--surface-hover);
+  }
+}
+
+/* Light theme variables */
+[data-theme='light'] {
+  --background-color: #eaf1f3;
+}
+
+//CARD STYLE
+:root {
+  // Card base variables
+  --card-border-radius: 8px;
+  --card-padding: 1.5rem;
+  --card-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Elevation shadows
+  --card-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --card-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --card-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --card-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  // Glass morphism
+  --glass-backdrop: blur(10px);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+
+  // Neon colors
+  --neon-primary: #00f5ff;
+  --neon-secondary: #ff00ff;
+  --neon-accent: #00ff00;
+  --neon-glow: 0 0 20px currentColor;
+
+  // Gradient colors
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-tertiary: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+
+  // Neumorphism
+  --neuro-light: #ffffff;
+  --neuro-shadow-light: #d1d9e6;
+  --neuro-shadow-dark: #ffffff;
+  --neuro-inset-light: inset 5px 5px 10px #d1d9e6, inset -5px -5px 10px #ffffff;
+  --neuro-outset-light: 5px 5px 10px #d1d9e6, -5px -5px 10px #ffffff;
+}

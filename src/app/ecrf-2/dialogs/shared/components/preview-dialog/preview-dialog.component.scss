@@ -1,0 +1,59 @@
+.form-preview-container {
+  background-color: var(--surface-ground, #f8f9fa);
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--surface-border, #dee2e6);
+  min-height: 400px;
+  max-height: 70vh;
+  overflow-y: auto;
+
+  /* Add transition for smooth theme changes */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.dialog-header {
+  margin-bottom: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.theme-toggle button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+::ng-deep {
+  .p-dialog-header {
+    background-color: var(--primary-color, #3B82F6);
+    color: white;
+    padding: 1rem 1.5rem;
+  }
+
+  .p-dialog-content {
+    padding: 0 !important;
+  }
+
+  .p-dialog-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--surface-border, #dee2e6);
+  }
+
+  /* Dark theme specific overrides */
+  .dark-theme {
+    .form-preview-container {
+      background-color: var(--surface-ground, #121212);
+      border-color: var(--surface-border, #383838);
+    }
+
+    .p-dialog-footer {
+      border-color: var(--surface-border, #383838);
+    }
+  }
+}

@@ -1,0 +1,43 @@
+.compact-custom-validation {
+  .compact-rule-card {
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    &.cdk-drag-preview {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+      transform: rotate(1deg);
+      opacity: 0.9;
+    }
+
+    details[open] summary i {
+      transform: rotate(90deg);
+    }
+
+    details summary {
+      list-style: none;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+    }
+  }
+
+  [cdkDragHandle] {
+    &:hover {
+      color: #6b7280;
+    }
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .compact-custom-validation .compact-rule-card .grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "landing": {
+    "hero": {
+      "title": "Bine ai venit la Draft App!",
+      "subtitle": "Începe perioada de probă gratuită și explorează toate funcționalitățile.",
+      "getStarted": "Începe",
+      "requestDemo": "Solicită demo"
+    },
+    "features": {
+      "title": "Funcționalități",
+      "subtitle": "Tot ce ai nevoie pentru succes.",
+      "tracking": {
+        "title": "Urmărire",
+        "description": "Monitorizează progresul cu ușurință."
+      },
+      "insights": {
+        "title": "Informații",
+        "description": "Obține informații valoroase din datele tale."
+      },
+      "compliance": {
+        "title": "Conformitate",
+        "description": "Respectă standardele și reglementările industriei."
+      },
+      "security": {
+        "title": "Securitate",
+        "description": "Datele tale sunt protejate cu securitate de nivel înalt."
+      },
+      "collaboration": {
+        "title": "Colaborare",
+        "description": "Lucrează împreună cu echipa ta fără efort."
+      },
+      "analytics": {
+        "title": "Analitică",
+        "description": "Obține informații cu instrumente analitice puternice."
+      },
+      "integrations": {
+        "title": "Integrări",
+        "description": "Conectează-te cu instrumentele și platformele preferate."
+      }
+    },
+    "testimonials": {
+      "title": "Ce spun utilizatorii noștri",
+      "description": "Află părerea clienților noștri mulțumiți.",
+      "alice": {
+        "name": "Alice Smith",
+        "role": "Manager de proiect",
+        "text": "Draft App a schimbat modul în care echipa noastră colaborează."
+      },
+      "john": {
+        "name": "John Doe",
+        "role": "Director IT",
+        "text": "Funcțiile de securitate și conformitate ne oferă liniște."
+      },
+      "maria": {
+        "name": "Maria Garcia",
+        "role": "Analist de business",
+        "text": "Analitica și integrările îmi ușurează munca în fiecare zi."
+      }
+    },
+    "cta": {
+      "title": "Ești gata să începi?",
+      "description": "Înscrie-te pentru o perioadă de probă gratuită sau solicită un demo pentru a vedea Draft App în acțiune.",
+      "startTrial": "Începe perioada de probă gratuită",
+      "requestDemo": "Solicită demo"
+    }
+  }
+}

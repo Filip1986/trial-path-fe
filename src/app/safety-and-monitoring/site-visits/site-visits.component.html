@@ -1,0 +1,421 @@
+<div class="max-w-7xl mx-auto p-6 bg-gray-50 min-h-screen">
+  <!-- Header -->
+  <div class="bg-white rounded-lg shadow-lg mb-6">
+    <div class="bg-blue-600 text-white p-6 rounded-t-lg">
+      <h1 class="text-2xl font-bold flex items-center gap-2">
+        <i class="pi pi-map-marker"></i>
+        Site Visits Management
+      </h1>
+      <p class="text-blue-100 mt-2">Monitor and track clinical site visits</p>
+    </div>
+
+    <!-- Action Bar -->
+    <div class="p-4 border-b border-gray-200">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-4">
+          <p-button
+            (click)="openNewVisitDialog()"
+            icon="pi pi-plus"
+            label="Schedule New Visit"
+            severity="primary"
+          ></p-button>
+        </div>
+        <div class="text-sm text-gray-600">Total Visits: {{ siteVisits().length }}</div>
+      </div>
+    </div>
+
+    <!-- Site Visits Table -->
+    <div class="p-6">
+      <p-table
+        [paginator]="true"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        [value]="siteVisits()"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} visits"
+        class="p-datatable-gridlines"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Site</th>
+            <th>Visit Date</th>
+            <th>Type</th>
+            <th>Monitor</th>
+            <th>Status</th>
+            <th>Participants</th>
+            <th>Rating</th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template let-visit pTemplate="body">
+          <tr>
+            <td>
+              <div class="font-medium">{{ visit.siteName }}</div>
+              <div class="text-sm text-gray-500">{{ visit.visitDuration }}h duration</div>
+            </td>
+            <td>{{ visit.visitDate | date:'shortDate' }}</td>
+            <td>
+              <p-tag
+                [severity]="visit.visitType === 'routine' ? 'info' :
+                           visit.visitType === 'initiation' ? 'success' :
+                           visit.visitType === 'close_out' ? 'warn' : 'danger'"
+                [value]="visit.visitType | titlecase"
+              ></p-tag>
+            </td>
+            <td>{{ visit.monitorName }}</td>
+            <td>
+              <p-tag
+                [severity]="getStatusSeverity(visit.status)"
+                [value]="visit.status | titlecase"
+              ></p-tag>
+            </td>
+            <td>{{ visit.participantsReviewed }}</td>
+            <td>
+              <p-rating [readonly]="true"></p-rating>
+            </td>
+            <td>
+              <div class="flex gap-2">
+                <p-button
+                  (click)="openEditVisitDialog(visit)"
+                  [text]="true"
+                  icon="pi pi-pencil"
+                  severity="secondary"
+                  size="small"
+                ></p-button>
+                <p-button
+                  (click)="openActionItemDialog(visit)"
+                  [badge]="visit.actionItems.length.toString()"
+                  [text]="true"
+                  icon="pi pi-list"
+                  severity="info"
+                  size="small"
+                ></p-button>
+                <p-button
+                  (click)="deleteVisit(visit)"
+                  [text]="true"
+                  icon="pi pi-trash"
+                  severity="danger"
+                  size="small"
+                ></p-button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td class="text-center py-8" colspan="8">
+              <div class="text-gray-500">
+                <i class="pi pi-info-circle text-2xl mb-2"></i>
+                <p>No site visits found. Schedule your first visit to get started.</p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <!-- Site Visit Dialog -->
+  <p-dialog
+    [(visible)]="showVisitDialog"
+    [closable]="true"
+    [draggable]="false"
+    [header]="isEditing ? 'Edit Site Visit' : 'Schedule New Site Visit'"
+    [modal]="true"
+    [resizable]="false"
+    styleClass="w-full max-w-4xl"
+  >
+    <form (ngSubmit)="onSaveVisit()" [formGroup]="siteVisitForm">
+      <!-- Basic Information -->
+      <div class="grid grid-cols-12 gap-4 mb-6">
+        <div class="col-span-12">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <i class="pi pi-info-circle text-blue-500"></i>
+            Visit Information
+          </h3>
+        </div>
+
+        <div class="col-span-12 md:col-span-6">
+          <lib-select [config]="siteConfig" formControlName="siteId"></lib-select>
+        </div>
+
+        <div class="col-span-12 md:col-span-6">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Visit Date *</label>
+          <p-datePicker
+            [class.ng-invalid]="isFieldInvalid(siteVisitForm, 'visitDate')"
+            [showIcon]="true"
+            formControlName="visitDate"
+            inputId="visitDate"
+            styleClass="w-full"
+          ></p-datePicker>
+          @if (isFieldInvalid(siteVisitForm, 'visitDate')) {
+          <small class="p-error"> Visit date is required </small>
+          }
+        </div>
+
+        <div class="col-span-12 md:col-span-6">
+          <lib-select [config]="visitTypeConfig" formControlName="visitType"></lib-select>
+        </div>
+
+        <div class="col-span-12 md:col-span-6">
+          <lib-select [config]="monitorConfig" formControlName="monitorId"></lib-select>
+        </div>
+
+        <div class="col-span-12 md:col-span-6">
+          <lib-select [config]="statusConfig" formControlName="status"></lib-select>
+        </div>
+
+        <div class="col-span-12 md:col-span-6">
+          <lib-input-text
+            [config]="visitDurationConfig"
+            formControlName="visitDuration"
+          ></lib-input-text>
+        </div>
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Visit Metrics -->
+      <div class="grid grid-cols-12 gap-4 mb-6">
+        <div class="col-span-12">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <i class="pi pi-chart-bar text-green-500"></i>
+            Visit Metrics
+          </h3>
+        </div>
+
+        <div class="col-span-12 md:col-span-4">
+          <lib-input-text
+            [config]="participantsReviewedConfig"
+            formControlName="participantsReviewed"
+          ></lib-input-text>
+        </div>
+
+        <div class="col-span-12 md:col-span-4">
+          <lib-input-text
+            [config]="sourceDataVerifiedConfig"
+            formControlName="sourceDataVerified"
+          ></lib-input-text>
+        </div>
+
+        <div class="col-span-12 md:col-span-4">
+          <lib-input-text
+            [config]="protocolDeviationsConfig"
+            formControlName="protocolDeviations"
+          ></lib-input-text>
+        </div>
+
+        <div class="col-span-12 md:col-span-6">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Overall Site Rating *</label>
+          <p-rating
+            [class.ng-invalid]="isFieldInvalid(siteVisitForm, 'overallRating')"
+            formControlName="overallRating"
+          ></p-rating>
+          <small class="text-gray-600 block mt-1">Rate overall site performance (1-5 stars)</small>
+        </div>
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Findings & Follow-up -->
+      <div class="grid grid-cols-12 gap-4 mb-6">
+        <div class="col-span-12">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <i class="pi pi-file-edit text-orange-500"></i>
+            Findings & Follow-up
+          </h3>
+        </div>
+
+        <div class="col-span-12">
+          <lib-textarea [config]="findingsConfig" formControlName="findings"></lib-textarea>
+        </div>
+
+        <div class="col-span-12 md:col-span-6">
+          <lib-checkbox
+            [config]="followUpRequiredConfig"
+            formControlName="followUpRequired"
+          ></lib-checkbox>
+        </div>
+
+        @if (siteVisitForm.get('followUpRequired')?.value) {
+        <div class="col-span-12 md:col-span-6">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Follow-up Date</label>
+          <p-datePicker
+            [showIcon]="true"
+            formControlName="followUpDate"
+            inputId="followUpDate"
+            styleClass="w-full"
+          ></p-datePicker>
+        </div>
+        }
+      </div>
+
+      <!-- Form Actions -->
+      <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+        <p-button
+          (click)="showVisitDialog = false"
+          [text]="true"
+          label="Cancel"
+          severity="secondary"
+          type="button"
+        ></p-button>
+        <p-button
+          [disabled]="siteVisitForm.invalid"
+          [label]="isEditing ? 'Update Visit' : 'Save Visit'"
+          [loading]="loading()"
+          severity="primary"
+          type="submit"
+        ></p-button>
+      </div>
+    </form>
+  </p-dialog>
+
+  <!-- Action Items Dialog -->
+  <p-dialog
+    [(visible)]="showActionItemDialog"
+    [closable]="true"
+    [draggable]="false"
+    [header]="'Action Items - ' + (selectedVisit?.siteName || '')"
+    [modal]="true"
+    [resizable]="false"
+    styleClass="w-full max-w-5xl"
+  >
+    <div class="mb-6">
+      <!-- Existing Action Items -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <i class="pi pi-list text-blue-500"></i>
+          Current Action Items
+        </h3>
+
+        @if (selectedVisit && selectedVisit.actionItems && selectedVisit.actionItems.length &&
+        selectedVisit.actionItems.length > 0) {
+        <div>
+          <div class="space-y-3">
+            @for (item of selectedVisit.actionItems; track item) {
+            <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
+              <div class="flex justify-between items-start mb-2">
+                <div class="flex-1">
+                  <h4 class="font-medium text-gray-900">{{ item.description }}</h4>
+                  <div class="flex items-center gap-3 mt-2 text-sm">
+                    <span class="text-gray-600">Assigned to: {{ item.assignedTo }}</span>
+                    <span class="text-gray-600">Due: {{ item.dueDate | date:'shortDate' }}</span>
+                  </div>
+                  @if (item.comments) {
+                  <p class="text-sm text-gray-600 mt-1">{{ item.comments }}</p>
+                  }
+                </div>
+                <div class="flex items-center gap-2">
+                  <p-tag
+                    [severity]="getPrioritySeverity(item.priority)"
+                    [value]="item.priority | titlecase"
+                    styleClass="text-xs"
+                  ></p-tag>
+                  <p-tag
+                    [severity]="getActionStatusSeverity(item.status)"
+                    [value]="item.status | titlecase"
+                    styleClass="text-xs"
+                  ></p-tag>
+                  <p-button
+                    (click)="deleteActionItem(item)"
+                    [text]="true"
+                    icon="pi pi-trash"
+                    severity="danger"
+                    size="small"
+                  ></p-button>
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+        } @else {
+        <div class="text-center py-6 text-gray-500">
+          <i class="pi pi-info-circle text-2xl mb-2"></i>
+          <p>No action items yet. Add one below.</p>
+        </div>
+        }
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Add New Action Item -->
+      <div class="mt-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <i class="pi pi-plus text-green-500"></i>
+          Add New Action Item
+        </h3>
+
+        <form (ngSubmit)="onSaveActionItem()" [formGroup]="actionItemForm">
+          <div class="grid grid-cols-12 gap-4">
+            <div class="col-span-12">
+              <lib-textarea
+                [config]="actionDescriptionConfig"
+                formControlName="actionDescription"
+              ></lib-textarea>
+            </div>
+
+            <div class="col-span-12 md:col-span-4">
+              <lib-select [config]="priorityConfig" formControlName="priority"></lib-select>
+            </div>
+
+            <div class="col-span-12 md:col-span-4">
+              <lib-input-text
+                [config]="assignedToConfig"
+                formControlName="assignedTo"
+              ></lib-input-text>
+            </div>
+
+            <div class="col-span-12 md:col-span-4">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Due Date *</label>
+              <p-datePicker
+                [class.ng-invalid]="isFieldInvalid(actionItemForm, 'dueDate')"
+                [showIcon]="true"
+                formControlName="dueDate"
+                inputId="actionDueDate"
+                styleClass="w-full"
+              ></p-datePicker>
+            </div>
+
+            <div class="col-span-12 md:col-span-6">
+              <lib-select [config]="actionStatusConfig" formControlName="actionStatus"></lib-select>
+            </div>
+
+            <div class="col-span-12 md:col-span-6">
+              <lib-textarea
+                [config]="actionCommentsConfig"
+                formControlName="actionComments"
+              ></lib-textarea>
+            </div>
+
+            <div class="col-span-12 flex justify-end gap-3 pt-4">
+              <p-button
+                [disabled]="actionItemForm.invalid"
+                icon="pi pi-plus"
+                label="Add Action Item"
+                severity="primary"
+                type="submit"
+              ></p-button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Dialog Actions -->
+    <div class="flex justify-end pt-4 border-t border-gray-200">
+      <p-button
+        (click)="showActionItemDialog = false"
+        label="Close"
+        severity="secondary"
+        type="button"
+      ></p-button>
+    </div>
+  </p-dialog>
+
+  <!-- Toast Messages -->
+  <p-toast></p-toast>
+
+  <!-- Confirmation Dialog -->
+  <p-confirmDialog></p-confirmDialog>
+</div>

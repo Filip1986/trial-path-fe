@@ -1,0 +1,64 @@
+.profile-container {
+
+  :host ::ng-deep {
+    // TabView customizations
+    .p-tabview .p-tabview-nav {
+      border-bottom: 1px solid var(--surface-border);
+
+      li .p-tabview-nav-link {
+        border-radius: 0;
+        margin-bottom: -1px;
+        transition: border-color 0.2s, color 0.2s;
+        font-weight: 500;
+
+        &:not(.p-disabled):focus {
+          box-shadow: none;
+          border-color: var(--primary-color);
+        }
+      }
+
+      li.p-highlight .p-tabview-nav-link {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+      }
+    }
+
+    // Password component customization
+    .p-password {
+      width: 100%;
+
+      input {
+        width: 100%;
+      }
+    }
+
+    // Card customization
+    .p-card {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    // Input states
+    .p-inputtext:enabled:focus {
+      box-shadow: 0 0 0 1px var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    // Form validation
+    .ng-invalid.ng-dirty {
+      border-color: var(--red-500);
+    }
+  }
+}
+
+// Avatar border effect
+::ng-deep .p-avatar img {
+  border: 3px solid white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+// Responsive adjustments
+@media screen and (max-width: 768px) {
+  .profile-container {
+    padding: 0.5rem;
+  }
+}

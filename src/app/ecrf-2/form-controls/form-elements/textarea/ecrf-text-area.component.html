@@ -1,0 +1,34 @@
+<p-card>
+  <div class="element-header flex justify-between items-center mb-2">
+    <div class="flex items-center">
+      <i [ngClass]="iconName" class="mr-2 text-blue-500"></i>
+      <label class="text-sm font-medium text-gray-700">
+        {{ control?.options?.title || control?.title || 'Text Area' }}
+      </label>
+    </div>
+    <div class="flex items-center gap-2">
+      <p-speedDial
+        [hideIcon]="'pi pi-times'"
+        [hideOnClickOutside]="true"
+        [model]="speedDialItems"
+        [showIcon]="'pi pi-ellipsis-v'"
+        [style]="{ position: 'relative' }"
+        [transitionDelay]="80"
+        buttonClass="p-button-sm p-button-outlined p-button-secondary"
+        direction="left"
+        radius="40"
+        />
+    </div>
+  </div>
+  <div class="element-content">
+    <!-- Use the getTextareaConfig method to get configuration -->
+    @if (control) {
+      <lib-textarea
+        (valueChange)="onValueChange($event)"
+        [config]="getTextareaConfig()"
+        [containerClass]="'w-full'"
+        [value]="control.value || ''"
+        />
+    }
+  </div>
+</p-card>

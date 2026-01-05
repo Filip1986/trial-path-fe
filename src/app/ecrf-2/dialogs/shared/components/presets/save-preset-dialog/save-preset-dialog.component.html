@@ -1,0 +1,82 @@
+<p-dialog
+  (onHide)="hideDialog()"
+  [(visible)]="visible"
+  [draggable]="false"
+  [header]="'Save as Preset'"
+  [modal]="true"
+  [resizable]="false"
+  [style]="{width: '450px'}"
+  >
+  <form [formGroup]="presetForm" class="p-fluid">
+    <div class="field mb-4">
+      <label class="block font-medium mb-2" for="name">Preset Name *</label>
+      <input
+        class="w-full p-inputtext"
+        formControlName="name"
+        id="name"
+        pInputText
+        placeholder="Enter a name for this preset"
+        type="text"
+        />
+      @if (presetForm.get('name')?.invalid && presetForm.get('name')?.touched) {
+        <small
+          class="p-error block mt-1"
+          >
+          @if (presetForm.get('name')?.errors?.['required']) {
+            <span>Name is required.</span>
+          }
+          @if (presetForm.get('name')?.errors?.['minlength']) {
+            <span
+              >Name must be at least 3 characters.</span
+              >
+            }
+            @if (presetForm.get('name')?.errors?.['maxlength']) {
+              <span
+                >Name cannot exceed 50 characters.</span
+                >
+              }
+            </small>
+          }
+        </div>
+
+        <div class="field mb-4">
+          <label class="block font-medium mb-2" for="description">Description (optional)</label>
+          <textarea
+            class="w-full p-inputtextarea"
+            formControlName="description"
+            id="description"
+            pInputTextarea
+            placeholder="Describe this preset (optional)"
+            rows="3"
+          ></textarea>
+          @if (presetForm.get('description')?.invalid && presetForm.get('description')?.touched) {
+            <small
+              class="p-error block mt-1"
+              >
+              @if (presetForm.get('description')?.errors?.['maxlength']) {
+                <span
+                  >Description cannot exceed 200 characters.</span
+                  >
+                }
+              </small>
+            }
+          </div>
+        </form>
+
+        <ng-template pTemplate="footer">
+          <button
+            (click)="hideDialog()"
+            class="p-button-text"
+            icon="pi pi-times"
+            label="Cancel"
+            pButton
+          ></button>
+          <button
+            (click)="onSave()"
+            [disabled]="presetForm.invalid"
+            icon="pi pi-save"
+            label="Save Preset"
+            pButton
+          ></button>
+        </ng-template>
+      </p-dialog>

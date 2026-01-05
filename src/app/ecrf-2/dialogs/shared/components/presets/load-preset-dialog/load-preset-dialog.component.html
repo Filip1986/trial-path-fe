@@ -1,0 +1,95 @@
+<p-dialog
+  (onHide)="hideDialog()"
+  (onShow)="onDialogShow()"
+  [(visible)]="visible"
+  [draggable]="false"
+  [header]="'Load Preset'"
+  [modal]="true"
+  [resizable]="false"
+  [style]="{width: '750px'}"
+  >
+  <div class="flex flex-column">
+    <!-- Search bar -->
+    <div class="p-inputgroup mb-3">
+      <input
+        (input)="onSearch()"
+        [(ngModel)]="searchText"
+        class="p-inputtext w-full"
+        pInputText
+        placeholder="Search presets..."
+        type="text"
+        />
+      <button (click)="onSearch()" icon="pi pi-search" pButton type="button"></button>
+    </div>
+
+    <!-- No presets message -->
+    @if (presets.length === 0) {
+      <div class="text-center p-4">
+        <p class="text-lg text-gray-500">No presets saved for this element type.</p>
+        <p class="text-sm text-gray-400 mt-2">
+          Configure this element and use the "Save as Preset" button to create reusable templates.
+        </p>
+      </div>
+    }
+
+    <!-- No search results message -->
+    @if (presets.length > 0 && filteredPresets.length === 0) {
+      <div class="text-center p-4">
+        <p class="text-lg text-gray-500">No presets match your search.</p>
+      </div>
+    }
+
+    <!-- Presets table -->
+    @if (filteredPresets.length > 0) {
+      <p-table
+        [paginator]="filteredPresets.length > 5"
+        [rowHover]="true"
+        [rows]="5"
+        [value]="filteredPresets"
+        styleClass="p-datatable-sm"
+        >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 30%">Name</th>
+            <th style="width: 40%">Description</th>
+            <th style="width: 20%">Last Updated</th>
+            <th style="width: 10%">Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template let-preset pTemplate="body">
+          <tr
+            (click)="onLoadPreset(preset)"
+            [title]="'Click to load preset: ' + preset.name"
+            class="cursor-pointer transition-colors hover:bg-blue-50"
+            >
+            <td>{{ preset.name }}</td>
+            <td>{{ preset.description || 'No description' }}</td>
+            <td>{{ formatDate(preset.updatedAt) }}</td>
+            <td>
+              <button
+                (click)="onDeletePreset($event, preset)"
+                class="p-button-danger p-button-text p-button-sm"
+                icon="pi pi-trash"
+                pButton
+                title="Delete preset"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button
+      (click)="hideDialog()"
+      class="p-button-text"
+      icon="pi pi-times"
+      label="Close"
+      pButton
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<!-- Confirmation dialog -->
+<p-confirmDialog [style]="{width: '450px'}" />

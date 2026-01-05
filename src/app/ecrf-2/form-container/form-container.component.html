@@ -1,0 +1,148 @@
+@if (container) {
+<div
+  (cdkDropListDropped)="dropped($event)"
+  (cdkDropListEntered)="dragEntered($event)"
+  (cdkDropListExited)="dragExited($event)"
+  [attr.data-nesting-level]="nestingLevel"
+  [cdkDropListConnectedTo]="connectedLists"
+  [cdkDropListData]="container.controls || []"
+  [cdkDropListEnterPredicate]="allowDropPredicate"
+  [class]="{'drop-not-allowed': !dropAllowed, 'outline': showOutline}"
+  [id]="id"
+  cdkDropList
+  class="min-h-[50vh] my-3 p-3 transition-colors duration-200"
+>
+  @for (item of container.controls || []; track trackByControlId(i, item); let i = $index) {
+  <div
+    (cdkDragMoved)="dragMoved($event)"
+    (cdkDragReleased)="dragReleased($event)"
+    [cdkDragData]="item"
+    cdkDrag
+    class="m-2 bg-white rounded shadow hover:shadow-md transition-shadow duration-200"
+  >
+    <!-- Placeholder shown during drag -->
+    <div *cdkDragPlaceholder class="p-2 bg-blue-100 rounded-md opacity-70 border border-blue-300">
+      {{ item.title }}
+    </div>
+    <!-- Preview shown when dragging -->
+    <div
+      *cdkDragPreview
+      class="p-3 bg-white rounded-md shadow-lg border border-blue-400 flex items-center"
+    >
+      <i class="pi pi-info-circle mr-2 text-blue-500"></i>
+      <div>
+        <span class="font-medium">{{ getControlDisplayName(item) }}</span>
+        <small class="block text-gray-500">{{ getControlDescription(item) }}</small>
+      </div>
+    </div>
+    <!-- Actual content -->
+    @switch (item.type) { @case (FormElementType.INPUT_TEXT) {
+    <app-text-box
+      (controlDeleted)="onControlDeleted(i)"
+      (controlDuplicated)="onControlDuplicated($event, i)"
+      (controlEdited)="onControlEdited($event, i)"
+      [control]="isTextInput(item)? item : undefined"
+    />
+    } @case (FormElementType.TEXT_AREA) {
+    <app-text-area
+      (controlDeleted)="onControlDeleted(i)"
+      (controlDuplicated)="onControlDuplicated($event, i)"
+      (controlEdited)="onControlEdited($event, i)"
+      [control]="isTextArea(item) ? item : undefined"
+    />
+    } @case (FormElementType.CHECKBOX) {
+    <app-checkbox
+      (controlDeleted)="onControlDeleted(i)"
+      (controlDuplicated)="onControlDuplicated($event, i)"
+      (controlEdited)="onControlEdited($event, i)"
+      [control]="isCheckbox(item) ? item : undefined"
+    />
+    } @case (FormElementType.RADIO) {
+    <app-radio-button
+      (controlDeleted)="onControlDeleted(i)"
+      (controlDuplicated)="onControlDuplicated($event, i)"
+      (controlEdited)="onControlEdited($event, i)"
+      [control]="isRadioButton(item) ? item : undefined"
+    />
+    } @case (FormElementType.DATE_PICKER) {
+    <app-date-picker
+      (controlDeleted)="onControlDeleted(i)"
+      (controlDuplicated)="onControlDuplicated($event, i)"
+      (controlEdited)="onControlEdited($event, i)"
+      [control]="isDatePicker(item) ? item : undefined"
+    />
+    } @case (FormElementType.LIST_BOX) {
+    <app-listbox
+      (controlDeleted)="onControlDeleted(i)"
+      (controlDuplicated)="onControlDuplicated($event, i)"
+      (controlEdited)="onControlEdited($event, i)"
+      [control]="isListBox(item) ? item : undefined"
+    />
+    } @case (FormElementType.INPUT_NUMBER) {
+    <app-input-number
+      (controlDeleted)="onControlDeleted(i)"
+      (controlDuplicated)="onControlDuplicated($event, i)"
+      (controlEdited)="onControlEdited($event, i)"
+      [control]="isInputNumber(item) ? item : undefined"
+    />
+    } @case (FormElementType.MULTISELECT) {
+    <app-multiselect
+      (controlDeleted)="onControlDeleted(i)"
+      (controlDuplicated)="onControlDuplicated($event, i)"
+      (controlEdited)="onControlEdited($event, i)"
+      [control]="isMultiSelect(item) ? item : undefined"
+    />
+    } @case (FormElementType.TIME_PICKER) {
+    <app-time-picker
+      (controlDeleted)="onControlDeleted(i)"
+      (controlDuplicated)="onControlDuplicated($event, i)"
+      (controlEdited)="onControlEdited($event, i)"
+      [control]="isTimePicker(item) ? item : undefined"
+    />
+    } @case (FormElementType.SELECT) {
+    <app-select
+      (controlDeleted)="onControlDeleted(i)"
+      (controlDuplicated)="onControlDuplicated($event, i)"
+      (controlEdited)="onControlEdited($event, i)"
+      [control]="isSelect(item) ? item : undefined"
+    />
+    } @case (FormElementType.SELECT_BUTTON) {
+    <app-select-button
+      (controlDeleted)="onControlDeleted(i)"
+      (controlDuplicated)="onControlDuplicated($event, i)"
+      (controlEdited)="onControlEdited($event, i)"
+      [control]="isSelectButton(item) ? item : undefined"
+    />
+    }
+    <!-- Use the dynamic component loader for Columns -->
+    @case (FormElementType.COLUMNS) {
+    <app-dynamic-component
+      [componentName]="ComponentType.COLUMNS"
+      [inputs]="{
+        control: item | cast,
+        maxNestingLevel: 2,
+        nestingLevel: nestingLevel + 1,
+        showDebugInfo: showDebugInfo
+      }"
+    ></app-dynamic-component>
+    }
+    <!-- Default display for unsupported types -->
+    @default {
+    <div class="p-3 border border-gray-200 rounded">
+      <div class="flex items-center">
+        <i class="pi pi-question-circle mr-2 text-gray-500"></i>
+        <span>{{ item.title }}</span>
+      </div>
+    </div>
+    } }
+  </div>
+  }
+  <!-- Empty state message -->
+  @if ((container.controls.length || 0) === 0) {
+  <div class="text-center py-6 text-gray-400">
+    <i class="pi pi-arrow-down text-3xl mb-2"></i>
+    <p>Drop elements here</p>
+  </div>
+  }
+</div>
+}

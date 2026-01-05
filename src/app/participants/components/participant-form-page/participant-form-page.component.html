@@ -1,0 +1,252 @@
+<div class="participant-form-page">
+  <div class="form-header mb-4">
+    <p-card>
+      <div class="flex justify-content-between align-items-center">
+        <div>
+          <h1 class="text-3xl font-bold mb-2">
+            {{ isEditMode() ? 'Edit Participant' : 'New Participant' }}
+          </h1>
+          <p class="text-color-secondary">
+            {{ isEditMode() ? 'Update participant information' : 'Add a new participant to the
+            study' }}
+          </p>
+        </div>
+        <p-button
+          (onClick)="goBack()"
+          icon="pi pi-arrow-left"
+          label="Back"
+          severity="secondary"
+          styleClass="p-button-outlined"
+          />
+      </div>
+    </p-card>
+  </div>
+
+  <form [formGroup]="participantForm" (ngSubmit)="onSubmit()">
+    <div class="grid">
+      <!-- Personal Information -->
+      <div class="col-12">
+        <p-card header="Personal Information">
+          <div class="grid">
+            <div class="col-12 md:col-4">
+              <label for="firstName" class="block text-900 font-medium mb-2">
+                First Name <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="firstName"
+                type="text"
+                pInputText
+                formControlName="firstName"
+                class="w-full"
+                [class.ng-invalid]="isFieldInvalid('address.state')"
+                />
+              @if (isFieldInvalid('address.state')) {
+                <small class="p-error block mt-1">
+                  State is required
+                </small>
+              }
+            </div>
+
+            <div class="col-12 md:col-3">
+              <label for="zipCode" class="block text-900 font-medium mb-2">
+                ZIP Code <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="zipCode"
+                type="text"
+                pInputText
+                formControlName="zipCode"
+                class="w-full"
+                [class.ng-invalid]="isFieldInvalid('address.zipCode')"
+                />
+              @if (isFieldInvalid('address.zipCode')) {
+                <small class="p-error block mt-1">
+                  ZIP code is required
+                </small>
+              }
+            </div>
+
+            <div class="col-12 md:col-6">
+              <label for="country" class="block text-900 font-medium mb-2">
+                Country <span class="text-red-500">*</span>
+              </label>
+              <p-select
+                id="country"
+                formControlName="country"
+                [options]="countryOptions"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select Country"
+                class="w-full"
+                [class.ng-invalid]="isFieldInvalid('address.country')"
+                />
+              @if (isFieldInvalid('address.country')) {
+                <small class="p-error block mt-1">
+                  Country is required
+                </small>
+              }
+            </div>
+          </div>
+        </p-card>
+      </div>
+
+      <!-- Emergency Contact -->
+      <div class="col-12">
+        <p-card header="Emergency Contact">
+          <div class="grid" formGroupName="emergencyContact">
+            <div class="col-12 md:col-4">
+              <label for="emergencyName" class="block text-900 font-medium mb-2">
+                Contact Name <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="emergencyName"
+                type="text"
+                pInputText
+                formControlName="name"
+                class="w-full"
+                [class.ng-invalid]="isFieldInvalid('emergencyContact.name')"
+                />
+              @if (isFieldInvalid('emergencyContact.name')) {
+                <small class="p-error block mt-1">
+                  Emergency contact name is required
+                </small>
+              }
+            </div>
+
+            <div class="col-12 md:col-4">
+              <label for="relationship" class="block text-900 font-medium mb-2">
+                Relationship <span class="text-red-500">*</span>
+              </label>
+              <p-select
+                id="relationship"
+                formControlName="relationship"
+                [options]="relationshipOptions"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select Relationship"
+                class="w-full"
+                [class.ng-invalid]="isFieldInvalid('emergencyContact.relationship')"
+                />
+              @if (isFieldInvalid('emergencyContact.relationship')) {
+                <small
+                  class="p-error block mt-1"
+                  >
+                  Relationship is required
+                </small>
+              }
+            </div>
+
+            <div class="col-12 md:col-4">
+              <label for="emergencyPhone" class="block text-900 font-medium mb-2">
+                Phone Number <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="emergencyPhone"
+                type="tel"
+                pInputText
+                formControlName="phone"
+                class="w-full"
+                [class.ng-invalid]="isFieldInvalid('emergencyContact.phone')"
+                />
+              @if (isFieldInvalid('emergencyContact.phone')) {
+                <small class="p-error block mt-1">
+                  Emergency contact phone is required
+                </small>
+              }
+            </div>
+          </div>
+        </p-card>
+      </div>
+
+      <!-- Study Information -->
+      <div class="col-12">
+        <p-card header="Study Information">
+          <div class="grid">
+            <div class="col-12 md:col-6">
+              <label for="studyId" class="block text-900 font-medium mb-2">
+                Study <span class="text-red-500">*</span>
+              </label>
+              <p-select
+                id="studyId"
+                formControlName="studyId"
+                [options]="studyOptions"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select Study"
+                class="w-full"
+                [class.ng-invalid]="isFieldInvalid('studyId')"
+                />
+              @if (isFieldInvalid('studyId')) {
+                <small class="p-error block mt-1">
+                  Study selection is required
+                </small>
+              }
+            </div>
+
+            <div class="col-12 md:col-6">
+              <label for="participantId" class="block text-900 font-medium mb-2">
+                Participant ID
+              </label>
+              <input
+                id="participantId"
+                type="text"
+                pInputText
+                formControlName="participantId"
+                class="w-full"
+                placeholder="Auto-generated if left blank"
+                />
+            </div>
+
+            <div class="col-12">
+              <label for="medicalHistory" class="block text-900 font-medium mb-2">
+                Medical History
+              </label>
+              <textarea
+                id="medicalHistory"
+                pInputTextarea
+                formControlName="medicalHistory"
+                rows="4"
+                class="w-full"
+                placeholder="Enter relevant medical history, conditions, medications, etc."
+              ></textarea>
+            </div>
+          </div>
+        </p-card>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="col-12">
+        <p-card>
+          <div class="flex justify-content-end gap-2">
+            <p-button
+              (onClick)="onReset()"
+              [disabled]="saving()"
+              label="Reset"
+              severity="secondary"
+              styleClass="p-button-outlined"
+              type="button"
+              />
+            <p-button
+              (onClick)="goBack()"
+              [disabled]="saving()"
+              label="Cancel"
+              severity="secondary"
+              styleClass="p-button-outlined"
+              type="button"
+              />
+            <p-button
+              [disabled]="participantForm.invalid || saving()"
+              [loading]="saving()"
+              icon="pi pi-save"
+              label="{{ isEditMode() ? 'Update Participant' : 'Save Participant' }}"
+              severity="primary"
+              type="submit"
+              />
+          </div>
+        </p-card>
+      </div>
+    </div>
+  </form>
+
+  <p-toast position="top-right" />
+</div>

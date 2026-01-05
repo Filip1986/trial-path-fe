@@ -1,0 +1,67 @@
+{
+  "landing": {
+    "hero": {
+      "title": "Willkommen bei Draft App!",
+      "subtitle": "Starten Sie Ihre kostenlose Testversion und entdecken Sie alle Funktionen.",
+      "getStarted": "Loslegen",
+      "requestDemo": "Demo anfordern"
+    },
+    "features": {
+      "title": "Funktionen",
+      "subtitle": "Alles, was Sie zum Erfolg brauchen.",
+      "tracking": {
+        "title": "Verfolgung",
+        "description": "Überwachen Sie Ihren Fortschritt einfach."
+      },
+      "insights": {
+        "title": "Einblicke",
+        "description": "Erhalten Sie wertvolle Einblicke aus Ihren Daten."
+      },
+      "compliance": {
+        "title": "Compliance",
+        "description": "Erfüllen Sie Branchenstandards und Vorschriften."
+      },
+      "security": {
+        "title": "Sicherheit",
+        "description": "Ihre Daten sind mit höchster Sicherheit geschützt."
+      },
+      "collaboration": {
+        "title": "Zusammenarbeit",
+        "description": "Arbeiten Sie nahtlos mit Ihrem Team zusammen."
+      },
+      "analytics": {
+        "title": "Analytik",
+        "description": "Erhalten Sie Einblicke mit leistungsstarken Analysetools."
+      },
+      "integrations": {
+        "title": "Integrationen",
+        "description": "Verbinden Sie sich mit Ihren bevorzugten Tools und Plattformen."
+      }
+    },
+    "testimonials": {
+      "title": "Was unsere Nutzer sagen",
+      "description": "Erfahren Sie mehr von unseren zufriedenen Kunden.",
+      "alice": {
+        "name": "Alice Smith",
+        "role": "Projektmanagerin",
+        "text": "Draft App hat die Zusammenarbeit in unserem Team verändert."
+      },
+      "john": {
+        "name": "John Doe",
+        "role": "IT-Leiter",
+        "text": "Die Sicherheits- und Compliance-Funktionen geben uns Sicherheit."
+      },
+      "maria": {
+        "name": "Maria Garcia",
+        "role": "Business Analystin",
+        "text": "Analytik und Integrationen erleichtern mir jeden Tag die Arbeit."
+      }
+    },
+    "cta": {
+      "title": "Bereit loszulegen?",
+      "description": "Registrieren Sie sich für eine kostenlose Testversion oder fordern Sie eine Demo an, um Draft App in Aktion zu sehen.",
+      "startTrial": "Kostenlose Testversion starten",
+      "requestDemo": "Demo anfordern"
+    }
+  }
+}

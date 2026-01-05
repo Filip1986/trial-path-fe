@@ -1,0 +1,18 @@
+<app-preview-wrapper
+  [helperText]="control.options?.helperText"
+  [title]="control.options?.title || control.title || 'Radio Button'"
+  wrapperClass="preview-radio-button p-3 border rounded-md"
+  >
+  <div class="flex flex-col space-y-2">
+    @for (option of getOptions(); track option) {
+      <lib-radio-button [config]="getOptionConfig(option)" [value]="getPreviewValue()" />
+    }
+
+    <!-- Show a placeholder if no options are defined -->
+    @if (getOptions().length === 0) {
+      <div class="text-gray-500 text-sm italic py-2">
+        No radio options defined
+      </div>
+    }
+  </div>
+</app-preview-wrapper>

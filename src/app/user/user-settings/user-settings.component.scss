@@ -1,0 +1,67 @@
+@import '../../../assets/styles/tabs/tabs.scss';
+
+.settings-container {
+  min-height: calc(100vh - 70px); // Adjust for menubar height
+
+  .custom-tabview {
+    @include custom-tabview-styles;
+  }
+
+  :host ::ng-deep {
+    // Card customization
+    .p-card {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+      .p-card-content {
+        padding: 0; // Remove default padding to control it better
+      }
+    }
+
+    // Form control customizations
+    .p-dropdown, .p-inputswitch, .p-radiobutton, .p-inputtext {
+      &:focus {
+        box-shadow: 0 0 0 1px var(--primary-color);
+      }
+    }
+
+    // Setting group styling
+    .field {
+      margin-bottom: 1.5rem;
+
+      label.block {
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Style for hiding file input but keeping it accessible
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Responsive adjustments
+@media screen and (max-width: 768px) {
+  .settings-container {
+    padding: 0.5rem;
+
+    :host ::ng-deep {
+      .p-tabview .p-tabview-nav li {
+        margin-right: 10px; // Smaller gap on mobile
+
+        .p-tabview-nav-link {
+          padding: 0.75rem 1rem;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+<app-preview-wrapper
+  [helperText]="control.options?.helperText"
+  [title]="control.options?.title || control.title || 'Checkbox'"
+  wrapperClass="preview-checkbox p-3 border rounded-md"
+  >
+  <!-- Group title if available and in GROUP mode -->
+  @if (checkboxControl?.options?.groupTitle && checkboxControl?.mode === 'group') {
+    <div
+      class="mb-2 font-medium"
+      >
+      {{ checkboxControl?.options?.groupTitle }}
+    </div>
+  }
+
+  <!-- BINARY mode: Single checkbox -->
+  @if (!checkboxControl?.mode || checkboxControl?.mode === 'binary') {
+    <lib-checkbox
+      [config]="getConfig()"
+      [value]="getPreviewValue()"
+      />
+  }
+
+  <!-- GROUP mode: Multiple checkboxes -->
+  @if (checkboxControl?.mode === 'group') {
+    <div class="checkbox-group">
+      @if (!checkboxControl?.options?.options || checkboxControl?.options?.options?.length === 0) {
+        <div
+          class="text-gray-500 italic"
+          >
+          No checkbox options defined.
+        </div>
+      }
+      @for (option of checkboxControl?.options?.options || []; track option; let i = $index) {
+        <div class="mb-2">
+          <lib-checkbox
+        [config]="{
+          label: option.label,
+          required: checkboxControl?.options?.required || false,
+          disabled: true,
+          mode: CheckboxModeEnum.BINARY,
+          size: checkboxControl?.size || FormComponentSizeEnum.NORMAL,
+          variant: checkboxControl?.variant || FormComponentVariantEnum.OUTLINED,
+          labelPosition: checkboxControl?.labelPosition || FormLabelPositionEnum.ABOVE,
+          labelStyle: checkboxControl?.labelStyle || FormLabelStyleEnum.DEFAULT
+        }"
+            [value]="isOptionSelected(option.value)"
+            />
+        </div>
+      }
+    </div>
+  }
+</app-preview-wrapper>

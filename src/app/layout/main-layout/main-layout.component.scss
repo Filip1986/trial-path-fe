@@ -1,0 +1,229 @@
+:host {
+  display: block;
+  overflow: hidden; // Keep this to constrain to viewport
+  background-color: var(--background-color, #f8fafc);
+  position: relative;
+}
+
+/* Layout styles */
+.flex {
+  display: flex;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.h-screen {
+  height: 100vh;
+}
+
+/* Sidenav container styles with smooth transition */
+.sidenav-container {
+  width: 260px;
+  transition: width 0.3s ease;
+  height: 100%;
+
+  &.collapsed {
+    width: 70px;
+  }
+
+  /* Hide sidenav on small screens */
+  @media screen and (max-width: 1024px) {
+    display: none;
+  }
+}
+
+/* Content container styles */
+.content-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  position: relative;
+  height: 100vh; // IMPORTANT: Constrain to viewport height
+
+  &.expanded {
+    margin-left: 0;
+  }
+
+  /* When sidenav is hidden, take full width */
+  @media screen and (max-width: 1024px) {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+}
+
+/* Header styles - FIXED AT TOP */
+.content-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 260px; /* Width of expanded sidenav */
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: var(--surface-color, #ffffff);
+  border-bottom: 1px solid var(--border-color, #e0e0e0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  gap: 1rem;
+  transition: left 0.3s ease;
+  height: 65px; // Explicit height is critical
+  flex-shrink: 0; // Don't shrink
+
+  /* Adjust header position when sidenav is collapsed */
+  .content-container.expanded & {
+    left: 70px;
+  }
+
+  /* Full width when sidenav is hidden on small screens */
+  @media screen and (max-width: 1024px) {
+    left: 0 !important;
+  }
+
+  .toggle-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--surface-hover, rgba(0, 0, 0, 0.03));
+    color: var(--text-color, #333333);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--primary-color, #3B82F6);
+      color: white;
+    }
+
+    i {
+      font-size: 1.25rem;
+    }
+  }
+
+  .logo-container-flex {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-container {
+    width: 240px;
+
+    .p-inputtext {
+      width: 100%;
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Theme toggle styling */
+  .theme-toggle {
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+
+    .pi-sun {
+      color: #f59e0b;
+      transition: color 0.3s ease;
+    }
+
+    .pi-moon {
+      color: #3b82f6;
+      transition: color 0.3s ease;
+    }
+  }
+
+  .user-menu {
+    .user-profile-button {
+      &:hover {
+        background-color: var(--surface-hover, rgba(0, 0, 0, 0.05));
+      }
+    }
+  }
+}
+
+/* Main content area styles - CRITICAL FOR SMOOTH SCROLLING */
+.content-body {
+  flex: 1;
+  padding: 1.5rem;
+  background-color: var(--background-color);
+  margin-top: 65px; /* Height of fixed header */
+  overflow-y: auto; // Enable vertical scrolling
+  overflow-x: hidden; // Prevent horizontal scroll
+
+  // CRITICAL: These properties ensure smooth scrolling
+  position: relative;
+  height: calc(100vh - 65px); // Explicit height minus header
+
+  // GPU acceleration for smooth scrolling
+  will-change: scroll-position;
+  transform: translateZ(0);
+  -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
+
+  // Prevent scroll chaining to parent
+  overscroll-behavior: contain;
+}
+
+/* Add boxed layout styles */
+:host-context(body.boxed-layout) {
+  .content-body {
+    max-width: 1200px;
+    margin: 65px auto 0 auto;
+    padding: 1.5rem 2rem;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sidenav-container {
+    width: 240px;
+
+    &.collapsed {
+      width: 60px;
+    }
+  }
+
+  .content-header {
+    padding: 0.5rem;
+    height: 60px; // Slightly smaller for mobile
+
+    .search-container {
+      width: 160px;
+    }
+
+    .toggle-button {
+      width: 36px;
+      height: 36px;
+    }
+
+    .user-menu .username {
+      display: none;
+    }
+  }
+
+  .content-body {
+    padding: 1rem;
+    margin-top: 60px; /* Match mobile header height */
+    height: calc(100vh - 60px);
+  }
+}
+
+/* Dark theme support */
+:host-context([data-theme='dark']) {
+  .content-header {
+    background-color: var(--surface-color, #1c2531);
+    border-color: var(--border-color, #2c3542);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+}

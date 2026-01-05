@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="signInTitle" datatype="html">
+        <source>Sign In</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/auth/login-view/login-view.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.hero.title" datatype="html">
+        <source>Welcome to TYME</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.hero.subtitle" datatype="html">
+        <source> The ultimate time tracking solution for professionals, teams, and businesses. Manage your time, boost productivity, and gain insights into your work patterns. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">10,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.hero.getStarted" datatype="html">
+        <source> Get Started Free </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">19,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.hero.learnMore" datatype="html">
+        <source> Learn More </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">24,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.features.title" datatype="html">
+        <source> Why Choose TYME? </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">37,39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.features.subtitle" datatype="html">
+        <source> Discover the features that make TYME the perfect time tracking solution for your needs. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">41,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.features.tracking.title" datatype="html">
+        <source> Accurate Time Tracking </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">54,56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.features.tracking.description" datatype="html">
+        <source> Track time with precision using our intuitive interface. Start and stop timers, add manual entries, and categorize your work effortlessly. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">58,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.features.insights.title" datatype="html">
+        <source> Detailed Insights </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">71,73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.features.insights.description" datatype="html">
+        <source> Get comprehensive reports and analytics about your time usage. Identify patterns, optimize workflows, and make data-driven decisions. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">75,79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.features.collaboration.title" datatype="html">
+        <source> Team Collaboration </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">88,90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.features.collaboration.description" datatype="html">
+        <source> Work seamlessly with your team. Share projects, assign tasks, and monitor progress across all team members in real-time. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">92,95</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.title" datatype="html">
+        <source> What Our Users Say </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">106,108</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.subtitle" datatype="html">
+        <source> Join thousands of satisfied users who have transformed their productivity with TYME. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">110,113</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user1.name" datatype="html">
+        <source> Sarah Johnson </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">125,127</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user1.title" datatype="html">
+        <source> Project Manager </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">129,131</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user1.quote" datatype="html">
+        <source> &quot;TYME has revolutionized how our team tracks time and manages projects. The insights we get help us deliver better results for our clients.&quot; </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">135,139</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user2.name" datatype="html">
+        <source> Michael Chen </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">150,152</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user2.title" datatype="html">
+        <source> Software Developer </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">154,156</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user2.quote" datatype="html">
+        <source> &quot;As a developer, I appreciate TYME&apos;s clean interface and robust features. Integration with our existing tools was seamless.&quot; </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">160,163</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user3.name" datatype="html">
+        <source> Emma Rodriguez </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">174,176</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user3.title" datatype="html">
+        <source> Freelance Designer </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">178,180</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.testimonials.user3.quote" datatype="html">
+        <source> &quot;TYME helps me track time across multiple clients and projects. The reporting features have simplified my invoicing process significantly.&quot; </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">184,188</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.cta.title" datatype="html">
+        <source> Ready to Get Started? </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">198,200</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.cta.subtitle" datatype="html">
+        <source> Join thousands of professionals who are already managing their time more effectively with TYME. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">202,205</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.cta.signUpFree" datatype="html">
+        <source>Sign Up Free</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">213</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="landing.cta.scheduleDemo" datatype="html">
+        <source>Schedule Demo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/draft-fe/src/app/layout/landing-page/landing-page.component.html</context>
+          <context context-type="linenumber">220</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.title" datatype="html">
+        <source> <x id="INTERPOLATION" equiv-text="{{ title }}"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.html</context>
+          <context context-type="linenumber">10,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.subtitle" datatype="html">
+        <source> Create a new account to get started </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.html</context>
+          <context context-type="linenumber">18,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.terms.prefix" datatype="html">
+        <source>I agree to the</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.html</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.terms.service" datatype="html">
+        <source>Terms of Service</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.html</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.terms.and" datatype="html">
+        <source>and</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.html</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.terms.privacy" datatype="html">
+        <source>Privacy Policy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.html</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.buttons.submit" datatype="html">
+        <source>Create Account</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.html</context>
+          <context context-type="linenumber">139</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.login.prefix" datatype="html">
+        <source>Already have an account?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.html</context>
+          <context context-type="linenumber">145</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.login.link" datatype="html">
+        <source>Sign in</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.html</context>
+          <context context-type="linenumber">154</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration.username.label" datatype="html">
+        <source>Username</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.username.placeholder" datatype="html">
+        <source>Enter your username (3-30 characters)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.username.help" datatype="html">
+        <source>Choose a username between 3 and 30 characters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.email.label" datatype="html">
+        <source>Email</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.email.placeholder" datatype="html">
+        <source>Enter your email address</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.email.help" datatype="html">
+        <source>We will send a verification link to this address</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.password.label" datatype="html">
+        <source>Password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.password.placeholder" datatype="html">
+        <source>Create a password (min. 6 characters)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.password.help" datatype="html">
+        <source>Use a strong password with at least 6 characters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.confirmPassword.label" datatype="html">
+        <source>Confirm Password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.confirmPassword.placeholder" datatype="html">
+        <source>Confirm your password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.confirmPassword.help" datatype="html">
+        <source>Re-enter your password to confirm</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.username.errors.required" datatype="html">
+        <source>Username is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">149</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.username.errors.minLength" datatype="html">
+        <source>Username must be at least 3 characters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">152</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.username.errors.maxLength" datatype="html">
+        <source>Username cannot exceed 30 characters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">155</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.email.errors.required" datatype="html">
+        <source>Email is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">164</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.email.errors.invalid" datatype="html">
+        <source>Please enter a valid email address</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">167</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.password.errors.required" datatype="html">
+        <source>Password is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">176</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.password.errors.minLength" datatype="html">
+        <source>Password must be at least 6 characters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">179</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.confirmPassword.errors.required" datatype="html">
+        <source>Please confirm your password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">188</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.confirmPassword.errors.mismatch" datatype="html">
+        <source>Passwords do not match</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">191</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ui-lib.registration.terms.errors.required" datatype="html">
+        <source>You must accept the terms and conditions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/ui-lib/src/lib/registration/registration-1/registration-1.component.ts</context>
+          <context context-type="linenumber">198</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

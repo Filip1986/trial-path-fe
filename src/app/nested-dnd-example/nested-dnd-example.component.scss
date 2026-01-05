@@ -1,0 +1,67 @@
+.nested-dnd-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  color: #333;
+}
+
+h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+h3 {
+  color: #3498db;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.nested-structure-container {
+  background-color: #f7f9fc;
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Highlight active drop zones during drag */
+:host ::ng-deep .item-dropzone.active {
+  background-color: rgba(52, 152, 219, 0.1);
+  border: 2px dashed #3498db;
+}
+
+/* Custom styling for item content */
+:host ::ng-deep .item-drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f5f7fa;
+  }
+
+  i {
+    color: #7f8c8d;
+  }
+}
+
+/* Animation for when items are dragged */
+:host ::ng-deep .cdk-drag-animating {
+  transition: transform 300ms cubic-bezier(0.2, 1, 0.1, 1);
+}
+
+/* Special styling for when being dragged */
+:host ::ng-deep .cdk-drag-preview {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  opacity: 0.8;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 10px;
+  z-index: 1000;
+}

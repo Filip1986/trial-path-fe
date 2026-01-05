@@ -1,0 +1,98 @@
+<div class="study-metrics-container">
+  <!-- Main Metrics Grid -->
+  <div class="grid grid-cols-4 gap-8 mb-8">
+    <!-- Total Studies -->
+    <div class="col-span-1">
+      <p-card class="bg-light-error">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-semibold">Total Studies</h3>
+            <p>Registered studies</p>
+          </div>
+          <div class="text-3xl font-bold">{{ totalStudies() }}</div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Active Studies -->
+    <div class="col-span-1">
+      <p-card class="bg-light-success">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-semibold">Active Studies</h3>
+            <p>Currently running</p>
+          </div>
+          <div class="text-3xl font-bold">{{ activeStudies() }}</div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Total Participants -->
+    <div class="col-span-1">
+      <p-card class="bg-gray">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-semibold">Total Participants</h3>
+            <p>Enrolled participants</p>
+          </div>
+          <div class="text-3xl font-bold">{{ formattedTotalParticipants() }}</div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Average Enrollment -->
+    <div class="col-span-1">
+      <p-card class="bg-primary">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-semibold">Avg. Enrollment</h3>
+            <p>Enrollment rate</p>
+          </div>
+          <div class="text-3xl font-bold">{{ averageEnrollmentRate() }}%</div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+
+  <!-- Secondary Metrics Grid (Optional) -->
+  @if (showSecondaryMetrics()) {
+    <div class="grid grid-cols-3 gap-8">
+      <!-- Completed Studies -->
+      <div class="col-span-1">
+        <p-card class="bg-gray">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">Completed Studies</h3>
+              <p>Finished studies</p>
+            </div>
+            <div class="text-3xl font-bold">{{ completedStudies() }}</div>
+          </div>
+        </p-card>
+      </div>
+      <!-- Studies in Planning -->
+      <div class="col-span-1">
+        <p-card class="bg-primary">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">In Planning</h3>
+              <p>Studies being planned</p>
+            </div>
+            <div class="text-3xl font-bold">{{ planningStudiesCount() }}</div>
+          </div>
+        </p-card>
+      </div>
+      <!-- Monthly Recruitment -->
+      <div class="col-span-1">
+        <p-card class="bg-light-success">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold">Monthly Recruitment</h3>
+              <p>Average per month</p>
+            </div>
+            <div class="text-3xl font-bold">{{ recruitmentRate() }}</div>
+          </div>
+        </p-card>
+      </div>
+    </div>
+  }
+</div>

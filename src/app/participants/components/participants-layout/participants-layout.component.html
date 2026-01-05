@@ -1,0 +1,25 @@
+<div class="participants-layout">
+  <!-- Header Section -->
+  <div class="layout-header mb-4">
+    <div class="flex justify-between align-items-center mb-3">
+      <div>
+        <h1 class="text-3xl font-bold text-900 text-gray-600 mb-1">Participants Management</h1>
+        <p class="text-color-secondary text-gray-600 text-lg">
+          Manage study participants, enrollment, and screening processes
+        </p>
+      </div>
+    </div>
+
+    <!-- Breadcrumb Navigation -->
+    <p-breadcrumb
+      [model]="breadcrumbItems()"
+      [home]="homeBreadcrumb"
+      styleClass="p-breadcrumb-custom"
+    />
+  </div>
+
+  <!-- Main Content -->
+  <div class="layout-content">
+    <router-outlet />
+  </div>
+</div>

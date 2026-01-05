@@ -1,0 +1,45 @@
+/* Location: apps/draft-fe/src/app/ecrf-2/app/form-columns/form-columns.component.scss */
+
+.column-container {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Styles for columns that are near max nesting level */
+.nesting-level-warning {
+  border-color: #fdba74 !important; /* Orange border */
+
+  &::after {
+    content: "⚠️ Max nesting almost reached";
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 0.6rem;
+    background-color: #fff8e1;
+    color: #ff8f00;
+    padding: 2px 4px;
+    border-radius: 0 0 0 4px;
+    transform: translate(0, -100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+/* Highlight columns at maximum nesting level */
+.column-container[data-nesting-level="2"] {
+  border-color: #ef4444 !important; /* Red border */
+  background-color: #fee2e2; /* Light red background */
+
+  &::before {
+    content: "🚫";
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 1rem;
+    z-index: 10;
+  }
+}

@@ -1,0 +1,113 @@
+<app-config-section>
+  <div class="grid">
+    @if (showLabelStyle) {
+      <div
+        [form]="form"
+        [suppressErrors]="true"
+        appFormField="labelStyle"
+        colClasses="col-12 md:col-6"
+        >
+        <lib-select
+        [config]="{
+          label: 'Label Style',
+          placeholder: 'Select label style',
+          options: labelStyleOptions,
+          optionLabel: 'label',
+          optionValue: 'value',
+          required: false,
+          disabled: false,
+          size: FormComponentSizeEnum.NORMAL,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          scrollHeight: DEFAULT_SCROLL_HEIGHT,
+        }"
+          [formControl]="getControl('labelStyle')"
+          />
+      </div>
+    }
+
+    @if (showLabelPosition) {
+      <div
+        [form]="form"
+        [suppressErrors]="true"
+        appFormField="labelPosition"
+        colClasses="col-12 md:col-6"
+        >
+        <lib-select
+        [config]="{
+          label: 'Label Position',
+          placeholder: 'Select label position',
+          options: labelPositionOptions,
+          optionLabel: 'label',
+          optionValue: 'value',
+          required: false,
+          disabled: false,
+          size: FormComponentSizeEnum.NORMAL,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          scrollHeight: DEFAULT_SCROLL_HEIGHT,
+        }"
+          [formControl]="getControl('labelPosition')"
+          />
+      </div>
+    }
+
+    @if (showSize) {
+      <div
+        [form]="form"
+        [suppressErrors]="true"
+        appFormField="size"
+        colClasses="col-12 md:col-6"
+        >
+        <lib-select
+        [config]="{
+          label: 'Size',
+          placeholder: 'Select size',
+          options: sizeOptions,
+          optionLabel: 'label',
+          optionValue: 'value',
+          required: false,
+          disabled: false,
+          size: FormComponentSizeEnum.NORMAL,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          scrollHeight: DEFAULT_SCROLL_HEIGHT,
+        }"
+          [formControl]="getControl('size')"
+          />
+      </div>
+    }
+
+    @if (showVariant) {
+      <div
+        [form]="form"
+        [suppressErrors]="true"
+        appFormField="variant"
+        colClasses="col-12 md:col-6"
+        >
+        <lib-select
+        [config]="{
+          label: 'Variant',
+          placeholder: 'Select variant',
+          options: variantOptions,
+          optionLabel: 'label',
+          optionValue: 'value',
+          required: false,
+          disabled: false,
+          size: FormComponentSizeEnum.NORMAL,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          scrollHeight: DEFAULT_SCROLL_HEIGHT,
+        }"
+          [formControl]="getControl('variant')"
+          />
+      </div>
+    }
+
+    <ng-content />
+  </div>
+</app-config-section>

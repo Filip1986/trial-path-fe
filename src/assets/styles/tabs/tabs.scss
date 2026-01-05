@@ -1,0 +1,59 @@
+:root[data-theme='dark'] {
+  --p-tabs-tabpanel-background: var(--surface-color);
+}
+
+@mixin custom-tabview-styles {
+  ::ng-deep {
+    .p-tablist-tab-list {
+      gap: 20px;
+      background-color: var(--surface-color);
+
+      button {
+        padding: 1.5rem;
+        border: 1px dashed #2e3f50;
+        background-color: var(--surface-color);
+        border-radius: 0.5rem;
+        gap: 10px;
+        flex-direction: column;
+        flex-grow: 1;
+
+        &.p-tab-active {
+          border: 1px dashed var(--p-button-primary-background);
+        }
+      }
+    }
+
+    .p-tabview-nav {
+      color: red;
+
+      li {
+        margin-right: 20px;
+
+        .p-tabview-nav-link {
+          padding: 1rem 1.5rem;
+          border-radius: 6px 6px 0 0;
+          transition: all 0.2s;
+
+          &:hover {
+            background-color: var(--surface-hover);
+          }
+
+          .p-tabview-left-icon {
+            margin-right: 0.5rem;
+          }
+        }
+
+        &.p-highlight .p-tabview-nav-link {
+          background-color: var(--surface-card);
+          border-color: var(--surface-border);
+          border-bottom-color: var(--surface-card);
+          color: var(--primary-color);
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}

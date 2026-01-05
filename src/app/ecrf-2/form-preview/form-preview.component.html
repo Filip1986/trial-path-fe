@@ -1,0 +1,65 @@
+<div class="form-preview">
+  <div class="form-controls-container">
+    <!-- Render controls from the form -->
+    @if (form.container.controls.length) { @for (control of form.container.controls; track
+    trackByControlId($index, control)) {
+    <div class="mb-4">
+      @switch (control.type) {
+      <!-- Input text preview -->
+      @case (FormElementType.INPUT_TEXT) {
+      <app-preview-text-input [control]="control" [value]="getControlValue(control)" />
+      }
+      <!-- Text area preview -->
+      @case (FormElementType.TEXT_AREA) {
+      <app-preview-textarea [control]="control" [value]="getControlValue(control)" />
+      }
+      <!-- Checkbox preview -->
+      @case (FormElementType.CHECKBOX) {
+      <app-preview-checkbox [control]="control" [value]="getControlValue(control)" />
+      }
+      <!-- Radio Button preview -->
+      @case (FormElementType.RADIO) {
+      <app-preview-radio-button [control]="control" [value]="getControlValue(control)" />
+      }
+      <!-- Date picker preview -->
+      @case (FormElementType.DATE_PICKER) {
+      <app-preview-date-picker [control]="control" [value]="getControlValue(control)" />
+      } @case (FormElementType.LIST_BOX) {
+      <app-preview-listbox [control]="control" [value]="getControlValue(control)" />
+      } @case (FormElementType.INPUT_NUMBER) {
+      <app-preview-input-number [control]="control" [value]="getControlValue(control)" />
+      } @case (FormElementType.MULTISELECT) {
+      <app-preview-multiselect [control]="control" [value]="getControlValue(control)" />
+      } @case (FormElementType.TIME_PICKER) {
+      <app-preview-time-picker [control]="control" [value]="getControlValue(control)" />
+      } @case (FormElementType.SELECT) {
+      <app-preview-select [control]="control" [value]="getControlValue(control)" />
+      } @case (FormElementType.SELECT_BUTTON) {
+      <app-preview-select-button [control]="control" [value]="getControlValue(control)" />
+      }
+      <!-- Columns preview -->
+      @case (FormElementType.COLUMNS) {
+      <app-preview-columns [control]="control" />
+      }
+      <!-- Default control preview for unsupported types -->
+      @default {
+      <div class="p-3 border rounded-md">
+        <div class="flex items-center">
+          <span class="font-medium text-gray-700">{{ control.title || 'Form Element' }}</span>
+        </div>
+        <div class="mt-2 p-2 bg-gray-50 rounded">
+          <span class="text-gray-500 text-sm">Preview for this control type is not available</span>
+        </div>
+      </div>
+      } }
+    </div>
+    } }
+
+    <!-- Empty state for a form with no controls -->
+    @if (!form.container.controls.length) {
+    <div class="py-8 text-center">
+      <span class="text-gray-400">This form has no elements to preview</span>
+    </div>
+    }
+  </div>
+</div>

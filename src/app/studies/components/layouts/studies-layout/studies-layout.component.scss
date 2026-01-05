@@ -1,0 +1,36 @@
+// Use the exact same styles as participants
+::ng-deep .p-breadcrumb-custom {
+  .p-breadcrumb-list {
+    background: transparent;
+
+    .p-breadcrumb-item {
+      /* Regular breadcrumb items */
+      .p-breadcrumb-item-link {
+        color: inherit !important;
+        text-decoration: none !important;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: var(--primary-color) !important;
+          text-decoration: none !important;
+        }
+      }
+
+      /* Current/active breadcrumb item (last item without link) */
+      &:last-child {
+        color: var(--primary-color) !important;
+        font-weight: 500;
+      }
+    }
+
+    /* Home icon styling */
+    .p-breadcrumb-home {
+      color: var(--text-color-secondary) !important;
+
+      &:hover {
+        color: var(--primary-color) !important;
+        text-decoration: none !important;
+      }
+    }
+  }
+}

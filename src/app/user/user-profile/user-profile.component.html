@@ -1,0 +1,305 @@
+<div class="profile-container">
+  <p-confirmDialog [style]="{width: '450px'}" />
+
+  <div class="profile-layout">
+    <!-- Profile Detail Card Section -->
+    <div class="profile-card-section">
+      <app-profile-detail-card
+        [user]="userProfile"
+        [showActions]="true"
+        [showStatusIndicator]="true"
+        (editProfile)="onEditProfile()"
+        (openSettings)="onOpenSettings()"
+        (avatarClick)="onAvatarClick()"
+        >
+      </app-profile-detail-card>
+    </div>
+
+    <!-- Profile Management Tabs Section -->
+    <div class="profile-tabs-section">
+      <p-card>
+        <ng-template pTemplate="header">
+          <div class="card-header">
+            <h2 class="header-title">
+              <i class="pi pi-user-edit mr-2"></i>
+              Profile Management
+            </h2>
+            <p class="header-subtitle">Update your profile information and account settings</p>
+          </div>
+        </ng-template>
+
+        <!-- Tab View for Profile Management -->
+        <p-tabs>
+          <!-- Profile Information Tab -->
+          <p-tab header="Edit Profile" icon="pi pi-user">
+            <div class="tab-content">
+              <form (ngSubmit)="updateProfile()" [formGroup]="profileForm">
+                <div class="form-section">
+                  <h3 class="section-title">Personal Information</h3>
+                  <p class="section-description">
+                    Update your personal information and email address.
+                  </p>
+
+                  <div class="form-grid">
+                    <!-- Username Field -->
+                    <div class="form-field">
+                      <label class="field-label" for="username">Username</label>
+                      <input
+                        [ngClass]="{'ng-invalid ng-dirty': username?.invalid && username?.touched}"
+                        class="field-input"
+                        formControlName="username"
+                        id="username"
+                        pInputText
+                        placeholder="Enter your username"
+                        />
+                      @if (username?.invalid && username?.touched) {
+                        <small class="field-error">
+                          @if (username?.errors?.['required']) {
+                            <span>Username is required</span>
+                          }
+                          @if (username?.errors?.['minlength']) {
+                            <span>
+                              Username must be at least 3 characters
+                            </span>
+                          }
+                        </small>
+                      }
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="form-field">
+                      <label class="field-label" for="email">Email Address</label>
+                      <input
+                        [ngClass]="{'ng-invalid ng-dirty': email?.invalid && email?.touched}"
+                        class="field-input"
+                        formControlName="email"
+                        id="email"
+                        pInputText
+                        placeholder="Enter your email address"
+                        type="email"
+                        />
+                      @if (email?.invalid && email?.touched) {
+                        <small class="field-error">
+                          @if (email?.errors?.['required']) {
+                            <span>Email is required</span>
+                          }
+                          @if (email?.errors?.['email']) {
+                            <span
+                              >Please enter a valid email address</span
+                              >
+                            }
+                          </small>
+                        }
+                      </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                      <p-button
+                        [disabled]="profileForm.invalid || isSubmitting()"
+                        [loading]="isSubmitting()"
+                        icon="pi pi-check"
+                        label="Update Profile"
+                        type="submit"
+                        styleClass="primary-button"
+                        >
+                      </p-button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </p-tab>
+
+            <!-- Password Change Tab -->
+            <p-tab header="Change Password" icon="pi pi-lock">
+              <div class="tab-content">
+                <form (ngSubmit)="changePassword()" [formGroup]="passwordForm">
+                  <div class="form-section">
+                    <h3 class="section-title">Change Password</h3>
+                    <p class="section-description">
+                      Update your account password. Choose a strong password for better security.
+                    </p>
+
+                    <div class="form-grid">
+                      <!-- Current Password Field -->
+                      <div class="form-field">
+                        <label class="field-label" for="currentPassword">Current Password</label>
+                        <p-password
+                          [ngClass]="{'ng-invalid ng-dirty': currentPassword?.invalid && currentPassword?.touched}"
+                          [feedback]="false"
+                          [toggleMask]="true"
+                          formControlName="currentPassword"
+                          id="currentPassword"
+                          placeholder="Enter your current password"
+                          styleClass="field-input password-field"
+                          >
+                        </p-password>
+                        @if (currentPassword?.invalid && currentPassword?.touched) {
+                          <small
+                            class="field-error"
+                            >
+                            @if (currentPassword?.errors?.['required']) {
+                              <span
+                                >Current password is required</span
+                                >
+                              }
+                            </small>
+                          }
+                        </div>
+
+                        <!-- New Password Field -->
+                        <div class="form-field">
+                          <label class="field-label" for="newPassword">New Password</label>
+                          <p-password
+                            [ngClass]="{'ng-invalid ng-dirty': newPassword?.invalid && newPassword?.touched}"
+                            [feedback]="true"
+                            [toggleMask]="true"
+                            formControlName="newPassword"
+                            id="newPassword"
+                            placeholder="Enter your new password"
+                            styleClass="field-input password-field"
+                            >
+                          </p-password>
+                          @if (newPassword?.invalid && newPassword?.touched) {
+                            <small
+                              class="field-error"
+                              >
+                              @if (newPassword?.errors?.['required']) {
+                                <span
+                                  >New password is required</span
+                                  >
+                                }
+                                @if (newPassword?.errors?.['minlength']) {
+                                  <span>
+                                    Password must be at least 8 characters
+                                  </span>
+                                }
+                              </small>
+                            }
+                          </div>
+
+                          <!-- Confirm Password Field -->
+                          <div class="form-field">
+                            <label class="field-label" for="confirmPassword">Confirm New Password</label>
+                            <p-password
+                              [ngClass]="{'ng-invalid ng-dirty': confirmPassword?.invalid && confirmPassword?.touched}"
+                              [feedback]="false"
+                              [toggleMask]="true"
+                              formControlName="confirmPassword"
+                              id="confirmPassword"
+                              placeholder="Confirm your new password"
+                              styleClass="field-input password-field"
+                              >
+                            </p-password>
+                            @if (confirmPassword?.invalid && confirmPassword?.touched) {
+                              <small
+                                class="field-error"
+                                >
+                                @if (confirmPassword?.errors?.['required']) {
+                                  <span
+                                    >Please confirm your password</span
+                                    >
+                                  }
+                                  @if (confirmPassword?.errors?.['mismatch']) {
+                                    <span
+                                      >Passwords do not match</span
+                                      >
+                                    }
+                                  </small>
+                                }
+                              </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="form-actions">
+                              <p-button
+                                [disabled]="passwordForm.invalid || isChangingPassword()"
+                                [loading]="isChangingPassword()"
+                                icon="pi pi-shield"
+                                label="Change Password"
+                                severity="warn"
+                                type="submit"
+                                styleClass="warning-button"
+                                >
+                              </p-button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </p-tab>
+
+                    <!-- Account Settings Tab -->
+                    <p-tab header="Account Settings" icon="pi pi-cog">
+                      <div class="tab-content">
+                        <div class="form-section">
+                          <h3 class="section-title">Account Management</h3>
+                          <p class="section-description">Manage your account settings and preferences.</p>
+
+                          <!-- Account Information Display -->
+                          <div class="info-grid">
+                            <div class="info-item">
+                              <div class="info-icon">
+                                <i class="pi pi-user"></i>
+                              </div>
+                              <div class="info-content">
+                                <label class="info-label">Account ID</label>
+                                <span class="info-value">{{ user?.id || 'Not available' }}</span>
+                              </div>
+                            </div>
+
+                            <div class="info-item">
+                              <div class="info-icon">
+                                <i class="pi pi-calendar"></i>
+                              </div>
+                              <div class="info-content">
+                                <label class="info-label">Member Since</label>
+                                <span class="info-value">
+                                  {{ user?.createdAt ? (user?.createdAt | date:'mediumDate') : 'Not available'
+                                  }}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div class="info-item">
+                              <div class="info-icon">
+                                <i class="pi pi-shield"></i>
+                              </div>
+                              <div class="info-content">
+                                <label class="info-label">Account Role</label>
+                                <span class="info-value">{{ user?.role || 'User' }}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <p-divider />
+
+                          <!-- Danger Zone -->
+                          <div class="danger-zone">
+                            <h4 class="danger-title">
+                              <i class="pi pi-exclamation-triangle mr-2"></i>
+                              Danger Zone
+                            </h4>
+                            <p class="danger-description">
+                              Once you delete your account, there is no going back. Please be certain.
+                            </p>
+
+                            <div class="danger-actions">
+                              <p-button
+                                (onClick)="deleteAccount()"
+                                icon="pi pi-trash"
+                                label="Delete Account"
+                                severity="danger"
+                                [outlined]="true"
+                                styleClass="danger-button"
+                                >
+                              </p-button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </p-tab>
+                  </p-tabs>
+                </p-card>
+              </div>
+            </div>
+          </div>

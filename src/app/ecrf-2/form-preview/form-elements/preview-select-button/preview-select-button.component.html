@@ -1,0 +1,7 @@
+<app-preview-wrapper
+  [helperText]="control.options?.helperText"
+  [title]="control.options?.title || control.title || 'Select Button'"
+  wrapperClass="preview-select-button p-3 border rounded-md"
+>
+  <lib-select-button [config]="getConfig()" [value]="getPreviewValue()" />
+</app-preview-wrapper>

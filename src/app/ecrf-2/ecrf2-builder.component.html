@@ -1,0 +1,175 @@
+<div class="ecrf2-builder grid grid-cols-12 gap-4 p-4">
+  <!-- Form Elements (Left) -->
+  <div class="col-span-3 grid gap-4">
+    <!-- Form Properties Card -->
+    <p-card>
+      <div class="p-4">
+        <h3 class="text-lg mb-4">Form Properties</h3>
+        <!-- Form Properties Section -->
+        <div class="mt-4">
+          <div class="mb-4">
+            <label class="block text-sm mb-1" for="formTitle">Form Title</label>
+            <input
+              (ngModelChange)="updateFormField('title', $event)"
+              [ngModel]="currentForm?.title"
+              class="w-full px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter form title"
+              type="text"
+              />
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm mb-1" for="formDescription">Description</label>
+            <lib-textarea
+              [config]="{
+                label: 'Description',
+                rows: 3,
+                placeholder: 'Enter form description',
+                required: false,
+                autofocus: false,
+                labelStyle: FormLabelStyleEnum.DEFAULT,
+                labelPosition: FormLabelPositionEnum.ABOVE,
+                disabled: false,
+                variant: FormComponentVariantEnum.OUTLINED,
+                size: FormComponentSizeEnum.NORMAL
+              }"
+              />
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm mb-1" for="formStatus">Status</label>
+            <select
+              class="w-full px-3 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </p-card>
+
+    <!-- Form Elements Card -->
+    <p-card header="Form Elements">
+      <div class="p-4">
+        <app-new-controls />
+      </div>
+    </p-card>
+
+    <!-- Help & Instructions Card -->
+    <p-card header="Layout Instructions">
+      <div class="p-4">
+        <h3 class="text-lg mb-4">Layout Instructions</h3>
+        <div class="text-sm">
+          <ol class="pl-5 space-y-2">
+            <li>Drag a <strong>Row</strong> element to the canvas first</li>
+            <li>Use the row's settings to add columns</li>
+            <li>Drag form elements into the columns</li>
+            <li>Adjust column widths using the controls</li>
+          </ol>
+          <div class="mt-4 p-2 text-center">
+            <span class="text-xs">Columns use a 12-column grid system</span>
+          </div>
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Form Canvas (Right) -->
+  <div class="col-span-9">
+    <div class="p-4">
+      <h3 class="text-lg mb-4">Form Canvas</h3>
+
+      <app-form />
+    </div>
+
+    <!-- Action buttons -->
+    <div class="mt-4 text-right">
+      <button (click)="previewForm()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 mr-2 rounded">
+        <i class="pi pi-eye mr-1"></i> Preview
+      </button>
+      <button
+        (click)="saveForm()"
+        [disabled]="!formValid"
+        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+        >
+        <i class="pi pi-save mr-1"></i> Save Form
+      </button>
+      <button
+        (click)="loadSavedFormsList()"
+        class="px-4 py-2 bg-gray-200 hover:bg-gray-300 mr-2 rounded"
+        >
+        <i class="pi pi-folder-open mr-1"></i> Open
+      </button>
+      <button
+        (click)="createNewForm()"
+        class="px-4 py-2 bg-gray-200 hover:bg-gray-300 mr-2 rounded"
+        >
+        <i class="pi pi-file mr-1"></i> New
+      </button>
+    </div>
+
+    <!-- Add validation error display -->
+    @if (!formValid) {
+      <div class="mt-4 p-3 bg-red-100 text-red-700 rounded">
+        <h4 class="font-bold">Form Validation Errors:</h4>
+        <ul class="list-disc pl-5 mt-2">
+          @for (error of validationErrors; track error) {
+            <li>{{ error }}</li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Saved Forms Dialog -->
+<p-dialog
+  [(visible)]="showSavedFormsDialog"
+  [modal]="true"
+  [style]="{width: '50vw'}"
+  header="Saved Forms"
+  >
+  <div class="saved-forms-list">
+    @if (savedForms.length === 0) {
+      <div class="text-center p-4">No saved forms found.</div>
+    }
+    @for (form of savedForms; track form) {
+      <div
+        class="saved-form-item p-3 border-bottom-1 hover:bg-gray-100"
+        >
+        <div class="flex justify-content-between align-items-center">
+          <div>
+            <h5 class="m-0">{{ form.title }}</h5>
+            <p class="text-sm text-gray-600 mb-0">
+              Last updated: {{ form.updatedAt | date:'medium' }}
+            </p>
+          </div>
+          <div>
+            <button
+              (click)="loadForm(form.id); showSavedFormsDialog = false"
+              class="p-button-sm"
+              label="Load"
+              pButton
+            ></button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+  <ng-template pTemplate="footer">
+    <button
+      (click)="showSavedFormsDialog = false"
+      class="p-button-text"
+      label="Close"
+      pButton
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<!-- Confirmation Dialog for Delete Actions -->
+<p-confirm-dialog
+  [baseZIndex]="10000"
+  [style]="{ width: '450px' }"
+  rejectButtonStyleClass="p-button-text"
+  >
+</p-confirm-dialog>

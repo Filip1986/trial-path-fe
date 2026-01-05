@@ -1,0 +1,218 @@
+<p-card class="beta-program-card">
+  <ng-template pTemplate="header">
+    <div class="p-4 flex justify-between items-center">
+      <div>
+        <h2 class="text-xl font-bold m-0">TYME Beta Program</h2>
+        <p class="text-white-alpha-70 mt-1 mb-0">Get early access to new features</p>
+      </div>
+      <p-tag
+        [severity]="isSubscribed() ? 'success' : 'info'"
+        [value]="isSubscribed() ? 'Beta Tester' : 'Join Now'"
+        class="ml-2"
+        />
+    </div>
+  </ng-template>
+
+  @if (loading()) {
+    <div class="flex justify-center p-4">
+      <div class="flex flex-column align-items-center">
+        <i class="pi pi-spin pi-spinner text-2xl mb-2 text-primary"></i>
+        <span>Loading beta program information...</span>
+      </div>
+    </div>
+  }
+
+  @if (!loading()) {
+    <div class="p-2">
+      <!-- Beta Program Overview -->
+      <div class="mb-4">
+        @if (isSubscribed()) {
+          <div>
+            <p class="font-medium text-green-600 flex align-items-center">
+              <i class="pi pi-check-circle mr-2"></i>
+              You're a beta tester!
+            </p>
+            <p class="text-sm">
+              You have access to early features and updates.
+              <a (click)="showDetails()" class="text-blue-500 cursor-pointer hover:underline"
+                >View details</a
+                >
+              </p>
+            </div>
+          }
+          @if (!isSubscribed()) {
+            <div>
+              <p>
+                Join our beta program to get early access to exciting new features before they're released
+                to the public.
+              </p>
+              <div class="flex align-items-center mt-3">
+                <p-inputSwitch [(ngModel)]="receiveNotifications" inputId="notifications" />
+                <label class="ml-2 cursor-pointer" for="notifications"
+                  >Receive email notifications about new beta features</label
+                  >
+                </div>
+                <button
+                  (click)="subscribe()"
+                  [disabled]="subscribing()"
+                  [loading]="subscribing()"
+                  class="p-button-primary mt-3 w-full"
+                  icon="pi pi-check"
+                  label="Join Beta Program"
+                  pButton
+                ></button>
+              </div>
+            }
+          </div>
+          <!-- Upcoming Features Preview (show limited info if not subscribed) -->
+          <div class="mt-4">
+            <h3 class="text-lg font-medium mb-2">Upcoming Beta Features</h3>
+            @for (feature of betaFeatures().slice(0, isSubscribed() ? betaFeatures().length : 2); track feature) {
+              <div
+                class="mb-3 p-3 border-1 border-solid surface-border"
+                >
+                <div class="flex justify-content-between align-items-center mb-2">
+                  <span class="font-medium">{{ feature.name }}</span>
+                  <p-tag
+                    [pTooltip]="'Expected release: ' + (feature.releaseDate | date:'mediumDate')"
+                    [severity]="getFeatureSeverity(feature.releaseDate)"
+                    [value]="getTimeRemaining(feature.releaseDate)"
+                    />
+                </div>
+                <p class="text-sm mb-2">{{ feature.description }}</p>
+                <p-progressBar
+                  [showValue]="false"
+                  [style]="{'height': '6px'}"
+                  [value]="getReleaseProgress(feature.releaseDate)"
+                  />
+              </div>
+            }
+            @if (!isSubscribed() && betaFeatures().length > 2) {
+              <div class="text-center mt-3 mb-2">
+                <p class="text-sm">Join the beta program to see all upcoming features</p>
+              </div>
+            }
+          </div>
+          <!-- Subscription Management (for subscribed users) -->
+          @if (isSubscribed()) {
+            <div class="mt-4 pt-3 border-top-1 surface-border">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex align-items-center">
+                  <p-inputSwitch
+                    (onChange)="updatePreferences()"
+                    [(ngModel)]="receiveNotifications"
+                    [disabled]="updating()"
+                    inputId="updateNotifications"
+                    />
+                  <label class="ml-2 cursor-pointer" for="updateNotifications"
+                    >Receive beta notifications</label
+                    >
+                  </div>
+                  <button
+                    (click)="unsubscribe()"
+                    [disabled]="updating()"
+                    class="p-button-text p-button-danger"
+                    icon="pi pi-times"
+                    label="Leave Program"
+                    pButton
+                    pRipple
+                  ></button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </p-card>
+
+      <!-- Beta Program Details Dialog -->
+      <p-dialog
+        [(visible)]="showDetailsDialog"
+        [draggable]="false"
+        [modal]="true"
+        [resizable]="false"
+        [style]="{width: '90%', maxWidth: '600px'}"
+        header="TYME Beta Program Details"
+        >
+        <div class="beta-details-content">
+          <div class="mb-4 p-3">
+            <div class="flex align-items-center">
+              <i class="pi pi-info-circle text-blue-500 mr-2 text-xl"></i>
+              <div>
+                <h3 class="mt-0 mb-2 font-medium">You're part of the TYME Beta Program!</h3>
+                <p class="m-0 text-sm">
+                  As a beta tester, you get early access to new features and improvements. Your feedback
+                  helps us make TYME better for everyone.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <h4 class="text-lg font-medium mb-3">All Beta Features</h4>
+
+          @for (feature of betaFeatures(); track feature) {
+            <div class="mb-4 p-3 border-1 border-solid surface-border">
+              <div class="flex justify-content-between align-items-center mb-2">
+                <span class="font-medium">{{ feature.name }}</span>
+                <p-tag
+                  [severity]="getFeatureSeverity(feature.releaseDate)"
+                  [value]="getTimeRemaining(feature.releaseDate)"
+                  />
+              </div>
+              <p class="mb-2">{{ feature.description }}</p>
+              <div class="flex align-items-center text-sm">
+                <i class="pi pi-calendar mr-1"></i>
+                <span>Expected: {{ feature.releaseDate | date:'mediumDate' }}</span>
+              </div>
+              <p-progressBar
+                [showValue]="false"
+                [style]="{'height': '6px', 'margin-top': '0.5rem'}"
+                [value]="getReleaseProgress(feature.releaseDate)"
+                />
+            </div>
+          }
+
+          <div class="mt-4 pt-3 border-top-1 surface-border">
+            <h4 class="text-lg font-medium mb-2">How Beta Testing Works</h4>
+            <ul class="pl-4 mb-0">
+              <li class="mb-2">You'll get early access to new features as they're developed</li>
+              <li class="mb-2">Your feedback is invaluable - please report any issues you find</li>
+              <li class="mb-2">Beta features may be incomplete or contain bugs</li>
+              <li>You can leave the beta program at any time</li>
+            </ul>
+          </div>
+
+          <div class="mt-4 pt-3 border-top-1 surface-border">
+            <h4 class="text-lg font-medium mb-2">Manage Your Beta Settings</h4>
+            <div class="flex justify-content-between align-items-center">
+              <div class="flex align-items-center">
+                <p-inputSwitch
+                  (onChange)="updatePreferences()"
+                  [(ngModel)]="receiveNotifications"
+                  [disabled]="updating()"
+                  inputId="dialogNotifications"
+                  />
+                <label class="ml-2 cursor-pointer" for="dialogNotifications"
+                  >Receive email notifications about new beta features</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ng-template pTemplate="footer">
+            <button
+              (click)="showDetailsDialog = false"
+              class="p-button-primary"
+              icon="pi pi-check"
+              label="Close"
+              pButton
+            ></button>
+            <button
+              (click)="unsubscribe(); showDetailsDialog = false"
+              class="p-button-text p-button-danger ml-2"
+              icon="pi pi-times"
+              label="Leave Program"
+              pButton
+            ></button>
+          </ng-template>
+        </p-dialog>

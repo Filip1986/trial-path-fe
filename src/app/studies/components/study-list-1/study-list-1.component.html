@@ -1,0 +1,96 @@
+<div class="study-list-container">
+  <!-- Filters -->
+  <app-table-filters
+    (clearFilters)="onClearFilters()"
+    (filterChange)="onFiltersChange($event)"
+    [filterFields]="filterFields"
+    [filterValues]="filterValues()"
+    title="Study Filters"
+    class="mb-4"
+    />
+
+  <!-- Layout Controls -->
+  <div class="layout-controls mb-4">
+    <div class="results-info">
+      <span>{{ filteredStudies().length || 0 }}</span> studies found
+    </div>
+    <div class="view-toggle">
+      <span class="toggle-label">View:</span>
+      <div class="toggle-buttons">
+        <p-button
+          (onClick)="switchLayout('row')"
+          [class]="'toggle-btn' + (currentLayout() === 'row' ? ' active' : '')"
+          icon="pi pi-list"
+          label="Rows"
+          [text]="true"
+          size="small"
+          />
+        <p-button
+          (onClick)="switchLayout('card')"
+          [class]="'toggle-btn' + (currentLayout() === 'card' ? ' active' : '')"
+          icon="pi pi-th-large"
+          label="Cards"
+          [text]="true"
+          size="small"
+          />
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="flex justify-content-center p-4">
+      <p-progressSpinner />
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error(); as error) {
+    <p-message [text]="error" class="mb-4" severity="error" />
+  }
+
+  <!-- Studies Grid -->
+  @if (!loading()) {
+    <div
+      class="studies-grid"
+    [ngClass]="{
+      'row-layout': currentLayout() === 'row',
+      'card-layout': currentLayout() === 'card'
+    }"
+      >
+      @for (study of filteredStudies(); track trackByStudyId($index, study)) {
+        <div
+          class="study-item"
+      [ngClass]="{
+        'col-12': currentLayout() === 'row',
+        'study-card-item': currentLayout() === 'card'
+      }"
+          >
+          <app-study-card
+            (edit)="editStudy($event)"
+            (view)="viewStudy($event)"
+            [canEdit]="true"
+            [study]="study"
+            />
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Empty State -->
+  @if (filteredStudies().length === 0 && !loading()) {
+    <div
+      class="empty-state text-center p-8"
+      >
+      <i class="pi pi-inbox empty-icon"></i>
+      <h3 class="empty-title">No studies found</h3>
+      <p class="empty-subtitle">Try adjusting your filters or create a new study.</p>
+      <p-button
+        (onClick)="createNewStudy()"
+        icon="pi pi-plus"
+        label="Create First Study"
+        class="create-btn"
+        />
+    </div>
+  }
+</div>

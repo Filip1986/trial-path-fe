@@ -1,0 +1,203 @@
+// study-metrics.component.scss
+
+.study-metrics-container {
+  padding: 0;
+  width: 100%;
+
+  // Enhanced card styling to match study-list-2
+  :host ::ng-deep {
+    .p-card {
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      transition: all 0.2s ease;
+      height: 100%;
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .p-card-body {
+        padding: 1.5rem;
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      .p-card-content {
+        padding: 0;
+        width: 100%;
+      }
+
+      // Ensure all cards have the same height
+      .flex.justify-between.items-center {
+        width: 100%;
+        min-height: 60px;
+      }
+
+      h3 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--text-color);
+        line-height: 1.25;
+      }
+
+      p {
+        margin: 0;
+        font-size: 0.875rem;
+        color: var(--text-color-secondary);
+        line-height: 1.25;
+      }
+
+      .text-3xl {
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      // Background color variants matching study-list-2 pattern
+      &.bg-light-error {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        border-color: #fca5a5;
+
+        .text-3xl {
+          color: #dc2626;
+        }
+      }
+
+      &.bg-light-success {
+        background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+        border-color: #86efac;
+
+        .text-3xl {
+          color: #16a34a;
+        }
+      }
+
+      &.bg-primary {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        border-color: #93c5fd;
+
+        .text-3xl {
+          color: #2563eb;
+        }
+      }
+
+      &.bg-gray {
+        background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        border-color: #d1d5db;
+
+        .text-3xl {
+          color: #374151;
+        }
+      }
+    }
+  }
+
+  // Grid layout adjustments
+  .grid {
+    display: grid;
+
+    &.grid-cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+
+      @media (max-width: 1024px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media (max-width: 640px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    &.grid-cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    &.gap-8 {
+      gap: 2rem;
+
+      @media (max-width: 640px) {
+        gap: 1rem;
+      }
+    }
+  }
+
+  .col-span-1 {
+    grid-column: span 1 / span 1;
+    height: 100%;
+  }
+
+  .mb-8 {
+    margin-bottom: 2rem;
+  }
+
+  // Responsive font sizes
+  @media (max-width: 640px) {
+    :host ::ng-deep {
+      .p-card {
+        h3 {
+          font-size: 1rem;
+        }
+
+        .text-3xl {
+          font-size: 1.5rem;
+        }
+
+        .p-card-body {
+          padding: 1rem;
+        }
+      }
+    }
+  }
+
+  // Dark theme support
+  @media (prefers-color-scheme: dark) {
+    :host ::ng-deep {
+      .p-card {
+        background-color: var(--surface-card, #1e1e1e);
+        border-color: var(--surface-border, #3f3f46);
+        color: var(--text-color, #ffffff);
+
+        &.bg-light-error {
+          background: linear-gradient(135deg, #451a03 0%, #1e1e1e 100%);
+          border-color: #ea580c;
+        }
+
+        &.bg-light-success {
+          background: linear-gradient(135deg, #14532d 0%, #1e1e1e 100%);
+          border-color: #16a34a;
+        }
+
+        &.bg-primary {
+          background: linear-gradient(135deg, #1e3a8a 0%, #1e1e1e 100%);
+          border-color: #3b82f6;
+        }
+
+        &.bg-gray {
+          background: linear-gradient(135deg, #374151 0%, #1e1e1e 100%);
+          border-color: #6b7280;
+        }
+      }
+    }
+  }
+}
+
+// Additional utilities
+.flex {
+  display: flex;
+
+  &.justify-between {
+    justify-content: space-between;
+  }
+
+  &.items-center {
+    align-items: center;
+  }
+}

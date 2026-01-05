@@ -1,0 +1,176 @@
+.menubar-container {
+  ::ng-deep {
+    .p-menubar {
+      background-color: var(--surface-color); // This will change with the theme
+      color: var(--text-color); // This ensures text is readable in both themes
+      border-color: var(--border-color);
+    }
+
+    // User popover styling
+    ::ng-deep {
+      // Add any additional styling here
+      .p-popover {
+        min-width: 150px;
+
+        .p-popover-content {
+          padding: 0; // Remove default padding
+          background-color: var(--surface-color);
+          color: var(--text-color);
+          border-color: var(--border-color);
+        }
+      }
+
+      .user-menu-panel {
+        min-width: 170px;
+      }
+
+      .p-avatar {
+        .p-avatar-image {
+          object-fit: cover;
+        }
+      }
+
+      // Theme switch specific styles
+      .theme-switch {
+        .p-inputswitch-slider {
+          &:before {
+            // Moon icon in slider
+            content: "\e908"; // PrimeIcons moon code
+            font-family: 'primeicons';
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+
+        &.p-inputswitch-checked .p-inputswitch-slider {
+          &:before {
+            // Sun icon in slider
+            content: "\e909"; // PrimeIcons sun code
+            color: #fcd34d;
+          }
+        }
+      }
+    }
+
+    .p-menubar-root-list {
+      .p-menuitem {
+        &:hover {
+          background-color: var(--surface-hover, rgba(0,0,0,0.1));
+          border-radius: 4px;
+        }
+      }
+    }
+
+    .p-menubar-start {
+      display: flex;
+      align-items: center;
+      margin-right: 1rem;
+    }
+
+    .p-menubar-item-link {
+      color: var(--text-color);
+      &:hover {
+        background-color: var(--surface-hover, rgba(0,0,0,0.1));
+      }
+    }
+
+    .p-badge {
+      background-color: var(--primary-color);
+    }
+
+    // Theme toggle styling
+    .theme-toggle {
+      padding: 0.25rem 0.5rem;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+
+      .pi-sun {
+        color: #f59e0b;
+        transition: color 0.3s ease;
+      }
+
+      .pi-moon {
+        color: #3b82f6;
+        transition: color 0.3s ease;
+      }
+
+      .p-inputswitch {
+        .p-inputswitch-slider {
+          background-color: #64748b;
+        }
+
+        &.p-inputswitch-checked .p-inputswitch-slider {
+          background-color: #3b82f6;
+        }
+      }
+    }
+
+    // User menu popover styling
+    .user-menu-panel {
+      min-width: 220px;
+
+      .p-popover-content {
+        padding: 0;
+        background-color: var(--surface-color);
+        color: var(--text-color);
+        border-color: var(--border-color);
+      }
+
+      &.p-component {
+        border-radius: 8px;
+        box-shadow: var(--card-shadow);
+        overflow: hidden;
+        border: none;
+      }
+    }
+  }
+
+  .avatar-info {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  // User dropdown menu styling
+  .user-menu-items {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .user-menu-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      color: var(--text-color);
+
+      &:hover {
+        background-color: var(--surface-hover);
+        transform: translateX(3px);
+        box-shadow: inset 3px 0 0 var(--primary-color);
+      }
+
+      i {
+        font-size: 1rem;
+      }
+
+      .badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        background-color: #dc3545;
+        color: white;
+        border-radius: 10px;
+      }
+    }
+
+    .divider {
+      height: 1px;
+      background-color: var(--surface-border);
+      margin: 0.5rem 0;
+    }
+  }
+}

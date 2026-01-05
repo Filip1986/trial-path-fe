@@ -1,0 +1,113 @@
+<div class="form-step">
+  <div class="step-header mb-4">
+    <h2 class="text-xl font-semibold text-gray-800 flex align-items-center gap-2">
+      <i class="pi pi-info-circle text-blue-500"></i>
+      Basic Information
+    </h2>
+    <p class="text-gray-600 mt-1">Provide the fundamental details about your study</p>
+  </div>
+
+  <div class="grid grid-cols-12 gap-4">
+    <!-- Study Title -->
+    <div class="col-span-12">
+      <lib-input-text
+        [config]="{
+          id: 'title',
+          label: 'Study Title',
+          placeholder: 'Enter the full study title',
+          required: true,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          helperText: 'Full descriptive title of the clinical study (minimum 10 characters)',
+          disabled: false,
+          size: FormComponentSizeEnum.NORMAL,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+          autofocus: true
+        }"
+        formControlName="title"
+      >
+      </lib-input-text>
+    </div>
+
+    <!-- Short Title -->
+    <div class="col-span-12 md:col-span-6">
+      <lib-input-text
+        [config]="{
+          id: 'shortTitle',
+          label: 'Short Title',
+          placeholder: 'Enter a brief title',
+          required: true,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          helperText: 'Abbreviated title for easy reference (max 50 characters)',
+          disabled: false,
+          size: FormComponentSizeEnum.NORMAL,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+          autofocus: false
+        }"
+        formControlName="shortTitle"
+      >
+      </lib-input-text>
+    </div>
+
+    <!-- Study Description -->
+    <div class="col-span-12">
+      <lib-textarea
+        [config]="{
+          id: 'description',
+          label: 'Study Description',
+          placeholder: 'Provide a detailed description of the study',
+          required: true,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          helperText: 'Comprehensive description of the study purpose and methodology (minimum 20 characters)',
+          disabled: false,
+          size: FormComponentSizeEnum.NORMAL,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+          rows: 4,
+          autofocus: false
+        }"
+        formControlName="description"
+      >
+      </lib-textarea>
+    </div>
+
+    <!-- Study Objectives -->
+    <div class="col-span-12">
+      <lib-textarea
+        [config]="{
+          id: 'objectives',
+          label: 'Study Objectives',
+          placeholder: 'Define the primary and secondary objectives',
+          required: true,
+          variant: FormComponentVariantEnum.OUTLINED,
+          labelPosition: FormLabelPositionEnum.ABOVE,
+          helperText: 'Clear statement of what the study aims to achieve (minimum 10 characters)',
+          disabled: false,
+          size: FormComponentSizeEnum.NORMAL,
+          labelStyle: FormLabelStyleEnum.DEFAULT,
+          rows: 3,
+          autofocus: false
+        }"
+        formControlName="objectives"
+      >
+      </lib-textarea>
+    </div>
+
+    <!-- Information Panel -->
+    <div class="col-span-12 mt-4">
+      <div class="bg-blue-50 border-round p-4">
+        <h3 class="text-sm font-semibold text-blue-800 mb-2">Tips for Better Study Information</h3>
+        <ul class="text-sm text-blue-700 list-disc list-inside space-y-1">
+          <li>
+            Use clear, concise language that can be understood by both professionals and
+            participants
+          </li>
+          <li>Include key medical terms and therapeutic areas in your title and description</li>
+          <li>Ensure objectives are specific, measurable, and achievable</li>
+          <li>Consider regulatory requirements when writing descriptions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

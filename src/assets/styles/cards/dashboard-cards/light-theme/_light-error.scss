@@ -1,0 +1,19 @@
+[data-theme='light'] {
+  .bg-light-error {
+    background-color: var(--my-bg-light-error) !important;
+    color: var(--my-text-light-error) !important;
+
+    h2 {
+      font-weight: bold;
+    }
+
+    .p-card-body {
+      border-radius: var(--p-card-border-radius);
+    }
+
+    .p-card {
+      background-color: inherit !important;
+      color: inherit !important;
+    }
+  }
+}

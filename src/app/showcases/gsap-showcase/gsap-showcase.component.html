@@ -1,0 +1,151 @@
+<div class="gsap-showcase-container">
+  <div class="showcase-header">
+    <h1 class="showcase-title">GSAP Animation Showcase</h1>
+    <p class="showcase-subtitle">
+      Explore various GSAP animation components used throughout the application
+    </p>
+  </div>
+
+  <p-tabs styleClass="showcase-tabs">
+    <!-- Text Reveal Animations Tab -->
+    <p-tab header="Text Reveal" leftIcon="pi pi-align-left">
+      <div class="showcase-grid">
+        @for (item of textShowcases; track item) {
+          <div class="showcase-item">
+            <p-card [header]="item.title">
+              <p class="item-description">{{ item.description }}</p>
+              <div class="component-wrapper">
+                @switch (item.id) {
+                  @case ('text-reveal-1') {
+                    <app-scroll-reveal-text-1 />
+                  }
+                  @case ('text-reveal-2') {
+                    <app-scroll-reveal-text-2 />
+                  }
+                  @case ('text-reveal-3') {
+                    <app-scroll-reveal-text-3 />
+                  }
+                  @case ('text-reveal-4') {
+                    <app-scroll-reveal-text-4 />
+                  }
+                  @case ('text-reveal-5') {
+                    <app-scroll-reveal-text-5 />
+                  }
+                  @case ('text-reveal-6') {
+                    <app-scroll-reveal-text-6 />
+                  }
+                }
+              </div>
+            </p-card>
+          </div>
+        }
+      </div>
+    </p-tab>
+
+    <!-- Cards Reveal Animations Tab -->
+
+    <!-- Animated Logo Tab -->
+    <p-tab header="Animated Logos" leftIcon="pi pi-star">
+      <div class="showcase-grid">
+        @for (item of logoShowcases; track item) {
+          <div class="showcase-item">
+            <p-card [header]="item.title">
+              <p class="item-description">{{ item.description }}</p>
+              <div class="component-wrapper">
+                @switch (item.id) {
+                  @case ('animated-logo-1') {
+                    <app-animated-logo-1 />
+                  }
+                  @case ('animated-logo-2') {
+                    <app-animated-logo-2 />
+                  }
+                }
+              </div>
+            </p-card>
+          </div>
+        }
+      </div>
+    </p-tab>
+    <!-- Pin Comparison Tab -->
+    <p-tab header="Pin Comparison" leftIcon="pi pi-sync">
+      <div class="showcase-header" style="margin-bottom: 2rem; margin-top: 1rem">
+        <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem">ScrollTrigger Pin Feature</h2>
+        <p style="color: var(--text-color-secondary)">
+          Compare animations with pinInPlace enabled vs disabled. Pinning keeps elements fixed
+          during scroll for dramatic effects.
+        </p>
+      </div>
+
+      <div class="pin-comparison-grid">
+        <!-- Pinned Examples -->
+        <div class="comparison-item pinned-example">
+          <p-card header="Text Reveal 1 - WITH Pin">
+            <p class="item-description">
+              Animation stays pinned to viewport while scrolling. Creates a focused, immersive
+              experience.
+            </p>
+            <div class="component-wrapper">
+              <app-scroll-reveal-text-1 [pinInPlace]="true" />
+            </div>
+          </p-card>
+        </div>
+
+        <!-- Unpinned Examples -->
+        <div class="comparison-item unpinned-example">
+          <p-card header="Text Reveal 1 - WITHOUT Pin">
+            <p class="item-description">
+              Animation scrolls naturally with the page. Standard scroll-triggered animation.
+            </p>
+            <div class="component-wrapper">
+              <app-scroll-reveal-text-1 [pinInPlace]="false" />
+            </div>
+          </p-card>
+        </div>
+
+        <!-- Text Reveal 2 Comparison -->
+        <div class="comparison-item pinned-example">
+          <p-card header="Text Reveal 2 - WITH Pin">
+            <p class="item-description">
+              Line-by-line reveal with element pinned. Enhances focus on the animated text.
+            </p>
+            <div class="component-wrapper">
+              <app-scroll-reveal-text-2 [pinInPlace]="true" />
+            </div>
+          </p-card>
+        </div>
+
+        <div class="comparison-item unpinned-example">
+          <p-card header="Text Reveal 2 - WITHOUT Pin">
+            <p class="item-description">
+              Same animation without pinning. Scrolls naturally as part of the page flow.
+            </p>
+            <div class="component-wrapper">
+              <app-scroll-reveal-text-2 [pinInPlace]="false" />
+            </div>
+          </p-card>
+        </div>
+
+        <!-- Text Reveal 3 Comparison -->
+        <div class="comparison-item pinned-example">
+          <p-card header="Text Reveal 3 - WITH Pin">
+            <p class="item-description">
+              Character animation with viewport pinning for maximum visual impact.
+            </p>
+            <div class="component-wrapper">
+              <app-scroll-reveal-text-3 [pinInPlace]="true" />
+            </div>
+          </p-card>
+        </div>
+
+        <div class="comparison-item unpinned-example">
+          <p-card header="Text Reveal 3 - WITHOUT Pin">
+            <p class="item-description">Character animation as you scroll past naturally.</p>
+            <div class="component-wrapper">
+              <app-scroll-reveal-text-3 [pinInPlace]="false" />
+            </div>
+          </p-card>
+        </div>
+      </div>
+    </p-tab>
+  </p-tabs>
+</div>

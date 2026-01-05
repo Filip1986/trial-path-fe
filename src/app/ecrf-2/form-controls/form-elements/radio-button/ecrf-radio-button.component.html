@@ -1,0 +1,59 @@
+<p-card>
+  <div class="element-header flex justify-between items-center mb-2">
+    <div class="flex items-center">
+      <i [ngClass]="iconName" class="mr-2 text-blue-500"></i>
+      <label class="text-sm font-medium text-gray-700">
+        {{ control?.options?.title || control?.title || 'Radio Button' }}
+      </label>
+    </div>
+    <div class="flex items-center gap-2">
+      <p-speedDial
+        [hideIcon]="'pi pi-times'"
+        [hideOnClickOutside]="true"
+        [model]="speedDialItems"
+        [showIcon]="'pi pi-ellipsis-v'"
+        [style]="{ position: 'relative' }"
+        [transitionDelay]="80"
+        buttonClass="p-button-sm p-button-outlined p-button-secondary"
+        direction="left"
+        radius="40"
+        />
+    </div>
+  </div>
+
+  <!-- Display radio options if available -->
+  <div class="element-content">
+    @if (control && control.type === 'Radio') {
+      <div class="flex flex-col space-y-2">
+        <!-- Loop through radio options if any -->
+        @if (isRadioButton() && getRadioOptions().length > 0) {
+          @for (option of getRadioOptions(); track option; let i = $index) {
+            <div class="mb-1">
+              <lib-radio-button
+                (valueChange)="onValueChange($event)"
+              [config]="{
+                label: option.label,
+                name: getRadioName(),
+                value: option.value,
+                required: control.options?.required || false,
+                disabled: control.options?.disabled || false,
+                variant: getRadioVariant(),
+                size: FormComponentSizeEnum.NORMAL,
+                labelPosition: control.options?.labelPosition || FormLabelPositionEnum.ABOVE,
+                labelStyle: control.options?.labelStyle || FormLabelStyleEnum.DEFAULT,
+              }"
+                [value]="control.value"
+                />
+            </div>
+          }
+        }
+        <!-- Show placeholder if no options defined -->
+        @if (isRadioButton() && getRadioOptions().length === 0) {
+          <div class="text-gray-500 text-sm italic">
+            No radio options defined. Edit to add options.
+          </div>
+        }
+      </div>
+    }
+  </div>
+</p-card>

@@ -1,0 +1,362 @@
+// Enhanced Filters Section Styles
+:host ::ng-deep .filters-card {
+  .p-card-header {
+    padding: 0;
+    border-bottom: none;
+  }
+
+  .p-card-body {
+    padding: 0;
+  }
+
+  .p-card-content {
+    padding: 0;
+  }
+}
+
+.filters-container {
+  margin-bottom: 1.5rem;
+}
+
+.filters-header {
+  color: white;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-radius: 12px 12px 0 0;
+  position: relative;
+  transition: all 0.3s ease;
+
+  .pi {
+    font-size: 1.25rem;
+  }
+
+  // Expandable styles
+  &.expandable {
+    cursor: pointer;
+    user-select: none;
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &.expanded {
+    border-radius: 12px 12px 0 0;
+  }
+
+  &:not(.expanded).expandable {
+    border-radius: 12px;
+    margin-bottom: 0;
+  }
+}
+
+// Active count badge
+.active-count-badge {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 1.5rem;
+  text-align: center;
+  margin-left: auto;
+  margin-right: 0.5rem;
+  animation: pulse 0.3s ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+// Expand/collapse icon
+.expand-icon {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+
+  .pi {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+  }
+}
+
+// Content wrapper for animation
+.filters-content-wrapper {
+  overflow: hidden;
+  border-radius: 0 0 12px 12px;
+}
+
+.filters-content {
+  padding: 0 2rem 2rem 2rem;
+  overflow: hidden; // ensure clipped content during collapse without animating overflow
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+
+  .pi {
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+}
+
+// Enhanced input styling
+:host ::ng-deep {
+  .search-input {
+    width: 100%;
+    padding: 0.875rem 1rem 0.875rem 2.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    background: #fafbfc;
+
+    &:focus {
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+  }
+
+  .p-input-icon-left {
+    width: 100%;
+
+    .pi-search {
+      color: #9ca3af;
+      font-size: 1rem;
+    }
+  }
+
+  .filter-dropdown,
+  .filter-multiselect {
+    width: 100%;
+
+    .p-dropdown,
+    .p-multiselect {
+      width: 100%;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      background: #fafbfc;
+      transition: all 0.2s ease;
+
+      &:not(.p-disabled):hover {
+        border-color: #d1d5db;
+        background: white;
+      }
+
+      &.p-focus {
+        border-color: #667eea;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+    }
+
+    .p-dropdown-label,
+    .p-multiselect-label {
+      padding: 0.875rem 1rem;
+      font-size: 0.95rem;
+      color: #374151;
+
+      &.p-placeholder {
+        color: #9ca3af;
+      }
+    }
+
+    .p-dropdown-trigger,
+    .p-multiselect-trigger {
+      width: 2.5rem;
+      color: #6b7280;
+    }
+  }
+
+  // Multi-select specific styling
+  .filter-multiselect {
+    .p-multiselect-token {
+      background: #dbeafe;
+      color: #1e40af;
+      border: none;
+      border-radius: 6px;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+
+      .p-multiselect-token-icon {
+        color: #1e40af;
+        margin-left: 0.25rem;
+      }
+    }
+  }
+}
+
+.filters-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  gap: 1rem;
+}
+
+.active-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.active-filters-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.filter-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-tag {
+  background: #dbeafe;
+  color: #1e40af;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideIn 0.2s ease-out;
+
+  .pi {
+    font-size: 0.75rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+:host ::ng-deep .clear-filters-btn {
+  .p-button {
+    border-radius: 10px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+
+    &:not(.p-disabled):active {
+      transform: translateY(0);
+    }
+
+    &.p-disabled {
+      opacity: 0.5;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .filters-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .filters-content {
+    padding: 1.5rem;
+  }
+
+  .filters-header {
+    padding: 1.25rem 1.5rem;
+    font-size: 1.1rem;
+  }
+
+  .filters-actions {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+
+    .active-filters {
+      justify-content: center;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .filters-content {
+    padding: 1rem;
+  }
+
+  .filters-header {
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .filters-grid {
+    gap: 1rem;
+  }
+
+  :host ::ng-deep .clear-filters-btn .p-button {
+    width: 100%;
+    justify-content: center;
+  }
+}

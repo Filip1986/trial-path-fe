@@ -1,0 +1,7 @@
+<div [class]="wrapperClass">
+  <div class="font-medium text-gray-700 mb-2">{{ title }}</div>
+  <ng-content />
+  @if (helperText) {
+    <div class="text-xs text-gray-500 mt-1">{{ helperText }}</div>
+  }
+</div>

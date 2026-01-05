@@ -1,0 +1,27 @@
+<div class="drag-factory">
+  <h3>Drag Items Palette</h3>
+  <p class="instruction">Drag these items multiple times into any drop zone</p>
+
+  <div class="template-items">
+    @for (item of templateItems; track item) {
+      <div
+        (cdkDragDropped)="onDrop($event, item)"
+        (cdkDragEnded)="onDragEnded()"
+        (cdkDragStarted)="onDragStarted($event)"
+        [cdkDragData]="item"
+        [class.dragging]="activeDrag"
+        cdkDrag
+        class="template-item"
+        >
+        <div class="item-content">
+          <i class="material-icons">drag_indicator</i>
+          <span>{{ item.name }}</span>
+        </div>
+        <!-- This will be shown during dragging -->
+        <div *cdkDragPreview class="item-preview">{{ item.name }}</div>
+        <!-- This placeholder stays in the original location during drag -->
+        <div *cdkDragPlaceholder class="item-placeholder">{{ item.name }}</div>
+      </div>
+    }
+  </div>
+</div>

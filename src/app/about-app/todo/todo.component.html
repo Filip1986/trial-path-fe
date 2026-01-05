@@ -1,0 +1,98 @@
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-6">TODO Lists</h1>
+
+  <p-tabs>
+    <p-tab>
+      <ng-template pTemplate="title">
+        <i class="pi pi-desktop mr-2"></i>
+        Frontend
+      </ng-template>
+      @for (todo of frontendTodos; track todo) {
+        <div class="mb-6">
+          <p-card>
+            <h2 class="text-xl font-semibold mb-4">{{ todo.description }}</h2>
+            <p-tag
+              [severity]="todo.priority === 'High' ? 'danger' : todo.priority === 'Medium' ? 'warn' : 'success'"
+              [value]="todo.priority"
+            ></p-tag>
+            @if (todo.completed) {
+              <p class="text-green-500 mt-2">Completed</p>
+            }
+            @if (!todo.completed) {
+              <p class="text-red-500 mt-2">Not Completed</p>
+            }
+          </p-card>
+        </div>
+      }
+    </p-tab>
+    <p-tab>
+      <ng-template pTemplate="title">
+        <i class="pi pi-server mr-2"></i>
+        Backend
+      </ng-template>
+      @for (todo of backendTodos; track todo) {
+        <div class="mb-6">
+          <p-card>
+            <h2 class="text-xl font-semibold mb-4">{{ todo.description }}</h2>
+            <p-tag
+              [severity]="todo.priority === 'High' ? 'danger' : todo.priority === 'Medium' ? 'warn' : 'success'"
+              [value]="todo.priority"
+            ></p-tag>
+            @if (todo.completed) {
+              <p class="text-green-500 mt-2">Completed</p>
+            }
+            @if (!todo.completed) {
+              <p class="text-red-500 mt-2">Not Completed</p>
+            }
+          </p-card>
+        </div>
+      }
+    </p-tab>
+    <p-tab>
+      <ng-template pTemplate="title">
+        <i class="pi pi-lock mr-2"></i>
+        Security
+      </ng-template>
+      @for (todo of securityTodos; track todo) {
+        <div class="mb-6">
+          <p-card>
+            <h2 class="text-xl font-semibold mb-4">{{ todo.description }}</h2>
+            <p-tag
+              [severity]="todo.priority === 'High' ? 'danger' : todo.priority === 'Medium' ? 'warn' : 'success'"
+              [value]="todo.priority"
+            ></p-tag>
+            @if (todo.completed) {
+              <p class="text-green-500 mt-2">Completed</p>
+            }
+            @if (!todo.completed) {
+              <p class="text-red-500 mt-2">Not Completed</p>
+            }
+          </p-card>
+        </div>
+      }
+    </p-tab>
+    <p-tab>
+      <ng-template pTemplate="title">
+        <i class="pi pi-lock mr-2"></i>
+        Remember
+      </ng-template>
+      @for (todo of remember; track todo) {
+        <div class="mb-6">
+          <p-card>
+            <h2 class="text-xl font-semibold mb-4">{{ todo.description }}</h2>
+            <p-tag
+              [severity]="todo.priority === 'High' ? 'danger' : todo.priority === 'Medium' ? 'warn' : 'success'"
+              [value]="todo.priority"
+            ></p-tag>
+            @if (todo.completed) {
+              <p class="text-green-500 mt-2">Completed</p>
+            }
+            @if (!todo.completed) {
+              <p class="text-red-500 mt-2">Not Completed</p>
+            }
+          </p-card>
+        </div>
+      }
+    </p-tab>
+  </p-tabs>
+</div>

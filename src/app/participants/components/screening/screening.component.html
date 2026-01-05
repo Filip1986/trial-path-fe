@@ -1,0 +1,326 @@
+<div class="screening-container">
+  <!-- Loading State - Using Shared Table Skeleton -->
+  @if (loading()) {
+    <app-table-skeleton
+      [config]="skeletonConfig"
+      ariaLabel="Loading screening participants"
+      loadingMessage="Loading screening data, please wait..."
+      headerButtonWidth="170px"
+      >
+    </app-table-skeleton>
+  }
+
+  <!-- Actual Content (when not loading) -->
+  @if (!loading()) {
+    <div>
+      <!-- Header -->
+      <div class="mb-6">
+        <div class="flex justify-content-between align-items-center mb-4">
+          <div>
+            <p-button
+              (onClick)="navigateToAddScreening()"
+              icon="pi pi-plus"
+              label="Add to Screening"
+              styleClass="p-button-primary"
+              />
+          </div>
+          <div class="flex gap-2">
+            <p-button
+              (onClick)="importScreeningData()"
+              icon="pi pi-upload"
+              label="Import"
+              severity="secondary"
+              styleClass="p-button-outlined"
+              />
+            <p-button
+              (onClick)="exportScreeningData()"
+              icon="pi pi-download"
+              label="Export"
+              severity="secondary"
+              styleClass="p-button-outlined"
+              />
+          </div>
+        </div>
+      </div>
+      <!-- Reusable Filters Component -->
+      <app-table-filters
+        (clearFilters)="onClearFilters()"
+        (filterChange)="onFilterChange($event)"
+        [filterFields]="filterFields"
+        [filterValues]="filterValues()"
+        title="Screening Filters"
+        />
+      <!-- Screening Participants Table -->
+      <p-card>
+        <ng-template pTemplate="header">
+          <div class="flex justify-content-between align-items-center">
+            <span>Screening Participants</span>
+            <span class="text-color-secondary text-sm">
+              {{ filteredParticipants().length }} participant(s)
+            </span>
+          </div>
+        </ng-template>
+        <p-table
+          #dt
+          [value]="filteredParticipants()"
+          [paginator]="true"
+          [rows]="10"
+          [rowsPerPageOptions]="[10, 25, 50]"
+          [showCurrentPageReport]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} participants"
+          dataKey="id"
+          responsiveLayout="scroll"
+          scrollHeight="600px"
+          styleClass="p-datatable-striped"
+          [globalFilterFields]="['firstName', 'lastName', 'participantId', 'email']"
+          >
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="participantId">
+                Participant ID <p-sortIcon field="participantId"></p-sortIcon>
+              </th>
+              <th pSortableColumn="firstName">Name <p-sortIcon field="firstName"></p-sortIcon></th>
+              <th pSortableColumn="dateOfBirth">Age <p-sortIcon field="dateOfBirth"></p-sortIcon></th>
+              <th pSortableColumn="studyTitle">Study <p-sortIcon field="studyTitle"></p-sortIcon></th>
+              <th pSortableColumn="screeningDate">
+                Screening Date <p-sortIcon field="screeningDate"></p-sortIcon>
+              </th>
+              <th pSortableColumn="screeningStatus">
+                Status <p-sortIcon field="screeningStatus"></p-sortIcon>
+              </th>
+              <th>Consent</th>
+              <th pSortableColumn="reviewedBy">
+                Reviewed By <p-sortIcon field="reviewedBy"></p-sortIcon>
+              </th>
+              <th>Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template let-participant pTemplate="body">
+            <tr>
+              <td>
+                <span class="font-medium text-color">{{ participant.participantId }}</span>
+              </td>
+              <td>
+                <div class="flex align-items-center gap-2">
+                  <div
+                    class="flex align-items-center justify-content-center bg-primary-100 text-primary-800 border-circle w-2rem h-2rem"
+                    >
+                    <span class="font-medium text-sm">
+                      {{ participant.firstName.charAt(0) }}{{ participant.lastName.charAt(0) }}
+                    </span>
+                  </div>
+                  <div>
+                    <div class="text-sm font-medium">
+                      {{ participant.firstName }} {{ participant.lastName }}
+                    </div>
+                    <div class="text-xs text-color-secondary">{{ participant.email }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="text-sm">{{ calculateAge(participant.dateOfBirth) }}</span>
+              </td>
+              <td>
+                <div class="text-sm">
+                  <div class="font-medium">{{ participant.studyTitle }}</div>
+                  <div class="text-color-secondary">{{ participant.studyPhase }}</div>
+                </div>
+              </td>
+              <td>
+                <span class="text-sm">{{ participant.screeningDate | date:'shortDate' }}</span>
+              </td>
+              <td>
+                <p-tag
+                  [value]="participant.screeningStatus"
+                  [severity]="getStatusSeverity(participant.screeningStatus)"
+                  styleClass="text-xs"
+                  >
+                </p-tag>
+              </td>
+              <td>
+                <div class="flex align-items-center gap-1">
+                  <i
+                    [class]="getConsentIcon(participant.consentStatus)"
+                    [ngClass]="'text-' + getConsentSeverity(participant.consentStatus) + '-500'"
+                  ></i>
+                  <span class="text-xs">{{ participant.consentStatus | titlecase }}</span>
+                </div>
+              </td>
+              <td>
+                @if (participant.reviewedBy) {
+                  <div class="text-sm">
+                    <div class="font-medium">{{ participant.reviewedBy }}</div>
+                    <div class="text-color-secondary">
+                      {{ participant.reviewDate | date:'shortDate' }}
+                    </div>
+                  </div>
+                } @else {
+                  <span class="text-color-secondary text-xs">Not reviewed</span>
+                }
+              </td>
+              <td>
+                <div class="flex gap-1">
+                  <p-button
+                    (onClick)="viewParticipant(participant)"
+                    icon="pi pi-eye"
+                    severity="info"
+                    size="small"
+                    styleClass="p-button-text"
+                    pTooltip="View Details"
+                    />
+                  <p-button
+                    (onClick)="editScreening(participant)"
+                    icon="pi pi-pencil"
+                    severity="warn"
+                    size="small"
+                    styleClass="p-button-text"
+                    pTooltip="Edit Screening"
+                    />
+                  <p-button
+                    (onClick)="checkEligibility(participant)"
+                    icon="pi pi-shield"
+                    severity="help"
+                    size="small"
+                    styleClass="p-button-text"
+                    pTooltip="Check Eligibility"
+                    />
+                  @if (participant.screeningStatus === 'eligible') {
+                    <p-button
+                      (onClick)="approveParticipant(participant)"
+                      icon="pi pi-check"
+                      severity="success"
+                      size="small"
+                      styleClass="p-button-text"
+                      pTooltip="Approve for Enrollment"
+                      />
+                  }
+                  @if (participant.screeningStatus !== 'ineligible') {
+                    <p-button
+                      (onClick)="rejectParticipant(participant)"
+                      icon="pi pi-times"
+                      severity="danger"
+                      size="small"
+                      styleClass="p-button-text"
+                      pTooltip="Reject Participant"
+                      />
+                  }
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="9" class="text-center py-6">
+                <div class="text-color-secondary">
+                  <i class="pi pi-users text-4xl mb-3 block"></i>
+                  <p class="text-lg mb-2">No screening participants found</p>
+                  <p class="text-sm mb-4">Add participants to the screening queue to get started</p>
+                  <p-button
+                    (onClick)="navigateToAddScreening()"
+                    label="Add to Screening"
+                    size="small"
+                    styleClass="p-button-outlined"
+                    />
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-card>
+    </div>
+  }
+
+  <!-- Eligibility Check Dialog -->
+  <p-dialog
+    [(visible)]="showEligibilityDialog"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="Eligibility Check"
+    styleClass="w-full md:w-6"
+    >
+    @if (selectedParticipant) {
+      <div class="eligibility-dialog-content">
+        <div class="mb-4">
+          <h4 class="mb-2">{{ selectedParticipant.firstName }} {{ selectedParticipant.lastName }}</h4>
+          <p class="text-color-secondary text-sm mb-0">{{ selectedParticipant.email }}</p>
+        </div>
+        <p-divider></p-divider>
+        <div class="grid">
+          <div class="col-12 md:col-6">
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-2">Study</label>
+              <p class="text-sm">{{ selectedParticipant.studyTitle }}</p>
+            </div>
+          </div>
+          <div class="col-12 md:col-6">
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-2">Current Status</label>
+              <p-tag
+                [value]="selectedParticipant.screeningStatus"
+                [severity]="getStatusSeverity(selectedParticipant.screeningStatus)"
+                >
+              </p-tag>
+            </div>
+          </div>
+        </div>
+        <!-- Eligibility Criteria Checklist would go here -->
+        <div class="eligibility-criteria mt-4">
+          <h5 class="mb-3">Eligibility Criteria</h5>
+          <div class="flex flex-column gap-2">
+            <div class="flex align-items-center gap-2">
+              <p-checkbox
+                binary="true"
+                [(ngModel)]="selectedParticipant.eligibilityCriteria.ageRequirement"
+                />
+              <label class="text-sm">Meets age requirements (18-65 years)</label>
+            </div>
+            <div class="flex align-items-center gap-2">
+              <p-checkbox
+                binary="true"
+                [(ngModel)]="selectedParticipant.eligibilityCriteria.medicalHistory"
+                />
+              <label class="text-sm">Medical history review completed</label>
+            </div>
+            <div class="flex align-items-center gap-2">
+              <p-checkbox
+                binary="true"
+                [(ngModel)]="selectedParticipant.eligibilityCriteria.consentObtained"
+                />
+              <label class="text-sm">Informed consent obtained</label>
+            </div>
+            <div class="flex align-items-center gap-2">
+              <p-checkbox
+                binary="true"
+                [(ngModel)]="selectedParticipant.eligibilityCriteria.screeningComplete"
+                />
+              <label class="text-sm">All screening procedures completed</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <ng-template pTemplate="footer">
+      <div class="flex justify-content-end gap-2">
+        <p-button
+          (onClick)="showEligibilityDialog = false"
+          label="Cancel"
+          severity="secondary"
+          styleClass="p-button-outlined"
+          />
+        <p-button
+          (onClick)="showEligibilityDialog = false"
+          label="Save Assessment"
+          severity="primary"
+          />
+      </div>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Toast messages -->
+  <p-toast></p-toast>
+
+  <!-- Confirmation dialog -->
+  <p-confirmDialog></p-confirmDialog>
+</div>

@@ -1,0 +1,655 @@
+<div class="documents-container">
+  <!-- Header -->
+  <div class="page-header">
+    <h1 class="page-title">
+      <i class="pi pi-folder-open"></i>
+      Document Management
+    </h1>
+    <p class="page-description">
+      Upload, manage, and organize study documents, case report forms, and participant files
+    </p>
+  </div>
+
+  <!-- Main Content Card -->
+  <p-card styleClass="content-card">
+    <!-- Toolbar -->
+    <p-toolbar styleClass="documents-toolbar">
+      <ng-template pTemplate="start">
+        <div class="toolbar-start">
+          <button
+            (click)="showUploadDialog = true"
+            class="p-button-primary"
+            icon="pi pi-upload"
+            label="Upload Document"
+            pButton
+            type="button"
+          ></button>
+
+          <p-divider layout="vertical"></p-divider>
+
+          <button
+            (click)="bulkDeleteDocuments()"
+            [disabled]="selectedDocuments.length === 0"
+            class="p-button-danger p-button-outlined"
+            icon="pi pi-trash"
+            label="Delete Selected"
+            pButton
+            type="button"
+          ></button>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="end">
+        <div class="toolbar-end">
+          <span class="document-count">
+            {{ filteredDocuments.length }} of {{ documents.length }} documents
+          </span>
+        </div>
+      </ng-template>
+    </p-toolbar>
+
+    <!-- Filters Section -->
+    <div class="filters-section">
+      <div class="filters-row">
+        <!-- Search -->
+        <div class="filter-item search-filter">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              (input)="onSearchChange($any($event.target).value)"
+              [value]="searchValue"
+              pInputText
+              placeholder="Search documents..."
+              type="text"
+              />
+          </span>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="filter-item">
+          <lib-select
+            (ngModelChange)="onCategoryChange($event)"
+            [config]="{
+              label: 'Category',
+              options: documentCategories,
+              placeholder: 'All Categories',
+              variant: FormComponentVariantEnum.OUTLINED,
+              size: FormComponentSizeEnum.NORMAL,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              optionLabel: 'label',
+              optionValue: 'value',
+              required: false,
+              disabled: false,
+              scrollHeight: DEFAULT_SCROLL_HEIGHT
+            }"
+            [ngModel]="selectedCategory"
+          ></lib-select>
+        </div>
+
+        <!-- Status Filter -->
+        <div class="filter-item">
+          <lib-select
+            (ngModelChange)="onStatusChange($event)"
+            [config]="{
+              label: 'Status',
+              options: documentStatuses,
+              placeholder: 'All Statuses',
+              variant: FormComponentVariantEnum.OUTLINED,
+              size: FormComponentSizeEnum.NORMAL,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              optionLabel: 'label',
+              optionValue: 'value',
+              required: false,
+              disabled: false,
+              scrollHeight: DEFAULT_SCROLL_HEIGHT
+            }"
+            [ngModel]="selectedStatus"
+          ></lib-select>
+        </div>
+
+        <!-- Study Filter -->
+        <div class="filter-item">
+          <lib-select
+            (ngModelChange)="onStudyChange($event)"
+            [config]="{
+              label: 'Study',
+              options: studies,
+              placeholder: 'All Studies',
+              variant: FormComponentVariantEnum.OUTLINED,
+              size: FormComponentSizeEnum.NORMAL,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              optionLabel: 'label',
+              optionValue: 'value',
+              required: false,
+              disabled: false,
+              scrollHeight: DEFAULT_SCROLL_HEIGHT
+            }"
+            [ngModel]="selectedStudy"
+          ></lib-select>
+        </div>
+
+        <!-- Participant Filter -->
+        <div class="filter-item">
+          <lib-select
+            (ngModelChange)="onParticipantChange($event)"
+            [config]="{
+              label: 'Participant',
+              options: participants,
+              placeholder: 'All Participants',
+              variant: FormComponentVariantEnum.OUTLINED,
+              size: FormComponentSizeEnum.NORMAL,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              optionLabel: 'label',
+              optionValue: 'value',
+              required: false,
+              disabled: false,
+              scrollHeight: DEFAULT_SCROLL_HEIGHT
+            }"
+            [ngModel]="selectedParticipant"
+          ></lib-select>
+        </div>
+
+        <!-- Clear Filters -->
+        <div class="filter-item clear-filters">
+          <button
+            (click)="clearFilters()"
+            class="p-button-outlined p-button-secondary"
+            icon="pi pi-filter-slash"
+            label="Clear"
+            pButton
+            type="button"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Documents Table -->
+    <p-table
+      [(selection)]="selectedDocuments"
+      [globalFilterFields]="['name', 'uploadedBy', 'description']"
+      [loading]="isLoading"
+      [paginator]="true"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [value]="filteredDocuments"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} documents"
+      responsiveLayout="scroll"
+      styleClass="documents-table"
+      >
+      <!-- Table Header -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 3rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th pSortableColumn="name" style="min-width: 200px">
+            Document Name <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="category" style="min-width: 120px">
+            Category <p-sortIcon field="category"></p-sortIcon>
+          </th>
+          <th pSortableColumn="status" style="min-width: 100px">
+            Status <p-sortIcon field="status"></p-sortIcon>
+          </th>
+          <th pSortableColumn="size" style="min-width: 80px">
+            Size <p-sortIcon field="size"></p-sortIcon>
+          </th>
+          <th pSortableColumn="uploadDate" style="min-width: 140px">
+            Upload Date <p-sortIcon field="uploadDate"></p-sortIcon>
+          </th>
+          <th pSortableColumn="uploadedBy" style="min-width: 120px">
+            Uploaded By <p-sortIcon field="uploadedBy"></p-sortIcon>
+          </th>
+          <th style="min-width: 100px">Participant</th>
+          <th style="min-width: 100px">Study</th>
+          <th style="min-width: 120px">Actions</th>
+        </tr>
+      </ng-template>
+
+      <!-- Table Body -->
+      <ng-template let-document let-rowIndex="rowIndex" pTemplate="body">
+        <tr [class.confidential-row]="document.isConfidential">
+          <td>
+            <p-tableCheckbox [value]="document"></p-tableCheckbox>
+          </td>
+
+          <!-- Document Name -->
+          <td>
+            <div class="document-name-cell">
+              <i [class]="getCategoryIcon(document.category)" class="document-icon"></i>
+              <div class="document-info">
+                <span [title]="document.name" class="document-name"> {{ document.name }} </span>
+                <div class="document-meta">
+                  <span class="version">v{{ document.version }}</span>
+                  @if (document.isConfidential) {
+                    <span class="confidential-badge">
+                      <i class="pi pi-lock"></i> Confidential
+                    </span>
+                  }
+                </div>
+              </div>
+            </div>
+          </td>
+
+          <!-- Category -->
+          <td>
+            <div class="category-cell">
+              <i [class]="getCategoryIcon(document.category)"></i>
+              <!--              <span class="category-label">-->
+              <!--                {{ documentCategories.find(c => c.value === document.category)?.label ||-->
+              <!--                document.category }}-->
+            <!--              </span>-->
+          </div>
+        </td>
+
+        <!-- Status -->
+        <td>
+          <!--            <p-tag-->
+          <!--              [value]="documentStatuses.find(s => s.value === document.status)?.label || document.status"-->
+          <!--              [severity]="getStatusSeverity(document.status)"-->
+        <!--            ></p-tag>-->
+      </td>
+
+      <!-- Size -->
+      <td>
+        <span class="file-size">{{ formatFileSize(document.size) }}</span>
+      </td>
+
+      <!-- Upload Date -->
+      <td>
+        <span class="upload-date">{{ formatDate(document.uploadDate) }}</span>
+      </td>
+
+      <!-- Uploaded By -->
+      <td>
+        <span class="uploaded-by">{{ document.uploadedBy }}</span>
+      </td>
+
+      <!-- Participant -->
+      <td>
+        @if (document.participantId) {
+          <span class="participant-id">
+            {{ document.participantId }}
+          </span>
+        }
+        @if (!document.participantId) {
+          <span class="not-applicable">N/A</span>
+        }
+      </td>
+
+      <!-- Study -->
+      <td>
+        <!--            <span *ngIf="document.studyId" class="study-id">-->
+        <!--              {{ studies.find(s => s.value === document.studyId)?.label || document.studyId }}-->
+      <!--            </span>-->
+      @if (!document.studyId) {
+        <span class="not-applicable">N/A</span>
+      }
+    </td>
+
+    <!-- Actions -->
+    <td>
+      <div class="action-buttons">
+        <button
+          (click)="viewDocument(document)"
+          class="p-button-text p-button-sm"
+          icon="pi pi-eye"
+          pButton
+          pTooltip="View Document"
+          type="button"
+        ></button>
+
+        <button
+          (click)="downloadDocument(document)"
+          class="p-button-text p-button-sm"
+          icon="pi pi-download"
+          pButton
+          pTooltip="Download Document"
+          type="button"
+        ></button>
+
+        <button
+          (click)="editDocument(document)"
+          class="p-button-text p-button-sm"
+          icon="pi pi-pencil"
+          pButton
+          pTooltip="Edit Document"
+          type="button"
+        ></button>
+
+        <button
+          (click)="deleteDocument(document)"
+          class="p-button-text p-button-danger p-button-sm"
+          icon="pi pi-trash"
+          pButton
+          pTooltip="Delete Document"
+          type="button"
+        ></button>
+      </div>
+    </td>
+  </tr>
+</ng-template>
+
+<!-- Empty State -->
+<ng-template pTemplate="emptymessage">
+  <tr>
+    <td class="empty-state" colspan="10">
+      <div class="empty-content">
+        <i class="pi pi-folder-open empty-icon"></i>
+        <h3>No Documents Found</h3>
+        <p>
+          No documents match your current filters. Try adjusting your search criteria or
+          upload a new document.
+        </p>
+        <button
+          (click)="showUploadDialog = true"
+          class="p-button-primary"
+          icon="pi pi-upload"
+          label="Upload Document"
+          pButton
+          type="button"
+        ></button>
+      </div>
+    </td>
+  </tr>
+</ng-template>
+</p-table>
+</p-card>
+
+<!-- Upload Document Dialog -->
+<p-dialog
+  [(visible)]="showUploadDialog"
+  [closable]="!isUploading"
+  [closeOnEscape]="!isUploading"
+  [modal]="true"
+  [style]="{ width: '600px' }"
+  header="Upload Document"
+  styleClass="upload-dialog"
+  >
+  <form (ngSubmit)="uploadDocument()" [formGroup]="uploadForm">
+    <div class="form-grid">
+      <!-- File Upload -->
+      <div class="form-item full-width">
+        <label class="form-label">Select File</label>
+        <p-fileUpload
+          (onSelect)="onFileSelect($event)"
+          [auto]="false"
+          [maxFileSize]="100000000"
+          accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.dicom"
+          chooseLabel="Choose File"
+          mode="basic"
+          styleClass="file-upload"
+        ></p-fileUpload>
+      </div>
+
+      <!-- Document Name -->
+      <div class="form-item full-width">
+        <lib-input-text
+          (ngModelChange)="uploadForm.get('name')?.setValue($event)"
+            [config]="{
+              label: 'Document Name',
+              placeholder: 'Enter document name',
+              variant: FormComponentVariantEnum.OUTLINED,
+              size: FormComponentSizeEnum.NORMAL,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              required: true,
+              disabled: false,
+              autofocus: false
+            }"
+          [ngModel]="uploadForm.get('name')?.value"
+        ></lib-input-text>
+      </div>
+
+      <!-- Category and Study -->
+      <div class="form-item half-width">
+        <lib-select
+          (ngModelChange)="uploadForm.get('category')?.setValue($event)"
+            [config]="{
+              label: 'Category',
+              options: documentCategories.slice(1),
+              placeholder: 'Select category',
+              variant: FormComponentVariantEnum.OUTLINED,
+              size: FormComponentSizeEnum.NORMAL,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              optionLabel: 'label',
+              optionValue: 'value',
+              required: true,
+              disabled: false,
+              scrollHeight: DEFAULT_SCROLL_HEIGHT
+            }"
+          [ngModel]="uploadForm.get('category')?.value"
+        ></lib-select>
+      </div>
+
+      <div class="form-item half-width">
+        <lib-select
+          (ngModelChange)="uploadForm.get('studyId')?.setValue($event)"
+            [config]="{
+              label: 'Study',
+              options: studies.slice(1),
+              placeholder: 'Select study',
+              variant: FormComponentVariantEnum.OUTLINED,
+              size: FormComponentSizeEnum.NORMAL,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              optionLabel: 'label',
+              optionValue: 'value',
+              required: true,
+              disabled: false,
+              scrollHeight: DEFAULT_SCROLL_HEIGHT
+            }"
+          [ngModel]="uploadForm.get('studyId')?.value"
+        ></lib-select>
+      </div>
+
+      <!-- Participant (Optional) -->
+      <div class="form-item full-width">
+        <lib-select
+          (ngModelChange)="uploadForm.get('participantId')?.setValue($event)"
+            [config]="{
+              label: 'Participant (Optional)',
+              options: participants.slice(1),
+              placeholder: 'Select participant (if applicable)',
+              variant: FormComponentVariantEnum.OUTLINED,
+              size: FormComponentSizeEnum.NORMAL,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              optionLabel: 'label',
+              optionValue: 'value',
+              required: false,
+              disabled: false,
+              scrollHeight: DEFAULT_SCROLL_HEIGHT
+            }"
+          [ngModel]="uploadForm.get('participantId')?.value"
+        ></lib-select>
+      </div>
+
+      <!-- Description -->
+      <div class="form-item full-width">
+        <lib-textarea
+          (ngModelChange)="uploadForm.get('description')?.setValue($event)"
+            [config]="{
+              label: 'Description',
+              placeholder: 'Enter document description',
+              variant: FormComponentVariantEnum.OUTLINED,
+              size: FormComponentSizeEnum.NORMAL,
+              labelPosition: FormLabelPositionEnum.ABOVE,
+              labelStyle: FormLabelStyleEnum.DEFAULT,
+              rows: 3,
+              required: false,
+              disabled: false,
+              autofocus: false
+            }"
+          [ngModel]="uploadForm.get('description')?.value"
+        ></lib-textarea>
+      </div>
+
+      <!-- Confidential Checkbox -->
+      <div class="form-item full-width">
+        <div class="checkbox-container">
+          <p-checkbox
+            (ngModelChange)="uploadForm.get('isConfidential')?.setValue($event)"
+            [binary]="true"
+            [ngModel]="uploadForm.get('isConfidential')?.value"
+            inputId="confidential"
+          ></p-checkbox>
+          <label class="checkbox-label" for="confidential"> Mark as Confidential </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dialog Actions -->
+    <div class="dialog-actions">
+      <button
+        (click)="showUploadDialog = false"
+        [disabled]="isUploading"
+        class="p-button-outlined"
+        label="Cancel"
+        pButton
+        type="button"
+      ></button>
+      <button
+        [disabled]="!canUpload() || isUploading"
+        [loading]="isUploading"
+        class="p-button-primary"
+        label="Upload"
+        pButton
+        type="submit"
+      ></button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- View Document Dialog -->
+<p-dialog
+  [(visible)]="showViewDialog"
+  [modal]="true"
+  [style]="{ width: '700px' }"
+  header="Document Details"
+  styleClass="view-dialog"
+  >
+  @if (selectedDocument) {
+    <div class="document-details">
+      <!-- Document Header -->
+      <div class="document-header">
+        <div class="document-title">
+          <i [class]="getCategoryIcon(selectedDocument.category)" class="document-icon-large"></i>
+          <div class="title-info">
+            <h3>{{ selectedDocument.name }}</h3>
+            <div class="meta-info">
+              <span class="version">Version {{ selectedDocument.version }}</span>
+              <!--              <p-tag-->
+              <!--                [value]="documentStatuses.find(s => s.value === selectedDocument.status)?.label || selectedDocument.status"-->
+              <!--                [severity]="getStatusSeverity(selectedDocument.status)"-->
+            <!--              ></p-tag>-->
+            @if (selectedDocument.isConfidential) {
+              <span class="confidential-tag">
+                <i class="pi pi-lock"></i> Confidential
+              </span>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Document Info Grid -->
+    <div class="info-grid">
+      <div class="info-item">
+        <label>Category</label>
+        <!--          <span-->
+      <!--            >{{ documentCategories.find(c => c.value === selectedDocument.category)?.label }}</span-->
+      <!--          >-->
+    </div>
+    <div class="info-item">
+      <label>File Size</label>
+      <span>{{ formatFileSize(selectedDocument.size) }}</span>
+    </div>
+    <div class="info-item">
+      <label>Upload Date</label>
+      <span>{{ formatDate(selectedDocument.uploadDate) }}</span>
+    </div>
+    <div class="info-item">
+      <label>Uploaded By</label>
+      <span>{{ selectedDocument.uploadedBy }}</span>
+    </div>
+    @if (selectedDocument.participantId) {
+      <div class="info-item">
+        <label>Participant</label>
+        <span>{{ selectedDocument.participantId }}</span>
+      </div>
+    }
+    @if (selectedDocument.studyId) {
+      <div class="info-item">
+        <label>Study</label>
+        <!--          <span>{{ studies.find(s => s.value === selectedDocument.studyId)?.label }}</span>-->
+      </div>
+    }
+    <div class="info-item">
+      <label>Downloads</label>
+      <span>{{ selectedDocument.downloadCount }}</span>
+    </div>
+    @if (selectedDocument.lastAccessed) {
+      <div class="info-item">
+        <label>Last Accessed</label>
+        <span
+          >{{ formatDate(selectedDocument.lastAccessed) }} by {{ selectedDocument.accessedBy
+          }}</span
+          >
+        </div>
+      }
+    </div>
+    <!-- Description -->
+    @if (selectedDocument.description) {
+      <div class="description-section">
+        <label>Description</label>
+        <p>{{ selectedDocument.description }}</p>
+      </div>
+    }
+    <!-- Tags -->
+    @if (selectedDocument.tags && selectedDocument.tags.length > 0) {
+      <div class="tags-section">
+        <label>Tags</label>
+        <div class="tags-container">
+          @for (tag of selectedDocument.tags; track tag) {
+            <p-chip [label]="tag"></p-chip>
+          }
+        </div>
+      </div>
+    }
+  </div>
+}
+
+<!-- View Dialog Actions -->
+<div class="dialog-actions">
+  <button
+    (click)="downloadDocument(selectedDocument!)"
+    class="p-button-primary"
+    icon="pi pi-download"
+    label="Download"
+    pButton
+    type="button"
+  ></button>
+  <button
+    (click)="editDocument(selectedDocument!)"
+    class="p-button-outlined"
+    icon="pi pi-pencil"
+    label="Edit"
+    pButton
+    type="button"
+  ></button>
+  <button class="p-button-outlined" label="Close" pButton type="button"></button>
+</div>
+</p-dialog>
+
+<!-- Toast Messages -->
+<p-toast></p-toast>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog></p-confirmDialog>
+</div>

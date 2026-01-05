@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  min-height: 100vh;
+
+  ::ng-deep {
+    .p-card {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+      .p-card-content {
+        padding: 0;
+      }
+    }
+
+    .p-progressspinner {
+      width: 60px;
+      height: 60px;
+    }
+
+    .pi-check-circle,
+    .pi-exclamation-circle {
+      filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.1));
+    }
+  }
+}
+
+.verification-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+
+  &.success {
+    color: var(--green-500);
+  }
+
+  &.error {
+    color: var(--red-500);
+  }
+}

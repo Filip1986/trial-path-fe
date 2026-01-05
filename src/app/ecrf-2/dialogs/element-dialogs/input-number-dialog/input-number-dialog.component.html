@@ -1,0 +1,197 @@
+<app-form-dialog-wrapper
+  (cancelEvent)="onCancel()"
+  (loadPresetEvent)="showLoadPresetDialog()"
+  (saveEvent)="onSave()"
+  (savePresetEvent)="showSavePresetDialog()"
+  (showEvent)="onDialogShow()"
+  [header]="dialogConfiguration.title"
+  [height]="dialogConfiguration.height"
+  [loading]="isSaving"
+  [saveDisabled]="!isReadyForSave()"
+  [visible]="visible"
+  >
+  <!-- Preview content -->
+  <div previewContent>
+    <lib-input-number
+      [config]="{
+        label: form.get('label')?.value,
+        required: form.get('required')?.value,
+        disabled: form.get('disabled')?.value,
+        placeholder: form.get('placeholder')?.value,
+        min: form.get('min')?.value,
+        max: form.get('max')?.value,
+        step: form.get('step')?.value,
+        prefix: form.get('prefix')?.value,
+        suffix: form.get('suffix')?.value,
+        mode: form.get('mode')?.value,
+        labelStyle: form.get('labelStyle')?.value,
+        labelPosition: form.get('labelPosition')?.value,
+        helperText: form.get('helperText')?.value,
+        useGrouping: form.get('useGrouping')?.value,
+        minFractionDigits: form.get('minFractionDigits')?.value,
+        maxFractionDigits: form.get('maxFractionDigits')?.value,
+        variant: FormComponentVariantEnum.OUTLINED,
+        size: FormComponentSizeEnum.NORMAL,
+      }"
+      [disabled]="form.get('disabled')?.value || false"
+      />
+  </div>
+
+  <!-- Form content with tabs -->
+  <form [formGroup]="form" class="p-fluid" formContent>
+    <p-tabs value="0">
+      <p-tablist>
+        <p-tab value="0">
+          Basic Settings
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getBasicTabFields())"
+            [hasErrors]="hasTabErrors(getBasicTabFields())"
+            [warningCount]="getTabWarningCount(getBasicTabFields())"
+            />
+        </p-tab>
+        <p-tab value="1">
+          Validation
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getValidationTabFields())"
+            [hasErrors]="hasTabErrors(getValidationTabFields())"
+            [warningCount]="getTabWarningCount(getValidationTabFields())"
+            />
+        </p-tab>
+        <p-tab value="2">
+          Formatting
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getFormattingTabFields())"
+            [hasErrors]="hasTabErrors(getFormattingTabFields())"
+            [warningCount]="getTabWarningCount(getFormattingTabFields())"
+            />
+        </p-tab>
+        <p-tab value="3">
+          Behavior
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getBehaviorTabFields())"
+            [hasErrors]="hasTabErrors(getBehaviorTabFields())"
+            [warningCount]="getTabWarningCount(getBehaviorTabFields())"
+            />
+        </p-tab>
+        <p-tab value="4">
+          Appearance
+          <app-tab-error-indicator
+            [errorCount]="getTabErrorCount(getAppearanceTabFields())"
+            [hasErrors]="hasTabErrors(getAppearanceTabFields())"
+            [warningCount]="getTabWarningCount(getAppearanceTabFields())"
+            />
+        </p-tab>
+      </p-tablist>
+
+      <p-tabpanels>
+        <!-- Basic Settings Tab -->
+        <p-tabpanel value="0">
+          <app-basic-settings [fields]="basicFields" [form]="form">
+            <div [form]="form" appFormField="mode" colClasses="col-12 md:col-6">
+              <label class="field-label">Mode</label>
+              <p-select
+                [formControl]="getControl('mode')"
+                [options]="modes"
+                [style]="{width: '100%'}"
+                appendTo="body"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select mode"
+                />
+            </div>
+          </app-basic-settings>
+        </p-tabpanel>
+
+        <!-- Validation Tab -->
+        <p-tabpanel value="1">
+          <app-validation-settings
+            [form]="form"
+            [maxConfig]="maxConfig"
+            [minConfig]="minConfig"
+            type="number"
+            >
+            <div [form]="form" appFormField="step" colClasses="col-12 md:col-4">
+              <lib-input-text [config]="stepConfig" [formControl]="getControl('step')" />
+              @if (formErrors['step']) {
+                <div class="error-message">{{ formErrors['step'] }}</div>
+              }
+            </div>
+          </app-validation-settings>
+        </p-tabpanel>
+
+        <!-- Formatting Tab -->
+        <p-tabpanel value="2">
+          <app-config-section>
+            <div class="grid">
+              @for (field of formatFields; track trackByFieldName($index, field)) {
+                <div
+                  [appFormField]="field.name"
+                  [colClasses]="field.colClasses || 'col-12 md:col-6'"
+                  [form]="form"
+                  [suppressErrors]="true"
+                  >
+                  <lib-input-text [config]="field.config" [formControl]="getControl(field.name)" />
+                </div>
+              }
+
+              @if (form.get('maxFractionDigits')?.errors?.['minGreaterThanMax']) {
+                <div
+                  class="col-12 error-message"
+                  >
+                  Maximum fraction digits must be greater than or equal to minimum fraction digits
+                </div>
+              }
+            </div>
+          </app-config-section>
+        </p-tabpanel>
+
+        <!-- Behavior Tab -->
+        <p-tabpanel value="3">
+          <app-behavior-settings [form]="form" [options]="behaviorOptions" />
+        </p-tabpanel>
+
+        <!-- Appearance Tab -->
+        <p-tabpanel value="4">
+          <app-appearance-settings
+            [form]="form"
+            [labelPositionOptions]="labelPositions"
+            [labelStyleOptions]="labelStyles"
+            [showSize]="false"
+            [showVariant]="false"
+            />
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+
+    <!-- Global Form Validation Summary -->
+    <app-validation-summary
+      [compact]="false"
+      [showQualityScore]="true"
+      [showWarnings]="true"
+      [validationResult]="validationResult"
+      />
+  </form>
+</app-form-dialog-wrapper>
+
+<!-- Save Preset Dialog -->
+<app-save-preset-dialog
+  (savePreset)="onSavePreset($event)"
+  [(visible)]="savePresetDialogVisible"
+  [currentConfiguration]="getConfigurationForPreset()"
+  [elementType]="dialogConfiguration.elementType"
+  />
+
+<!-- Load Preset Dialog -->
+<app-load-preset-dialog
+  (loadPreset)="onLoadPreset($event)"
+  (presetDeleted)="onPresetDeleted($event)"
+  [(visible)]="loadPresetDialogVisible"
+  [elementType]="dialogConfiguration.elementType"
+  />
+
+<p-confirmDialog
+  [baseZIndex]="10000"
+  [style]="{width: '450px'}"
+  acceptButtonStyleClass="p-button-danger"
+  rejectButtonStyleClass="p-button-secondary"
+  />

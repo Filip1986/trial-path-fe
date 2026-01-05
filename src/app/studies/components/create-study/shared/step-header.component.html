@@ -1,0 +1,9 @@
+<div class="step-header mb-4">
+  <h2 class="text-xl font-semibold text-gray-800 flex align-items-center gap-2">
+    <i [class]="iconClass"></i>
+    {{ title }}
+  </h2>
+  @if (description) {
+    <p class="text-gray-600 mt-1">{{ description }}</p>
+  }
+</div>

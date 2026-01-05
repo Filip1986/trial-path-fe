@@ -1,0 +1,88 @@
+<p-dialog
+  [(visible)]="suspendDialogVisible"
+  [modal]="true"
+  [style]="{width: '500px'}"
+  header="Suspend User Account"
+  styleClass="p-fluid suspension-dialog"
+  >
+  @if (selectedUser) {
+    <div>
+      <div class="p-2 bg-red-50 border-l-4 border-red-500 text-red-700 mb-4">
+        <div class="flex gap-2 items-center">
+          <i class="pi pi-exclamation-triangle text-red-500"></i>
+          <p>
+            You are about to suspend the account for user
+            <strong>{{ selectedUser.username }}</strong>. This action will prevent the user from
+            accessing their account.
+          </p>
+        </div>
+      </div>
+      <div class="field mb-4">
+        <label class="block mb-2 font-medium" for="suspensionReason">
+          Suspension Reason <span class="text-red-500">*</span>
+        </label>
+        <p-select
+          [(ngModel)]="suspensionData.suspensionReason"
+          [options]="suspensionReasons"
+          appendTo="body"
+          class="w-full"
+          id="suspensionReason"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select a reason"
+        ></p-select>
+        @if (reasonError) {
+          <small class="p-error">{{reasonError}}</small>
+        }
+      </div>
+      <div class="field mb-4">
+        <label class="block mb-2 font-medium" for="suspensionNotes"> Additional Notes </label>
+        <textarea
+          [(ngModel)]="suspensionData.suspensionNotes"
+          [rows]="3"
+          class="w-full"
+          id="suspensionNotes"
+          pInputTextarea
+          placeholder="Add any additional details about this suspension"
+        ></textarea>
+      </div>
+      <div class="field mb-4">
+        <label class="block mb-2">Email Notification</label>
+        <p-checkbox
+          [(ngModel)]="suspensionData.sendEmail"
+          [binary]="true"
+          inputId="sendNotification"
+        ></p-checkbox>
+        <label class="ml-2" for="sendNotification"> Send email notification to user </label>
+      </div>
+    </div>
+  }
+
+  <ng-template pTemplate="footer">
+    <button
+      (click)="cancelSuspension()"
+      class="p-button-text"
+      icon="pi pi-times"
+      label="Cancel"
+      pButton
+    ></button>
+    <button
+      (click)="confirmSuspension()"
+      [disabled]="isSuspending || !suspensionData.suspensionReason"
+      [loading]="isSuspending"
+      class="p-button-danger"
+      icon="pi pi-lock"
+      label="Suspend Account"
+      pButton
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<!-- Unsuspend Confirmation Dialog -->
+<p-confirmDialog
+  acceptButtonStyleClass="p-button-success"
+  acceptLabel="Reactivate Account"
+  header="Reactivate Account"
+  icon="pi pi-unlock"
+  rejectLabel="Cancel"
+  />

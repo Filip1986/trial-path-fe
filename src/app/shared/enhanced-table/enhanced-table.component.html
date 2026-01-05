@@ -1,0 +1,142 @@
+<!-- Filters (optional) -->
+@if (showFilters() && filterFields() && filterFields().length > 0) {
+  <app-table-filters
+    (clearFilters)="onClearFilters()"
+    (filterChange)="onFilterChange($event)"
+    [filterFields]="filterFields()"
+    [filterValues]="filterValues()"
+    [title]="filterTitle()"
+    />
+}
+
+<!-- Main Table Card -->
+<p-card [header]="tableTitle()">
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="text-center py-4">
+      <p-progressSpinner></p-progressSpinner>
+      <p class="text-600 mt-2">{{ config().loadingMessage || 'Loading data...' }}</p>
+    </div>
+  }
+
+  <!-- Data Table -->
+  @if (!loading()) {
+    <p-table
+      [currentPageReportTemplate]="config().currentPageReportTemplate || getDefaultPageReportTemplate()"
+      [globalFilterFields]="config().globalFilterFields"
+      [paginator]="config().paginator ?? true"
+      [resizableColumns]="config().resizableColumns ?? true"
+      [responsiveLayout]="config().responsiveLayout ?? 'scroll'"
+      [rowsPerPageOptions]="config().rowsPerPageOptions ?? [10, 25, 50]"
+      [rows]="config().rows ?? 10"
+      [scrollHeight]="config().scrollHeight"
+      [scrollable]="config().scrollable ?? false"
+      [showCurrentPageReport]="config().showCurrentPageReport ?? true"
+      [sortField]="config().sortField"
+      [sortOrder]="config().sortOrder ?? 1"
+      [value]="data()"
+      >
+      <!-- Table Header -->
+      <ng-template pTemplate="header">
+        <tr>
+          @for (col of columns(); track col) {
+            <th
+              [pSortableColumn]="col.sortable ? col.field : undefined"
+              [style.width]="col.width"
+              >
+              {{ col.header }}
+              @if (col.sortable) {
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              }
+            </th>
+          }
+        </tr>
+      </ng-template>
+      <!-- Table Body -->
+      <ng-template let-ri="rowIndex" let-rowData pTemplate="body">
+        <tr>
+          @for (col of columns(); track col) {
+            <td [attr.data-label]="col.header">
+              <!-- Text Type -->
+              @if (col.type === 'text' || !col.type) {
+                <span [innerHTML]="getFormattedValue(col, rowData)"></span>
+              }
+              <!-- Tag Type -->
+              @if (col.type === 'tag') {
+                <p-tag
+                  [severity]="col.tagSeverity ? col.tagSeverity(getFieldValue(col.field, rowData)) : 'info'"
+                  [value]="getFormattedValue(col, rowData)"
+                  >
+                </p-tag>
+              }
+              <!-- Progress Type -->
+              @if (col.type === 'progress') {
+                <div class="flex align-items-center gap-2">
+                  <div class="flex-grow-1">
+                    <div class="bg-gray-200 border-round" style="height: 6px">
+                      <div
+                        [style.background-color]="col.progressColor ? col.progressColor(getFieldValue(col.field, rowData), rowData) : '#10b981'"
+                        [style.width.%]="col.progressValue ? col.progressValue(rowData) : 0"
+                        class="border-round"
+                        style="height: 100%"
+                      ></div>
+                    </div>
+                  </div>
+                  <span class="text-sm font-medium">{{ getFormattedValue(col, rowData) }}</span>
+                </div>
+              }
+              <!-- Date Type -->
+              @if (col.type === 'date') {
+                <span>{{ getFieldValue(col.field, rowData) | date:'mediumDate' }}</span>
+              }
+              <!-- Custom Template Type -->
+              @if (col.type === 'custom' && col.customTemplate) {
+                <ng-container
+                  *ngTemplateOutlet="getCustomTemplate(col.customTemplate); context: { $implicit: rowData, field: col.field, index: ri }"
+                  >
+                </ng-container>
+              }
+              <!-- Actions Type -->
+              @if (col.type === 'actions') {
+                @if (getActionsForRow()) {
+                  <p-button
+                    (onClick)="showActionsMenu($event, rowData)"
+                    [pTooltip]="'Actions'"
+                    icon="pi pi-ellipsis-v"
+                    styleClass="p-button-text p-button-sm"
+                    >
+                  </p-button>
+                }
+                <p-menu #actionsMenu [model]="currentRowActions()" [popup]="true"></p-menu>
+              }
+            </td>
+          }
+        </tr>
+      </ng-template>
+      <!-- Empty Message -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="columns().length" class="text-center py-4">
+            @if (emptyTemplate) {
+              <ng-container *ngTemplateOutlet="emptyTemplate"></ng-container>
+            } @else {
+              <i class="pi pi-search text-4xl text-400 mb-3"></i>
+              <p class="text-600">
+                {{ config().emptyMessage || 'No data found matching your criteria.' }}
+              </p>
+              @if (showCreateButton()) {
+                <p-button
+                  (onClick)="onCreateNew()"
+                  [icon]="createButtonIcon() || 'pi pi-plus'"
+                  [label]="createButtonLabel() || 'Create New'"
+                  styleClass="p-button-outlined"
+                  >
+                </p-button>
+              }
+            }
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  }
+</p-card>

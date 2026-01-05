@@ -1,0 +1,29 @@
+<!-- Page content -->
+<div class="bg-white p-4 rounded shadow">
+  <h1 class="text-2xl font-bold mb-4">Product Detail</h1>
+  <p>
+    This is an example product page demonstrating the breadcrumbs component with
+    the factory pattern.
+  </p>
+</div>
+<div class="container mx-auto p-4">
+  <!-- Breadcrumbs with variant selector -->
+  <div class="mb-4">
+    <label class="block mb-2">Select Breadcrumbs Style:</label>
+    <select [(ngModel)]="selectedVariant" class="p-2 border rounded">
+      <option value="standard">Standard</option>
+      <option value="styled">Styled with Icons</option>
+      <option value="minimal">Minimal</option>
+    </select>
+  </div>
+
+  <!-- Dynamic breadcrumbs based on selected variant -->
+  <div class="mb-6 p-4 border rounded bg-gray-50">
+    <lib-breadcrumbs
+      [homePage]="homePage"
+      [items]="breadcrumbItems"
+      [separator]="separator"
+      [variant]="selectedVariant"
+    ></lib-breadcrumbs>
+  </div>
+</div>

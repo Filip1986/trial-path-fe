@@ -1,0 +1,97 @@
+<p-dialog
+  (onHide)="hideEvent.emit()"
+  (onShow)="showEvent.emit()"
+  [(visible)]="visible"
+  [blockScroll]="true"
+  [closeOnEscape]="true"
+  [dismissableMask]="dismissableMask"
+  [draggable]="false"
+  [header]="header"
+  [modal]="true"
+  [resizable]="false"
+  [style]="{width: width, height: height}"
+  >
+  <!-- Loading overlay -->
+  @if (loading) {
+    <div
+      class="absolute inset-0 bg-black bg-opacity-10 flex items-center justify-center z-10"
+      >
+      <div class="spinner"></div>
+    </div>
+  }
+
+  <div class="dialog-content-container">
+    <!-- Preview section - Always visible above tabs -->
+    @if (showPreview) {
+      <div
+        [ngClass]="{'preview-dark-theme': previewDarkTheme}"
+        class="preview-section p-6"
+        >
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-md font-medium">Preview</h3>
+          <button
+            (click)="togglePreviewTheme()"
+            [ngClass]="previewDarkTheme ? 'bg-blue-700 text-white' : 'bg-blue-100 text-blue-700'"
+            [title]="previewDarkTheme ? 'Switch to Light Theme' : 'Switch to Dark Theme'"
+            class="theme-toggle-btn p-2 rounded-full"
+            >
+            <i [class]="previewDarkTheme ? 'pi pi-sun' : 'pi pi-moon'"></i>
+          </button>
+        </div>
+        <p-card [ngClass]="{'dark-preview': previewDarkTheme}">
+          <ng-content select="[previewContent]" />
+        </p-card>
+      </div>
+    }
+
+    <!-- Tabbed form content -->
+    <div class="form-content">
+      <ng-content select="[formContent]" />
+    </div>
+  </div>
+
+  <!-- Footer buttons -->
+  <ng-template pTemplate="footer">
+    <div class="flex justify-between items-center w-full">
+      <!-- Preset buttons - Left side -->
+      <div class="preset-buttons flex">
+        <button
+          (click)="loadPresetEvent.emit()"
+          class="p-button-secondary p-button-outlined mr-2"
+          icon="pi pi-folder-open"
+          label="Load Preset"
+          pButton
+          type="button"
+        ></button>
+        <button
+          (click)="savePresetEvent.emit()"
+          [disabled]="saveDisabled || loading"
+          class="p-button-secondary p-button-outlined"
+          icon="pi pi-save"
+          label="Save as Preset"
+          pButton
+          type="button"
+        ></button>
+      </div>
+
+      <!-- Main buttons - Right side -->
+      <div class="main-buttons">
+        <button
+          (click)="cancelEvent.emit()"
+          [label]="cancelLabel"
+          class="p-button-text"
+          pButton
+          type="button"
+        ></button>
+        <button
+          (click)="saveEvent.emit()"
+          [disabled]="saveDisabled || loading"
+          [label]="loading ? 'Saving...' : saveLabel"
+          class="p-button-primary"
+          pButton
+          type="button"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>

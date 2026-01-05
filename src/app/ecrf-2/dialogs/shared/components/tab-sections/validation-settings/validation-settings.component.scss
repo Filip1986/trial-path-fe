@@ -1,0 +1,166 @@
+.field-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+// Validation accordion specific styles
+.validation-accordion {
+  // Standard validation panel styling
+  ::ng-deep .standard-validation-panel {
+    .p-accordion-header-link {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      padding: 1rem;
+
+      &:hover {
+        background-color: #f1f5f9;
+      }
+
+      // Keep it expanded by default with visual indication
+      &[aria-expanded="true"] {
+        background-color: #eff6ff;
+        border-color: #bfdbfe;
+
+        .pi-chevron-down {
+          color: #3b82f6;
+        }
+      }
+    }
+
+    .p-accordion-content {
+      border: 1px solid #e2e8f0;
+      border-top: none;
+      border-radius: 0 0 0.5rem 0.5rem;
+      padding: 1.5rem;
+      background-color: #ffffff;
+    }
+  }
+
+  // Custom validation panel styling
+  ::ng-deep .custom-validation-panel {
+    margin-top: 1rem;
+
+    .p-accordion-header-link {
+      background-color: #faf5ff;
+      border: 1px solid #e9d5ff;
+      border-radius: 0.5rem;
+      padding: 1rem;
+
+      &:hover {
+        background-color: #f3e8ff;
+      }
+
+      &[aria-expanded="true"] {
+        background-color: #ede9fe;
+        border-color: #c4b5fd;
+
+        .pi-chevron-down {
+          color: #8b5cf6;
+        }
+      }
+    }
+
+    .p-accordion-content {
+      border: 1px solid #e9d5ff;
+      border-top: none;
+      border-radius: 0 0 0.5rem 0.5rem;
+      padding: 1.5rem;
+      background-color: #ffffff;
+    }
+  }
+
+  // General accordion improvements
+  ::ng-deep {
+    .p-accordion-tab {
+      margin-bottom: 0.5rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .p-accordion-header-link {
+      transition: all 0.2s ease-in-out;
+
+      &:focus {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+      }
+    }
+
+    .p-accordion-content {
+      // Smooth content transition
+      .p-accordion-content-wrapper {
+        transition: all 0.3s ease-in-out;
+      }
+    }
+  }
+}
+
+// Standard validation grid
+.standard-validation-grid {
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+// Custom validation content styling
+.custom-validation-content {
+  // Override any conflicting styles from the custom validation component
+  ::ng-deep .custom-validation-container {
+    // Remove top-level spacing since we're inside an accordion
+    margin-top: 0;
+
+    // Adjust card spacing
+    .validation-rule-card {
+      margin-bottom: 1rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .validation-accordion {
+    ::ng-deep {
+      .p-accordion-header-link {
+        padding: 0.75rem;
+      }
+
+      .p-accordion-content {
+        padding: 1rem;
+      }
+    }
+  }
+
+  .standard-validation-grid .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Animation improvements
+@keyframes accordionExpand {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.validation-accordion ::ng-deep .p-accordion-content-wrapper {
+  animation: accordionExpand 0.3s ease-out;
+}
