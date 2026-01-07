@@ -6,8 +6,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { SelectModule } from 'primeng/select';
-import { UserListDto } from '../../../back-end/models/UserListDto';
-import { SuspensionService } from '../../core/services/suspension.service';
+import { UserListDto } from '@back-end/models/UserListDto';
+import { SuspensionService } from '@core/services/suspension.service';
 
 @Component({
   selector: 'app-suspension-dialog',

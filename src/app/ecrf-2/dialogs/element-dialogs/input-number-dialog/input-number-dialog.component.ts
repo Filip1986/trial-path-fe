@@ -4,8 +4,8 @@ import { FormControl, ReactiveFormsModule, ValidationErrors } from '@angular/for
 import { SelectModule } from 'primeng/select';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ECRFInputNumberClass } from '../../../form-controls/form-elements/input-number/input-number.class';
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
-import { DialogConfigBuilder } from '../../core/builders/config-builders';
+import { IconMappingService } from '@core/services/icon-mapping.service';
+import { DialogConfigBuilder } from '@core/builders/config-builders';
 import {
   InputNumberModeEnum,
   LibInputNumberComponent as LibInputNumberComponent,
@@ -16,20 +16,20 @@ import {
   FormComponentSizeEnum,
   InputTextConfig,
 } from '@artificial-sense/ui-lib';
-import { BaseDialogComponent } from '../../core/abstracts/base-dialog.component';
+import { BaseDialogComponent } from '@core/abstracts/base-dialog.component';
 import { DialogSharedModule } from '../../dialog-shared.module';
 import { Tabs, TabsModule, TabsStyle } from 'primeng/tabs';
 import { SavePresetDialogComponent } from '../../shared/components/presets/save-preset-dialog/save-preset-dialog.component';
 import { LoadPresetDialogComponent } from '../../shared/components/presets/load-preset-dialog/load-preset-dialog.component';
 import { DialogWrapperComponent } from '../../shared/components/dialog-wrapper/dialog-wrapper.component';
-import { InputNumberFactoryOptions } from '../../../core/models/interfaces/input-number.interfaces';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { IDialogFieldConfig } from '../../../core/models/interfaces/dialog.interfaces';
-import { IPresetConfiguration } from '../../../core/models/interfaces/preset.interfaces';
-import { DropdownOption } from '../../core/models/dialog.types';
+import { InputNumberFactoryOptions } from '@core/models/interfaces/input-number.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { IDialogFieldConfig } from '@core/models/interfaces/dialog.interfaces';
+import { IPresetConfiguration } from '@core/models/interfaces/preset.interfaces';
+import { DropdownOption } from '@core/models/dialog.types';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
-import { DialogConfirmationService } from '../../core/services/dialog-confirmation.service';
+import { DialogConfirmationService } from '@core/services/dialog-confirmation.service';
 
 @Component({
   selector: 'app-enhanced-input-number-dialog',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DialogConfigurationBuilder } from './dialog-configuration-builder';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { IDialogConfiguration } from '../../../core/models/interfaces/dialog.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { IDialogConfiguration } from '@core/models/interfaces/dialog.interfaces';
 import { ConfigSectionComponent } from '../../shared/components/config-section/config-section.component';
 import { CustomValidationSettingsComponent } from '../../shared/components/tab-sections/custom-validation-settings/custom-validation-settings.component';
 

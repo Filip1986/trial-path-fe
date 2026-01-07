@@ -7,8 +7,8 @@ import { of, throwError, BehaviorSubject } from 'rxjs';
 
 import { EmailVerificationComponent } from './email-verification.component';
 import { UserService } from '../../../../../../shared/src/lib/api';
-import { AuthService } from '../../core/services/app-auth.service';
-import { AuthState, UserDetails } from '../../core/store/auth.state';
+import { AuthService } from '@core/services/app-auth.service';
+import { AuthState, UserDetails } from '@core/store/auth.state';
 import { CommonModule } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
 import { Card } from 'primeng/card';

@@ -4,11 +4,11 @@ import { PreviewTextareaComponent } from '../../form-elements/preview-textarea/p
 import { PreviewCheckboxComponent } from '../../form-elements/preview-checkbox/preview-checkbox.component';
 import { PreviewRadioButtonComponent } from '../../form-elements/preview-radio-button/preview-radio-button.component';
 import { PreviewDatePickerComponent } from '../../form-elements/preview-date-picker/preview-date-picker.component';
-import { isColumnsControl } from '../../../core/utils/type-guards';
+import { isColumnsControl } from '@core/utils/type-guards';
 import { PreviewSelectComponent } from '../../form-elements/preview-select/preview-select.component';
 import { PreviewInputTextComponent } from '../../form-elements/preview-input-text/preview-input-text.component';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
-import { FormElementType } from '../../../core/models/enums/form.enums';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
 
 @Component({
   selector: 'app-preview-columns',

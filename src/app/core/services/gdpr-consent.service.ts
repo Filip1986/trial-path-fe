@@ -5,10 +5,10 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { ToastManagerService } from './toast-manager.service';
 import { Store } from '@ngxs/store';
 import { AuthState } from '../store/auth.state';
-import {GdprService} from '../../../back-end/services/GdprService';
-import {GdprConsentDto} from '../../../back-end/models/GdprConsentDto';
-import {GdprConsentResponseDto} from '../../../back-end/models/GdprConsentResponseDto';
-import {GdprConsentStatusDto} from '../../../back-end/models/GdprConsentStatusDto';
+import {GdprService} from '@back-end/services/GdprService';
+import {GdprConsentDto} from '@back-end/models/GdprConsentDto';
+import {GdprConsentResponseDto} from '@back-end/models/GdprConsentResponseDto';
+import {GdprConsentStatusDto} from '@back-end/models/GdprConsentStatusDto';
 
 @Injectable({
   providedIn: 'root',

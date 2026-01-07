@@ -1,4 +1,4 @@
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
 import {
   FormComponentSizeEnum,
   FormComponentVariantEnum,
@@ -8,10 +8,10 @@ import {
   InputTextIconPositionEnum,
   InputTextTypeEnum,
 } from '@artificial-sense/ui-lib';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { generateUniqueId } from '../../../core/utils/utils';
-import { ITextInputOptions } from '../../../core/models/interfaces/input-text.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { generateUniqueId } from '@core/utils/utils';
+import { ITextInputOptions } from '@core/models/interfaces/input-text.interfaces';
 
 /**
  * Input text form control class

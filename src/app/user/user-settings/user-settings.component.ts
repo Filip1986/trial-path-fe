@@ -1,26 +1,26 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TabsModule } from 'primeng/tabs';
-import { CardModule } from 'primeng/card';
-import { ToggleSwitchModule } from 'primeng/toggleswitch';
-import { SelectModule } from 'primeng/select';
-import { ButtonModule } from 'primeng/button';
-import { ToastModule } from 'primeng/toast';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { SliderModule } from 'primeng/slider';
-import { RippleModule } from 'primeng/ripple';
-import { DividerModule } from 'primeng/divider';
-import { InputTextModule } from 'primeng/inputtext';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { ColorPickerModule } from 'primeng/colorpicker';
-import { AuthState, UserDetails } from '../../core/store/auth.state';
 import { Store } from '@ngxs/store';
 import { MessageService } from 'primeng/api';
-import { UserSettingsService } from '../../core/services/user-settings.service';
-import { AppearanceSettingsComponent } from './appearance-settings/appearance-settings.component';
-import { switchMap } from 'rxjs/operators';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { ColorPickerModule } from 'primeng/colorpicker';
+import { DividerModule } from 'primeng/divider';
+import { InputTextModule } from 'primeng/inputtext';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { RippleModule } from 'primeng/ripple';
+import { SelectModule } from 'primeng/select';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { SliderModule } from 'primeng/slider';
+import { TabsModule } from 'primeng/tabs';
+import { ToastModule } from 'primeng/toast';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { UserSettingsService } from '@core/services/user-settings.service';
+import { AuthState, UserDetails } from '@core/store/auth.state';
+import { AppearanceSettingsComponent } from './appearance-settings/appearance-settings.component';
 
 interface NotificationTiming {
   name: string;
@@ -46,8 +46,8 @@ interface NotificationTiming {
     InputTextModule,
     SelectButtonModule,
     ColorPickerModule,
-    AppearanceSettingsComponent
-],
+    AppearanceSettingsComponent,
+  ],
   templateUrl: './user-settings.component.html',
   styleUrl: './user-settings.component.scss',
 })

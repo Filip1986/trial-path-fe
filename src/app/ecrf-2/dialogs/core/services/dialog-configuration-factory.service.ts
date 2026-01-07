@@ -30,13 +30,13 @@ import {
   MultiselectDialogOptions,
   InputTextDialogOptions,
 } from '../models/dialog.types';
-import { FormElementType } from '../../../core/models/enums/form.enums';
+import { FormElementType } from '@core/models/enums/form.enums';
 import {
   IDialogFieldConfig,
   IDialogConfiguration,
   IDialogBehaviorOption,
-} from '../../../core/models/interfaces/dialog.interfaces';
-import { OptionFieldConfigs } from '../../../core/models/interfaces/options.interfaces';
+} from '@core/models/interfaces/dialog.interfaces';
+import { OptionFieldConfigs } from '@core/models/interfaces/options.interfaces';
 
 @Injectable({
   providedIn: 'root',

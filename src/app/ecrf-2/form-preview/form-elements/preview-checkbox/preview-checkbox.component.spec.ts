@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PreviewCheckboxComponent } from './preview-checkbox.component';
-import { FormElementType } from '../../../core/models/form.models';
+import { FormElementType } from '@core/models/form.models';
 import { ECRFCheckboxClass } from '../../../form-controls/form-elements/checkbox/checkbox.class';
 
 describe('PreviewCheckboxComponent', () => {

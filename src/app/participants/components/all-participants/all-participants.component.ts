@@ -39,7 +39,7 @@ import {
   TableFiltersComponent,
 } from '../../../shared/table-filters/table-filters.component';
 import { Router } from '@angular/router';
-import { ParticipantsFacade } from '../../../core/store/participants/participants.facade';
+import { ParticipantsFacade } from '@core/store/participants/participants.facade';
 
 @Component({
   selector: 'app-all-participants',

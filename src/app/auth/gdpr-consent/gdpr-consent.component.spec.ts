@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { GdprConsentComponent } from './gdpr-consent.component';
-import { GdprConsentService } from '../../core/services/gdpr-consent.service';
-import { GdprConsentPreferences } from '../../core/models/consent.models';
+import { GdprConsentService } from '@core/services/gdpr-consent.service';
+import { GdprConsentPreferences } from '@core/models/consent.models';
 import { DestroyRef } from '@angular/core';
 
 describe('GdprConsentComponent', () => {

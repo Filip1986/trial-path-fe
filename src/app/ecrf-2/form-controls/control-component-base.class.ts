@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IFormControl } from '../core/models/interfaces/form.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
 
 @Component({
   template: '',

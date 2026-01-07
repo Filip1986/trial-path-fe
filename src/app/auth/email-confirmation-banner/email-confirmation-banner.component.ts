@@ -1,6 +1,6 @@
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
   Injector,
   Signal,
   WritableSignal,
@@ -9,13 +9,13 @@ import {
   signal,
 } from '@angular/core';
 
-import { Store } from '@ngxs/store';
-import { UserService } from '../../../../../../shared/src/lib/api';
-import { MessageService } from 'primeng/api';
-import { AuthState, UserDetails } from '../../core/store/auth.state';
-import { Router } from '@angular/router';
-import { ButtonDirective } from 'primeng/button';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
+import { UserService } from '@back-end/services/UserService';
+import { AuthState, UserDetails } from '@core/store/auth.state';
+import { Store } from '@ngxs/store';
+import { MessageService } from 'primeng/api';
+import { ButtonDirective } from 'primeng/button';
 import { distinctUntilChanged, finalize } from 'rxjs/operators';
 
 @Component({

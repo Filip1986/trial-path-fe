@@ -8,11 +8,11 @@ import { Observable, of } from 'rxjs';
 import { SelectButton } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
-import { UserDetails } from '../../core/store/auth.state';
-import { AuthService } from '../../core/services/app-auth.service';
-import { ToastManagerService } from '../../core/services/toast-manager.service';
-import { GdprConsentService } from '../../core/services/gdpr-consent.service';
-import { AppearanceSettingsService } from '../../core/services/appearance-settings.service';
+import { UserDetails } from '@core/store/auth.state';
+import { AuthService } from '@core/services/app-auth.service';
+import { ToastManagerService } from '@core/services/toast-manager.service';
+import { GdprConsentService } from '@core/services/gdpr-consent.service';
+import { AppearanceSettingsService } from '@core/services/appearance-settings.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 

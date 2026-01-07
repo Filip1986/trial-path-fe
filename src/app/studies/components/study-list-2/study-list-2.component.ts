@@ -47,7 +47,7 @@ import {
 import { StudyStatus } from '../../models/enums';
 import { Study } from '../../models/interfaces/study.interface';
 import { StudyMetrics } from '../../models/interfaces/study-metrics.interface';
-import { StudiesFacade } from '../../../core/store/studies/studies.facade';
+import { StudiesFacade } from '@core/store/studies/studies.facade';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { StudyFilters } from '../../models/interfaces/study-filters.interface';
 

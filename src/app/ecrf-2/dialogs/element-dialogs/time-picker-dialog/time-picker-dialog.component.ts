@@ -4,7 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { CheckboxModule } from 'primeng/checkbox';
 import { EcrfTimePickerClass } from '../../../form-controls/form-elements/time-picker';
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
 import {
   LibTimePickerComponent,
   FormComponentVariantEnum,
@@ -18,16 +18,16 @@ import { Tabs, TabsModule, TabsStyle } from 'primeng/tabs';
 import { LoadPresetDialogComponent } from '../../shared/components/presets/load-preset-dialog/load-preset-dialog.component';
 import { SavePresetDialogComponent } from '../../shared/components/presets/save-preset-dialog/save-preset-dialog.component';
 import { DialogWrapperComponent } from '../../shared/components/dialog-wrapper/dialog-wrapper.component';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { IPresetConfiguration } from '../../../core/models/interfaces/preset.interfaces';
-import { TimePickerOptions } from '../../../core/models/interfaces/time-picker.interfaces';
-import { DialogConfigBuilder } from '../../core/builders/config-builders';
-import { IDialogFieldConfig } from '../../../core/models/interfaces/dialog.interfaces';
-import { BaseDialogComponent } from '../../core/abstracts/base-dialog.component';
-import { TimePickerHourFormatOption } from '../../core/models/dialog.types';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { IPresetConfiguration } from '@core/models/interfaces/preset.interfaces';
+import { TimePickerOptions } from '@core/models/interfaces/time-picker.interfaces';
+import { DialogConfigBuilder } from '@core/builders/config-builders';
+import { IDialogFieldConfig } from '@core/models/interfaces/dialog.interfaces';
+import { BaseDialogComponent } from '@core/abstracts/base-dialog.component';
+import { TimePickerHourFormatOption } from '@core/models/dialog.types';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
-import { DialogConfirmationService } from '../../core/services/dialog-confirmation.service';
+import { DialogConfirmationService } from '@core/services/dialog-confirmation.service';
 
 @Component({
   selector: 'app-time-picker-dialog',

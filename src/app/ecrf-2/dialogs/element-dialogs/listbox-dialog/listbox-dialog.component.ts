@@ -4,7 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ECRFListBoxClass } from '../../../form-controls/form-elements/listbox/listbox.class';
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
 import {
   LibInputTextComponent,
   LibListboxComponent,
@@ -14,21 +14,21 @@ import {
   FormComponentVariantEnum,
   InputTextConfig,
 } from '@artificial-sense/ui-lib';
-import { BaseDialogComponent } from '../../core/abstracts/base-dialog.component';
+import { BaseDialogComponent } from '@core/abstracts/base-dialog.component';
 import { DialogSharedModule } from '../../dialog-shared.module';
 import { Tabs, TabsModule, TabsStyle } from 'primeng/tabs';
 import { SavePresetDialogComponent } from '../../shared/components/presets/save-preset-dialog/save-preset-dialog.component';
 import { LoadPresetDialogComponent } from '../../shared/components/presets/load-preset-dialog/load-preset-dialog.component';
 import { DialogWrapperComponent } from '../../shared/components/dialog-wrapper/dialog-wrapper.component';
 import { OptionsManagerComponent } from '../../shared/components/options-manager/options-manager.component';
-import { OptionFieldConfigs, OptionItem } from '../../../core/models/interfaces/options.interfaces';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { IPresetConfiguration } from '../../../core/models/interfaces/preset.interfaces';
-import { IListBoxOptions } from '../../../core/models/interfaces/list-box.interfaces';
-import { DialogConfigBuilder } from '../../core/builders/config-builders';
+import { OptionFieldConfigs, OptionItem } from '@core/models/interfaces/options.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { IPresetConfiguration } from '@core/models/interfaces/preset.interfaces';
+import { IListBoxOptions } from '@core/models/interfaces/list-box.interfaces';
+import { DialogConfigBuilder } from '@core/builders/config-builders';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
-import { DialogConfirmationService } from '../../core/services/dialog-confirmation.service';
+import { DialogConfirmationService } from '@core/services/dialog-confirmation.service';
 
 @Component({
   selector: 'app-listbox-dialog',

@@ -4,7 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ECRFInputTextClass } from '../../../form-controls/form-elements/input-text/ecrf-input-text.class';
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
 import {
   LibInputTextComponent,
   FormLabelPositionEnum,
@@ -19,13 +19,13 @@ import { Tabs, TabsModule, TabsStyle } from 'primeng/tabs';
 import { SavePresetDialogComponent } from '../../shared/components/presets/save-preset-dialog/save-preset-dialog.component';
 import { LoadPresetDialogComponent } from '../../shared/components/presets/load-preset-dialog/load-preset-dialog.component';
 import { DialogWrapperComponent } from '../../shared/components/dialog-wrapper/dialog-wrapper.component';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { IPresetConfiguration } from '../../../core/models/interfaces/preset.interfaces';
-import { ITextInputOptions } from '../../../core/models/interfaces/input-text.interfaces';
-import { BaseDialogComponent } from '../../core/abstracts/base-dialog.component';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { IPresetConfiguration } from '@core/models/interfaces/preset.interfaces';
+import { ITextInputOptions } from '@core/models/interfaces/input-text.interfaces';
+import { BaseDialogComponent } from '@core/abstracts/base-dialog.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
-import { DialogConfirmationService } from '../../core/services/dialog-confirmation.service';
+import { DialogConfirmationService } from '@core/services/dialog-confirmation.service';
 
 @Component({
   selector: 'app-enhanced-input-text-dialog',

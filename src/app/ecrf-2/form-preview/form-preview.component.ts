@@ -16,7 +16,7 @@ import {
   isTextAreaControl,
   isTextInputControl,
   isTimePickerControl,
-} from '../core/utils/type-guards';
+} from '@core/utils/type-guards';
 import { ECRFRadioButtonClass } from '../form-controls/form-elements/radio-button/radio-button.class';
 import { PreviewDatePickerComponent } from './form-elements/preview-date-picker/preview-date-picker.component';
 import { PreviewListboxComponent } from './form-elements/preview-listbox/preview-listbox.component';
@@ -26,8 +26,8 @@ import { PreviewTimePickerComponent } from './form-elements/preview-time-picker/
 import { PreviewSelectComponent } from './form-elements/preview-select/preview-select.component';
 import { PreviewSelectButtonComponent } from './form-elements/preview-select-button/preview-select-button.component';
 import { PreviewInputTextComponent } from './form-elements/preview-input-text/preview-input-text.component';
-import { IForm, IFormControl } from '../core/models/interfaces/form.interfaces';
-import { FormElementType } from '../core/models/enums/form.enums';
+import { IForm, IFormControl } from '@core/models/interfaces/form.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
 
 @Component({
   selector: 'app-form-preview',

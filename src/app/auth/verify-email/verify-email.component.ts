@@ -7,7 +7,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Store } from '@ngxs/store';
-import { SetEmailConfirmed } from '../../core/store/auth.actions';
+import { SetEmailConfirmed } from '@core/store/auth.actions';
 import { Observable, of } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { UserService } from '../../../../../../shared/src/lib/api';

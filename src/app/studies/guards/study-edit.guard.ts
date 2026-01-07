@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { StudyApiService } from '../services/study-api.service';
-import { AuthService } from '../../core/services/app-auth.service';
+import { AuthService } from '@core/services/app-auth.service';
 
 @Injectable({
   providedIn: 'root',

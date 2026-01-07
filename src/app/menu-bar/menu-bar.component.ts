@@ -12,13 +12,13 @@ import { BadgeModule } from 'primeng/badge';
 import { RippleModule } from 'primeng/ripple';
 import { PopoverModule } from 'primeng/popover';
 import { Popover } from 'primeng/popover';
-import { AuthState, UserDetails } from '../core/store/auth.state';
+import { AuthState, UserDetails } from '@core/store/auth.state';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
 import { ThemeService } from '@artificial-sense/ui-lib';
-import { AuthService } from '../core/services/app-auth.service';
-import { UserRole } from '../core/models/roles';
+import { AuthService } from '@core/services/app-auth.service';
+import { UserRole } from '@core/models/roles';
 
 @Component({
   selector: 'app-menubar',

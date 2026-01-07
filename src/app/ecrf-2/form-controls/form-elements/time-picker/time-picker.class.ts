@@ -1,4 +1,4 @@
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
 import {
   FormComponentSizeEnum,
   FormComponentVariantEnum,
@@ -10,10 +10,10 @@ import {
   TimePickerHourFormatEnum,
   TimePickerHourFormatType,
 } from '@artificial-sense/ui-lib';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { generateUniqueId } from '../../../core/utils/utils';
-import { TimePickerOptions } from '../../../core/models/interfaces/time-picker.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { generateUniqueId } from '@core/utils/utils';
+import { TimePickerOptions } from '@core/models/interfaces/time-picker.interfaces';
 
 /**
  * Time picker form control class

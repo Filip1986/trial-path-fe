@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { FormConfigService } from '../form/form-config.service';
-import { ToastManagerService } from '../../../../core/services/toast-manager.service';
+import { ToastManagerService } from '@core/services/toast-manager.service';
 import { IFormControl } from '../../models/interfaces/form.interfaces';
 import { FormElementType } from '../../models/enums/form.enums';
 

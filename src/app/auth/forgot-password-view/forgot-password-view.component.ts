@@ -8,7 +8,7 @@ import { MessageService } from 'primeng/api';
 import { catchError, finalize } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { SelectButton } from 'primeng/selectbutton';
-import { COMPONENT_STYLE_OPTIONS, ComponentStyleOption } from '../../core/models/ui-variants';
+import { COMPONENT_STYLE_OPTIONS, ComponentStyleOption } from '@core/models/ui-variants';
 
 @Component({
   selector: 'app-forgot-password-view',

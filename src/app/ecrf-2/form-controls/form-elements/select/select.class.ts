@@ -1,4 +1,4 @@
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
 import {
   DEFAULT_SCROLL_HEIGHT,
   FormComponentSizeEnum,
@@ -11,10 +11,10 @@ import {
   FormLabelStyleType,
   SelectConfig,
 } from '@artificial-sense/ui-lib';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { generateUniqueId } from '../../../core/utils/utils';
-import { ISelectOptions } from '../../../core/models/interfaces/select.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { generateUniqueId } from '@core/utils/utils';
+import { ISelectOptions } from '@core/models/interfaces/select.interfaces';
 
 /**
  * Select form control class

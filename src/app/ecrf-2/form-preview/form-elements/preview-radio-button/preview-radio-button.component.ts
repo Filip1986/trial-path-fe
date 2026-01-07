@@ -9,12 +9,12 @@ import {
   RadioButtonConfig,
   RadioButtonModeEnum,
 } from '@artificial-sense/ui-lib';
-import { isRadioButtonControl } from '../../../core/utils/type-guards';
+import { isRadioButtonControl } from '@core/utils/type-guards';
 import { BaseOptionsPreviewComponent } from '../../shared/directives/base-options-preview/base-options-preview.component';
 import { ECRFRadioButtonClass } from '../../../form-controls/form-elements/radio-button/radio-button.class';
 import { PreviewWrapperComponent } from '../../shared/components/preview-wrapper/preview-wrapper.component';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
-import { OptionItem } from '../../../core/models/interfaces/options.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
+import { OptionItem } from '@core/models/interfaces/options.interfaces';
 
 @Component({
   selector: 'app-preview-radio-button',

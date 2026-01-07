@@ -8,11 +8,11 @@ import {
 } from '@angular/core';
 
 import { Columns } from '../form-controls/form-layout/columns/columns.class';
-import { FormConfigService } from '../core/services/form/form-config.service';
+import { FormConfigService } from '@core/services/form/form-config.service';
 import { DynamicComponentLoaderComponent } from '../dynamic-component-loader.component';
-import { DragDropService } from '../core/services/drag-and-drop';
+import { DragDropService } from '@core/services/drag-and-drop';
 import { Subscription } from 'rxjs';
-import { IColumn } from '../core/models/interfaces/columns.interfaces';
+import { IColumn } from '@core/models/interfaces/columns.interfaces';
 
 @Component({
   selector: 'app-form-columns',

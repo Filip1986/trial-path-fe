@@ -10,13 +10,13 @@ import { UserDetails } from '../store/auth.state';
 import { SuspensionService } from './suspension.service';
 import { PrivacyPolicyUserService } from './privacy-policy-user.service';
 import { ToastManagerService } from './toast-manager.service';
-import {LoginService} from '../../../back-end/services/LoginService';
-import {LogoutService} from '../../../back-end/services/LogoutService';
-import {TokenService} from '../../../back-end/services/TokenService';
-import {UserService} from '../../../back-end/services/UserService';
-import {SuccessLoginResponseDto} from '../../../back-end/models/SuccessLoginResponseDto';
-import {CurrentUserDto} from '../../../back-end/models/CurrentUserDto';
-import {TokenResponseDto} from '../../../back-end/models/TokenResponseDto';
+import {LoginService} from '@back-end/services/LoginService';
+import {LogoutService} from '@back-end/services/LogoutService';
+import {TokenService} from '@back-end/services/TokenService';
+import {UserService} from '@back-end/services/UserService';
+import {SuccessLoginResponseDto} from '@back-end/models/SuccessLoginResponseDto';
+import {CurrentUserDto} from '@back-end/models/CurrentUserDto';
+import {TokenResponseDto} from '@back-end/models/TokenResponseDto';
 
 
 @Injectable({

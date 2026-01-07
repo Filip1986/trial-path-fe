@@ -1,8 +1,8 @@
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
-import { IColumn } from '../../../core/models/interfaces/columns.interfaces';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { generateUniqueId } from '../../../core/utils/utils';
+import { IconMappingService } from '@core/services/icon-mapping.service';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
+import { IColumn } from '@core/models/interfaces/columns.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { generateUniqueId } from '@core/utils/utils';
 
 /**
  * Columns form control class

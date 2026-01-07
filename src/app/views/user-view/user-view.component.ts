@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
-import { AuthService } from '../../core/services/app-auth.service';
+import { AuthService } from '@core/services/app-auth.service';
 
 @Component({
   selector: 'app-user-view',

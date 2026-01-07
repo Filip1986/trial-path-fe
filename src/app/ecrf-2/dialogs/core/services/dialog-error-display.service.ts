@@ -3,7 +3,7 @@ import {
   IValidationError,
   IValidationResult,
   IValidationWarning,
-} from '../../../core/models/interfaces/validation.interfaces';
+} from '@core/models/interfaces/validation.interfaces';
 
 /**
  * Error display service for consistent error presentation

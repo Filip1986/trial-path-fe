@@ -1,4 +1,4 @@
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
 import {
   CheckboxConfig,
   CheckboxModeEnum,
@@ -9,10 +9,10 @@ import {
   FormLabelStyleEnum,
   FormLabelStyleType,
 } from '@artificial-sense/ui-lib';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { generateUniqueId } from '../../../core/utils/utils';
-import { ICheckboxOptions } from '../../../core/models/interfaces/checkbox.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { generateUniqueId } from '@core/utils/utils';
+import { ICheckboxOptions } from '@core/models/interfaces/checkbox.interfaces';
 
 /**
  * Checkbox form control class

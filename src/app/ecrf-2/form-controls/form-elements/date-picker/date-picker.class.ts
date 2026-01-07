@@ -1,4 +1,4 @@
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
 import {
   DatePickerConfig,
   DatePickerModeEnum,
@@ -10,10 +10,10 @@ import {
   FormComponentVariantEnum,
   FormComponentSizeEnum,
 } from '@artificial-sense/ui-lib';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { generateUniqueId } from '../../../core/utils/utils';
-import { IDatePickerOptions } from '../../../core/models/interfaces/date-picker.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { generateUniqueId } from '@core/utils/utils';
+import { IDatePickerOptions } from '@core/models/interfaces/date-picker.interfaces';
 
 /**
  * Date picker form control class

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { FormElementType } from '../../../core/models/enums/form.enums';
+import { FormElementType } from '@core/models/enums/form.enums';
 import {
   IValidationError,
   IValidationResult,
   ValidationRule, // Changed from IValidationRule to ValidationRule
   IValidationWarning,
-} from '../../../core/models/interfaces/validation.interfaces';
+} from '@core/models/interfaces/validation.interfaces';
 
 /**
  * Context-aware validation service

@@ -7,8 +7,8 @@ import { of, throwError, BehaviorSubject } from 'rxjs';
 
 import { EmailConfirmationBannerComponent } from './email-confirmation-banner.component';
 import { UserService } from '../../../../../../shared/src/lib/api';
-import { AuthState, UserDetails } from '../../core/store/auth.state';
-import { UserRole } from '../../core/models/roles'; // Added missing import
+import { AuthState, UserDetails } from '@core/store/auth.state';
+import { UserRole } from '@core/models/roles'; // Added missing import
 import { CommonModule } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
 

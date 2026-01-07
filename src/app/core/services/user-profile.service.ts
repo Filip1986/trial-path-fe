@@ -5,7 +5,7 @@ import { Store } from '@ngxs/store';
 import { AuthState, UserDetails } from '../store/auth.state';
 import { SetUser } from '../store/auth.actions';
 import { ToastManagerService } from './toast-manager.service';
-import {UpdateUserDto} from '../../../back-end/models/UpdateUserDto';
+import {UpdateUserDto} from '@back-end/models/UpdateUserDto';
 
 @Injectable({
   providedIn: 'root',

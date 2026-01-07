@@ -9,7 +9,7 @@ import { ForgotPasswordFormData } from '@artificial-sense/ui-lib';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SelectButton } from 'primeng/selectbutton';
-import { ComponentStyleOption } from '../../core/models/ui-variants';
+import { ComponentStyleOption } from '@core/models/ui-variants';
 
 describe('ForgotPasswordViewComponent', () => {
   let component: ForgotPasswordViewComponent;

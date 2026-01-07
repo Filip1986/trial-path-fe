@@ -4,7 +4,7 @@ import { FormControl, ReactiveFormsModule, ValidationErrors } from '@angular/for
 import { SelectModule } from 'primeng/select';
 import { CheckboxModule } from 'primeng/checkbox';
 import { EcrfDatePickerClass } from '../../../form-controls/form-elements/date-picker';
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
 import {
   LibDatePickerComponent,
   DatePickerModeEnum,
@@ -16,7 +16,7 @@ import {
   FormLabelPositionEnum,
   FormComponentSizeEnum,
 } from '@artificial-sense/ui-lib';
-import { BaseDialogComponent } from '../../core/abstracts/base-dialog.component';
+import { BaseDialogComponent } from '@core/abstracts/base-dialog.component';
 import { DialogSharedModule } from '../../dialog-shared.module';
 import { Tabs, TabsModule, TabsStyle } from 'primeng/tabs';
 import { SavePresetDialogComponent } from '../../shared/components/presets/save-preset-dialog/save-preset-dialog.component';
@@ -25,14 +25,14 @@ import {
   DatePickerHourFormatOption,
   DatePickerModeOption,
   DatePickerViewOption,
-} from '../../core/models/dialog.types';
+} from '@core/models/dialog.types';
 import { DialogWrapperComponent } from '../../shared/components/dialog-wrapper/dialog-wrapper.component';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { IPresetConfiguration } from '../../../core/models/interfaces/preset.interfaces';
-import { IDatePickerOptions } from '../../../core/models/interfaces/date-picker.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { IPresetConfiguration } from '@core/models/interfaces/preset.interfaces';
+import { IDatePickerOptions } from '@core/models/interfaces/date-picker.interfaces';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
-import { DialogConfirmationService } from '../../core/services/dialog-confirmation.service';
+import { DialogConfirmationService } from '@core/services/dialog-confirmation.service';
 
 @Component({
   selector: 'app-date-picker-dialog',

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormContainerComponent } from '../form-container/form-container.component';
-import { FormService } from '../core/services/form/form.service';
+import { FormService } from '@core/services/form/form.service';
 
 @Component({
   selector: 'app-form',

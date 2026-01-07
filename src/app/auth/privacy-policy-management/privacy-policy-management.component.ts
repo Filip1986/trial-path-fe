@@ -26,10 +26,10 @@ import { Tooltip } from 'primeng/tooltip';
 import { DatePickerModule } from 'primeng/datepicker';
 import { finalize } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import {PrivacyPolicyDto} from '../../../back-end/models/PrivacyPolicyDto';
-import {PrivacyPolicyService} from '../../../back-end/services/PrivacyPolicyService';
-import {UpdatePrivacyPolicyDto} from '../../../back-end/models/UpdatePrivacyPolicyDto';
-import {CreatePrivacyPolicyDto} from '../../../back-end/models/CreatePrivacyPolicyDto';
+import {PrivacyPolicyDto} from '@back-end/models/PrivacyPolicyDto';
+import {PrivacyPolicyService} from '@back-end/services/PrivacyPolicyService';
+import {UpdatePrivacyPolicyDto} from '@back-end/models/UpdatePrivacyPolicyDto';
+import {CreatePrivacyPolicyDto} from '@back-end/models/CreatePrivacyPolicyDto';
 
 interface PolicyFormValues {
   version: string;

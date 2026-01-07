@@ -16,7 +16,7 @@ import {
   TimePickerHourFormatEnum,
 } from '@artificial-sense/ui-lib';
 import { ConfigurationValidators } from '../validators/configuration-validators';
-import { FormElementType } from '../../../core/models/enums/form.enums';
+import { FormElementType } from '@core/models/enums/form.enums';
 
 @Injectable({
   providedIn: 'root',

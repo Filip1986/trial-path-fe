@@ -3,7 +3,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { Observable, Subject } from 'rxjs';
 import { DialogService } from '../dialog/dialog.service';
 import { FormDialogService } from '../dialog/form-dialog.service';
-import { ToastManagerService } from '../../../../core/services/toast-manager.service';
+import { ToastManagerService } from '@core/services/toast-manager.service';
 import { FormControlsService } from '../form/form-controls.service';
 import { FormStateService } from '../form/form-state.service';
 import { ECRFTextAreaClass } from '../../../form-controls/form-elements/textarea/textarea.class';

@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { LibInputTextComponent } from '@artificial-sense/ui-lib';
 import { ConfigSectionComponent } from '../../config-section/config-section.component';
 import { FormFieldWrapperDirective } from '../../../directives/form-field-wrapper/form-field-wrapper.component';
-import { IDialogFieldConfig } from '../../../../../core/models/interfaces/dialog.interfaces';
+import { IDialogFieldConfig } from '@core/models/interfaces/dialog.interfaces';
 
 @Component({
   selector: 'app-basic-settings',

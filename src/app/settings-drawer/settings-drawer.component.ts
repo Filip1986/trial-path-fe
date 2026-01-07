@@ -13,7 +13,7 @@ import {
   BoxShadowOption,
   FontOption,
   ThemeColor,
-} from '../core/services/appearance-settings.service';
+} from '@core/services/appearance-settings.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({

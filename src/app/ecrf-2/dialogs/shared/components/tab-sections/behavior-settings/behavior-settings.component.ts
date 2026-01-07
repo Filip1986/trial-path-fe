@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ConfigSectionComponent } from '../../config-section/config-section.component';
 import { CheckboxModeEnum, CheckboxModeType, LibCheckboxComponent } from '@artificial-sense/ui-lib';
-import { IDialogBehaviorOption } from '../../../../../core/models/interfaces/dialog.interfaces';
+import { IDialogBehaviorOption } from '@core/models/interfaces/dialog.interfaces';
 
 @Component({
   selector: 'app-behavior-settings',

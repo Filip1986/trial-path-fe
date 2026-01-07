@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subscriber } from 'rxjs';
-import { FormElementType } from '../../../core/models/enums/form.enums';
+import { FormElementType } from '@core/models/enums/form.enums';
 
 /**
  * Interface for a preset item

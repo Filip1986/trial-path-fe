@@ -12,11 +12,11 @@ import {
   FormLabelPositionEnum,
   FormComponentSizeEnum,
 } from '@artificial-sense/ui-lib';
-import { isDatePickerControl } from '../../../core/utils/type-guards';
+import { isDatePickerControl } from '@core/utils/type-guards';
 import { BasePreviewComponent } from '../../shared/directives/base-preview/base-preview.component';
 import { EcrfDatePickerClass } from '../../../form-controls/form-elements/date-picker';
 import { PreviewWrapperComponent } from '../../shared/components/preview-wrapper/preview-wrapper.component';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
 
 @Component({
   selector: 'app-preview-date-picker',

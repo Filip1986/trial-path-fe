@@ -14,7 +14,7 @@ import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
-import { ClinicalRoles, getRolePermissions, RolePermissions } from '../core/models/clinical-roles';
+import { ClinicalRoles, getRolePermissions, RolePermissions } from '@core/models/clinical-roles';
 
 interface RoleOption {
   label: string;

@@ -12,11 +12,11 @@ import { UserService } from '../../../../../../shared/src/lib/api';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { AuthState } from '../../core/store/auth.state';
+import { AuthState } from '@core/store/auth.state';
 import { ButtonDirective } from 'primeng/button';
 import { Card } from 'primeng/card';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { AuthService } from '../../core/services/app-auth.service';
+import { AuthService } from '@core/services/app-auth.service';
 import { distinctUntilChanged, finalize, map } from 'rxjs/operators';
 
 @Component({

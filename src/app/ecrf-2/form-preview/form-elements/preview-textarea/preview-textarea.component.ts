@@ -8,11 +8,11 @@ import {
   LibTextareaComponent,
   TextareaConfig,
 } from '@artificial-sense/ui-lib';
-import { isTextAreaControl } from '../../../core/utils/type-guards';
+import { isTextAreaControl } from '@core/utils/type-guards';
 import { BasePreviewComponent } from '../../shared/directives/base-preview/base-preview.component';
 import { ECRFTextAreaClass } from '../../../form-controls/form-elements/textarea/textarea.class';
 import { PreviewWrapperComponent } from '../../shared/components/preview-wrapper/preview-wrapper.component';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
 
 @Component({
   selector: 'app-preview-textarea',

@@ -1,7 +1,7 @@
 import { Directive, OnInit } from '@angular/core';
 import { BasePreviewComponent } from '../base-preview/base-preview.component';
-import { IFormControl } from '../../../../core/models/interfaces/form.interfaces';
-import { OptionItem } from '../../../../core/models/interfaces/options.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
+import { OptionItem } from '@core/models/interfaces/options.interfaces';
 
 /**
  * Base component for previewing form controls that have options

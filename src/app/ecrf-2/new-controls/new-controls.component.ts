@@ -13,17 +13,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControlsService } from '../core/services/form/form-controls.service';
-import { IconMappingService } from '../core/services/icon-mapping.service';
-import { DragDropService } from '../core/services/drag-and-drop';
+import { FormControlsService } from '@core/services/form/form-controls.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
+import { DragDropService } from '@core/services/drag-and-drop';
 import { TabsModule } from 'primeng/tabs';
-import { IFormControl, IFormControlOptions } from '../core/models/interfaces/form.interfaces';
-import { IDragItem } from '../core/models/interfaces/drag-and-drop.interfaces';
-import { ComponentType } from '../core/models/enums/component-types.enum';
-import { COMPONENT_METADATA } from '../core/models/consts/component-meta-data.consts';
-import { FORM_ELEMENT_TO_COMPONENT_MAP } from '../core/models/consts/form-element-to-component.const';
-import { FormElementType } from '../core/models/enums/form.enums';
-import { ELEMENT_CONTAINERS } from '../core/models/consts/element-containers.const';
+import { IFormControl, IFormControlOptions } from '@core/models/interfaces/form.interfaces';
+import { IDragItem } from '@core/models/interfaces/drag-and-drop.interfaces';
+import { ComponentType } from '@core/models/enums/component-types.enum';
+import { COMPONENT_METADATA } from '@core/models/consts/component-meta-data.consts';
+import { FORM_ELEMENT_TO_COMPONENT_MAP } from '@core/models/consts/form-element-to-component.const';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { ELEMENT_CONTAINERS } from '@core/models/consts/element-containers.const';
 
 interface ElementGroup {
   name: string;

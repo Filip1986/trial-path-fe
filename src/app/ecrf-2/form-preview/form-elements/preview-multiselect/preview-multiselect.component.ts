@@ -9,12 +9,12 @@ import {
   MultiSelectConfig,
   MultiSelectDisplayModeEnum,
 } from '@artificial-sense/ui-lib';
-import { isMultiSelectControl } from '../../../core/utils/type-guards';
+import { isMultiSelectControl } from '@core/utils/type-guards';
 import { BaseOptionsPreviewComponent } from '../../shared/directives/base-options-preview/base-options-preview.component';
 import { Multiselect } from '../../../form-controls/form-elements/multiselect/multiselect.class';
 import { PreviewWrapperComponent } from '../../shared/components/preview-wrapper/preview-wrapper.component';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
-import { OptionItem } from '../../../core/models/interfaces/options.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
+import { OptionItem } from '@core/models/interfaces/options.interfaces';
 
 @Component({
   selector: 'app-preview-multiselect',

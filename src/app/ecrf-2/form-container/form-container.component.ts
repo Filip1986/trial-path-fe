@@ -9,12 +9,12 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { CastPipe } from '../core/cast.pipe';
+import { CastPipe } from '@core/cast.pipe';
 import { DynamicComponentLoaderComponent } from '../dynamic-component-loader.component';
-import { DragDropService } from '../core/services/drag-and-drop';
+import { DragDropService } from '@core/services/drag-and-drop';
 import { ECRFCheckboxComponent } from '../form-controls/form-elements/checkbox/ecrf-checkbox.component';
 import { EcrfRadioButtonComponent } from '../form-controls/form-elements/radio-button/ecrf-radio-button.component';
-import { ToastManagerService } from '../../core/services/toast-manager.service';
+import { ToastManagerService } from '@core/services/toast-manager.service';
 import { Subscription } from 'rxjs';
 import {
   CdkDragDrop,
@@ -38,7 +38,7 @@ import {
   isTextAreaControl,
   isTextInputControl,
   isTimePickerControl,
-} from '../core/utils/type-guards';
+} from '@core/utils/type-guards';
 import { ECRFCheckboxClass } from '../form-controls/form-elements/checkbox/checkbox.class';
 import { ECRFTextAreaClass } from '../form-controls/form-elements/textarea/textarea.class';
 import { ECRFRadioButtonClass } from '../form-controls/form-elements/radio-button/radio-button.class';
@@ -60,13 +60,13 @@ import { EcrfSelectButtonComponent } from '../form-controls/form-elements/select
 import { ECRFSelectButtonClass } from '../form-controls/form-elements/select-button/select-button.class';
 import { EcrfInputTextComponent } from '../form-controls/form-elements/input-text/ecrf-input-text-component.component';
 import { ECRFInputTextClass } from '../form-controls/form-elements/input-text/ecrf-input-text.class';
-import { IFormContainer, IFormControl } from '../core/models/interfaces/form.interfaces';
-import { ComponentType } from '../core/models/enums/component-types.enum';
-import { COMPONENT_METADATA } from '../core/models/consts/component-meta-data.consts';
-import { FORM_ELEMENT_TO_COMPONENT_MAP } from '../core/models/consts/form-element-to-component.const';
-import { FormElementType } from '../core/models/enums/form.enums';
-import { FormControlDrag, FormControlDropList } from '../core/models/types/drag-and-drop.types';
-import { IComponentMetadata } from '../core/models/interfaces/component-meta-data.interface';
+import { IFormContainer, IFormControl } from '@core/models/interfaces/form.interfaces';
+import { ComponentType } from '@core/models/enums/component-types.enum';
+import { COMPONENT_METADATA } from '@core/models/consts/component-meta-data.consts';
+import { FORM_ELEMENT_TO_COMPONENT_MAP } from '@core/models/consts/form-element-to-component.const';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { FormControlDrag, FormControlDropList } from '@core/models/types/drag-and-drop.types';
+import { IComponentMetadata } from '@core/models/interfaces/component-meta-data.interface';
 
 @Component({
   selector: 'app-form-container',

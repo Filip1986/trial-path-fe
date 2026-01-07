@@ -3,13 +3,13 @@ import { BehaviorSettingsComponent } from '../../shared/components/tab-sections/
 import { OptionsManagerComponent } from '../../shared/components/options-manager/options-manager.component';
 import { ValidationSettingsComponent } from '../../shared/components/tab-sections/validation-settings/validation-settings.component';
 import { AppearanceSettingsComponent } from '../../shared/components/tab-sections/appearance-settings/appearance-settings.component';
-import { FormElementType } from '../../../core/models/enums/form.enums';
+import { FormElementType } from '@core/models/enums/form.enums';
 import {
   IDialogFieldConfig,
   IDialogConfiguration,
   IDialogBehaviorOption,
-} from '../../../core/models/interfaces/dialog.interfaces';
-import { IDialogTab } from '../../../core/models/interfaces/tabs.interfaces';
+} from '@core/models/interfaces/dialog.interfaces';
+import { IDialogTab } from '@core/models/interfaces/tabs.interfaces';
 
 /**
  * Fluent builder for dialog configurations

@@ -24,7 +24,7 @@ import {
   InputTextConfig,
 } from '@artificial-sense/ui-lib';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
-import { OptionItem } from '../../../../core/models/interfaces/options.interfaces';
+import { OptionItem } from '@core/models/interfaces/options.interfaces';
 
 @Component({
   selector: 'app-options-manager',

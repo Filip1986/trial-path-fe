@@ -11,7 +11,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { FormPreviewComponent } from '../../../../form-preview/form-preview.component';
 import { ThemeService } from '@artificial-sense/ui-lib';
-import { IForm } from '../../../../core/models/interfaces/form.interfaces';
+import { IForm } from '@core/models/interfaces/form.interfaces';
 
 @Component({
   selector: 'app-preview-dialog',

@@ -8,7 +8,7 @@ import { catchError, finalize, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { SelectButton } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
-import { COMPONENT_STYLE_OPTIONS, ComponentStyleOption } from '../../core/models/ui-variants';
+import { COMPONENT_STYLE_OPTIONS, ComponentStyleOption } from '@core/models/ui-variants';
 
 @Component({
   selector: 'app-reset-password-view',

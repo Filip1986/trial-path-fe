@@ -9,11 +9,11 @@ import {
   TimePickerConfig,
   TimePickerHourFormatEnum,
 } from '@artificial-sense/ui-lib';
-import { isTimePickerControl } from '../../../core/utils/type-guards';
+import { isTimePickerControl } from '@core/utils/type-guards';
 import { BasePreviewComponent } from '../../shared/directives/base-preview/base-preview.component';
 import { EcrfTimePickerClass } from '../../../form-controls/form-elements/time-picker';
 import { PreviewWrapperComponent } from '../../shared/components/preview-wrapper/preview-wrapper.component';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
 
 @Component({
   selector: 'app-preview-time-picker',

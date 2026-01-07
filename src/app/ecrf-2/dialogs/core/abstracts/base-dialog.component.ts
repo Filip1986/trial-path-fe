@@ -12,10 +12,10 @@ import {
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
-import { ToastManagerService } from '../../../../core/services/toast-manager.service';
+import { ToastManagerService } from '@core/services/toast-manager.service';
 import { Preset } from '../../shared/services/preset.service';
 import { PresetManagerService } from '../services/preset-manager.service';
-import { FormElementType } from '../../../core/models/enums/form.enums';
+import { FormElementType } from '@core/models/enums/form.enums';
 import { DialogFormBuilder } from '../services/dialog-form-builder.service';
 import { DialogConfigFactory } from '../services/dialog-configuration-factory.service';
 import { DialogValidationService } from '../services/dialog-validation.service';
@@ -23,18 +23,18 @@ import { DialogErrorDisplayService } from '../services/dialog-error-display.serv
 import {
   IPresetConfiguration,
   IPresetSupport,
-} from '../../../core/models/interfaces/preset.interfaces';
+} from '@core/models/interfaces/preset.interfaces';
 import {
   IDialogBehaviorOption,
   IDialogConfiguration,
   IDialogFieldConfig,
-} from '../../../core/models/interfaces/dialog.interfaces';
+} from '@core/models/interfaces/dialog.interfaces';
 import { DialogConfigurationRegistry } from '../builders/dialog-configuration-registry';
 import {
   IValidationError,
   IValidationResult,
   IValidationWarning,
-} from '../../../core/models/interfaces/validation.interfaces';
+} from '@core/models/interfaces/validation.interfaces';
 import {
   ComponentSizeOption,
   ComponentVariantOption,

@@ -14,10 +14,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, finalize } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { RegistrationService } from '../../../../../../shared/src/lib/api';
-import { ToastManagerService } from '../../core/services/toast-manager.service';
+import { ToastManagerService } from '@core/services/toast-manager.service';
 import { SelectButton } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
-import { COMPONENT_STYLE_OPTIONS, ComponentStyleOption } from '../../core/models/ui-variants';
+import { COMPONENT_STYLE_OPTIONS, ComponentStyleOption } from '@core/models/ui-variants';
 
 @Component({
   selector: 'app-register',

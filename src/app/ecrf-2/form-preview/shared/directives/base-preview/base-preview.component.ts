@@ -1,6 +1,6 @@
 import { Directive, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import { PreviewErrorHandlerService } from '../../services/preview-error-handler.service';
-import { IFormControl } from '../../../../core/models/interfaces/form.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
 
 /**
  * Base component for all form control preview components.

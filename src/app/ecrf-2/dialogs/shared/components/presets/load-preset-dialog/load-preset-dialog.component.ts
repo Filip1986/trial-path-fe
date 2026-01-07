@@ -15,7 +15,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { Preset, PresetService } from '../../../services/preset.service';
-import { FormElementType } from '../../../../../core/models/enums/form.enums';
+import { FormElementType } from '@core/models/enums/form.enums';
 
 @Component({
   selector: 'app-load-preset-dialog',

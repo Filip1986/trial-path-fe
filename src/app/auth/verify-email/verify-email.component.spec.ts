@@ -7,7 +7,7 @@ import { By } from '@angular/platform-browser';
 
 import { VerifyEmailComponent } from './verify-email.component';
 import { UserService } from '../../../../../../shared/src/lib/api';
-import { SetEmailConfirmed } from '../../core/store/auth.actions';
+import { SetEmailConfirmed } from '@core/store/auth.actions';
 
 describe('VerifyEmailComponent', () => {
   let component: VerifyEmailComponent;

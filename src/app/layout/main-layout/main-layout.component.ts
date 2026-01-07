@@ -17,7 +17,7 @@ import {
   Sidenav1Component,
 } from '@artificial-sense/ui-lib';
 import { Store } from '@ngxs/store';
-import { AuthState, UserDetails } from '../../core/store/auth.state';
+import { AuthState, UserDetails } from '@core/store/auth.state';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
@@ -31,13 +31,13 @@ import { MenuItem } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { ThemeService } from '@artificial-sense/ui-lib';
-import { AuthService } from '../../core/services/app-auth.service';
-import { LayoutState } from '../../core/store/layout.state';
+import { AuthService } from '@core/services/app-auth.service';
+import { LayoutState } from '@core/store/layout.state';
 import {
   ClinicalRoles,
   getRolePermissions,
   RolePermissions,
-} from '../../core/models/clinical-roles';
+} from '@core/models/clinical-roles';
 import { RoleSelectorComponent } from '../../role-selector/role-selector.component';
 import {
   AnimatedLogo2Component,

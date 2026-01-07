@@ -18,7 +18,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TagModule } from 'primeng/tag';
 import { RippleModule } from 'primeng/ripple';
-import { AppBetaProgramService, BetaFeature } from '../core/services/app-beta-program.service';
+import { AppBetaProgramService, BetaFeature } from '@core/services/app-beta-program.service';
 import { finalize } from 'rxjs/operators';
 import {
   BetaFeatureInfo,

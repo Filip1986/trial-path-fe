@@ -18,15 +18,15 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { CardModule } from 'primeng/card';
 
 // Services
-import { BetaProgramService } from '../../../back-end/services/BetaProgramService';
-import { UserService } from '../../../back-end/services/UserService';
-import { GeoIpService } from '../../../back-end/services/GeoIpService';
-import { BetaSubscriberDto } from '../../../back-end/models/BetaSubscriberDto';
-import { UpdateUserDto } from '../../../back-end/models/UpdateUserDto';
-import { UserListDto } from '../../../back-end/models/UserListDto';
-import { UserLocationStatsDto } from '../../../back-end/models/UserLocationStatsDto';
-import { SuspensionService } from '../../core/services/suspension.service';
-import { UserActivityService } from '../../core/services/user-activity.service';
+import { BetaProgramService } from '@back-end/services/BetaProgramService';
+import { UserService } from '@back-end/services/UserService';
+import { GeoIpService } from '@back-end/services/GeoIpService';
+import { BetaSubscriberDto } from '@back-end/models/BetaSubscriberDto';
+import { UpdateUserDto } from '@back-end/models/UpdateUserDto';
+import { UserListDto } from '@back-end/models/UserListDto';
+import { UserLocationStatsDto } from '@back-end/models/UserLocationStatsDto';
+import { SuspensionService } from '@core/services/suspension.service';
+import { UserActivityService } from '@core/services/user-activity.service';
 
 // Components
 import { PrivacyPolicyManagementComponent } from '../../auth/privacy-policy-management/privacy-policy-management.component';
@@ -34,12 +34,12 @@ import { Password } from 'primeng/password';
 import { MenuModule } from 'primeng/menu';
 import { UserSuspensionDialogComponent } from '../../user/user-suspension-dialog/user-suspension-dialog.component';
 import { filter } from 'rxjs/operators';
-import { SetDashboardStats } from '../../core/store/dashboard-stats.actions';
+import { SetDashboardStats } from '@core/store/dashboard-stats.actions';
 import { Store } from '@ngxs/store';
-import { DashboardStateModel } from '../../core/store/dashboard-stats.state';
-import { ROLE_OPTIONS, Roles, UserRole } from '../../core/models/roles';
+import { DashboardStateModel } from '@core/store/dashboard-stats.state';
+import { ROLE_OPTIONS, Roles, UserRole } from '@core/models/roles';
 import { VisitorsChartWidgetComponent } from '../../widgets/visitors-chart-widget.component';
-import { AuthState, UserDetails } from '../../core/store/auth.state';
+import { AuthState, UserDetails } from '@core/store/auth.state';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { BetaProgramWidgetComponent } from '../../beta-program-widget/beta-program-widget.component';

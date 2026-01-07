@@ -3,10 +3,10 @@ import { Observable } from 'rxjs';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { FormControlComponentBase } from './control-component-base.class';
-import { IconMappingService } from '../core/services/icon-mapping.service';
-import { FormDialogService } from '../core/services/dialog/form-dialog.service';
-import { ToastManagerService } from '../../core/services/toast-manager.service';
-import { IFormControl } from '../core/models/interfaces/form.interfaces';
+import { IconMappingService } from '@core/services/icon-mapping.service';
+import { FormDialogService } from '@core/services/dialog/form-dialog.service';
+import { ToastManagerService } from '@core/services/toast-manager.service';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
 
 /**
  * Enhanced base class for all form control components

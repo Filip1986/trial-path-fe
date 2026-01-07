@@ -15,18 +15,18 @@ import {
   InputTextConfig,
   InputTextTypeEnum,
 } from '@artificial-sense/ui-lib';
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
 import { ECRFInputTextClass } from './ecrf-input-text.class';
-import { FormDialogService } from '../../../core/services/dialog/form-dialog.service';
-import { ToastManagerService } from '../../../../core/services/toast-manager.service';
+import { FormDialogService } from '@core/services/dialog/form-dialog.service';
+import { ToastManagerService } from '@core/services/toast-manager.service';
 import { Card } from 'primeng/card';
 import { Observable, Subscription } from 'rxjs';
 import { EnhancedFormControlComponent } from '../../enhanced-form-control.component';
-import { DragDropService } from '../../../core/services/drag-and-drop';
-import { FormElementType } from '../../../core/models/enums/form.enums';
+import { DragDropService } from '@core/services/drag-and-drop';
+import { FormElementType } from '@core/models/enums/form.enums';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { ConfirmationService } from 'primeng/api';
-import { FormControlsService } from '../../../core/services/form/form-controls.service';
+import { FormControlsService } from '@core/services/form/form-controls.service';
 
 @Component({
   selector: 'app-text-box',

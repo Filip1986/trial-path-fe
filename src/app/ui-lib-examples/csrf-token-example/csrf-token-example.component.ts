@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { CsrfTokenService } from '../../core/services/csrf-token.service';
+import { CsrfTokenService } from '@core/services/csrf-token.service';
 import { HttpClient } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';

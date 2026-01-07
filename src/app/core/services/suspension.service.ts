@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap, catchError, switchMap } from 'rxjs/operators';
-import {UserService} from '../../../back-end/services/UserService';
-import {UserDto} from '../../../back-end/models/UserDto';
+import {UserService} from '@back-end/services/UserService';
+import {UserDto} from '@back-end/models/UserDto';
 
 export interface SuspensionState {
   isSuspended: boolean;

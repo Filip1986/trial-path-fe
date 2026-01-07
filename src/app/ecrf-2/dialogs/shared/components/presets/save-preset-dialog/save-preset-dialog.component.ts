@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormElementType } from '../../../../../core/models/enums/form.enums';
+import { FormElementType } from '@core/models/enums/form.enums';
 
 interface PresetConfiguration {
   // Add specific properties based on your configuration structure

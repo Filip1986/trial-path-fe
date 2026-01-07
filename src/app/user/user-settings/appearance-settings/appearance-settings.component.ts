@@ -1,26 +1,29 @@
+import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   OnInit,
-  ChangeDetectionStrategy,
   signal,
-  WritableSignal,
   Signal,
+  WritableSignal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 // PrimeNG Components
-import { SelectModule } from 'primeng/select';
-import { ToggleSwitchModule } from 'primeng/toggleswitch';
-import { ColorPickerModule } from 'primeng/colorpicker';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { DividerModule } from 'primeng/divider';
 import { CardModule } from 'primeng/card';
+import { ColorPickerModule } from 'primeng/colorpicker';
+import { DividerModule } from 'primeng/divider';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { RippleModule } from 'primeng/ripple';
+import { SelectModule } from 'primeng/select';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 // Service and interfaces
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ThemeService } from '@artificial-sense/ui-lib';
+import { tap } from 'rxjs/operators';
 import {
   AppearanceSettings,
   AppearanceSettingsService,
@@ -28,10 +31,7 @@ import {
   BoxShadowOption,
   FontOption,
   ThemeColor,
-} from '../../../core/services/appearance-settings.service';
-import { ThemeService } from '@artificial-sense/ui-lib';
-import { tap } from 'rxjs/operators';
-import { toSignal } from '@angular/core/rxjs-interop';
+} from '@core/services/appearance-settings.service';
 
 interface ThemeOption {
   name: string;

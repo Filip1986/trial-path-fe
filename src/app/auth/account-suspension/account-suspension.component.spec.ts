@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of, throwError } from 'rxjs';
 import { AccountSuspensionComponent } from './account-suspension.component';
-import { AuthService } from '../../core/services/app-auth.service';
+import { AuthService } from '@core/services/app-auth.service';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';

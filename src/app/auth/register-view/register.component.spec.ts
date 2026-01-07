@@ -6,7 +6,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { RegisterViewComponent } from './register.component';
 import { RegistrationService } from '../../../../../../shared/src/lib/api';
-import { ToastManagerService } from '../../core/services/toast-manager.service';
+import { ToastManagerService } from '@core/services/toast-manager.service';
 import { RegisterFormData } from '@artificial-sense/ui-lib';
 
 // Import the actual RegisterResponseDto from the shared API

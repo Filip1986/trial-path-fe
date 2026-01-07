@@ -9,11 +9,11 @@ import {
   InputTextConfig,
   InputTextTypeEnum,
 } from '@artificial-sense/ui-lib';
-import { isTextInputControl } from '../../../core/utils/type-guards';
+import { isTextInputControl } from '@core/utils/type-guards';
 import { BasePreviewComponent } from '../../shared/directives/base-preview/base-preview.component';
 import { PreviewWrapperComponent } from '../../shared/components/preview-wrapper/preview-wrapper.component';
 import { ECRFInputTextClass } from '../../../form-controls/form-elements/input-text/ecrf-input-text.class';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
 
 @Component({
   selector: 'app-preview-text-input',

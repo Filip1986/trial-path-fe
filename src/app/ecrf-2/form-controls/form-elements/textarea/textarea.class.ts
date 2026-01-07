@@ -1,4 +1,4 @@
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
 import {
   FormComponentSizeEnum,
   FormComponentSizeType,
@@ -10,10 +10,10 @@ import {
   FormLabelStyleType,
   TextareaConfig,
 } from '@artificial-sense/ui-lib';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { generateUniqueId } from '../../../core/utils/utils';
-import { ITextAreaOptions } from '../../../core/models/interfaces/text-area.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { generateUniqueId } from '@core/utils/utils';
+import { ITextAreaOptions } from '@core/models/interfaces/text-area.interfaces';
 
 /**
  * Text area form control class

@@ -19,8 +19,8 @@ import { TabsModule } from 'primeng/tabs';
 import { DividerModule } from 'primeng/divider';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { GdprConsentPreferences } from '../../core/models/consent.models';
-import { GdprConsentService } from '../../core/services/gdpr-consent.service';
+import { GdprConsentPreferences } from '@core/models/consent.models';
+import { GdprConsentService } from '@core/services/gdpr-consent.service';
 import { finalize, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({

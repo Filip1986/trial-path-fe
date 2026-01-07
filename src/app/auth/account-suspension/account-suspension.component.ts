@@ -1,10 +1,10 @@
-import { Component, Input, ChangeDetectionStrategy, WritableSignal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, WritableSignal, signal } from '@angular/core';
 
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
-import { AuthService } from '../../core/services/app-auth.service';
 import { finalize } from 'rxjs/operators';
+import { AuthService } from '@core/services/app-auth.service';
 
 @Component({
   selector: 'app-account-suspension',

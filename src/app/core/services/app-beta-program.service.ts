@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
-import {BetaProgramService} from '../../../back-end/services/BetaProgramService';
-import {BetaSubscriberDto} from '../../../back-end/models/BetaSubscriberDto';
-import {BetaFeaturesDto} from '../../../back-end/models/BetaFeaturesDto';
+import {BetaProgramService} from '@back-end/services/BetaProgramService';
+import {BetaSubscriberDto} from '@back-end/models/BetaSubscriberDto';
+import {BetaFeaturesDto} from '@back-end/models/BetaFeaturesDto';
 
 export interface BetaFeature {
   id: string;

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastManagerService } from '../../../../core/services/toast-manager.service';
+import { ToastManagerService } from '@core/services/toast-manager.service';
 import { Preset, PresetService } from '../../shared/services/preset.service';
 import { firstValueFrom } from 'rxjs';
-import { OptionItem } from '../../../core/models/interfaces/options.interfaces';
-import { FormElementType } from '../../../core/models/enums/form.enums';
+import { OptionItem } from '@core/models/interfaces/options.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
 import {
   IPresetConfiguration,
   IPresetSupport,
-} from '../../../core/models/interfaces/preset.interfaces';
+} from '@core/models/interfaces/preset.interfaces';
 
 /**
  * Enhanced service for centralized preset management across all dialog components

@@ -15,14 +15,14 @@ import { PasswordModule } from 'primeng/password';
 import { AvatarModule } from 'primeng/avatar';
 import { DividerModule } from 'primeng/divider';
 import { ToastModule } from 'primeng/toast';
-import { AuthState, UserDetails } from '../../core/store/auth.state';
+import { AuthState, UserDetails } from '@core/store/auth.state';
 import { Store } from '@ngxs/store';
 import { ConfirmationService } from 'primeng/api';
-import { ProfileService } from '../../core/services/user-profile.service';
+import { ProfileService } from '@core/services/user-profile.service';
 import { Router } from '@angular/router';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { AuthService } from '../../core/services/app-auth.service';
-import { ToastManagerService } from '../../core/services/toast-manager.service';
+import { AuthService } from '@core/services/app-auth.service';
+import { ToastManagerService } from '@core/services/toast-manager.service';
 // Import the new profile detail card component
 import {
   ProfileDetailCardComponent,

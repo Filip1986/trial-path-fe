@@ -1,4 +1,4 @@
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
 import {
   InputNumberConfig,
   InputNumberModeEnum,
@@ -13,10 +13,10 @@ import {
   FormLabelPositionEnum,
   FormLabelPositionType,
 } from '@artificial-sense/ui-lib';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { generateUniqueId } from '../../../core/utils/utils';
-import { InputNumberOptions } from '../../../core/models/interfaces/input-number.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { generateUniqueId } from '@core/utils/utils';
+import { InputNumberOptions } from '@core/models/interfaces/input-number.interfaces';
 
 /**
  * Input number form control class

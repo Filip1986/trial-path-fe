@@ -1,4 +1,4 @@
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
 import {
   FormComponentSizeEnum,
   FormComponentSizeType,
@@ -11,10 +11,10 @@ import {
   SelectButtonConfig,
   SelectButtonOptionType,
 } from '@artificial-sense/ui-lib';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { generateUniqueId } from '../../../core/utils/utils';
-import { ISelectButtonOptions } from '../../../core/models/interfaces/select-button.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { generateUniqueId } from '@core/utils/utils';
+import { ISelectButtonOptions } from '@core/models/interfaces/select-button.interfaces';
 
 /**
  * SelectButton form control class

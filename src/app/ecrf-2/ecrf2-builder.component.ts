@@ -1,3 +1,5 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,21 +8,8 @@ import {
   OnInit,
   Type,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { FormComponent } from './form/form.component';
-import { NewControlsComponent } from './new-controls/new-controls.component';
-import { Card } from 'primeng/card';
-import { FormConfigService } from './core/services/form/form-config.service';
-import { FormControlsService } from './core/services/form/form-controls.service';
-import { DialogService } from './core/services/dialog/dialog.service';
-import { FormService } from './core/services/form/form.service';
-import { ComponentRegistryService } from './core/services/component-registry.service';
-import { FormDialogService } from './core/services/dialog/form-dialog.service';
-import { ToastManagerService } from '../core/services/toast-manager.service';
-import { ButtonModule } from 'primeng/button';
-import { PreviewService } from './core/services/form/form-preview.service';
 import {
   FormComponentSizeEnum,
   FormComponentVariantEnum,
@@ -30,6 +19,18 @@ import {
   FormLabelStyleType,
   LibTextareaComponent,
 } from '@artificial-sense/ui-lib';
+import { ConfirmationService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { Card } from 'primeng/card';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { Dialog } from 'primeng/dialog';
+import { ToastManagerService } from '@core/services/toast-manager.service';
+import { ComponentTypeUtils } from './core/models/consts/component-type-utils.const';
+import { ComponentType } from './core/models/enums/component-types.enum';
+import { IForm } from './core/models/interfaces/form.interfaces';
+import { ComponentRegistryService } from './core/services/component-registry.service';
+import { DialogService } from './core/services/dialog/dialog.service';
+import { FormDialogService } from './core/services/dialog/form-dialog.service';
 import {
   ControlDropHandlerService,
   DragDropService,
@@ -37,49 +38,48 @@ import {
   DragValidationService,
   DropZoneRegistryService,
 } from './core/services/drag-and-drop';
-import { FormStateService } from './core/services/form/form-state.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Dialog } from 'primeng/dialog';
-import { ConfirmationService } from 'primeng/api';
+import { FormConfigService } from './core/services/form/form-config.service';
+import { FormControlsService } from './core/services/form/form-controls.service';
 import { HistoryService } from './core/services/form/form-history.service';
-import { FormContainerComponent } from './form-container/form-container.component';
-import { FormColumnsComponent } from './form-columns/form-columns.component';
-import { EcrfTextAreaComponent } from './form-controls/form-elements/textarea/ecrf-text-area.component';
-import { ECRFCheckboxComponent } from './form-controls/form-elements/checkbox/ecrf-checkbox.component';
-import { EcrfRadioButtonComponent } from './form-controls/form-elements/radio-button/ecrf-radio-button.component';
-import { ECRFDatePickerComponent } from './form-controls/form-elements/date-picker';
-import { EcrfTimePickerComponent } from './form-controls/form-elements/time-picker';
-import { ECRFInputNumberComponent } from './form-controls/form-elements/input-number/ecrf-input-number.component';
-import { EcrfSelectComponent } from './form-controls/form-elements/select/ecrf-select.component';
-import { EcrfMultiSelectComponent } from './form-controls/form-elements/multiselect/ecrf-multi-select.component';
-import { EcrfListboxComponent } from './form-controls/form-elements/listbox/ecrf-listbox.component';
-import { EcrfSelectButtonComponent } from './form-controls/form-elements/select-button/ecrf-select-button.component';
-import { TextareaDialogComponent } from './dialogs/element-dialogs/textarea-dialog/textarea-dialog.component';
+import { PreviewService } from './core/services/form/form-preview.service';
+import { FormStateService } from './core/services/form/form-state.service';
+import { FormService } from './core/services/form/form.service';
 import { CheckboxDialogComponent } from './dialogs/element-dialogs/checkbox-dialog/checkbox-dialog.component';
-import { RadioButtonDialogComponent } from './dialogs/element-dialogs/radio-button-dialog/radio-button-dialog.component';
 import { DatePickerDialogComponent } from './dialogs/element-dialogs/date-picker-dialog/date-picker-dialog.component';
+import { InputTextDialogComponent } from './dialogs/element-dialogs/input-text-dialog/input-text-dialog.component';
 import { MultiselectDialogComponent } from './dialogs/element-dialogs/multiselect-dialog/multiselect-dialog.component';
-import { TimePickerDialogComponent } from './dialogs/element-dialogs/time-picker-dialog/time-picker-dialog.component';
-import { SelectDialogComponent } from './dialogs/element-dialogs/select-dialog/select-dialog.component';
+import { RadioButtonDialogComponent } from './dialogs/element-dialogs/radio-button-dialog/radio-button-dialog.component';
 import { SelectButtonDialogComponent } from './dialogs/element-dialogs/select-button-dialog/select-button-dialog.component';
-import { PreviewTextareaComponent } from './form-preview/form-elements/preview-textarea/preview-textarea.component';
+import { SelectDialogComponent } from './dialogs/element-dialogs/select-dialog/select-dialog.component';
+import { TextareaDialogComponent } from './dialogs/element-dialogs/textarea-dialog/textarea-dialog.component';
+import { TimePickerDialogComponent } from './dialogs/element-dialogs/time-picker-dialog/time-picker-dialog.component';
+import { FormColumnsComponent } from './form-columns/form-columns.component';
+import { FormContainerComponent } from './form-container/form-container.component';
+import { ECRFCheckboxComponent } from './form-controls/form-elements/checkbox/ecrf-checkbox.component';
+import { ECRFDatePickerComponent } from './form-controls/form-elements/date-picker';
+import { ECRFInputNumberComponent } from './form-controls/form-elements/input-number/ecrf-input-number.component';
+import { EcrfInputTextComponent } from './form-controls/form-elements/input-text/ecrf-input-text-component.component';
+import { EcrfListboxComponent } from './form-controls/form-elements/listbox/ecrf-listbox.component';
+import { EcrfMultiSelectComponent } from './form-controls/form-elements/multiselect/ecrf-multi-select.component';
+import { EcrfRadioButtonComponent } from './form-controls/form-elements/radio-button/ecrf-radio-button.component';
+import { EcrfSelectButtonComponent } from './form-controls/form-elements/select-button/ecrf-select-button.component';
+import { EcrfSelectComponent } from './form-controls/form-elements/select/ecrf-select.component';
+import { EcrfTextAreaComponent } from './form-controls/form-elements/textarea/ecrf-text-area.component';
+import { EcrfTimePickerComponent } from './form-controls/form-elements/time-picker';
 import { PreviewCheckboxComponent } from './form-preview/form-elements/preview-checkbox/preview-checkbox.component';
-import { PreviewRadioButtonComponent } from './form-preview/form-elements/preview-radio-button/preview-radio-button.component';
 import { PreviewDatePickerComponent } from './form-preview/form-elements/preview-date-picker/preview-date-picker.component';
-import { PreviewTimePickerComponent } from './form-preview/form-elements/preview-time-picker/preview-time-picker.component';
 import { PreviewInputNumberComponent } from './form-preview/form-elements/preview-input-number/preview-input-number.component';
+import { PreviewInputTextComponent } from './form-preview/form-elements/preview-input-text/preview-input-text.component';
 import { PreviewMultiselectComponent } from './form-preview/form-elements/preview-multiselect/preview-multiselect.component';
-import { PreviewSelectComponent } from './form-preview/form-elements/preview-select/preview-select.component';
+import { PreviewRadioButtonComponent } from './form-preview/form-elements/preview-radio-button/preview-radio-button.component';
 import { PreviewSelectButtonComponent } from './form-preview/form-elements/preview-select-button/preview-select-button.component';
+import { PreviewSelectComponent } from './form-preview/form-elements/preview-select/preview-select.component';
+import { PreviewTextareaComponent } from './form-preview/form-elements/preview-textarea/preview-textarea.component';
+import { PreviewTimePickerComponent } from './form-preview/form-elements/preview-time-picker/preview-time-picker.component';
 import { PreviewColumnsComponent } from './form-preview/form-layout/preview-columns/preview-columns.component';
 import { FormPreviewComponent } from './form-preview/form-preview.component';
-import { PreviewInputTextComponent } from './form-preview/form-elements/preview-input-text/preview-input-text.component';
-import { EcrfInputTextComponent } from './form-controls/form-elements/input-text/ecrf-input-text-component.component';
-import { IForm } from './core/models/interfaces/form.interfaces';
-import { ComponentType } from './core/models/enums/component-types.enum';
-import { ComponentTypeUtils } from './core/models/consts/component-type-utils.const';
-import { InputTextDialogComponent } from './dialogs/element-dialogs/input-text-dialog/input-text-dialog.component';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { FormComponent } from './form/form.component';
+import { NewControlsComponent } from './new-controls/new-controls.component';
 
 export const COMPONENT_TYPE_TO_CLASS_MAP: Partial<Record<ComponentType, Type<any>>> = {
   // Container Components

@@ -1,4 +1,4 @@
-import { IconMappingService } from '../../../core/services/icon-mapping.service';
+import { IconMappingService } from '@core/services/icon-mapping.service';
 import {
   FormComponentSizeEnum,
   FormComponentSizeType,
@@ -11,10 +11,10 @@ import {
   RadioButtonConfig,
   RadioButtonModeEnum,
 } from '@artificial-sense/ui-lib';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
-import { FormElementType } from '../../../core/models/enums/form.enums';
-import { generateUniqueId } from '../../../core/utils/utils';
-import { IRadioButtonOptions } from '../../../core/models/interfaces/radio.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
+import { FormElementType } from '@core/models/enums/form.enums';
+import { generateUniqueId } from '@core/utils/utils';
+import { IRadioButtonOptions } from '@core/models/interfaces/radio.interfaces';
 
 /**
  * Radio button form control class

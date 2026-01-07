@@ -9,11 +9,11 @@ import {
   FormLabelPositionEnum,
   FormLabelStyleEnum,
 } from '@artificial-sense/ui-lib';
-import { isCheckboxControl } from '../../../core/utils/type-guards';
+import { isCheckboxControl } from '@core/utils/type-guards';
 import { BasePreviewComponent } from '../../shared/directives/base-preview/base-preview.component';
 import { ECRFCheckboxClass } from '../../../form-controls/form-elements/checkbox/checkbox.class';
 import { PreviewWrapperComponent } from '../../shared/components/preview-wrapper/preview-wrapper.component';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
 
 @Component({
   selector: 'app-preview-checkbox',

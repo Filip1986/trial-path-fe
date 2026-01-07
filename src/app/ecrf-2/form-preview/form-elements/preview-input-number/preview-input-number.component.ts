@@ -10,11 +10,11 @@ import {
   InputNumberModeEnum,
   InputNumberButtonLayoutEnum,
 } from '@artificial-sense/ui-lib';
-import { isInputNumberControl } from '../../../core/utils/type-guards';
+import { isInputNumberControl } from '@core/utils/type-guards';
 import { BasePreviewComponent } from '../../shared/directives/base-preview/base-preview.component';
 import { ECRFInputNumberClass } from '../../../form-controls/form-elements/input-number/input-number.class';
 import { PreviewWrapperComponent } from '../../shared/components/preview-wrapper/preview-wrapper.component';
-import { IFormControl } from '../../../core/models/interfaces/form.interfaces';
+import { IFormControl } from '@core/models/interfaces/form.interfaces';
 
 @Component({
   selector: 'app-preview-input-number',

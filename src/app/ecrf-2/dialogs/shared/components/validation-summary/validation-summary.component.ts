@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IValidationResult } from '../../../../core/models/interfaces/validation.interfaces';
+import { IValidationResult } from '@core/models/interfaces/validation.interfaces';
 
 @Component({
   selector: 'app-validation-summary',

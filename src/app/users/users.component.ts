@@ -11,7 +11,7 @@ import { SelectModule } from 'primeng/select';
 import { SliderModule } from 'primeng/slider';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { FormsModule } from '@angular/forms';
-import {UserService} from '../../back-end/services/UserService';
+import {UserService} from '@back-end/services/UserService';
 
 // Define the interface for user data from the API
 interface UserDto {
