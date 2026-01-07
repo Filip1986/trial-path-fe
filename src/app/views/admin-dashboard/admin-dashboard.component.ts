@@ -18,13 +18,13 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { CardModule } from 'primeng/card';
 
 // Services
-import {
-  BetaProgramService,
-  BetaSubscriberDto,
-  type UpdateUserDto,
-  UserListDto,
-  UserService,
-} from '../../../../../../shared/src/lib/api';
+import { BetaProgramService } from '../../../back-end/services/BetaProgramService';
+import { UserService } from '../../../back-end/services/UserService';
+import { GeoIpService } from '../../../back-end/services/GeoIpService';
+import { BetaSubscriberDto } from '../../../back-end/models/BetaSubscriberDto';
+import { UpdateUserDto } from '../../../back-end/models/UpdateUserDto';
+import { UserListDto } from '../../../back-end/models/UserListDto';
+import { UserLocationStatsDto } from '../../../back-end/models/UserLocationStatsDto';
 import { SuspensionService } from '../../core/services/suspension.service';
 import { UserActivityService } from '../../core/services/user-activity.service';
 
@@ -38,13 +38,7 @@ import { SetDashboardStats } from '../../core/store/dashboard-stats.actions';
 import { Store } from '@ngxs/store';
 import { DashboardStateModel } from '../../core/store/dashboard-stats.state';
 import { ROLE_OPTIONS, Roles, UserRole } from '../../core/models/roles';
-import { GeoIpService, UserLocationStatsDto } from '../../../../../../shared/src/lib/api';
 import { VisitorsChartWidgetComponent } from '../../widgets/visitors-chart-widget.component';
-import {
-  LocationWidget1Component,
-  LocationWidget2Component,
-  SalesChartWidget1Component,
-} from '@artificial-sense/ui-lib';
 import { AuthState, UserDetails } from '../../core/store/auth.state';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
@@ -72,9 +66,6 @@ import { BetaProgramWidgetComponent } from '../../beta-program-widget/beta-progr
     UserSuspensionDialogComponent,
     CardModule,
     VisitorsChartWidgetComponent,
-    LocationWidget1Component,
-    LocationWidget2Component,
-    SalesChartWidget1Component,
     AvatarModule,
     BetaProgramWidgetComponent,
     RouterModule,
@@ -211,7 +202,7 @@ export class AdminDashboardComponent implements OnInit {
             }),
           );
         },
-        error: (error) => {
+        error: (error: any) => {
           console.error('Error with WebSocket active users:', error);
           this.loadingUsersActivity = false;
         },
@@ -233,7 +224,7 @@ export class AdminDashboardComponent implements OnInit {
           this.betaSubscribers = subscribers;
           this.isLoadingBetaSubscribers = false;
         },
-        error: (error) => {
+        error: (error: any) => {
           console.error('Error loading beta subscribers:', error);
           this.isLoadingBetaSubscribers = false;
           this.loadBetaSubscribersError = true;
@@ -259,7 +250,7 @@ export class AdminDashboardComponent implements OnInit {
           this.userCount = response.count || 0;
           this.isLoadingUserCount = false;
         },
-        error: (error) => {
+        error: (error: any) => {
           console.error('Error getting user count:', error);
           this.isLoadingUserCount = false;
           this.loadUserCountError = true;
@@ -301,7 +292,7 @@ export class AdminDashboardComponent implements OnInit {
             this.prepareActionMenuItems(user);
           });
         },
-        error: (error) => {
+        error: (error: any) => {
           console.error('Error fetching users:', error);
           this.isLoadingUsers = false;
           this.loadUsersError = true;
@@ -494,7 +485,7 @@ export class AdminDashboardComponent implements OnInit {
     this.userService
       .userControllerUpdateUser(this.selectedUser?.id?.toString() || '0', updateData)
       .subscribe({
-        next: (updatedUser) => {
+        next: (updatedUser: UserListDto) => {
           // Update the user in the local arrays
           this.users = this.users.map((u) =>
             u.id === updatedUser.id
@@ -539,7 +530,7 @@ export class AdminDashboardComponent implements OnInit {
           this.isSaving = false;
           this.userDialogVisible = false;
         },
-        error: (error) => {
+        error: (error: any) => {
           console.error('Error updating user:', error);
 
           // Provide more specific error messages based on the error
@@ -589,7 +580,7 @@ export class AdminDashboardComponent implements OnInit {
           detail: 'Verification email sent successfully',
         });
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error sending verification email:', error);
         this.messageService.add({
           severity: 'error',
@@ -787,7 +778,7 @@ export class AdminDashboardComponent implements OnInit {
             // Update action menu
             this.prepareActionMenuItems(user);
           },
-          error: (error) => {
+          error: (error: any) => {
             console.error('Error unsuspending user:', error);
             this.messageService.add({
               severity: 'error',

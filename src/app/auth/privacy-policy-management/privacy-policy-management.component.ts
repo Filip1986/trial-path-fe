@@ -20,18 +20,16 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CKEditorComponent } from '@artificial-sense/ui-lib';
-import {
-  PrivacyPolicyDto,
-  PrivacyPolicyService,
-  CreatePrivacyPolicyDto,
-  UpdatePrivacyPolicyDto,
-} from '../../../../../../shared/src/lib/api';
 import { Tag } from 'primeng/tag';
 import { Ripple } from 'primeng/ripple';
 import { Tooltip } from 'primeng/tooltip';
 import { DatePickerModule } from 'primeng/datepicker';
 import { finalize } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
+import {PrivacyPolicyDto} from '../../../back-end/models/PrivacyPolicyDto';
+import {PrivacyPolicyService} from '../../../back-end/services/PrivacyPolicyService';
+import {UpdatePrivacyPolicyDto} from '../../../back-end/models/UpdatePrivacyPolicyDto';
+import {CreatePrivacyPolicyDto} from '../../../back-end/models/CreatePrivacyPolicyDto';
 
 interface PolicyFormValues {
   version: string;

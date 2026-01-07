@@ -1,13 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
-import { UserListDto } from '../../../../../../shared/src/lib/api';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { SelectModule } from 'primeng/select';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { MessageService } from 'primeng/api';
+import { DialogModule } from 'primeng/dialog';
+import { SelectModule } from 'primeng/select';
+import { UserListDto } from '../../../back-end/models/UserListDto';
 import { SuspensionService } from '../../core/services/suspension.service';
 
 @Component({
@@ -19,8 +18,8 @@ import { SuspensionService } from '../../core/services/suspension.service';
     DialogModule,
     SelectModule,
     CheckboxModule,
-    ConfirmDialogModule
-],
+    ConfirmDialogModule,
+  ],
   templateUrl: './user-suspension-dialog.component.html',
   styleUrl: './user-suspension-dialog.component.scss',
 })
